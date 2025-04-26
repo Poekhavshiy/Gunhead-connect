@@ -1,7 +1,0 @@
-Catch2WithMain_autogen/timestamp: \
-	C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/catch2-src/CMake/CatchMiscFunctions.cmake \
-	C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/catch2-src/src/CMakeLists.txt \
-	C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/catch2-src/src/catch2/catch_user_config.hpp.in \
-	C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/catch2-src/src/catch2/internal/catch_main.cpp \
-	C:/msys64/mingw64/share/cmake/Modules/CheckCXXCompilerFlag.cmake \
-	C:/msys64/mingw64/bin/cmake.exe
