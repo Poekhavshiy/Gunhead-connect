@@ -1,0 +1,59 @@
+/* Global */
+QWidget {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 12px;
+}
+
+/* Headers */
+QLabel#headerLabel, QLabel#fanHeaderLabel {
+    color: #ff2d2d;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #1e1e1e;
+    border: 2px solid #444;
+    padding: 8px 12px;
+    margin: 4px 0;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+QPushButton:hover {
+    background-color: #333333;
+    border-color: #ff2d2d;
+    color: #ff2d2d;
+}
+
+QPushButton:pressed {
+    background-color: #550000;
+    border-color: #ff4444;
+}
+
+QPushButton#selectButton {
+    background-color: #ff2d2d;
+    color: #ffffff;
+    font-weight: bold;
+    border: 2px solid #ff2d2d;
+}
+
+QPushButton#selectButton:hover {
+    background-color: #ffffff;
+    color: #ff2d2d;
+    border-color: #ffffff;
+}
+
+/* Scroll Area (if needed later) */
+QScrollArea {
+    border: none;
+}
+
+/* Language buttons (shared styling with QPushButton) */
+QPushButton#languageButton {
+    font-weight: bold;
+}

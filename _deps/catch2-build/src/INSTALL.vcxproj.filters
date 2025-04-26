@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Dev\KillApiConnect-Plus\CMakeFiles\91b61d1ab3facb17b7263219b822bc6a\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{0CEDF85E-CC90-3A80-993E-7685A18CE0AF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,21 @@
+# Ignore build folders
+build-*/
+
+# Ignore CMake cache and outputs
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Ignore Windows artifacts
+*.exe
+*.dll
+*.obj
+
+# Ignore Linux artifacts
+*.o
+*.so
+
+# Ignore IDE config
+.vscode/
+.idea/

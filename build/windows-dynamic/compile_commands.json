@@ -1,0 +1,782 @@
+[
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\KillApiConnect_autogen\\mocs_compilation.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\KillApiConnect_autogen\\mocs_compilation.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\KillApiConnect_autogen\\mocs_compilation.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\KillApiConnect_autogen\\mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\main.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\main.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\main.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\main.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\logger.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\logger.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\logger.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\logger.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\mainwindow.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\mainwindow.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\mainwindow.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\mainwindow.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\logmonitor.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\logmonitor.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\logmonitor.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\logmonitor.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\network.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\network.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\network.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\network.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\log_parser.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\log_parser.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\log_parser.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\log_parser.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\SettingsWindow.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\SettingsWindow.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\SettingsWindow.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\SettingsWindow.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\LogDisplayWindow.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\LogDisplayWindow.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\LogDisplayWindow.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\LogDisplayWindow.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\Transmitter.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\Transmitter.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\Transmitter.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\Transmitter.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\checkversion.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\checkversion.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\checkversion.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\checkversion.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\ThemeSelect.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\ThemeSelect.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\ThemeSelect.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\ThemeSelect.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\LanguageSelect.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\LanguageSelect.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\LanguageSelect.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\LanguageSelect.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\language_manager.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\language_manager.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\language_manager.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\language_manager.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\src\\globals.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\globals.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\globals.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\src\\globals.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\build\\windows-dynamic\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\build\\windows-dynamic\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -isystem C:/Dev/Qt/qt-install-dynamic/include/QtCore -isystem C:/Dev/Qt/qt-install-dynamic/include -isystem C:/Dev/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Dev/Qt/qt-install-dynamic/include/QtGui -isystem C:/Dev/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Dev/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Dev/Qt/qt-install-dynamic/include/QtMultimedia -g -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\KillApiConnect_autogen\\3YJK5W5UP7\\qrc_resources.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\KillApiConnect_autogen\\3YJK5W5UP7\\qrc_resources.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\KillApiConnect_autogen\\3YJK5W5UP7\\qrc_resources.cpp",
+  "output": "CMakeFiles\\KillApiConnect.dir\\KillApiConnect_autogen\\3YJK5W5UP7\\qrc_resources.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/tests_autogen/include -IC:/Dev/KillApiConnect-Plus/src -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/tests -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -g -std=gnu++17 -o CMakeFiles\\tests.dir\\tests_autogen\\mocs_compilation.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\tests_autogen\\mocs_compilation.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\tests_autogen\\mocs_compilation.cpp",
+  "output": "CMakeFiles\\tests.dir\\tests_autogen\\mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/tests_autogen/include -IC:/Dev/KillApiConnect-Plus/src -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/tests -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -g -std=gnu++17 -o CMakeFiles\\tests.dir\\tests\\test_log_parser.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\tests\\test_log_parser.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\tests\\test_log_parser.cpp",
+  "output": "CMakeFiles\\tests.dir\\tests\\test_log_parser.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/tests_autogen/include -IC:/Dev/KillApiConnect-Plus/src -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/tests -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -g -std=gnu++17 -o CMakeFiles\\tests.dir\\src\\log_parser.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\log_parser.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\log_parser.cpp",
+  "output": "CMakeFiles\\tests.dir\\src\\log_parser.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/tests_autogen/include -IC:/Dev/KillApiConnect-Plus/src -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/tests -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -g -std=gnu++17 -o CMakeFiles\\tests.dir\\src\\logger.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\logger.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\logger.cpp",
+  "output": "CMakeFiles\\tests.dir\\src\\logger.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/tests_autogen/include -IC:/Dev/KillApiConnect-Plus/src -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/tests -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include -g -std=gnu++17 -o CMakeFiles\\tests.dir\\src\\globals.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\src\\globals.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\src\\globals.cpp",
+  "output": "CMakeFiles\\tests.dir\\src\\globals.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\Catch2_autogen\\mocs_compilation.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-build\\src\\Catch2_autogen\\mocs_compilation.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-build\\src\\Catch2_autogen\\mocs_compilation.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\Catch2_autogen\\mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\catch_chronometer.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\catch_chronometer.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\catch_chronometer.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\catch_chronometer.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_analyse.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_analyse.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_analyse.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_analyse.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_benchmark_function.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_benchmark_function.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_benchmark_function.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_benchmark_function.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_run_for_at_least.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_run_for_at_least.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_run_for_at_least.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_run_for_at_least.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_stats.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_stats.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\benchmark\\detail\\catch_stats.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\benchmark\\detail\\catch_stats.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\generators\\catch_generator_exception.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\generators\\catch_generator_exception.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\generators\\catch_generator_exception.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\generators\\catch_generator_exception.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\generators\\catch_generators.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\generators\\catch_generators.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\generators\\catch_generators.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\generators\\catch_generators.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\generators\\catch_generators_random.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\generators\\catch_generators_random.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\generators\\catch_generators_random.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\generators\\catch_generators_random.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_automake.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_automake.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_automake.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_automake.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_common_base.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_common_base.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_common_base.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_common_base.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_compact.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_compact.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_compact.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_compact.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_console.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_console.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_console.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_console.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_cumulative_base.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_cumulative_base.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_cumulative_base.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_cumulative_base.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_event_listener.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_event_listener.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_event_listener.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_event_listener.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_helpers.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_helpers.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_helpers.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_helpers.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_json.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_json.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_json.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_json.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_junit.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_junit.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_junit.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_junit.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_multi.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_multi.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_multi.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_multi.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_registrars.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_registrars.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_registrars.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_registrars.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_sonarqube.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_sonarqube.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_sonarqube.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_sonarqube.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_streaming_base.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_streaming_base.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_streaming_base.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_streaming_base.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_tap.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_tap.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_tap.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_tap.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_teamcity.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_teamcity.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_teamcity.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_teamcity.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_xml.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_xml.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\reporters\\catch_reporter_xml.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\reporters\\catch_reporter_xml.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_capture.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_capture.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_capture.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_capture.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_config.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_config.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_config.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_config.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_exception.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_exception.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_exception.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_exception.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_generatortracker.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_generatortracker.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_generatortracker.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_generatortracker.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_registry_hub.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_registry_hub.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_registry_hub.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_registry_hub.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_reporter.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_reporter.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_reporter.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_reporter.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_reporter_factory.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_reporter_factory.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_reporter_factory.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_reporter_factory.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_testcase.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_testcase.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\interfaces\\catch_interfaces_testcase.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\interfaces\\catch_interfaces_testcase.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_approx.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_approx.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_approx.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_approx.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_assertion_result.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_assertion_result.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_assertion_result.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_assertion_result.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_config.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_config.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_config.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_config.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_get_random_seed.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_get_random_seed.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_get_random_seed.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_get_random_seed.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_message.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_message.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_message.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_message.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_registry_hub.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_registry_hub.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_registry_hub.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_registry_hub.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_session.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_session.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_session.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_session.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_tag_alias_autoregistrar.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_tag_alias_autoregistrar.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_tag_alias_autoregistrar.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_tag_alias_autoregistrar.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_test_case_info.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_test_case_info.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_test_case_info.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_test_case_info.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_test_spec.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_test_spec.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_test_spec.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_test_spec.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_timer.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_timer.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_timer.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_timer.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_tostring.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_tostring.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_tostring.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_tostring.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_totals.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_totals.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_totals.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_totals.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_translate_exception.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_translate_exception.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_translate_exception.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_translate_exception.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_version.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_version.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\catch_version.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\catch_version.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_assertion_handler.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_assertion_handler.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_assertion_handler.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_assertion_handler.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_case_insensitive_comparisons.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_case_insensitive_comparisons.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_case_insensitive_comparisons.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_case_insensitive_comparisons.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_clara.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_clara.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_clara.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_clara.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_commandline.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_commandline.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_commandline.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_commandline.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_console_colour.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_console_colour.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_console_colour.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_console_colour.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_context.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_context.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_context.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_context.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_debug_console.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_debug_console.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_debug_console.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_debug_console.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_debugger.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_debugger.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_debugger.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_debugger.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_decomposer.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_decomposer.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_decomposer.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_decomposer.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_enforce.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_enforce.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_enforce.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_enforce.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_enum_values_registry.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_enum_values_registry.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_enum_values_registry.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_enum_values_registry.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_errno_guard.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_errno_guard.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_errno_guard.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_errno_guard.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_exception_translator_registry.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_exception_translator_registry.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_exception_translator_registry.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_exception_translator_registry.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_fatal_condition_handler.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_fatal_condition_handler.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_fatal_condition_handler.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_fatal_condition_handler.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_floating_point_helpers.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_floating_point_helpers.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_floating_point_helpers.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_floating_point_helpers.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_getenv.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_getenv.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_getenv.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_getenv.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_istream.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_istream.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_istream.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_istream.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_jsonwriter.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_jsonwriter.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_jsonwriter.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_jsonwriter.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_lazy_expr.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_lazy_expr.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_lazy_expr.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_lazy_expr.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_leak_detector.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_leak_detector.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_leak_detector.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_leak_detector.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_list.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_list.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_list.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_list.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_message_info.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_message_info.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_message_info.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_message_info.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_output_redirect.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_output_redirect.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_output_redirect.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_output_redirect.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_parse_numbers.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_parse_numbers.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_parse_numbers.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_parse_numbers.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_polyfills.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_polyfills.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_polyfills.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_polyfills.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_random_number_generator.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_random_number_generator.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_random_number_generator.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_random_number_generator.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_random_seed_generation.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_random_seed_generation.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_random_seed_generation.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_random_seed_generation.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_reporter_registry.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_reporter_registry.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_reporter_registry.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_reporter_registry.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_reporter_spec_parser.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_reporter_spec_parser.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_reporter_spec_parser.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_reporter_spec_parser.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_reusable_string_stream.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_reusable_string_stream.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_reusable_string_stream.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_reusable_string_stream.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_run_context.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_run_context.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_run_context.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_run_context.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_section.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_section.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_section.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_section.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_singletons.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_singletons.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_singletons.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_singletons.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_source_line_info.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_source_line_info.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_source_line_info.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_source_line_info.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_startup_exception_registry.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_startup_exception_registry.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_startup_exception_registry.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_startup_exception_registry.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_stdstreams.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_stdstreams.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_stdstreams.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_stdstreams.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_string_manip.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_string_manip.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_string_manip.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_string_manip.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_stringref.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_stringref.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_stringref.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_stringref.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_tag_alias_registry.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_tag_alias_registry.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_tag_alias_registry.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_tag_alias_registry.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_case_info_hasher.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_case_info_hasher.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_case_info_hasher.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_case_info_hasher.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_case_registry_impl.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_case_registry_impl.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_case_registry_impl.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_case_registry_impl.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_case_tracker.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_case_tracker.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_case_tracker.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_case_tracker.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_failure_exception.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_failure_exception.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_failure_exception.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_failure_exception.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_registry.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_registry.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_registry.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_registry.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_spec_parser.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_spec_parser.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_test_spec_parser.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_test_spec_parser.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_textflow.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_textflow.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_textflow.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_textflow.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_uncaught_exceptions.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_uncaught_exceptions.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_uncaught_exceptions.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_uncaught_exceptions.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_wildcard_pattern.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_wildcard_pattern.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_wildcard_pattern.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_wildcard_pattern.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_xmlwriter.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_xmlwriter.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_xmlwriter.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\internal\\catch_xmlwriter.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_container_properties.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_container_properties.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_container_properties.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_container_properties.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_exception.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_exception.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_exception.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_exception.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_floating_point.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_floating_point.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_floating_point.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_floating_point.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_predicate.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_predicate.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_predicate.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_predicate.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_quantifiers.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_quantifiers.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_quantifiers.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_quantifiers.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_string.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_string.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_string.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_string.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_templated.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_templated.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\catch_matchers_templated.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\catch_matchers_templated.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\internal\\catch_matchers_impl.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\internal\\catch_matchers_impl.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\matchers\\internal\\catch_matchers_impl.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2.dir\\catch2\\matchers\\internal\\catch_matchers_impl.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2WithMain_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2WithMain.dir\\Catch2WithMain_autogen\\mocs_compilation.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-build\\src\\Catch2WithMain_autogen\\mocs_compilation.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-build\\src\\Catch2WithMain_autogen\\mocs_compilation.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2WithMain.dir\\Catch2WithMain_autogen\\mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build/windows-dynamic",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/src/Catch2WithMain_autogen/include -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/src/catch2/.. -IC:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-build/generated-includes -g -std=gnu++17 -ffile-prefix-map=C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/catch2-src/= -o _deps\\catch2-build\\src\\CMakeFiles\\Catch2WithMain.dir\\catch2\\internal\\catch_main.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_main.cpp",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\build\\windows-dynamic\\_deps\\catch2-src\\src\\catch2\\internal\\catch_main.cpp",
+  "output": "_deps\\catch2-build\\src\\CMakeFiles\\Catch2WithMain.dir\\catch2\\internal\\catch_main.cpp.obj"
+}
+]

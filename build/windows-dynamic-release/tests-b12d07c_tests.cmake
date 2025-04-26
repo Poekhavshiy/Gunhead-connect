@@ -1,0 +1,7 @@
+add_test( [==[Load and test rule: kill_log]==] C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/bin/windows/tests.exe [==[Load and test rule: kill_log]==]  )
+set_tests_properties( [==[Load and test rule: kill_log]==] PROPERTIES WORKING_DIRECTORY C:/Dev/KillApiConnect-Plus SKIP_RETURN_CODE 4)
+add_test( [==[Handle unmatched line gracefully]==] C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/bin/windows/tests.exe [==[Handle unmatched line gracefully]==]  )
+set_tests_properties( [==[Handle unmatched line gracefully]==] PROPERTIES WORKING_DIRECTORY C:/Dev/KillApiConnect-Plus SKIP_RETURN_CODE 4)
+add_test( [==[Parse all log lines from game.log]==] C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/bin/windows/tests.exe [==[Parse all log lines from game.log]==]  )
+set_tests_properties( [==[Parse all log lines from game.log]==] PROPERTIES WORKING_DIRECTORY C:/Dev/KillApiConnect-Plus SKIP_RETURN_CODE 4)
+set( tests_TESTS [==[Load and test rule: kill_log]==] [==[Handle unmatched line gracefully]==] [==[Parse all log lines from game.log]==])

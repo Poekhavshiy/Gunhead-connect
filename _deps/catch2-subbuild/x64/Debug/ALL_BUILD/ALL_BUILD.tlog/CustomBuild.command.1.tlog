@@ -1,0 +1,10 @@
+^C:\DEV\KILLAPICONNECT-PLUS\_DEPS\CATCH2-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Dev/KillApiConnect-Plus/_deps/catch2-subbuild -BC:/Dev/KillApiConnect-Plus/_deps/catch2-subbuild --check-stamp-file C:/Dev/KillApiConnect-Plus/_deps/catch2-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

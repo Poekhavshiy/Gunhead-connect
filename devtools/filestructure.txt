@@ -1,0 +1,33 @@
+KillApi/
+├── CMakeLists.txt                # CMake build configuration
+├── resources/
+│   ├── resources.qrc            # Qt resource file (e.g., icons, themes)
+│   └── icons/
+│       └── killapi.ico          # Main icon
+├── src/
+│   ├── main.cpp                 # Entry point
+│   ├── mainwindow.cpp           # MainWindow logic
+│   ├── logmonitor.cpp           # Log monitoring functionality
+│   ├── network.cpp              # Network functionality (API calls, etc.)
+│   ├── settings.cpp             # Handling application settings
+│   ├── pluginmanager.cpp        # Dynamic module loading (plugins)
+│   ├── thememanager.cpp         # Theme management (load themes)
+│   └── updatechecker.cpp        # Version checking functionality
+├── includes/
+│   ├── mainwindow.h             # Header for main window
+│   ├── logmonitor.h             # Header for log monitor
+│   ├── network.h                # Header for network functionality
+│   ├── settings.h               # Header for settings management
+│   ├── pluginmanager.h          # Header for plugin management
+│   ├── thememanager.h           # Header for theme management
+│   └── updatechecker.h          # Header for update checker
+├── ui/                          # Qt UI files (use `*.ui` format)
+│   └── mainwindow.ui            # Main window UI file
+├── plugins/                     # Folder for dynamic plugins
+│   └── plugin1/                 # Example plugin folder
+│       ├── plugin1.cpp          # Plugin functionality
+│       └── plugin1.json         # Plugin-specific config
+└── tests/                       # Unit tests and test logic
+    ├── test_logmonitor.cpp      # Unit tests for log monitor
+    ├── test_network.cpp         # Unit tests for network functionality
+    └── test_pluginmanager.cpp   # Unit tests for plugin manager

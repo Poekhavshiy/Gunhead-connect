@@ -1,0 +1,69 @@
+[
+    {
+        "name": "Original Sleek",
+        "version": "1.0",
+        "description": "A sleek and modern theme with a clean design.",
+        "qss": ":/themes/originalsleek.qss",
+        "font": ":/fonts/Roboto-Regular.ttf",
+        "mainWindowPreferredSize": { "width": 310, "height": 250 },
+        "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+        "chooseLanguageWindowPreferredSize": { "width": 320, "height": 700 },
+        "chooseThemeWindowPreferredSize": { "width": 450, "height": 400 },
+        "statusLabelPreferredSize": { "width": 280, "height": 160 },
+        "mainButtonRightSpace": 5
+    },
+    {
+        "name": "Long Cold",
+        "version": "1.0",
+        "description": "A theme inspired by a long, almost endless, very cold time period.",
+        "qss": ":/themes/longcold.qss",
+        "font": ":/fonts/PressStart2P-Regular.ttf",
+        "mainWindowPreferredSize": { "width": 420, "height": 280 },
+        "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+        "chooseLanguageWindowPreferredSize": { "width": 400, "height": 800 },
+        "chooseThemeWindowPreferredSize": { "width": 420, "height": 400 },
+        "statusLabelPreferredSize": { "width": 380, "height": 120 },
+        "mainButtonRightSpace": 10
+    },
+    {
+        "name": "Maid Cafe",
+        "version": "1.0",
+        "description": "Kawaii chibi tema-chan, so uWu to make your kokoro go doki doki!",
+        "qss": ":/themes/maidcafe.qss",
+        "font": ":/fonts/SawarabiGothic-Regular.ttf",
+        "background": ":/themes/maidcafe.png",
+        "mainWindowPreferredSize": { "width": 800, "height": 628 },
+        "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+        "chooseLanguageWindowPreferredSize": { "width": 320, "height": 750 },
+        "chooseThemeWindowPreferredSize": { "width": 500, "height": 400 },
+        "statusLabelPreferredSize": { "width": 280, "height": 120 },
+        "mainButtonRightSpace": 140
+    },
+    {
+        "name": "Reflective Side",
+        "version": "1.0",
+        "description": "An empty expanse that just makes you want to run and parkour.",
+        "qss": ":/themes/reflectiveside.qss",
+        "font": ":/fonts/Segoe-UI-This.ttf",
+        "background": ":/themes/reflectiveside.png",
+        "mainWindowPreferredSize": { "width": 800, "height": 628 },
+        "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+        "chooseLanguageWindowPreferredSize": { "width": 320, "height": 750 },
+        "chooseThemeWindowPreferredSize": { "width": 500, "height": 400 },
+        "statusLabelPreferredSize": { "width": 280, "height": 160 },
+        "mainButtonRightSpace": 140
+    },
+    {
+        "name": "Dracula",
+        "version": "1.0",
+        "description": "A theme based on the Open Dracula standard.",
+        "qss": ":/themes/dracula.qss",
+        "font": ":/fonts/Code-New-Roman.ttf",
+        "mainWindowPreferredSize": { "width": 320, "height": 240 },
+        "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+        "chooseLanguageWindowPreferredSize": { "width": 320, "height": 700 },
+        "chooseThemeWindowPreferredSize": { "width": 400, "height": 400 },
+        "statusLabelPreferredSize": { "width": 280, "height": 160 },
+        "mainButtonRightSpace": 10
+    }
+]

@@ -1,0 +1,109 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+
+  "configurePresets": [
+    {
+      "name": "default",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+
+    {
+      "name": "windows-debug",
+      "inherits": "default",
+      "description": "Windows MinGW Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe"
+      }
+    },
+
+    {
+      "name": "windows-release",
+      "inherits": "default",
+      "description": "Windows MinGW Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe"
+      }
+    },
+
+    {
+      "name": "windows-dynamic",
+      "inherits": "default",
+      "hidden": false,
+      "generator": "Ninja",
+      "description": "Windows with dynamic Qt",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe",
+        "CMAKE_PREFIX_PATH": "C:/Dev/Qt/qt-install-dynamic",
+        "Qt6_DIR": "C:/Dev/Qt/qt-install-dynamic/lib/cmake/Qt6"
+      }
+    },
+
+    {
+      "name": "windows-dynamic-release",
+      "inherits": "default",
+      "hidden": false,
+      "generator": "Ninja",
+      "description": "Windows with dynamic Qt",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe",
+        "CMAKE_PREFIX_PATH": "C:/Dev/Qt/qt-install-dynamic",
+        "Qt6_DIR": "C:/Dev/Qt/qt-install-dynamic/lib/cmake/Qt6"
+      }
+    },
+
+    {
+      "name": "linux-debug",
+      "inherits": "default",
+      "description": "Linux Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+
+    {
+      "name": "linux-release",
+      "inherits": "default",
+      "description": "Linux Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+
+  "buildPresets": [
+    { "name": "build", "configurePreset": "windows-debug" },
+    { "name": "build-release", "configurePreset": "windows-release" },
+    { "name": "build-windows-dynamic", "configurePreset": "windows-dynamic","description": "Configure+Build using the windows‑dynamic preset"},
+    { "name": "build-windows-dynamic-release", "configurePreset": "windows-dynamic-release","description": "Configure+Build using the windows‑dynamic preset"},
+    { "name": "build-linux-debug", "configurePreset": "linux-debug" },
+    { "name": "build-linux-release", "configurePreset": "linux-release" }
+  ],
+
+  "testPresets": [
+    {
+      "name": "test",
+      "configurePreset": "windows-dynamic",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

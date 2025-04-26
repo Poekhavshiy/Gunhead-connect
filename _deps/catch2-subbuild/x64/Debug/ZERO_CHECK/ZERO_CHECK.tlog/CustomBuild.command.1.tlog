@@ -1,0 +1,10 @@
+^C:\DEV\KILLAPICONNECT-PLUS\_DEPS\CATCH2-SUBBUILD\CMAKEFILES\E5DD828DC1C774951C63109A0D76C7F3\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Dev/KillApiConnect-Plus/_deps/catch2-subbuild -BC:/Dev/KillApiConnect-Plus/_deps/catch2-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Dev/KillApiConnect-Plus/_deps/catch2-subbuild/catch2-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

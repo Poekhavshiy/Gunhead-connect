@@ -1,0 +1,92 @@
+/* Base Widget */
+QWidget {
+    background-color: #ffeef2;
+    color: #cc2c74;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+}
+
+/* Labels */
+QLabel#headerLabel, QLabel#fanHeaderLabel {
+    color: #f93e61;
+    font-weight: bold;
+    font-size: 13pt;
+    border-bottom: 2px dotted #f9629f;
+    padding-bottom: 4px;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #f9629f;
+    color: #fffafc;
+    border: 2px solid #ffb6c1;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+QPushButton:hover {
+    background-color: #f93e61;
+    border: 2px solid #cc2c74;
+    color: #fffafc;
+}
+
+QPushButton:pressed {
+    background-color: #cc2c74;
+    border: 2px solid #f9629f;
+}
+
+/* SELECT button - big and bold */
+QPushButton#selectButton {
+    background-color: #f93e61;
+    color: white;
+    font-size: 12pt;
+    padding: 8px 24px;
+    border: 3px solid white;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+QPushButton#selectButton:hover {
+    background-color: #cc2c74;
+    border: 3px dashed #fffafc;
+}
+
+/* Scroll Area (if any) */
+QScrollArea {
+    border: none;
+}
+
+/* Groupboxes */
+QGroupBox {
+    border: 2px dashed #ffb6c1;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+QGroupBox:title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 4px;
+    color: #f93e61;
+    font-weight: bold;
+}
+
+/* Line Edit (future use) */
+QLineEdit {
+    background-color: #fffafc;
+    color: #cc2c74;
+    border: 2px solid #ffb6c1;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+/* ComboBox (future use) */
+QComboBox {
+    background-color: #fffafc;
+    color: #f9629f;
+    border: 2px solid #f93e61;
+    padding: 5px;
+    border-radius: 6px;
+}

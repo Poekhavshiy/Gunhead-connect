@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="icons/KillApi.ico">icons/KillApi.ico</file>
+    
+        <file alias="themes/themes.json">themes/allThemeSettings.json</file>
+        
+        <file alias="themes/originalsleek.qss">themes/originalsleek.qss</file>
+        <file>fonts/Roboto-Regular.ttf</file>
+        <file>fonts/Roboto-Bold.ttf</file>
+
+        <file alias="themes/longcold.qss">themes/longcold.qss</file>
+        <file>fonts/PressStart2P-Regular.ttf</file>
+
+        <file alias="themes/dracula.qss">themes/Dracula.qss</file>
+        <file>fonts/Code-New-Roman.ttf</file>
+
+        <file alias="themes/maidcafe.qss">themes/maidcafe.qss</file>
+        <file>fonts/SawarabiGothic-Regular.ttf</file>
+        <file>themes/maidcafe.png</file>
+
+        <file alias="themes/reflectiveside.qss">themes/reflectiveside.qss</file>
+        <file>fonts/Segoe-UI-This.ttf</file>
+        <file>themes/reflectiveside.png</file>   
+
+        <file alias="translations/lang_en.qm">translations/lang_en.qm</file>
+        <file alias="translations/lang_fr.qm">translations/lang_fr.qm</file>
+        <file alias="translations/lang_es.qm">translations/lang_es.qm</file>
+        <file alias="translations/lang_de.qm">translations/lang_de.qm</file>
+        <file alias="translations/lang_it.qm">translations/lang_it.qm</file>
+        <file alias="translations/lang_pt.qm">translations/lang_pt.qm</file>
+        <file alias="translations/lang_ru.qm">translations/lang_ru.qm</file>
+        <file alias="translations/lang_zh_CN.qm">translations/lang_zh_CN.qm</file>
+        <file alias="translations/lang_ja.qm">translations/lang_ja.qm</file>
+        <file alias="translations/lang_ko.qm">translations/lang_ko.qm</file>
+        <file alias="translations/lang_uk.qm">translations/lang_uk.qm</file>
+        <file alias="translations/lang_pl.qm">translations/lang_pl.qm</file>
+
+        <file alias="tests/game.log">tests/game.log</file>
+
+        <file alias="sounds/blip-blip.mp3">sounds/blip-blip.mp3</file>
+        <file alias="sounds/beep-beep.mp3">sounds/beep-beep.mp3</file>
+        <file alias="sounds/boop.mp3">sounds/boop.mp3</file>
+    </qresource>
+</RCC>

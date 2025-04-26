@@ -1,0 +1,131 @@
+{
+    "version": "0.0.4",
+    "transforms": {
+        "parseTimestampToUnixTime": {
+            "description": "Converts ISO 8601 timestamp to Unix time"
+        },
+        "determine_if_npc": {
+            "description": "Determines if a name is an NPC",
+            "steps": [
+                { "type": "is_npc" }
+            ]
+        },
+        "clean_actor_name": {
+            "description": "Cleans up actor names and determines if they are NPCs",
+            "steps": [
+                { "type": "is_npc" },
+                { "type": "strip_prefix", "prefixes": ["PU_Human_Enemy_GroundCombat_NPC_", "AIModule_Unmanned_PU_"] },
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        },
+        "clean_weapon_name": {
+            "description": "Cleans up weapon names",
+            "steps": [
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        },
+        "clean_zone_name": {
+            "description": "Cleans up zone names",
+            "steps": [
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        },
+        "clean_damage_type": {
+            "description": "Cleans up damage type names",
+            "steps": [
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        },
+        "clean_destroy_cause": {
+            "description": "Cleans up destroy cause names",
+            "steps": [
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        },
+        "clean_kill_mechanism": {
+            "description": "Cleans up kill mechanism names",
+            "steps": [
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        },
+        "clean_vehicle_name": {
+            "description": "Cleans up vehicle names",
+            "steps": [
+                { "type": "remove_trailing_numbers" },
+                { "type": "remove_underscores" }
+            ]
+        }
+    },
+    "rules": [
+        {
+            "identifier": "kill_log",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CActor::Kill: '([^']+)' \\[(\\d+)\\] in zone '([^']+)' killed by '([^']+)' \\[(\\d+)\\] using '([^']+)' \\[Class ([^\\]]+)\\] with damage type '([^']+)'",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "victim", "group": 2, "transform": "clean_actor_name" },
+                { "name": "victim_id", "group": 3 },
+                { "name": "victim_is_npc", "group": 2, "transform": "determine_if_npc" },
+                { "name": "zone", "group": 4, "transform": "clean_zone_name" },
+                { "name": "killer", "group": 5, "transform": "clean_actor_name" },
+                { "name": "killer_id", "group": 6 },
+                { "name": "killer_is_npc", "group": 5, "transform": "determine_if_npc" },
+                { "name": "weapon", "group": 7, "transform": "clean_weapon_name" },
+                { "name": "kill_mechanism", "group": 8, "transform": "clean_kill_mechanism" },
+                { "name": "damage_type", "group": 9, "transform": "clean_damage_type" }
+            ]
+        },
+        {
+            "identifier": "vehicle_destruction",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 1 to 2 caused by '([^']+)' \\[(\\d+)\\]",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
+                { "name": "vehicle_id", "group": 3 },
+                { "name": "zone", "group": 4, "transform": "clean_zone_name" },
+                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
+                { "name": "driver_id", "group": 6 },
+                { "name": "driver_is_npc", "group": 5, "transform": "determine_if_npc" },
+                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
+                { "name": "cause_id", "group": 8 },
+                { "name": "cause_is_npc", "group": 7, "transform": "determine_if_npc" }
+            ]
+        },
+        {
+            "identifier": "vehicle_soft_death",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 1 caused by '([^']+)' \\[(\\d+)\\]",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
+                { "name": "vehicle_id", "group": 3 },
+                { "name": "zone", "group": 4, "transform": "clean_zone_name" },
+                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
+                { "name": "driver_id", "group": 6 },
+                { "name": "driver_is_npc", "group": 5, "transform": "determine_if_npc" },
+                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
+                { "name": "cause_id", "group": 8 },
+                { "name": "cause_is_npc", "group": 7, "transform": "determine_if_npc" }
+            ]
+        },
+        {
+            "identifier": "player_connect",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?<Expect Incoming Connection>.*?nickname=\\\"([^\\\"]+)\\\"",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "player", "group": 2 }
+            ]
+        },
+        {
+            "identifier": "player_disconnect",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?\\[CIG\\] CCIGBroker::FastShutdown",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" }
+            ]
+        }
+    ]
+}

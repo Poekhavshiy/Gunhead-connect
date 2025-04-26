@@ -1,0 +1,34 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"build/windows-dynamic/_deps/catch2-src/src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "Catch2::@fa92aa50e9bf5e1a7206"
+		}
+	],
+	"id" : "Catch2WithMain_autogen_timestamp_deps::@fa92aa50e9bf5e1a7206",
+	"isGeneratorProvided" : true,
+	"name" : "Catch2WithMain_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_deps/catch2-build/src",
+		"source" : "build/windows-dynamic/_deps/catch2-src/src"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

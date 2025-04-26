@@ -1,0 +1,1061 @@
+[H[2J[3J
+[0;34m==== [2025-04-26 18:28:35] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+
+[0;34m==== [2025-04-26 18:28:37] Configuring with CMake (windows-dynamic-release) ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic_release__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic_release__deps_catch2_src__ - Success
+-- Configuring done (54.5s)
+-- Generating done (0.3s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release
+
+[0;34m==== [2025-04-26 18:29:32] Building project (windows-dynamic-release) ====[0m
+[1/152] Generating lang_en.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_en.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[2/152] Generating lang_zh_CN.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_zh_CN.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[3/152] Generating lang_de.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_de.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[4/152] Generating lang_ja.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ja.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[5/152] Generating lang_ru.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ru.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[6/152] Generating lang_ua.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ua.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+[7/152] Generating lang_es.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_es.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[8/152] Generating lang_fr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_fr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[9/152] Generating lang_it.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_it.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[10/152] Generating lang_pt.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_pt.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[11/152] Generating lang_pl.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_pl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[12/152] Generating lang_kr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_kr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[13/152] Automatic MOC and UIC for target Catch2
+[14/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/Catch2_autogen/mocs_compilation.cpp.obj
+[15/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.obj
+[16/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_benchmark_function.cpp.obj
+[17/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generator_exception.cpp.obj
+[18/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_analyse.cpp.obj
+[19/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.obj
+[20/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.obj
+[21/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.obj
+[22/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_automake.cpp.obj
+[23/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_common_base.cpp.obj
+[24/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.obj
+[25/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.obj
+[26/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_compact.cpp.obj
+[27/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_sonarqube.cpp.obj
+[28/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.obj
+[29/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.obj
+[30/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_console.cpp.obj
+[31/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_streaming_base.cpp.obj
+[32/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_capture.cpp.obj
+[33/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_cumulative_base.cpp.obj
+[34/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_config.cpp.obj
+[35/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_generatortracker.cpp.obj
+[36/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.obj
+[37/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.obj
+[38/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_multi.cpp.obj
+[39/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_registry_hub.cpp.obj
+[40/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_json.cpp.obj
+[41/152] Automatic MOC and UIC for target KillApiConnect
+[42/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_testcase.cpp.obj
+[43/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_factory.cpp.obj
+[44/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.obj
+[45/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_timer.cpp.obj
+[46/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.obj
+[47/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_totals.cpp.obj
+[48/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.obj
+[49/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_get_random_seed.cpp.obj
+[50/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.obj
+[51/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_assertion_result.cpp.obj
+[52/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.obj
+[53/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_version.cpp.obj
+[54/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.obj
+[55/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_translate_exception.cpp.obj
+[56/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_context.cpp.obj
+[57/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.obj
+[58/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debugger.cpp.obj
+[59/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.obj
+[60/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj
+[61/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.obj
+[62/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.obj
+[63/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.obj
+[64/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj
+[65/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.obj
+[66/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_getenv.cpp.obj
+[67/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_floating_point_helpers.cpp.obj
+[68/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.obj
+[69/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.obj
+[70/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.obj
+[71/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_leak_detector.cpp.obj
+[72/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_number_generator.cpp.obj
+[73/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_message_info.cpp.obj
+[74/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.obj
+[75/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.obj
+[76/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.obj
+[77/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.obj
+[78/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_parse_numbers.cpp.obj
+[79/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.obj
+[80/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_jsonwriter.cpp.obj
+[81/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.obj
+[82/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.obj
+[83/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.obj
+[84/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.obj
+[85/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.obj
+[86/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_singletons.cpp.obj
+[87/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stdstreams.cpp.obj
+[88/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reusable_string_stream.cpp.obj
+[89/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_list.cpp.obj
+[90/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_source_line_info.cpp.obj
+[91/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.obj
+[92/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.obj
+[93/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_string_manip.cpp.obj
+[94/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stringref.cpp.obj
+[95/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.obj
+[96/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_spec_parser.cpp.obj
+[97/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.obj
+[98/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_info_hasher.cpp.obj
+[99/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.obj
+[100/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_failure_exception.cpp.obj
+[101/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.obj
+[102/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.obj
+[103/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.obj
+[104/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.obj
+[105/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_spec_parser.cpp.obj
+[106/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.obj
+[107/152] Running rcc for resource KillApiConnect_translations
+[108/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.obj
+[109/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.obj
+[110/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.obj
+[111/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.obj
+[112/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.obj
+[113/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.obj
+[114/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_textflow.cpp.obj
+[115/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.obj
+[116/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.obj
+[117/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.obj
+[118/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.obj
+[119/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.obj
+[120/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.obj
+[121/152] Automatic RCC for resources/resources.qrc
+[122/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/globals.cpp.obj
+[123/152] Building CXX object CMakeFiles/KillApiConnect.dir/build/windows-dynamic-release/.qt/rcc/qrc_KillApiConnect_translations.cpp.obj
+[124/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/network.cpp.obj
+[125/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/language_manager.cpp.obj
+[126/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.obj
+[127/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LanguageSelect.cpp.obj
+[128/152] Linking CXX static library _deps\catch2-build\src\libCatch2.a
+[129/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logger.cpp.obj
+[130/152] Automatic MOC and UIC for target Catch2WithMain
+[131/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/Catch2WithMain_autogen/mocs_compilation.cpp.obj
+[132/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/ThemeSelect.cpp.obj
+[133/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj
+[134/152] Linking CXX static library _deps\catch2-build\src\libCatch2Main.a
+[135/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/checkversion.cpp.obj
+[136/152] Automatic MOC and UIC for target tests
+[137/152] Building CXX object CMakeFiles/tests.dir/tests_autogen/mocs_compilation.cpp.obj
+[138/152] Building CXX object CMakeFiles/tests.dir/src/globals.cpp.obj
+[139/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logmonitor.cpp.obj
+[140/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/Transmitter.cpp.obj
+[141/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/main.cpp.obj
+[142/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/mocs_compilation.cpp.obj
+[143/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/SettingsWindow.cpp.obj
+[144/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/mainwindow.cpp.obj
+[145/152] Building CXX object CMakeFiles/tests.dir/src/logger.cpp.obj
+[146/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LogDisplayWindow.cpp.obj
+[147/152] Building CXX object CMakeFiles/tests.dir/tests/test_log_parser.cpp.obj
+[148/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+[149/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/log_parser.cpp.obj
+[150/152] Linking CXX executable bin\windows\KillApiConnect.exe
+[151/152] Building CXX object CMakeFiles/tests.dir/src/log_parser.cpp.obj
+[152/152] Linking CXX executable bin\windows\tests.exe
+
+[0;34m==== [2025-04-26 18:30:00] Running tests ====[0m
+Test project C:/Dev/KillApiConnect-Plus
+    Start 1: tests_NOT_BUILT-b12d07c
+Could not find executable tests_NOT_BUILT-b12d07c
+Looked in the following places:
+tests_NOT_BUILT-b12d07c
+tests_NOT_BUILT-b12d07c.exe
+Release/tests_NOT_BUILT-b12d07c
+Release/tests_NOT_BUILT-b12d07c.exe
+Debug/tests_NOT_BUILT-b12d07c
+Debug/tests_NOT_BUILT-b12d07c.exe
+MinSizeRel/tests_NOT_BUILT-b12d07c
+MinSizeRel/tests_NOT_BUILT-b12d07c.exe
+RelWithDebInfo/tests_NOT_BUILT-b12d07c
+RelWithDebInfo/tests_NOT_BUILT-b12d07c.exe
+Deployment/tests_NOT_BUILT-b12d07c
+Deployment/tests_NOT_BUILT-b12d07c.exe
+Development/tests_NOT_BUILT-b12d07c
+Development/tests_NOT_BUILT-b12d07c.exe
+Unable to find executable: tests_NOT_BUILT-b12d07c
+1/1 Test #1: tests_NOT_BUILT-b12d07c ..........***Not Run   0.00 sec
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+
+The following tests FAILED:
+	  1 - tests_NOT_BUILT-b12d07c (Not Run)
+Errors while running CTest
+
+[0;31m[ERROR][2025-04-26 18:30:00] Step failed: Running tests[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 18:36:41] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+rm: cannot remove 'build/windows-dynamic-release/bin/windows': Device or resource busy
+[H[2J[3J
+[0;34m==== [2025-04-26 18:40:26] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+
+[0;34m==== [2025-04-26 18:40:26] Configuring with CMake (windows-dynamic-release) ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic_release__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic_release__deps_catch2_src__ - Success
+-- Configuring done (58.1s)
+-- Generating done (0.3s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release
+
+[0;34m==== [2025-04-26 18:41:24] Building project (windows-dynamic-release) ====[0m
+[1/152] Generating lang_en.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_en.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[2/152] Generating lang_ru.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ru.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[3/152] Generating lang_de.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_de.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[4/152] Generating lang_ua.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ua.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+[5/152] Generating lang_es.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_es.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[6/152] Generating lang_zh_CN.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_zh_CN.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[7/152] Generating lang_ja.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ja.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[8/152] Generating lang_fr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_fr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[9/152] Generating lang_it.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_it.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[10/152] Generating lang_pl.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_pl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[11/152] Generating lang_pt.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_pt.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[12/152] Generating lang_kr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_kr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[13/152] Automatic MOC and UIC for target Catch2
+[14/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/Catch2_autogen/mocs_compilation.cpp.obj
+[15/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generator_exception.cpp.obj
+[16/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.obj
+[17/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_benchmark_function.cpp.obj
+[18/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_analyse.cpp.obj
+[19/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.obj
+[20/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.obj
+[21/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.obj
+[22/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.obj
+[23/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_automake.cpp.obj
+[24/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_common_base.cpp.obj
+[25/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.obj
+[26/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_compact.cpp.obj
+[27/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_streaming_base.cpp.obj
+[28/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_cumulative_base.cpp.obj
+[29/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.obj
+[30/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_generatortracker.cpp.obj
+[31/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_sonarqube.cpp.obj
+[32/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.obj
+[33/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_console.cpp.obj
+[34/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.obj
+[35/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.obj
+[36/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_capture.cpp.obj
+[37/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_multi.cpp.obj
+[38/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_config.cpp.obj
+[39/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_json.cpp.obj
+[40/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.obj
+[41/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_registry_hub.cpp.obj
+[42/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_factory.cpp.obj
+[43/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_testcase.cpp.obj
+[44/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_timer.cpp.obj
+[45/152] Automatic MOC and UIC for target KillApiConnect
+[46/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.obj
+[47/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.obj
+[48/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_totals.cpp.obj
+[49/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_get_random_seed.cpp.obj
+[50/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_assertion_result.cpp.obj
+[51/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.obj
+[52/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_translate_exception.cpp.obj
+[53/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.obj
+[54/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.obj
+[55/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_context.cpp.obj
+[56/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_version.cpp.obj
+[57/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debugger.cpp.obj
+[58/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.obj
+[59/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.obj
+[60/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.obj
+[61/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj
+[62/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.obj
+[63/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj
+[64/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.obj
+[65/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_getenv.cpp.obj
+[66/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.obj
+[67/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.obj
+[68/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_floating_point_helpers.cpp.obj
+[69/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.obj
+[70/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.obj
+[71/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_leak_detector.cpp.obj
+[72/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.obj
+[73/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_message_info.cpp.obj
+[74/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_number_generator.cpp.obj
+[75/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.obj
+[76/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.obj
+[77/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_parse_numbers.cpp.obj
+[78/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.obj
+[79/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_jsonwriter.cpp.obj
+[80/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.obj
+[81/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.obj
+[82/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.obj
+[83/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_singletons.cpp.obj
+[84/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.obj
+[85/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.obj
+[86/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.obj
+[87/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_source_line_info.cpp.obj
+[88/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.obj
+[89/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stdstreams.cpp.obj
+[90/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_list.cpp.obj
+[91/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.obj
+[92/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.obj
+[93/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reusable_string_stream.cpp.obj
+[94/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_string_manip.cpp.obj
+[95/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_spec_parser.cpp.obj
+[96/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stringref.cpp.obj
+[97/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_info_hasher.cpp.obj
+[98/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.obj
+[99/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.obj
+[100/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_failure_exception.cpp.obj
+[101/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.obj
+[102/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.obj
+[103/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.obj
+[104/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.obj
+[105/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.obj
+[106/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.obj
+[107/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.obj
+[108/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_spec_parser.cpp.obj
+[109/152] Running rcc for resource KillApiConnect_translations
+[110/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.obj
+[111/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.obj
+[112/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.obj
+[113/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.obj
+[114/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.obj
+[115/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.obj
+[116/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.obj
+[117/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_textflow.cpp.obj
+[118/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.obj
+[119/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.obj
+[120/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.obj
+[121/152] Automatic RCC for resources/resources.qrc
+[122/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/globals.cpp.obj
+[123/152] Building CXX object CMakeFiles/KillApiConnect.dir/build/windows-dynamic-release/.qt/rcc/qrc_KillApiConnect_translations.cpp.obj
+[124/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/network.cpp.obj
+[125/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/language_manager.cpp.obj
+[126/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.obj
+[127/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LanguageSelect.cpp.obj
+[128/152] Linking CXX static library _deps\catch2-build\src\libCatch2.a
+[129/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logger.cpp.obj
+[130/152] Automatic MOC and UIC for target Catch2WithMain
+[131/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/Catch2WithMain_autogen/mocs_compilation.cpp.obj
+[132/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/ThemeSelect.cpp.obj
+[133/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj
+[134/152] Linking CXX static library _deps\catch2-build\src\libCatch2Main.a
+[135/152] Automatic MOC and UIC for target tests
+[136/152] Building CXX object CMakeFiles/tests.dir/tests_autogen/mocs_compilation.cpp.obj
+[137/152] Building CXX object CMakeFiles/tests.dir/src/globals.cpp.obj
+[138/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/main.cpp.obj
+[139/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/checkversion.cpp.obj
+[140/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logmonitor.cpp.obj
+[141/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/Transmitter.cpp.obj
+[142/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/mocs_compilation.cpp.obj
+[143/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/SettingsWindow.cpp.obj
+[144/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/mainwindow.cpp.obj
+[145/152] Building CXX object CMakeFiles/tests.dir/src/logger.cpp.obj
+[146/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LogDisplayWindow.cpp.obj
+[147/152] Building CXX object CMakeFiles/tests.dir/tests/test_log_parser.cpp.obj
+[148/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+[149/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/log_parser.cpp.obj
+[150/152] Linking CXX executable bin\windows\KillApiConnect.exe
+[151/152] Building CXX object CMakeFiles/tests.dir/src/log_parser.cpp.obj
+[152/152] Linking CXX executable bin\windows\tests.exe
+./all_do.sh: line 148: DO_TEST: unbound variable
+[H[2J[3J
+[0;34m==== [2025-04-26 18:58:05] Configuring with CMake (windows-dynamic) ====[0m
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include/
+-- Configuring done (2.0s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic
+
+[0;34m==== [2025-04-26 18:58:08] Building project (windows-dynamic) ====[0m
+ninja: error: build.ninja:219: bad $-escape (literal $ must be written as $$)
+
+
+[0;31m[ERROR][2025-04-26 18:58:08] Step failed: Building project (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 18:59:14] Wiping build directory ====[0m
+[0;31mWARNING: Deleting build directory![0m
+
+[0;34m==== [2025-04-26 18:59:15] Configuring with CMake (windows-dynamic) ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic__deps_catch2_src__ - Success
+-- Configuring done (56.0s)
+-- Generating done (0.3s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic
+
+[0;34m==== [2025-04-26 19:00:12] Building project (windows-dynamic) ====[0m
+ninja: error: build.ninja:253: bad $-escape (literal $ must be written as $$)
+
+
+[0;31m[ERROR][2025-04-26 19:00:12] Step failed: Building project (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 19:06:43] Wiping build directory ====[0m
+[0;31mWARNING: Deleting build directory![0m
+
+[0;34m==== [2025-04-26 19:06:43] Configuring with CMake (windows-dynamic) ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic__deps_catch2_src__ - Success
+-- Configuring done (60.0s)
+-- Generating done (0.3s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic
+
+[0;34m==== [2025-04-26 19:07:44] Building project (windows-dynamic) ====[0m
+ninja: error: build.ninja:253: bad $-escape (literal $ must be written as $$)
+
+
+[0;31m[ERROR][2025-04-26 19:07:44] Step failed: Building project (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 19:51:25] Wiping build directory ====[0m
+[0;31mWARNING: Deleting build directory![0m
+
+[0;34m==== [2025-04-26 19:51:26] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 19:51:26] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 19:52:14] Wiping build directory ====[0m
+[0;31mWARNING: Deleting build directory![0m
+
+[0;34m==== [2025-04-26 19:52:14] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 19:52:15] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 19:56:18] Exporting compile_commands.json ====[0m
+[H[2J[3J[0;31mUnknown option: --br[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 19:56:42] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 19:56:43] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 20:00:09] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 20:00:10] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 20:00:55] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 20:00:56] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 20:01:08] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+
+[0;34m==== [2025-04-26 20:01:09] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 20:01:09] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 20:01:30] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+rm: cannot remove 'build/windows-dynamic/CMakeFiles/CMakeConfigureLog.yaml': Device or resource busy
+rm: cannot remove 'build/windows-dynamic/CMakeFiles/CMakeScratch/TryCompile-rioz4k/.ninja_deps': Device or resource busy
+rm: cannot remove 'build/windows-dynamic/CMakeFiles/CMakeScratch/TryCompile-rioz4k/.ninja_log': Device or resource busy
+[H[2J[3J
+[0;34m==== [2025-04-26 20:03:50] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+
+[0;34m==== [2025-04-26 20:03:51] Configuring with CMake (windows-dynamic) ====[0m
+
+[0;31m[ERROR][2025-04-26 20:03:51] Step failed: Configuring with CMake (windows-dynamic)[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 21:02:13] Exporting compile_commands.json ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/c++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build__deps_catch2_src__ - Success
+-- Configuring done (45.8s)
+-- Generating done (0.9s)
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build
+Compile commands exported to: buildfiles/compile_commands.json
+[H[2J[3J
+[0;34m==== [2025-04-26 21:09:03] Configuring with CMake (windows-dynamic) ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic__deps_catch2_src__ - Success
+-- Configuring done (47.3s)
+-- Generating done (0.9s)
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic
+
+[0;34m==== [2025-04-26 21:09:52] Building project (windows-dynamic) ====[0m
+[1/152] Generating lang_es.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_es.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[2/152] Generating lang_zh_CN.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_zh_CN.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[3/152] Generating lang_en.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_en.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[4/152] Generating lang_fr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_fr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[5/152] Generating lang_ua.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_ua.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+[6/152] Generating lang_ru.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_ru.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[7/152] Generating lang_ja.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_ja.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[8/152] Generating lang_it.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_it.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[9/152] Generating lang_de.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_de.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[10/152] Generating lang_pl.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_pl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[11/152] Generating lang_pt.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_pt.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[12/152] Generating lang_kr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic/lang_kr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[13/152] Automatic MOC and UIC for target Catch2
+[14/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/Catch2_autogen/mocs_compilation.cpp.obj
+[15/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generator_exception.cpp.obj
+[16/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.obj
+[17/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_benchmark_function.cpp.obj
+[18/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.obj
+[19/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.obj
+[20/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.obj
+[21/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.obj
+[22/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_analyse.cpp.obj
+[23/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_automake.cpp.obj
+[24/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_common_base.cpp.obj
+[25/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_multi.cpp.obj
+[26/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_compact.cpp.obj
+[27/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_sonarqube.cpp.obj
+[28/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.obj
+[29/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_console.cpp.obj
+[30/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_cumulative_base.cpp.obj
+[31/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_generatortracker.cpp.obj
+[32/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_streaming_base.cpp.obj
+[33/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_capture.cpp.obj
+[34/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.obj
+[35/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.obj
+[36/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_config.cpp.obj
+[37/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_registry_hub.cpp.obj
+[38/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.obj
+[39/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_json.cpp.obj
+[40/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_testcase.cpp.obj
+[41/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.obj
+[42/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.obj
+[43/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_factory.cpp.obj
+[44/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_timer.cpp.obj
+[45/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.obj
+[46/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_totals.cpp.obj
+[47/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_assertion_result.cpp.obj
+[48/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_get_random_seed.cpp.obj
+[49/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.obj
+[50/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.obj
+[51/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.obj
+[52/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.obj
+[53/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_context.cpp.obj
+[54/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_translate_exception.cpp.obj
+[55/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.obj
+[56/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_version.cpp.obj
+[57/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.obj
+[58/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.obj
+[59/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debugger.cpp.obj
+[60/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.obj
+[61/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj
+[62/152] Automatic MOC and UIC for target KillApiConnect
+[63/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.obj
+[64/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.obj
+[65/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj
+[66/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_getenv.cpp.obj
+[67/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_floating_point_helpers.cpp.obj
+[68/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.obj
+[69/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.obj
+[70/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.obj
+[71/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_leak_detector.cpp.obj
+[72/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_message_info.cpp.obj
+[73/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_number_generator.cpp.obj
+[74/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_jsonwriter.cpp.obj
+[75/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.obj
+[76/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.obj
+[77/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.obj
+[78/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.obj
+[79/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.obj
+[80/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_parse_numbers.cpp.obj
+[81/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.obj
+[82/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_singletons.cpp.obj
+[83/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.obj
+[84/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_source_line_info.cpp.obj
+[85/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.obj
+[86/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.obj
+[87/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_list.cpp.obj
+[88/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stdstreams.cpp.obj
+[89/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reusable_string_stream.cpp.obj
+[90/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_spec_parser.cpp.obj
+[91/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stringref.cpp.obj
+[92/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_string_manip.cpp.obj
+[93/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_info_hasher.cpp.obj
+[94/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.obj
+[95/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.obj
+[96/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.obj
+[97/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.obj
+[98/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.obj
+[99/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_failure_exception.cpp.obj
+[100/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.obj
+[101/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.obj
+[102/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.obj
+[103/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.obj
+[104/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.obj
+[105/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.obj
+[106/152] Running rcc for resource KillApiConnect_translations
+[107/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.obj
+[108/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_spec_parser.cpp.obj
+[109/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.obj
+[110/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.obj
+[111/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.obj
+[112/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.obj
+[113/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_textflow.cpp.obj
+[114/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.obj
+[115/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.obj
+[116/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.obj
+[117/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.obj
+[118/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.obj
+[119/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.obj
+[120/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.obj
+[121/152] Automatic RCC for resources/resources.qrc
+[122/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/globals.cpp.obj
+[123/152] Building CXX object CMakeFiles/KillApiConnect.dir/build/windows-dynamic/.qt/rcc/qrc_KillApiConnect_translations.cpp.obj
+[124/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/language_manager.cpp.obj
+[125/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/network.cpp.obj
+[126/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.obj
+[127/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LanguageSelect.cpp.obj
+[128/152] Linking CXX static library _deps\catch2-build\src\libCatch2d.a
+[129/152] Automatic MOC and UIC for target Catch2WithMain
+[130/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/Catch2WithMain_autogen/mocs_compilation.cpp.obj
+[131/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/checkversion.cpp.obj
+[132/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/ThemeSelect.cpp.obj
+[133/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logger.cpp.obj
+[134/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logmonitor.cpp.obj
+[135/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj
+[136/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/main.cpp.obj
+[137/152] Linking CXX static library _deps\catch2-build\src\libCatch2Maind.a
+[138/152] Automatic MOC and UIC for target tests
+[139/152] Building CXX object CMakeFiles/tests.dir/tests_autogen/mocs_compilation.cpp.obj
+[140/152] Building CXX object CMakeFiles/tests.dir/src/globals.cpp.obj
+[141/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/SettingsWindow.cpp.obj
+[142/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/Transmitter.cpp.obj
+[143/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/mocs_compilation.cpp.obj
+[144/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/mainwindow.cpp.obj
+[145/152] Building CXX object CMakeFiles/tests.dir/src/logger.cpp.obj
+[146/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LogDisplayWindow.cpp.obj
+[147/152] Building CXX object CMakeFiles/tests.dir/tests/test_log_parser.cpp.obj
+[148/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/log_parser.cpp.obj
+[149/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+[150/152] Linking CXX executable bin\windows\KillApiConnect.exe
+[151/152] Building CXX object CMakeFiles/tests.dir/src/log_parser.cpp.obj
+[152/152] Linking CXX executable bin\windows\tests.exe
+
+[0;34m==== [2025-04-26 21:10:17] Running tests ====[0m
+CMake Error: No such test preset in C:/Dev/KillApiConnect-Plus: "test-windows-dynamic"
+Available test presets:
+
+  "test"
+
+[0;31m[ERROR][2025-04-26 21:10:17] Step failed: Running tests[0m
+[H[2J[3J
+[0;34m==== [2025-04-26 21:13:55] Nuking ALL build artifacts ====[0m
+[0;31mWARNING: Deleting all build artifacts![0m
+
+[0;34m==== [2025-04-26 21:13:56] Configuring with CMake (windows-dynamic-release) ====[0m
+-- The CXX compiler identification is GNU 14.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/msys64/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Using the multi-header code from C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/_deps/json-src/include/
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic_release__deps_catch2_src__
+-- Performing Test HAVE_FLAG__ffile_prefix_map_C__Dev_KillApiConnect_Plus_build_windows_dynamic_release__deps_catch2_src__ - Success
+-- Configuring done (54.6s)
+-- Generating done (0.3s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release
+
+[0;34m==== [2025-04-26 21:14:51] Building project (windows-dynamic-release) ====[0m
+[1/152] Generating lang_es.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_es.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[2/152] Generating lang_en.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_en.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[3/152] Generating lang_fr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_fr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[4/152] Generating lang_ja.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ja.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[5/152] Generating lang_ru.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ru.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[6/152] Generating lang_zh_CN.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_zh_CN.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[7/152] Generating lang_ua.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_ua.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+[8/152] Generating lang_de.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_de.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[9/152] Generating lang_pl.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_pl.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[10/152] Generating lang_it.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_it.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[11/152] Generating lang_pt.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_pt.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[12/152] Generating lang_kr.qm
+Updating 'C:/Dev/KillApiConnect-Plus/build/windows-dynamic-release/lang_kr.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 22 untranslated source text(s)
+[13/152] Automatic MOC and UIC for target Catch2
+[14/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/Catch2_autogen/mocs_compilation.cpp.obj
+[15/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_benchmark_function.cpp.obj
+[16/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.obj
+[17/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generator_exception.cpp.obj
+[18/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_analyse.cpp.obj
+[19/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.obj
+[20/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.obj
+[21/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.obj
+[22/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_automake.cpp.obj
+[23/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.obj
+[24/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_common_base.cpp.obj
+[25/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.obj
+[26/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_compact.cpp.obj
+[27/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_console.cpp.obj
+[28/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.obj
+[29/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_streaming_base.cpp.obj
+[30/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_sonarqube.cpp.obj
+[31/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.obj
+[32/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_capture.cpp.obj
+[33/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_generatortracker.cpp.obj
+[34/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_config.cpp.obj
+[35/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_cumulative_base.cpp.obj
+[36/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_multi.cpp.obj
+[37/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.obj
+[38/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_json.cpp.obj
+[39/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_registry_hub.cpp.obj
+[40/152] Automatic MOC and UIC for target KillApiConnect
+[41/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.obj
+[42/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_testcase.cpp.obj
+[43/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.obj
+[44/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_timer.cpp.obj
+[45/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_factory.cpp.obj
+[46/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.obj
+[47/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_totals.cpp.obj
+[48/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.obj
+[49/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_get_random_seed.cpp.obj
+[50/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_translate_exception.cpp.obj
+[51/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_assertion_result.cpp.obj
+[52/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.obj
+[53/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.obj
+[54/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_context.cpp.obj
+[55/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.obj
+[56/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.obj
+[57/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.obj
+[58/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debugger.cpp.obj
+[59/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_version.cpp.obj
+[60/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.obj
+[61/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.obj
+[62/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.obj
+[63/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj
+[64/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj
+[65/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_getenv.cpp.obj
+[66/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.obj
+[67/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_floating_point_helpers.cpp.obj
+[68/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.obj
+[69/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.obj
+[70/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.obj
+[71/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.obj
+[72/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_leak_detector.cpp.obj
+[73/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_message_info.cpp.obj
+[74/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.obj
+[75/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_number_generator.cpp.obj
+[76/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.obj
+[77/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.obj
+[78/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.obj
+[79/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_parse_numbers.cpp.obj
+[80/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_jsonwriter.cpp.obj
+[81/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.obj
+[82/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_singletons.cpp.obj
+[83/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.obj
+[84/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.obj
+[85/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.obj
+[86/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.obj
+[87/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_list.cpp.obj
+[88/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.obj
+[89/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_source_line_info.cpp.obj
+[90/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stdstreams.cpp.obj
+[91/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reusable_string_stream.cpp.obj
+[92/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.obj
+[93/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.obj
+[94/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_info_hasher.cpp.obj
+[95/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_string_manip.cpp.obj
+[96/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.obj
+[97/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_stringref.cpp.obj
+[98/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_spec_parser.cpp.obj
+[99/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.obj
+[100/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_failure_exception.cpp.obj
+[101/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.obj
+[102/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.obj
+[103/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.obj
+[104/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.obj
+[105/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.obj
+[106/152] Running rcc for resource KillApiConnect_translations
+[107/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.obj
+[108/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_spec_parser.cpp.obj
+[109/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.obj
+[110/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.obj
+[111/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.obj
+[112/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.obj
+[113/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.obj
+[114/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.obj
+[115/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.obj
+[116/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.obj
+[117/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_textflow.cpp.obj
+[118/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.obj
+[119/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.obj
+[120/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.obj
+[121/152] Automatic RCC for resources/resources.qrc
+[122/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/globals.cpp.obj
+[123/152] Building CXX object CMakeFiles/KillApiConnect.dir/build/windows-dynamic-release/.qt/rcc/qrc_KillApiConnect_translations.cpp.obj
+[124/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/language_manager.cpp.obj
+[125/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/network.cpp.obj
+[126/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LanguageSelect.cpp.obj
+[127/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logger.cpp.obj
+[128/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.obj
+[129/152] Linking CXX static library _deps\catch2-build\src\libCatch2.a
+[130/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/ThemeSelect.cpp.obj
+[131/152] Automatic MOC and UIC for target Catch2WithMain
+[132/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/Catch2WithMain_autogen/mocs_compilation.cpp.obj
+[133/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/main.cpp.obj
+[134/152] Building CXX object _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj
+[135/152] Linking CXX static library _deps\catch2-build\src\libCatch2Main.a
+[136/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/Transmitter.cpp.obj
+[137/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/checkversion.cpp.obj
+[138/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/logmonitor.cpp.obj
+[139/152] Automatic MOC and UIC for target tests
+[140/152] Building CXX object CMakeFiles/tests.dir/tests_autogen/mocs_compilation.cpp.obj
+[141/152] Building CXX object CMakeFiles/tests.dir/src/globals.cpp.obj
+[142/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/mocs_compilation.cpp.obj
+[143/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/SettingsWindow.cpp.obj
+[144/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/mainwindow.cpp.obj
+[145/152] Building CXX object CMakeFiles/tests.dir/src/logger.cpp.obj
+[146/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/LogDisplayWindow.cpp.obj
+[147/152] Building CXX object CMakeFiles/tests.dir/tests/test_log_parser.cpp.obj
+[148/152] Building CXX object CMakeFiles/KillApiConnect.dir/KillApiConnect_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+[149/152] Building CXX object CMakeFiles/KillApiConnect.dir/src/log_parser.cpp.obj
+[150/152] Linking CXX executable bin\windows\KillApiConnect.exe
+[151/152] Building CXX object CMakeFiles/tests.dir/src/log_parser.cpp.obj
+[152/152] Linking CXX executable bin\windows\tests.exe
+./all_do.sh: line 148: DO_TEST: unbound variable
