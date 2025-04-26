@@ -7,11 +7,18 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-add_executable(KillApiConnect
+add_executable(KillApi-Connect-Plus
     main.cpp
     MainWindow.cpp
     MainWindow.h
     assets.qrc
 )
 
-target_link_libraries(KillApiConnect PRIVATE Qt6::Widgets)
+enable_testing()
+
+add_executable(math_tests tests/test_math.cpp)
+target_link_libraries(math_tests Qt6::Test)
+
+add_test(NAME MathTests COMMAND math_tests)
+
+target_link_libraries(KillApi-Connect-Plus PRIVATE Qt6::Widgets)
