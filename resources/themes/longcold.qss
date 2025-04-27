@@ -2,15 +2,16 @@
 QWidget {
     background-color: #000000;
     color: #ffffff;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 12px;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;
+    font-size: 20px;
 }
 
 /* Headers */
 QLabel#headerLabel, QLabel#fanHeaderLabel {
     color: #ff2d2d;
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    font-size: 24px;
 }
 
 /* Buttons */

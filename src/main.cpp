@@ -112,8 +112,8 @@ int main(int argc, char *argv[]) {
     }
 
     MainWindow window;
-    window.setWindowTitle("KillAPI Connect Plus");
-    window.resize(800, 600);
+    
+    //window.resize(settings.value("LogDisplay/WindowSize", QSize(310,250)).toSize());
     window.show();
 
 #ifdef _WIN32

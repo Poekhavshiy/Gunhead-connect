@@ -17,7 +17,7 @@
         "version": "1.0",
         "description": "A theme inspired by a long, almost endless, very cold time period.",
         "qss": ":/themes/longcold.qss",
-        "font": ":/fonts/PressStart2P-Regular.ttf",
+        "font": ":/fonts/VCR_OSD_MONO_1.001.ttf",
         "mainWindowPreferredSize": { "width": 420, "height": 280 },
         "settingsWindowPreferredSize": { "width": 500, "height": 600 },
         "chooseLanguageWindowPreferredSize": { "width": 400, "height": 800 },

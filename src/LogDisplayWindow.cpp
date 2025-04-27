@@ -75,18 +75,21 @@ void LogDisplayWindow::setupUI() {
     // Show PvP Checkbox
     showPvPCheckbox = new QCheckBox("Show PvP", this);
     showPvPCheckbox->setChecked(showPvP);
+    showPvPCheckbox->setToolTip("Show PvP events (e.g., player kills)");
     connect(showPvPCheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowPvPToggled);
     controlBarLayout->addWidget(showPvPCheckbox);
 
     // Show PvE Checkbox
     showPvECheckbox = new QCheckBox("Show PvE", this);
     showPvECheckbox->setChecked(showPvE);
+    showPvECheckbox->setToolTip("Show PvE events (e.g., NPC kills)");
     connect(showPvECheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowPvEToggled);
     controlBarLayout->addWidget(showPvECheckbox);
 
     // Show NPC Names Checkbox
     showNPCNamesCheckbox = new QCheckBox("Show NPC Names", this);
     showNPCNamesCheckbox->setChecked(showNPCNames);
+    showNPCNamesCheckbox->setToolTip("Show actual NPC names in events or just 'NPC'");
     connect(showNPCNamesCheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowNPCNamesToggled);
     controlBarLayout->addWidget(showNPCNamesCheckbox);
 
@@ -139,7 +142,7 @@ void LogDisplayWindow::setupUI() {
     // Font size increase button
     QPushButton* increaseFontButton = new QPushButton("+", this);
     connect(increaseFontButton, &QPushButton::clicked, this, &LogDisplayWindow::increaseFontSize);
-    increaseFontButton->setToolTip("Increase Font Size");
+    increaseFontButton->setToolTip("Increase Font Size\nCTRL + +");
     increaseFontButton->setEnabled(logFontSize < 72); // Disable if font size is already at maximum
     increaseFontButton->setFixedWidth(50); // Set fixed size for increase button
     // Set keyboard shortcut to CTRL + +
@@ -149,7 +152,7 @@ void LogDisplayWindow::setupUI() {
     // Font size decrease button
     QPushButton* decreaseFontButton = new QPushButton("-", this);
     connect(decreaseFontButton, &QPushButton::clicked, this, &LogDisplayWindow::decreaseFontSize);
-    decreaseFontButton->setToolTip("Decrease Font Size");
+    decreaseFontButton->setToolTip("Decrease Font Size\nCTRL + -");
     decreaseFontButton->setEnabled(logFontSize > 1); // Disable if font size is already at minimum
     decreaseFontButton->setFixedWidth(50); // Set fixed size for decrease button
     // Set keyboard shortcut to CTRL + -

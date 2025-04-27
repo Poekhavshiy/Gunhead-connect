@@ -9,7 +9,7 @@
         <file>fonts/Roboto-Bold.ttf</file>
 
         <file alias="themes/longcold.qss">themes/longcold.qss</file>
-        <file>fonts/PressStart2P-Regular.ttf</file>
+        <file>fonts/VCR_OSD_MONO_1.001.ttf</file>
 
         <file alias="themes/dracula.qss">themes/Dracula.qss</file>
         <file>fonts/Code-New-Roman.ttf</file>

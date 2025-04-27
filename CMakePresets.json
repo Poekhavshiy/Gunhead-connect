@@ -99,7 +99,7 @@
 
   "testPresets": [
     {
-      "name": "test",
+      "name": "test-windows-dynamic",
       "configurePreset": "windows-dynamic",
       "output": {
         "outputOnFailure": true

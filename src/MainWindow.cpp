@@ -28,7 +28,8 @@ MainWindow::MainWindow(QWidget* parent)
     , showPvE(true)
     , showNPCNames(true)
 {
-    setWindowIcon(QIcon(":/app_icon"));
+    setWindowTitle("KillAPI Connect Plus");
+    setWindowIcon(QIcon(":/icons/KillApi.ico"));
     // Load the game log file path from QSettings
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     gameLogFilePath = settings.value("gameFolder", "").toString() + "/game.log";

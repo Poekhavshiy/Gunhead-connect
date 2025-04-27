@@ -23,7 +23,7 @@ BUILD_DIR="build"
 BUILD_TYPE="Debug"
 BUILD_PRESET_WINDOWS="windows-dynamic"
 BUILD_PRESET_LINUX="linux-dynamic"
-LOG_FILE="data/build.log"
+LOG_FILE="logs/build.log"
 COMPILE_DB_OUT="buildfiles"
 
 # ====== Color output ======
@@ -54,6 +54,7 @@ DO_HELP=false
 DO_CLEAN=false
 DO_WIPE=false
 DO_COMPILE_DB=false
+DO_TEST=false
 
 # ====== Parse CLI arguments ======
 for arg in "$@"; do
