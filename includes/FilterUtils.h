@@ -23,7 +23,6 @@ namespace FilterUtils {
         bool showPvP = settings.value("LogDisplay/ShowPvP", false).toBool();
         bool showPvE = settings.value("LogDisplay/ShowPvE", true).toBool();
         
-        // Use your logger instead of qDebug
         log_debug("FilterUtils", "shouldDisplayEvent - Current filter settings: showPvP=" + 
                   std::to_string(showPvP) + ", showPvE=" + std::to_string(showPvE));
         

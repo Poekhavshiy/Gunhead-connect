@@ -79,3 +79,10 @@ QGroupBox:title {
     padding: 0 3px;
     color: #bd93f9;
 }
+
+QPushButton#themeButton[selected="true"] {
+    /* Example: */
+    background-color: #00aaff;
+    color: white;
+    /* Add any other selected styles here */
+}

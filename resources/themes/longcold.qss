@@ -58,3 +58,10 @@ QScrollArea {
 QPushButton#languageButton {
     font-weight: bold;
 }
+
+QPushButton#themeButton[selected="true"] {
+    /* Example: */
+    background-color: #00aaff;
+    color: white;
+    /* Add any other selected styles here */
+}

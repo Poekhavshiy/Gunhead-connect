@@ -1,8 +1,11 @@
 {
-    "version": "0.0.4",
+    "version": "0.0.5",
     "transforms": {
         "parseTimestampToUnixTime": {
-            "description": "Converts ISO 8601 timestamp to Unix time"
+            "description": "Converts ISO 8601 timestamp to Unix time",
+            "steps": [
+                { "type": "parseTimestampToUnixTime" }
+        ]
         },
         "determine_if_npc": {
             "description": "Determines if a name is an NPC",

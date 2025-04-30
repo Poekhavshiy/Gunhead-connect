@@ -24,3 +24,10 @@ QLabel {
     color: #bbbbbb;
 }
 
+QPushButton#themeButton[selected="true"] {
+    /* Example: */
+    background-color: #00aaff;
+    color: white;
+    /* Add any other selected styles here */
+}
+

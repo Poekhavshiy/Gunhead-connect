@@ -128,13 +128,22 @@ std::string parse_log_line(const std::string& line) {
                             }
                         }
 
-                        // Check if the value is a boolean string
-                        if (value == "true") {
-                            result[fieldName] = true;
-                        } else if (value == "false") {
-                            result[fieldName] = false;
+                        if (fieldName == "timestamp" && transform == "parseTimestampToUnixTime") {
+                            try {
+                                long long unixTime = std::stoll(value);
+                                result[fieldName] = unixTime; // Store as a number
+                            } catch (...) {
+                                result[fieldName] = value; // fallback to string if conversion fails
+                            }
                         } else {
-                            result[fieldName] = value;
+                            // Check if the value is a boolean string
+                            if (value == "true") {
+                                result[fieldName] = true;
+                            } else if (value == "false") {
+                                result[fieldName] = false;
+                            } else {
+                                result[fieldName] = value;
+                            }
                         }
                     }
 
@@ -208,6 +217,14 @@ std::string process_transforms(const std::string& input, const json& steps) {
                     } else {
                         log_warn("log_parser", "replace_character transform missing 'from' or 'to'");
                     }
+                } else if (type == "parseTimestampToUnixTime") {
+                    try {
+                        long long unixTime = parseTimestampToUnixTime(result);
+                        result = std::to_string(unixTime);
+                    } catch (const std::exception& e) {
+                        log_error("log_parser", "Failed to parse timestamp: ", e.what());
+                    }
+                    continue;
                 } else {
                     log_warn("log_parser", "Unknown transform type: ", type);
                 }

@@ -20,7 +20,11 @@
 
         <file alias="themes/reflectiveside.qss">themes/reflectiveside.qss</file>
         <file>fonts/Segoe-UI-This.ttf</file>
-        <file>themes/reflectiveside.png</file>   
+        <file>themes/reflectiveside.png</file>
+
+        <file alias="themes/darkvictorian.qss">themes/darkvictorian.qss</file>
+        <file>fonts/EBGaramond-VariableFont_wght.ttf</file>
+        <file>themes/darkvictorian.png</file>   
 
         <file alias="translations/lang_en.qm">translations/lang_en.qm</file>
         <file alias="translations/lang_fr.qm">translations/lang_fr.qm</file>

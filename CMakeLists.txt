@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
-project(KillApiConnect LANGUAGES CXX)
+project(KillApiConnect VERSION 0.1.2  LANGUAGES CXX)
+set(PROJECT_AUTHOR "Poekhavshiy")
+set(PROJECT_ORGANIZATION "Poekhavshiy")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -140,6 +142,10 @@ install(TARGETS KillApiConnect RUNTIME DESTINATION bin)
 
 # Windows DLL copying
 if(WIN32)
+    set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/resources/appicon.rc")
+    set_source_files_properties(${APP_ICON_RESOURCE} PROPERTIES LANGUAGE RC)
+    target_sources(KillApiConnect PRIVATE ${APP_ICON_RESOURCE})
+    
     set(MINGW_DIR "C:/msys64/mingw64")
     set(QT_PLUGIN_PATH "C:/Dev/Qt/qt-install-dynamic/plugins")
     set(APP_DEST ${OUTDIR_WINDOWS})

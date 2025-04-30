@@ -74,6 +74,7 @@ private slots:
     void saveApiKey();
     void toggleLanguageSelectWindow();
     void toggleThemeSelectWindow();
+    bool isGameFolderValid(const QString& folder) const;
 };
 
 #endif

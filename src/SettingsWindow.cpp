@@ -50,15 +50,35 @@ void SettingsWindow::setupUI() {
     container->setLayout(mainLayout);
     setCentralWidget(container);
 
-    // Check for Updates
+    // --- Create a horizontal layout for version and update label ---
+    QString versionString = "Version: " + QCoreApplication::applicationVersion();
+    QLabel* versionLabel = new QLabel(versionString, this);
+    QFont tinyFont = versionLabel->font();
+    tinyFont.setPointSizeF(tinyFont.pointSizeF() * 0.7); // Make it smaller
+    versionLabel->setFont(tinyFont);
+    versionLabel->setStyleSheet("color: gray;");
+
     QLabel* updateLabel = new QLabel("Check for Updates", this);
+    updateLabel->setContentsMargins(0, 0, 0, 0);
+
+    QHBoxLayout* versionUpdateLayout = new QHBoxLayout();
+    versionUpdateLayout->setContentsMargins(0, 0, 0, 0);
+    versionUpdateLayout->setSpacing(8); // Small spacing between version and update label
+    versionUpdateLayout->addWidget(updateLabel);
+    versionUpdateLayout->addStretch();
+    versionUpdateLayout->addWidget(versionLabel);
+
+    mainLayout->addLayout(versionUpdateLayout);
+
+    // Update checkbox and button below the update label
     updateCheckbox = new QCheckBox("Check for new versions on startup", this);
     connect(updateCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleUpdateCheck);
     QPushButton* checkUpdatesButton = new QPushButton("Check for updates now", this);
     connect(checkUpdatesButton, &QPushButton::clicked, this, &SettingsWindow::checkForUpdates);
 
     QVBoxLayout* updateLayout = new QVBoxLayout();
-    updateLayout->addWidget(updateLabel);
+    updateLayout->setContentsMargins(0, 0, 0, 0);
+    updateLayout->setSpacing(2); // Minimal spacing
     updateLayout->addWidget(updateCheckbox);
     updateLayout->addWidget(checkUpdatesButton);
 
@@ -187,6 +207,10 @@ void SettingsWindow::toggleUpdateCheck(int state) {
 void SettingsWindow::updatePath() {
     QString folder = QFileDialog::getExistingDirectory(this, "Select Game Folder", gameFolder);
     if (!folder.isEmpty()) {
+        if (!isGameFolderValid(folder)) {
+            QMessageBox::warning(this, "Invalid Folder", "Selected folder does not contain required Star Citizen files.");
+            return;
+        }
         gameFolder = folder;
         pathEdit->setText(folder);
         saveSettings();
@@ -194,7 +218,12 @@ void SettingsWindow::updatePath() {
 }
 
 void SettingsWindow::savePath() {
-    gameFolder = pathEdit->text().trimmed();
+    QString folder = pathEdit->text().trimmed();
+    if (!isGameFolderValid(folder)) {
+        QMessageBox::warning(this, "Invalid Folder", "Selected folder does not contain required Star Citizen files.");
+        return;
+    }
+    gameFolder = folder;
     saveSettings();
 }
 
@@ -222,7 +251,7 @@ void SettingsWindow::saveApiKey() {
 void SettingsWindow::checkForUpdates() {
     CheckVersion versionChecker;
     QString jsonFilePath = "data/logfile_regex_rules.json";
-    QString currentAppVersion = "0.1.1";
+    QString currentAppVersion = QCoreApplication::applicationVersion();
     const QUrl jsonDownloadUrl("https://gunhead.sparked.network/static/data/logfile_regex_rules.json");
     const QUrl releaseDownloadUrl("https://github.com/Poekhavshiy/KillAPI-connect.plus/releases/latest/download/KillAPi.connect.plus.exe");
     
@@ -369,4 +398,10 @@ void SettingsWindow::updateSelectedSound(const QString& soundFile) {
     // Save the selected sound to QSettings
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     settings.setValue("LogDisplay/SoundFile", soundFile);
+}
+
+bool SettingsWindow::isGameFolderValid(const QString& folder) const {
+    QFileInfo launcher(folder + "/StarCitizen_Launcher.exe");
+    QFileInfo logFile(folder + "/game.log");
+    return launcher.exists() && launcher.isFile() && logFile.exists() && logFile.isFile();
 }

@@ -14,7 +14,7 @@
     },
     {
         "name": "Long Cold",
-        "version": "1.0",
+        "version": "1.2",
         "description": "A theme inspired by a long, almost endless, very cold time period.",
         "qss": ":/themes/longcold.qss",
         "font": ":/fonts/VCR_OSD_MONO_1.001.ttf",
@@ -38,6 +38,20 @@
         "chooseThemeWindowPreferredSize": { "width": 500, "height": 400 },
         "statusLabelPreferredSize": { "width": 280, "height": 120 },
         "mainButtonRightSpace": 140
+    },
+    {
+        "name": "Dark Victorian",
+        "version": "1.0",
+        "description": "A Gothic Victorian theme inspired by  Edgar Allan Poe, Bram Stoker, H.P. Lovecraft.",
+        "qss": ":/themes/darkvictorian.qss",
+        "font": ":/fonts/EBGaramond-VariableFont_wght.ttf",
+        "background": ":/themes/darkvictorian.png",
+        "mainWindowPreferredSize": { "width": 800, "height": 628 },
+        "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+        "chooseLanguageWindowPreferredSize": { "width": 320, "height": 750 },
+        "chooseThemeWindowPreferredSize": { "width": 500, "height": 400 },
+        "statusLabelPreferredSize": { "width": 280, "height": 120 },
+        "mainButtonRightSpace": 120
     },
     {
         "name": "Reflective Side",

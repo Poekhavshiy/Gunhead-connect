@@ -13,6 +13,8 @@
 #include <QTimer>
 #include "FilterUtils.h"
 
+static QStringList s_logDisplayCache;
+
 LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
     : QMainWindow(parent), transmitter(transmitter), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") {
     // Load filter settings from QSettings
@@ -32,7 +34,14 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
     resize(windowSize); // Restore the saved size
 
     applyColors();
-    addEvent("Killfeed Log Display Initialized");
+
+    // Restore cached log if available
+    if (!s_logDisplayCache.isEmpty()) {
+        eventBuffer = s_logDisplayCache;
+        filterAndDisplayLogs();
+    } else {
+        addEvent("Killfeed Log Display Initialized");
+    }
 }
 
 void LogDisplayWindow::resizeEvent(QResizeEvent* event) {
@@ -237,12 +246,15 @@ void LogDisplayWindow::updateFilterSettings(bool newShowPvP, bool newShowPvE, bo
 
 void LogDisplayWindow::addEvent(const QString& eventText) {
     qDebug() << "LogDisplayWindow::addEvent received:" << eventText;
-    
-    // Add to buffer
+
+    // Add to buffer and cache
     eventBuffer.append(eventText);
     if (eventBuffer.size() > 100) {
         eventBuffer.removeFirst();
     }
+    s_logDisplayCache = eventBuffer; // Cache the buffer
+
+    QString timePrefix;
 
     try {
         // Check if this is valid JSON
@@ -252,21 +264,27 @@ void LogDisplayWindow::addEvent(const QString& eventText) {
             logDisplay->append(eventText);
             return;
         }
-        
+
+        // Try to extract timestamp from parsed data
+        if (parsed.contains("timestamp") && parsed["timestamp"].is_number()) {
+            qint64 timestampValue = parsed["timestamp"].get<qint64>();
+            QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestampValue);
+            timePrefix = dateTime.toString("HH:mm:ss");
+        }
+
         // Events are already filtered at the LogMonitor level, just prettify and display
         QString prettifiedLog = prettifyLog(eventText);
         if (!prettifiedLog.isEmpty()) {
             logDisplay->append(prettifiedLog);
             logDisplay->verticalScrollBar()->setValue(logDisplay->verticalScrollBar()->maximum());
         } else {
-            // Fallback to raw JSON if prettifying failed
             logDisplay->append(eventText);
         }
     } catch (const std::exception& e) {
         qWarning() << "Exception in addEvent:" << e.what();
         logDisplay->append(eventText); // Fallback to raw text
     }
-    
+
     // Play sound if enabled
     if (playSound) {
         QSettings settings("KillApiConnect", "KillApiConnectPlus");
@@ -364,6 +382,7 @@ void LogDisplayWindow::filterAndDisplayLogs() {
 
 void LogDisplayWindow::clearLog() {
     eventBuffer.clear();
+    s_logDisplayCache.clear(); // Clear the cache
     logDisplay->clear();
     addEvent("Killfeed Log Display Cleared");
 }
@@ -502,7 +521,7 @@ void LogDisplayWindow::handleTestButton() {
                     // Add to display and queue
                     addEvent(filteredPayload);
                     transmitter.enqueueLog(filteredPayload);
-transmitter.processQueueInThread(apiKey);
+                    transmitter.processQueueInThread(apiKey);
                 } else {
                     qDebug() << "Filtered out test event:" << jsonStr;
                 }
@@ -554,7 +573,7 @@ void LogDisplayWindow::processLogQueue(const QString& log) {
             player->play();
         }
     } else {
-        qWarning() << "Skipping empty prettified log for:" << log;
+        logDisplay->append(log);
     }
 }
 

@@ -90,3 +90,10 @@ QComboBox {
     padding: 5px;
     border-radius: 6px;
 }
+
+QPushButton#themeButton[selected="true"] {
+    /* Example: */
+    background-color: #00aaff;
+    color: white;
+    /* Add any other selected styles here */
+}

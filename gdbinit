@@ -1,6 +1,6 @@
 set pagination off
 set $_exitcode = -1
-run
+run --debug
 if $_exitcode != -1 
     quit
 end

@@ -12,6 +12,11 @@
 #include "globals.h"
 
 void initialize_default_settings() {
+    QCoreApplication::setOrganizationName("Poekhavshiy");
+    QCoreApplication::setOrganizationDomain("https://github.com/Poekhavshiy/KillAPI-connect-plus");
+    QCoreApplication::setApplicationName("KillAPI Connect Plus");
+    QCoreApplication::setApplicationVersion("0.1.2");
+    
     QSettings settings("KillAPI", "KillAPI-Connect-Plus");
 
     // Check if settings have already been initialized
@@ -72,7 +77,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    init_logger(ISDEBUG, ISDEBUGTOCONSOLE, "data/");
+    init_logger(ISDEBUG, ISDEBUGTOCONSOLE, "logs/");
 
     log_info("main()", "KillAPI-Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
 

@@ -281,7 +281,7 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
         logButton->setText("View Log"); // Update button label
     } else {
         qDebug() << "LogDisplayWindow is closed, opening it.";
-        logDisplayWindow = new LogDisplayWindow(transmitter, this);
+        logDisplayWindow = new LogDisplayWindow(transmitter);
         logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
         logDisplayWindow->setWindowFlag(Qt::Window);
 
@@ -475,10 +475,23 @@ void MainWindow::debugPaths() {
 
     qDebug() << "Game Log File Path:" << gameLogFilePath;
 
-    if (!gameLogFilePath.isEmpty() && QFile::exists(gameLogFilePath)) {
-        updateStatusLabel("Ready to start monitoring.");
-    } else {
+    QString apiKey = settings.value("apiKey", "").toString();
+    QString gameFolder = settings.value("gameFolder", "").toString();
+
+    bool hasGameFolder = !gameFolder.isEmpty();
+    bool hasApiKey = !apiKey.isEmpty();
+    bool hasGameLog = !gameLogFilePath.isEmpty() && QFile::exists(gameLogFilePath);
+
+    if (!hasGameFolder && !hasApiKey) {
         updateStatusLabel("Please configure the game directory and API key.");
+    } else if (!hasGameFolder) {
+        updateStatusLabel("Please configure the game directory.");
+    } else if (!hasApiKey) {
+        updateStatusLabel("Please configure your API key.");
+    } else if (!hasGameLog) {
+        updateStatusLabel("Game log file not found in the selected directory.");
+    } else {
+        updateStatusLabel("Ready to start monitoring.");
     }
 }
 
