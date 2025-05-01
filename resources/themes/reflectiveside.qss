@@ -69,8 +69,13 @@ QLabel#AudioDeviceLabel {
 }
 
 QPushButton#themeButton[selected="true"] {
-    /* Example: */
     background-color: #00aaff;
     color: white;
-    /* Add any other selected styles here */
+    font-weight: bold;
+    border: 2px solid #005577;
+}
+
+QLabel#statusLabel {
+    font-size: 16px;
+    color: #2b4f77; /* Adjust color as needed */
 }

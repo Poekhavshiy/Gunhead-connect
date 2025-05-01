@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="KillAPI Connect Plus" Language="1033" Version="0.1.2.0" Manufacturer="Poekhavshiy" UpgradeCode="48316450-3311-4d1d-9829-f60d7ce81d8a">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+    <Icon Id="KillApiIcon" SourceFile="icons/KillApiConnect.ico" />
+    <Media Id="1" Cabinet="KillApiConnectPlus.cab" EmbedCab="yes" />
+    <!-- Define the installation directory -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="KillAPI Connect Plus">
+          <!-- Main application files -->
+          <Component Id="MainExecutable" Guid="fcabd7ee-ad02-42ce-9d19-4ea533c0158e">
+            <File Id="KillApiConnectExe" Source="bin/KillApiConnect.exe" KeyPath="yes" />
+            <File Id="Readme" Source="README.txt" />
+          </Component>
+
+          <!-- Shortcuts and registry entries -->
+          <Component Id="ShortcutsAndRegistry" Guid="d19e0199-da47-4d93-8141-42a8f98eda21">
+            <!-- Start Menu Shortcut -->
+            <Shortcut Id="StartMenuShortcut" 
+                      Name="KillAPI Connect Plus" 
+                      Description="Launch KillAPI Connect Plus" 
+                      Target="[INSTALLFOLDER]KillApiConnect.exe" 
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="KillApiIcon" />
+            <!-- Desktop Shortcut -->
+            <Shortcut Id="DesktopShortcut" 
+                      Directory="DesktopFolder" 
+                      Name="KillAPI Connect Plus" 
+                      Description="Launch KillAPI Connect Plus" 
+                      Target="[INSTALLFOLDER]KillApiConnect.exe" 
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="KillApiIcon" />
+            <!-- Remove shortcuts during uninstallation -->
+            <RemoveFolder Id="StartMenuFolder" On="uninstall" />
+            <!-- Registry entry as KeyPath -->
+            <RegistryValue Root="HKCU" Key="Software\KillAPIConnectPlus" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+          </Component>
+
+          <!-- DLLs and dependencies -->
+          <Component Id="DllsComponent" Guid="9d5aeabf-3ec3-4fda-ab4a-87304a178571">
+            <File Id="D3Dcompiler_47Dll" Source="bin/D3Dcompiler_47.dll" />
+            <File Id="Qt6CoreDll" Source="bin/Qt6Core.dll" />
+            <File Id="Qt6GuiDll" Source="bin/Qt6Gui.dll" />
+            <File Id="Qt6MultimediaDll" Source="bin/Qt6Multimedia.dll" />
+            <File Id="Qt6NetworkDll" Source="bin/Qt6Network.dll" />
+            <File Id="Qt6SvgDll" Source="bin/Qt6Svg.dll" />
+            <File Id="Qt6WidgetsDll" Source="bin/Qt6Widgets.dll" />
+            <File Id="LibbrotlicommonDll" Source="bin/libbrotlicommon.dll" />
+            <File Id="LibbrotlidecDll" Source="bin/libbrotlidec.dll" />
+            <File Id="Libcrypto3x64Dll" Source="bin/libcrypto-3-x64.dll" />
+            <File Id="Libssl3x64Dll" Source="bin/libssl-3-x64.dll" />
+            <File Id="Libbz21Dll" Source="bin/libbz2-1.dll" />
+            <File Id="Libfreetype6Dll" Source="bin/libfreetype-6.dll" />
+            <File Id="Libglib20Dll" Source="bin/libglib-2.0-0.dll" />
+            <File Id="Libgraphite2Dll" Source="bin/libgraphite2.dll" />
+            <File Id="Libharfbuzz0Dll" Source="bin/libharfbuzz-0.dll" />
+            <File Id="Libiconv2Dll" Source="bin/libiconv-2.dll" />
+            <File Id="Libintl8Dll" Source="bin/libintl-8.dll" />
+            <File Id="Libpcre28Dll" Source="bin/libpcre2-8-0.dll" />
+            <File Id="Libpng1616Dll" Source="bin/libpng16-16.dll" />
+            <File Id="Libstdc6Dll" Source="bin/libstdc++-6.dll" />
+            <File Id="Libwinpthread1Dll" Source="bin/libwinpthread-1.dll" />
+            <File Id="LibzstdDll" Source="bin/libzstd.dll" />
+            <File Id="Zlib1Dll" Source="bin/zlib1.dll" />
+          </Component>
+
+          <!-- Plugins -->
+          <Component Id="PluginsComponent" Guid="48316450-3311-4d1d-9829-f60d7ce81d8a">
+            <File Id="QsvgiconDll" Source="bin/iconengines/qsvgicon.dll" />
+            <File Id="QgifDll" Source="bin/imageformats/qgif.dll" />
+            <File Id="QjpegDll" Source="bin/imageformats/qjpeg.dll" />
+            <File Id="QwebpDll" Source="bin/imageformats/qwebp.dll" />
+            <File Id="QwindowsDll" Source="bin/platforms/qwindows.dll" />
+            <File Id="QmodernwindowsstyleDll" Source="bin/styles/qmodernwindowsstyle.dll" />
+          </Component>
+
+          <!-- Sounds -->
+          <Component Id="SoundsComponent" Guid="d7e24d03-9096-4043-a97c-e9126dddb86c">
+            <File Id="WompWompMp3" Source="bin/sounds/womp-womp.mp3" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+
+    <!-- Features -->
+    <Feature Id="MainFeature" Title="KillAPI Connect Plus" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="ShortcutsAndRegistry" />
+      <ComponentRef Id="DllsComponent" />
+      <ComponentRef Id="PluginsComponent" />
+      <ComponentRef Id="SoundsComponent" />
+    </Feature>
+  </Product>
+</Wix>

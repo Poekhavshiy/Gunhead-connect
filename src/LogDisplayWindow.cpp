@@ -40,7 +40,7 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
         eventBuffer = s_logDisplayCache;
         filterAndDisplayLogs();
     } else {
-        addEvent("Killfeed Log Display Initialized");
+        addEvent(tr("Killfeed Log Display Initialized"));
     }
 }
 
@@ -69,7 +69,7 @@ void LogDisplayWindow::loadFilterSettings() {
 }
 
 void LogDisplayWindow::setupUI() {
-    setWindowTitle("Killfeed Log Display");
+    setWindowTitle(tr("Killfeed Log Display"));
     setWindowIcon(QIcon(":/app_icon"));
 
     // Main layout
@@ -82,28 +82,29 @@ void LogDisplayWindow::setupUI() {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
 
     // Show PvP Checkbox
-    showPvPCheckbox = new QCheckBox("Show PvP", this);
+    showPvPCheckbox = new QCheckBox(tr("Show PvP"), this);
     showPvPCheckbox->setChecked(showPvP);
-    showPvPCheckbox->setToolTip("Show PvP events (e.g., player kills)");
+    showPvPCheckbox->setToolTip(tr("Show PvP events (e.g., player kills)"));
     connect(showPvPCheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowPvPToggled);
     controlBarLayout->addWidget(showPvPCheckbox);
 
     // Show PvE Checkbox
-    showPvECheckbox = new QCheckBox("Show PvE", this);
+    showPvECheckbox = new QCheckBox(tr("Show PvE"), this);
     showPvECheckbox->setChecked(showPvE);
-    showPvECheckbox->setToolTip("Show PvE events (e.g., NPC kills)");
+    showPvECheckbox->setToolTip(tr("Show PvE events (e.g., NPC kills)"));
     connect(showPvECheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowPvEToggled);
     controlBarLayout->addWidget(showPvECheckbox);
 
     // Show NPC Names Checkbox
-    showNPCNamesCheckbox = new QCheckBox("Show NPC Names", this);
+    showNPCNamesCheckbox = new QCheckBox(tr("Show NPC Names"), this);
     showNPCNamesCheckbox->setChecked(showNPCNames);
-    showNPCNamesCheckbox->setToolTip("Show actual NPC names in events or just 'NPC'");
+    showNPCNamesCheckbox->setToolTip(tr("Show actual NPC names in events or just 'NPC'"));
     connect(showNPCNamesCheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowNPCNamesToggled);
     controlBarLayout->addWidget(showNPCNamesCheckbox);
 
     // Play Sound Checkbox
-    playSoundCheckbox = new QCheckBox("Play Sound", this);
+    playSoundCheckbox = new QCheckBox(tr("Play Sound"), this);
+    playSoundCheckbox->setToolTip(tr("Coming soon: Play sound on events"));
     playSoundCheckbox->setChecked(playSound);
     connect(playSoundCheckbox, &QCheckBox::toggled, this, [this](bool checked) {
         playSound = checked;
@@ -113,13 +114,13 @@ void LogDisplayWindow::setupUI() {
     controlBarLayout->addWidget(playSoundCheckbox);
 
     // Test Button
-    testButton = new QPushButton("Test", this);
+    testButton = new QPushButton(tr("Test"), this);
     testButton->setVisible(ISDEBUG); // Use ISDEBUG to control visibility
     connect(testButton, &QPushButton::clicked, this, &LogDisplayWindow::handleTestButton);
     controlBarLayout->addWidget(testButton);
 
     // Monitoring Button
-    monitoringButton = new QPushButton("Start Monitoring", this);
+    monitoringButton = new QPushButton(tr("Start Monitoring"), this);
     connect(monitoringButton, &QPushButton::clicked, this, &LogDisplayWindow::handleMonitoringButton);
     controlBarLayout->addWidget(monitoringButton);
 
@@ -134,24 +135,24 @@ void LogDisplayWindow::setupUI() {
     QHBoxLayout* buttonLayout = new QHBoxLayout();
 
     // Clear button
-    QPushButton* clearButton = new QPushButton("Clear", this);
+    QPushButton* clearButton = new QPushButton(tr("Clear"), this);
     connect(clearButton, &QPushButton::clicked, this, &LogDisplayWindow::clearLog);
     buttonLayout->addWidget(clearButton);
 
     // Text color button
-    QPushButton* textColorButton = new QPushButton("Text Color", this);
+    QPushButton* textColorButton = new QPushButton(tr("Text Color"), this);
     connect(textColorButton, &QPushButton::clicked, this, &LogDisplayWindow::changeTextColor);
     buttonLayout->addWidget(textColorButton);
 
     // Background color button
-    QPushButton* bgColorButton = new QPushButton("Background Color", this);
+    QPushButton* bgColorButton = new QPushButton(tr("Background Color"), this);
     connect(bgColorButton, &QPushButton::clicked, this, &LogDisplayWindow::changeBackgroundColor);
     buttonLayout->addWidget(bgColorButton);
 
     // Font size increase button
     QPushButton* increaseFontButton = new QPushButton("+", this);
     connect(increaseFontButton, &QPushButton::clicked, this, &LogDisplayWindow::increaseFontSize);
-    increaseFontButton->setToolTip("Increase Font Size\nCTRL + +");
+    increaseFontButton->setToolTip(tr("Increase Font Size\nCTRL + +"));
     increaseFontButton->setEnabled(logFontSize < 72); // Disable if font size is already at maximum
     increaseFontButton->setFixedWidth(50); // Set fixed size for increase button
     // Set keyboard shortcut to CTRL + +
@@ -159,9 +160,9 @@ void LogDisplayWindow::setupUI() {
     buttonLayout->addWidget(increaseFontButton);
 
     // Font size decrease button
-    QPushButton* decreaseFontButton = new QPushButton("-", this);
+    QPushButton* decreaseFontButton = new QPushButton(tr("-"), this);
     connect(decreaseFontButton, &QPushButton::clicked, this, &LogDisplayWindow::decreaseFontSize);
-    decreaseFontButton->setToolTip("Decrease Font Size\nCTRL + -");
+    decreaseFontButton->setToolTip(tr("Decrease Font Size\nCTRL + -"));
     decreaseFontButton->setEnabled(logFontSize > 1); // Disable if font size is already at minimum
     decreaseFontButton->setFixedWidth(50); // Set fixed size for decrease button
     // Set keyboard shortcut to CTRL + -
@@ -184,7 +185,7 @@ void LogDisplayWindow::onShowPvPToggled(bool checked) {
     qDebug() << "LogDisplayWindow::onShowPvPToggled - Emitted filterPvPChanged signal";
     
     // This change now requires restarting monitoring to apply the new filter
-    updateStatusLabel("Filter changed: Restart monitoring to apply");
+    updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
     qDebug() << "LogDisplayWindow::onShowPvPToggled - Notified user to restart monitoring";
 }
 
@@ -199,7 +200,7 @@ void LogDisplayWindow::onShowPvEToggled(bool checked) {
     qDebug() << "LogDisplayWindow::onShowPvEToggled - Emitted filterPvEChanged signal";
     
     // This change now requires restarting monitoring to apply the new filter
-    updateStatusLabel("Filter changed: Restart monitoring to apply");
+    updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
     qDebug() << "LogDisplayWindow::onShowPvEToggled - Notified user to restart monitoring";
 }
 
@@ -214,7 +215,7 @@ void LogDisplayWindow::onShowNPCNamesToggled(bool checked) {
     qDebug() << "LogDisplayWindow::onShowNPCNamesToggled - Emitted filterNPCNamesChanged signal";
     
     // This change now requires restarting monitoring to apply the new filter
-    updateStatusLabel("Filter changed: Restart monitoring to apply");
+    updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
     qDebug() << "LogDisplayWindow::onShowNPCNamesToggled - Notified user to restart monitoring";
 }
 
@@ -491,12 +492,12 @@ void LogDisplayWindow::handleTestButton() {
     QString apiKey = settings.value("apiKey", "").toString();
     if (apiKey.isEmpty()) {
         qWarning() << "Cannot process test events: API key is empty";
-        logDisplay->append("Error: API key not configured. Please set up in Settings.");
+        logDisplay->append(tr("Error: API key not configured. Please set up in Settings."));
         return;
     }
 
     // Send a debug ping start notification
-    logDisplay->append("Starting test data processing...");
+    logDisplay->append(tr("Starting test data processing..."));
     QString debugPingStart = R"({"identifier": "debug_ping", "message": "Start of test data"})";
     transmitter.enqueueLog(debugPingStart);
     
@@ -537,7 +538,7 @@ void LogDisplayWindow::handleTestButton() {
     // Add completion message
     int totalDelay = (lines.size() + 1) * 1500;
     QTimer::singleShot(totalDelay, this, [this]() {
-        logDisplay->append("Test data processing complete.");
+        logDisplay->append(tr("Test data processing complete."));
     });
 }
 

@@ -74,10 +74,10 @@ MainWindow::MainWindow(QWidget* parent)
     
     // When creating the status label
     statusLabel = new QLabel(tr("Ready"), central);
+    statusLabel->setObjectName("statusLabel"); // Add this line
     statusLabel->setFixedSize(statusLabelSize);
     statusLabel->setWordWrap(true); // Enable word wrapping for multi-line display
     statusLabel->setAlignment(Qt::AlignCenter);
-    statusLabel->setStyleSheet("QLabel { font-size: 16px; }");
 
     // Add buttons and label with a configurable gap to the right
     auto addWidgetWithGap = [&](QWidget* widget) {
@@ -131,10 +131,10 @@ MainWindow::MainWindow(QWidget* parent)
             this, &MainWindow::startMonitoring);
     connect(logMonitor, &LogMonitor::logLineMatched, this, &MainWindow::handleLogLine);
     connect(logMonitor, &LogMonitor::monitoringStopped, this, [this](const QString& reason) {
-        updateStatusLabel("Monitoring stopped:\n" + reason);
+        updateStatusLabel(tr("Monitoring stopped:\n") + reason);
     });
     connect(logMonitor, &LogMonitor::monitoringStarted, this, [this]() {
-        updateStatusLabel("Monitoring started successfully.");
+        updateStatusLabel(tr("Monitoring started successfully.")); // Updated to use tr()
     });
         
     //debugPaths();
@@ -214,7 +214,7 @@ void MainWindow::startMonitoring() {
     if (!QFile::exists(gameLogFilePath)) {
         qWarning() << "Game log file does not exist:" << gameLogFilePath;
         qDebug() << "Please check the game folder path in settings.";
-        updateStatusLabel("Error: Game log file not found.");
+        updateStatusLabel(tr("Error: Game log file not found."));
         return;
     }
 
@@ -243,7 +243,7 @@ void MainWindow::startMonitoring() {
         logDisplayWindow->updateMonitoringButtonText(true);
     }
 
-    updateStatusLabel("Monitoring started.");
+    updateStatusLabel(tr("Monitoring started."));
 }
 
 void MainWindow::stopMonitoring() {
@@ -263,7 +263,7 @@ void MainWindow::stopMonitoring() {
         logDisplayWindow->updateMonitoringButtonText(false);
     }
 
-    updateStatusLabel("Monitoring stopped.");
+    updateStatusLabel(tr("Monitoring stopped."));
 }
 
 void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
@@ -430,11 +430,11 @@ void MainWindow::applyTheme(Theme themeData)
 void MainWindow::closeEvent(QCloseEvent* event) {
     if (logMonitor) {
         logMonitor->stopMonitoring(); // Gracefully stop monitoring
-        updateStatusLabel("Monitoring stopped.");
+        updateStatusLabel(tr("Monitoring stopped."));
     }
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     qDebug() << "Final state of LogDisplayWindow:" << logDisplayVisible << " or " << settings.value("LogDisplay/Visible", false).toBool();
-    updateStatusLabel("MainWindow closed, stopping monitoring and closing LogDisplayWindow.");
+    updateStatusLabel(tr("MainWindow closed, stopping monitoring and closing LogDisplayWindow."));
     if (logDisplayWindow) {
         logDisplayWindow->setApplicationShuttingDown(true); // Pass the flag
         logDisplayWindow->close(); // Close the LogDisplayWindow
@@ -483,15 +483,15 @@ void MainWindow::debugPaths() {
     bool hasGameLog = !gameLogFilePath.isEmpty() && QFile::exists(gameLogFilePath);
 
     if (!hasGameFolder && !hasApiKey) {
-        updateStatusLabel("Please configure the game directory and API key.");
+        updateStatusLabel(tr("Please configure the game directory and API key."));
     } else if (!hasGameFolder) {
-        updateStatusLabel("Please configure the game directory.");
+        updateStatusLabel(tr("Please configure the game directory."));
     } else if (!hasApiKey) {
-        updateStatusLabel("Please configure your API key.");
+        updateStatusLabel(tr("Please configure your API key."));
     } else if (!hasGameLog) {
-        updateStatusLabel("Game log file not found in the selected directory.");
+        updateStatusLabel(tr("Game log file not found in the selected directory."));
     } else {
-        updateStatusLabel("Ready to start monitoring.");
+        updateStatusLabel(tr("Ready to start monitoring."));
     }
 }
 
@@ -537,7 +537,7 @@ void MainWindow::setShowPvP(bool show) {
         // Check if we need to restart monitoring for changes to take effect
         if (isMonitoring) {
             qDebug() << "MainWindow::setShowPvP - Monitoring is active, require restart to apply";
-            updateStatusLabel("Filter changed: Restart monitoring to apply");
+            updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
         }
     } else {
         qDebug() << "MainWindow::setShowPvP - Value unchanged, no action taken";
@@ -557,7 +557,7 @@ void MainWindow::setShowPvE(bool show) {
         // Check if we need to restart monitoring for changes to take effect
         if (isMonitoring) {
             qDebug() << "MainWindow::setShowPvE - Monitoring is active, require restart to apply";
-            updateStatusLabel("Filter changed: Restart monitoring to apply");
+            updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
         }
     } else {
         qDebug() << "MainWindow::setShowPvE - Value unchanged, no action taken";
@@ -577,7 +577,7 @@ void MainWindow::setShowNPCNames(bool show) {
         // Check if we need to restart monitoring for changes to take effect
         if (isMonitoring) {
             qDebug() << "MainWindow::setShowNPCNames - Monitoring is active, require restart to apply";
-            updateStatusLabel("Filter changed: Restart monitoring to apply");
+            updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
         }
     } else {
         qDebug() << "MainWindow::setShowNPCNames - Value unchanged, no action taken";

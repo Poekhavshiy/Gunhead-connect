@@ -91,6 +91,12 @@
 },
 {
   "directory": "C:/Dev/KillApiConnect-Plus/build",
+  "command": "C:\\msys64\\mingw64\\bin\\windres.exe -O coff -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -I C:/Dev/KillApiConnect-Plus/build/KillApiConnect_autogen/include -I C:/Dev/KillApiConnect-Plus/includes -I C:/Dev/KillApiConnect-Plus/build/_deps/json-src/include -I C:/Qt/qt-install-dynamic/include/QtCore -I C:/Qt/qt-install-dynamic/include -I C:/Qt/qt-install-dynamic/mkspecs/win32-g++ -I C:/Qt/qt-install-dynamic/include/QtGui -I C:/Qt/qt-install-dynamic/include/QtWidgets -I C:/Qt/qt-install-dynamic/include/QtNetwork -I C:/Qt/qt-install-dynamic/include/QtMultimedia C:\\Dev\\KillApiConnect-Plus\\resources\\appicon.rc CMakeFiles\\KillApiConnect.dir\\resources\\appicon.rc.obj",
+  "file": "C:\\Dev\\KillApiConnect-Plus\\resources\\appicon.rc",
+  "output": "CMakeFiles\\KillApiConnect.dir\\resources\\appicon.rc.obj"
+},
+{
+  "directory": "C:/Dev/KillApiConnect-Plus/build",
   "command": "C:\\msys64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64 -IC:/Dev/KillApiConnect-Plus/build/KillApiConnect_autogen/include -IC:/Dev/KillApiConnect-Plus/includes -IC:/Dev/KillApiConnect-Plus/build/_deps/json-src/include -isystem C:/Qt/qt-install-dynamic/include/QtCore -isystem C:/Qt/qt-install-dynamic/include -isystem C:/Qt/qt-install-dynamic/mkspecs/win32-g++ -isystem C:/Qt/qt-install-dynamic/include/QtGui -isystem C:/Qt/qt-install-dynamic/include/QtWidgets -isystem C:/Qt/qt-install-dynamic/include/QtNetwork -isystem C:/Qt/qt-install-dynamic/include/QtMultimedia -std=gnu++17 -o CMakeFiles\\KillApiConnect.dir\\build\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp.obj -c C:\\Dev\\KillApiConnect-Plus\\build\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp",
   "file": "C:\\Dev\\KillApiConnect-Plus\\build\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp",
   "output": "CMakeFiles\\KillApiConnect.dir\\build\\.qt\\rcc\\qrc_KillApiConnect_translations.cpp.obj"

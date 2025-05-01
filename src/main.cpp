@@ -5,6 +5,7 @@
 #include <QFontDatabase>
 #include <QSettings>
 #include <QIcon>
+
 #include "logger.h"
 #include "MainWindow.h"
 #include "ThemeSelect.h"
@@ -120,14 +121,6 @@ int main(int argc, char *argv[]) {
     
     //window.resize(settings.value("LogDisplay/WindowSize", QSize(310,250)).toSize());
     window.show();
-
-#ifdef _WIN32
-    // Windows logic
-    log_info("main()", "Windows environment detected.");
-#else
-    // Linux logic
-    log_info("main()", "Linux environment detected.");
-#endif
 
     return app.exec();
 }

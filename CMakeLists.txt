@@ -145,10 +145,12 @@ if(WIN32)
     set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/resources/appicon.rc")
     set_source_files_properties(${APP_ICON_RESOURCE} PROPERTIES LANGUAGE RC)
     target_sources(KillApiConnect PRIVATE ${APP_ICON_RESOURCE})
+
     
     set(MINGW_DIR "C:/msys64/mingw64")
     set(QT_PLUGIN_PATH "C:/Dev/Qt/qt-install-dynamic/plugins")
     set(APP_DEST ${OUTDIR_WINDOWS})
+    set(APP_DLL_DEST ${OUTDIR_WINDOWS})
     set(MINGW_DLLS
         ${MINGW_DIR}/bin/libgcc_s_seh-1.dll
         ${MINGW_DIR}/bin/libstdc++-6.dll
@@ -172,19 +174,23 @@ if(WIN32)
     # Common copy logic
     foreach(TGT KillApiConnect tests)
         add_custom_command(TARGET ${TGT} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DEST}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
             COMMENT "Copying DLLs for ${TGT}"
         )
     endforeach()
 
     add_custom_command(TARGET KillApiConnect POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DEST}/platforms
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/platforms/qwindows.dll" ${APP_DEST}/platforms
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DEST}/tls
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/tls/qopensslbackend.dll" ${APP_DEST}/tls
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DEST}/multimedia
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/multimedia/windowsmediaplugin.dll" ${APP_DEST}/multimedia
+        # QT Plugins
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DLL_DEST}/platforms
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/platforms/qwindows.dll" ${APP_DLL_DEST}/platforms
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DLL_DEST}/tls
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/tls/qopensslbackend.dll" ${APP_DLL_DEST}/tls
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DLL_DEST}/multimedia
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/multimedia/windowsmediaplugin.dll" ${APP_DLL_DEST}/multimedia
+        #other files
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DEST}/data
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/data/logfile_regex_rules.json ${APP_DEST}/data/logfile_regex_rules.json
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DEST}/sounds
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/buildfiles/sounds/womp-womp.mp3 ${APP_DEST}/sounds/womp-womp.mp3
     )
 endif()

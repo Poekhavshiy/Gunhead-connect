@@ -42,7 +42,7 @@ void SettingsWindow::init() {
 }
 
 void SettingsWindow::setupUI() {
-    setWindowTitle("Settings");
+    setWindowTitle(tr("Settings"));
     setWindowIcon(QIcon()); // Clear the window icon
 
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -51,14 +51,14 @@ void SettingsWindow::setupUI() {
     setCentralWidget(container);
 
     // --- Create a horizontal layout for version and update label ---
-    QString versionString = "Version: " + QCoreApplication::applicationVersion();
+    QString versionString = tr("Version: ") + QCoreApplication::applicationVersion();
     QLabel* versionLabel = new QLabel(versionString, this);
     QFont tinyFont = versionLabel->font();
     tinyFont.setPointSizeF(tinyFont.pointSizeF() * 0.7); // Make it smaller
     versionLabel->setFont(tinyFont);
     versionLabel->setStyleSheet("color: gray;");
 
-    QLabel* updateLabel = new QLabel("Check for Updates", this);
+    QLabel* updateLabel = new QLabel(tr("Check for Updates"), this);
     updateLabel->setContentsMargins(0, 0, 0, 0);
 
     QHBoxLayout* versionUpdateLayout = new QHBoxLayout();
@@ -71,9 +71,9 @@ void SettingsWindow::setupUI() {
     mainLayout->addLayout(versionUpdateLayout);
 
     // Update checkbox and button below the update label
-    updateCheckbox = new QCheckBox("Check for new versions on startup", this);
+    updateCheckbox = new QCheckBox(tr("Check for new versions on startup"), this);
     connect(updateCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleUpdateCheck);
-    QPushButton* checkUpdatesButton = new QPushButton("Check for updates now", this);
+    QPushButton* checkUpdatesButton = new QPushButton(tr("Check for updates now"), this);
     connect(checkUpdatesButton, &QPushButton::clicked, this, &SettingsWindow::checkForUpdates);
 
     QVBoxLayout* updateLayout = new QVBoxLayout();
@@ -87,11 +87,11 @@ void SettingsWindow::setupUI() {
     mainLayout->addWidget(updateCard);
 
     // Game Files Path
-    QLabel* pathLabel = new QLabel("Game LIVE Folder Path", this);
+    QLabel* pathLabel = new QLabel(tr("Game LIVE Folder Path"), this);
     pathEdit = new QLineEdit(this);
-    QPushButton* browseButton = new QPushButton("Browse", this);
+    QPushButton* browseButton = new QPushButton(tr("Browse"), this);
     connect(browseButton, &QPushButton::clicked, this, &SettingsWindow::updatePath);
-    QPushButton* savePathButton = new QPushButton("Save", this);
+    QPushButton* savePathButton = new QPushButton(tr("Save"), this);
     connect(savePathButton, &QPushButton::clicked, this, &SettingsWindow::savePath);
 
     QHBoxLayout* pathButtonsLayout = new QHBoxLayout();
@@ -108,10 +108,10 @@ void SettingsWindow::setupUI() {
     mainLayout->addWidget(pathCard);
 
     // KillAPI Key
-    QLabel* apiLabel = new QLabel("KillAPI Key", this);
+    QLabel* apiLabel = new QLabel(tr("KillAPI Key"), this);
     apiEdit = new QLineEdit(this);
     apiEdit->setEchoMode(QLineEdit::Password);
-    QPushButton* saveApiKeyButton = new QPushButton("Save API Key", this);
+    QPushButton* saveApiKeyButton = new QPushButton(tr("Save API Key"), this);
     connect(saveApiKeyButton, &QPushButton::clicked, this, &SettingsWindow::saveApiKey);
 
     QVBoxLayout* apiLayout = new QVBoxLayout();
@@ -124,7 +124,7 @@ void SettingsWindow::setupUI() {
     mainLayout->addWidget(apiCard);
 
     // Sound Selector
-    QLabel* soundLabel = new QLabel("Select Notification Sound", this);
+    QLabel* soundLabel = new QLabel(tr("Select Notification Sound"), this);
     soundEdit = new QLineEdit(this);
     soundEdit->setReadOnly(true);
 
@@ -149,11 +149,11 @@ void SettingsWindow::setupUI() {
 
     // Language and Theme Selector Box
     QVBoxLayout* selectorLayout = new QVBoxLayout();
-    QPushButton* languageButton = new QPushButton("Change Language", this);
+    QPushButton* languageButton = new QPushButton(tr("Change Language"), this);
     connect(languageButton, &QPushButton::clicked, this, &SettingsWindow::toggleLanguageSelectWindow);
     selectorLayout->addWidget(languageButton);
 
-    QPushButton* themeButton = new QPushButton("Change Theme", this);
+    QPushButton* themeButton = new QPushButton(tr("Change Theme"), this);
     connect(themeButton, &QPushButton::clicked, this, &SettingsWindow::toggleThemeSelectWindow);
     selectorLayout->addWidget(themeButton);
 
@@ -205,10 +205,10 @@ void SettingsWindow::toggleUpdateCheck(int state) {
 }
 
 void SettingsWindow::updatePath() {
-    QString folder = QFileDialog::getExistingDirectory(this, "Select Game Folder", gameFolder);
+    QString folder = QFileDialog::getExistingDirectory(this, tr("Select Game Folder"), gameFolder);
     if (!folder.isEmpty()) {
         if (!isGameFolderValid(folder)) {
-            QMessageBox::warning(this, "Invalid Folder", "Selected folder does not contain required Star Citizen files.");
+            QMessageBox::warning(this, tr("Invalid Folder"), tr("Selected folder does not contain required Star Citizen files."));
             return;
         }
         gameFolder = folder;
@@ -220,7 +220,7 @@ void SettingsWindow::updatePath() {
 void SettingsWindow::savePath() {
     QString folder = pathEdit->text().trimmed();
     if (!isGameFolderValid(folder)) {
-        QMessageBox::warning(this, "Invalid Folder", "Selected folder does not contain required Star Citizen files.");
+        QMessageBox::warning(this, tr("Invalid Folder"), tr("Selected folder does not contain required Star Citizen files."));
         return;
     }
     gameFolder = folder;
@@ -237,14 +237,14 @@ void SettingsWindow::saveApiKey() {
     if (!apiKey.isEmpty()) {
         bool success = transmitter.sendConnectionSuccess(gameFolder, apiKey);
         if (success) {
-            QMessageBox::information(this, "Success", "KillAPI connected successfully!");
+            QMessageBox::information(this, tr("Success"), tr("KillAPI connected successfully!"));
         } else {
-            QMessageBox::warning(this, "Error", "Failed to connect to KillAPI. Please check your API key.");
+            QMessageBox::warning(this, tr("Error"), tr("Failed to connect to KillAPI. Please check your API key."));
             apiKey.clear(); // Clear the API key on failure
             saveSettings(); // Save the cleared API key
         }
     } else {
-        QMessageBox::information(this, "API Key Saved", "Your API key has been saved.");
+        QMessageBox::information(this, tr("API Key Saved"), tr("Your API key has been saved."));
     }
 }
 
@@ -262,18 +262,18 @@ void SettingsWindow::checkForUpdates() {
     if (appUpdateState == CheckVersion::UpdateTriState::Yes || jsonUpdateState == CheckVersion::UpdateTriState::Yes) {
         qDebug() << "SettingsWindow: Updates available, prompting user.";
         QMessageBox::StandardButton reply = QMessageBox::question(
-            this, "Updates Available",
-            "Updates are available. Would you like to download them?",
+            this, tr("Updates Available"),
+            tr("Updates are available. Would you like to download them?"),
             QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes) {
             if (appUpdateState == CheckVersion::UpdateTriState::Yes) {
                 qDebug() << "SettingsWindow: User asked to update the App.";
                 if (versionChecker.downloadFile(releaseDownloadUrl, "KillAPi.connect.exe", 5000)) {
                     qDebug() << "SettingsWindow: App updated successfully.";
-                    QMessageBox::information(this, "Update Successful", "App updated successfully.");
+                    QMessageBox::information(this, tr("Update Successful"), tr("App updated successfully."));
                 } else {
                     qDebug() << "SettingsWindow: App update failed.";
-                    QMessageBox::warning(this, "Update Failed", "Failed to update app.");
+                    QMessageBox::warning(this, tr("Update Failed"), tr("Failed to update app."));
                 }
                 qDebug() << "Downloading latest app version.";
                 // Add logic to download and install the app
@@ -283,20 +283,20 @@ void SettingsWindow::checkForUpdates() {
                 qDebug() << "SettingsWindow: User asked to update the JSON file.";
                 if (versionChecker.downloadFile(jsonDownloadUrl, jsonFilePath, 5000)) {
                     qDebug() << "SettingsWindow: JSON file updated successfully.";
-                    QMessageBox::information(this, "Update Successful", "JSON file updated successfully.");
+                    QMessageBox::information(this, tr("Update Successful"), tr("JSON file updated successfully."));
                 } else {
                     qDebug() << "SettingsWindow: JSON file update failed.";
-                    QMessageBox::warning(this, "Update Failed", "Failed to update JSON file.");
+                    QMessageBox::warning(this, tr("Update Failed"), tr("Failed to update JSON file."));
                 }
                 qDebug() << "Downloading latest JSON version.";
             }
         }
     } else if (appUpdateState == CheckVersion::UpdateTriState::No && jsonUpdateState == CheckVersion::UpdateTriState::No) {
         qDebug() << "SettingsWindow: No updates available.";
-        QMessageBox::information(this, "No Updates", "Your application and JSON file are up-to-date.");
+        QMessageBox::information(this, tr("No Updates"), tr("Your application and JSON file are up-to-date."));
     } else {
         qDebug() << "SettingsWindow: Error occurred while checking for updates.";
-        QMessageBox::warning(this, "Error", "An error occurred while checking for updates.\n Please check your internet connection and try again.");
+        QMessageBox::warning(this, tr("Error"), tr("An error occurred while checking for updates.\n Please check your internet connection and try again."));
     }
 }
 

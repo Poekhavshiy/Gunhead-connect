@@ -107,3 +107,8 @@ QPushButton#themeButton[selected="true"] {
     background-color: #611d1d;
     color: white;
 }
+
+QLabel#statusLabel {
+    font-size: 16px;
+    color: #d0c8b0; /* Adjust color as needed */
+}

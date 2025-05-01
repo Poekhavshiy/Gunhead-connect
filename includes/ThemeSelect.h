@@ -14,6 +14,7 @@
 #include <QVector>
 #include <QString>
 #include <QSize>
+#include <QStyle>
 
 struct Theme {
     QString stylePath;

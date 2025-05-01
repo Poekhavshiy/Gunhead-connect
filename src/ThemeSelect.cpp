@@ -41,15 +41,10 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
     header->setAlignment(Qt::AlignCenter);
     mainLayout->addWidget(header);
 
-    const QString defaultStyle = "QPushButton { padding: 8px; }";
-    // Use a named style for selected buttons, defined in each theme's QSS
-    const QString selectedStyle = "QPushButton#themeButton[selected=\"true\"] {}";
-
     QButtonGroup* group = new QButtonGroup(this);
     for (const Theme& t : themes) {
         QPushButton* btn = new QPushButton(t.friendlyName, central);
         btn->setObjectName("themeButton");
-        btn->setStyleSheet(defaultStyle);
         mainLayout->addWidget(btn);
         group->addButton(btn);
 
@@ -61,11 +56,12 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
             resize(t.chooseThemeWindowPreferredSize);
         }
 
-        connect(btn, &QPushButton::clicked, this, [this, t, btn, defaultStyle, selectedStyle]() {
+        connect(btn, &QPushButton::clicked, this, [this, t, btn]() {
             if (m_currentThemeButton && m_currentThemeButton != btn) {
                 m_currentThemeButton->setEnabled(true);
                 m_currentThemeButton->setProperty("selected", false);
-                m_currentThemeButton->setStyleSheet(defaultStyle);
+                m_currentThemeButton->style()->unpolish(m_currentThemeButton);
+                m_currentThemeButton->style()->polish(m_currentThemeButton);
             }
 
             saveTheme(t);
@@ -74,7 +70,8 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
 
             btn->setEnabled(false);
             btn->setProperty("selected", true);
-            btn->setStyleSheet(""); // Let QSS handle the selected style
+            btn->style()->unpolish(btn);
+            btn->style()->polish(btn);
             m_currentThemeButton = btn;
             qDebug() << "Emitting selected theme:" << t.friendlyName;
             qDebug() << "==== Theme Changed ====\nTheme Window Preferred Size:" << t.chooseThemeWindowPreferredSize << "\nMain Window Preferred Size:" << t.mainWindowPreferredSize << "\nSettings Window Preferred Size:" << t.settingsWindowPreferredSize << "\nChoose Language Window Preferred Size:" << t.chooseLanguageWindowPreferredSize << "\nBackground Image:" << t.backgroundImage;

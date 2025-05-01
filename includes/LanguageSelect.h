@@ -13,6 +13,13 @@ class LanguageSelectWindow : public QMainWindow {
 public:
     explicit LanguageSelectWindow(QWidget* parent = nullptr);
 
+    // Static lists of languages
+    static const QStringList officialLanguages;
+    static const QStringList fanLanguages;
+
+    // Helper function to add the "Coming Soon™" suffix
+    static QString addComingSoonSuffix(const QString& language);
+
 public slots:
     void onThemeChanged(const Theme& theme); // Slot to handle theme changes
 
@@ -23,7 +30,7 @@ private:
     QLabel* fanHeader;
     QPushButton* selectButton;
     QPushButton* m_currentLanguageButton = nullptr;
-    
+
     void connectSignals();
     void retranslateUi();
     void setLanguageButton(QVBoxLayout* mainLayout, QButtonGroup* languageButtons, const QString& lang, const QString& currentLanguage, QWidget* central);

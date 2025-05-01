@@ -7,15 +7,40 @@
 #include <QButtonGroup>
 #include <QStringList>
 
+// Define the official languages (translated into their native names)
+const QStringList LanguageSelectWindow::officialLanguages = {
+    QObject::tr("English"),
+    QObject::tr("Українська"), // Ukrainian
+    QObject::tr("Русский")     // Russian
+};
+
+// Define the fan translations (translated into their native names)
+const QStringList LanguageSelectWindow::fanLanguages = {
+    QObject::tr("Deutsch"),               // German
+    QObject::tr("Español"),               // Spanish
+    QObject::tr("Français"),              // French
+    QObject::tr("Italiano"),              // Italian
+    QObject::tr("Polski"),                // Polish
+    QObject::tr("Português"),             // Portuguese
+    QObject::tr("简体中文"),               // Simplified Chinese
+    QObject::tr("日本語"),                 // Japanese
+    QObject::tr("한국어")                  // Korean
+};
+
+// Helper function to add the "Coming Soon™" suffix
+QString LanguageSelectWindow::addComingSoonSuffix(const QString& language) {
+    return language + " " + QObject::tr("(Coming Soon™)");
+}
+
 LanguageSelectWindow::LanguageSelectWindow(QWidget* parent)
     : QMainWindow(parent) {
     setWindowTitle(tr("Language Selector"));
     setObjectName("languageSelectWindow");
-        // Load persisted window size
-        QSettings settings("KillApiConnect", "KillApiConnectPlus");
-        QSize savedSize = settings .value("chooseLanguageWindowPreferredSize", QSize(400, 600)).toSize();
-        setFixedSize(savedSize);
-    
+
+    // Load persisted window size
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    QSize savedSize = settings.value("chooseLanguageWindowPreferredSize", QSize(400, 600)).toSize();
+    setFixedSize(savedSize);
 
     // Set up the central widget
     QWidget* central = new QWidget(this);
@@ -31,41 +56,23 @@ LanguageSelectWindow::LanguageSelectWindow(QWidget* parent)
     header->setObjectName("headerLabel");
     mainLayout->addWidget(header);
 
-    
-
     QString currentLanguage = LanguageManager::instance().getSelectedLanguage();
 
     // Button group for official languages
     languageButtons = new QButtonGroup(this);
-    QStringList officialLanguages = {
-        tr("English"),
-        tr("Ukrainian (Coming Soon™)"),
-        tr("Russian (Coming Soon™)")
-    };
-
     for (const QString& lang : officialLanguages) {
         setLanguageButton(mainLayout, languageButtons, lang, currentLanguage, central);
     }
+
     // Header for fan translations
     fanHeader = new QLabel(tr("> FAN TRANSLATIONS"), central);
     fanHeader->setObjectName("fanHeaderLabel");
     mainLayout->addWidget(fanHeader);
 
     // Button group for fan translations
-    QStringList fanLanguages = {
-        tr("German (Coming Soon™)"),
-        tr("Spanish (Coming Soon™)"),
-        tr("French (Coming Soon™)"),
-        tr("Italian (Coming Soon™)"),
-        tr("Polish (Coming Soon™)"),
-        tr("Portuguese (Coming Soon™)"),
-        tr("Simplified Chinese (Coming Soon™)"),
-        tr("Japanese (Coming Soon™)"),
-        tr("Korean (Coming Soon™)")
-    };
-
     for (const QString& lang : fanLanguages) {
-        setLanguageButton(mainLayout, languageButtons, lang, currentLanguage, central);
+        QString langWithSuffix = addComingSoonSuffix(lang);
+        setLanguageButton(mainLayout, languageButtons, langWithSuffix, currentLanguage, central);
     }
 
     // Connect signals and slots
@@ -132,38 +139,27 @@ void LanguageSelectWindow::retranslateUi() {
     header->setText(tr("> LANGUAGE SELECT"));
     fanHeader->setText(tr("> FAN TRANSLATIONS"));
 
-    QStringList officialLanguages = {
-        tr("English"),
-        tr("Ukrainian (Beta)"),
-        tr("Russian (Beta)")
-    };
+    QStringList allLanguages;
+    for (const QString& lang : officialLanguages) {
+        allLanguages.append(lang);
+    }
+    for (const QString& lang : fanLanguages) {
+        allLanguages.append(addComingSoonSuffix(lang));
+    }
 
-    QStringList fanLanguages = {
-        tr("German"),
-        tr("Spanish"),
-        tr("French"),
-        tr("Italian"),
-        tr("Polish"),
-        tr("Portuguese"),
-        tr("Simplified Chinese (Beta)"),
-        tr("Japanese (Beta)"),
-        tr("Korean")
-    };
-
-    auto allLangs = officialLanguages + fanLanguages;
     auto buttons = languageButtons->buttons();
     QString currentLanguage = LanguageManager::instance().getSelectedLanguage();
 
-    for (int i = 0; i < allLangs.size(); ++i) {
+    for (int i = 0; i < allLanguages.size(); ++i) {
         QPushButton* button = qobject_cast<QPushButton*>(buttons[i]);
         if (!button) {
             continue;
         }
 
-        button->setText(allLangs[i]);
+        button->setText(allLanguages[i]);
 
         // Apply selectedStyle to the currently selected language
-        if (allLangs[i] == currentLanguage) {
+        if (allLanguages[i] == currentLanguage) {
             button->setEnabled(false);
             button->setStyleSheet("QPushButton { padding: 8px; background-color: #00aaff; color: white; }"); // Selected style
             m_currentLanguageButton = button;
