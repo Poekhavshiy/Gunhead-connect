@@ -40,8 +40,6 @@ void initialize_default_settings() {
         settings.setValue("LogDisplay/WindowSize", QSize(600, 400));
 
         // Other app-specific defaults
-        settings.setValue("Network/ApiServerUrl", "https://gunhead.sparked.network/api/interaction");
-        settings.setValue("Network/DebugApiServerUrl", "https://bagman.sparked.network/api/interaction");
         settings.setValue("Language/CurrentLanguage", "en");
 
         // Mark as initialized

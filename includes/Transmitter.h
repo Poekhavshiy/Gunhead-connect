@@ -37,7 +37,7 @@ private:
     const QString debugApiServerUrl = "https://bagman.sparked.network/api/interaction";
 
     QMutex queueMutex;
-    bool debugState = true;
+    bool debugState = false;
 
     QString getApiServerUrl() const;
     void processDirectJson(const QString& jsonStr, const QString& apiKey);
