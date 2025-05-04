@@ -31,6 +31,7 @@ public:
     void checkForUpdates(); // Declare the function here
 
 signals:
+    void gameFolderChanged(const QString& newFolder);
     void settingsChanged(Theme themeData); // Signal to notify when settings change
 
 private:

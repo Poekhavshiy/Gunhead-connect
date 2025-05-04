@@ -335,8 +335,7 @@ void MainWindow::handleMonitoringToggleRequest() {
     }
 }
 
-void MainWindow::toggleSettingsWindow()
-{
+void MainWindow::toggleSettingsWindow() {
     if (settingsWindow && settingsWindow->isVisible()) {
         settingsWindow->close();
     } else {
@@ -344,6 +343,8 @@ void MainWindow::toggleSettingsWindow()
             settingsWindow = new SettingsWindow(this);
             connect(settingsWindow, &SettingsWindow::settingsChanged,
                     this, &MainWindow::applyTheme);
+            connect(settingsWindow, &SettingsWindow::gameFolderChanged, 
+                    this, &MainWindow::onGameFolderChanged);
         }
         settingsWindow->show();
     }
@@ -581,5 +582,27 @@ void MainWindow::setShowNPCNames(bool show) {
         }
     } else {
         qDebug() << "MainWindow::setShowNPCNames - Value unchanged, no action taken";
+    }
+}
+
+void MainWindow::onGameFolderChanged(const QString& newFolder) {
+    qDebug() << "MainWindow::onGameFolderChanged - New game folder:" << newFolder;
+
+    // Update the game log file path
+    gameLogFilePath = newFolder + "/game.log";
+
+    // If monitoring is active, restart it
+    if (isMonitoring) {
+        qDebug() << "MainWindow::onGameFolderChanged - Restarting monitoring with new game folder.";
+        stopMonitoring();
+        startMonitoring();
+    } else {
+        qDebug() << "MainWindow::onGameFolderChanged - Monitoring is not active, ready for new folder.";
+        updateStatusLabel(tr("Game folder updated. Ready to start monitoring."));
+    }
+
+    // Notify LogDisplayWindow if it exists
+    if (logDisplayWindow) {
+        logDisplayWindow->updateGameFolder(newFolder);
     }
 }

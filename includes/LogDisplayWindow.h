@@ -22,6 +22,7 @@ public:
     void processLogLine(const QString& logLine);
     void setApplicationShuttingDown(bool shuttingDown);
     void updateMonitoringButtonText(bool isMonitoring);
+    void updateGameFolder(const QString& newFolder);
     
     // Add getters for filter settings
     bool getShowPvP() const { return showPvP; }

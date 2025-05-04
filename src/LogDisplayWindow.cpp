@@ -599,3 +599,17 @@ void LogDisplayWindow::updateMonitoringButtonText(bool isMonitoring) {
         monitoringButton->setText(isMonitoring ? "Stop Monitoring" : "Start Monitoring");
     }
 }
+
+void LogDisplayWindow::updateGameFolder(const QString& newFolder) {
+    qDebug() << "LogDisplayWindow::updateGameFolder - New game folder:" << newFolder;
+
+    // If monitoring is active, restart it
+    if (monitoringButton->text() == "Stop Monitoring") {
+        qDebug() << "LogDisplayWindow::updateGameFolder - Restarting monitoring with new game folder.";
+        emit toggleMonitoringRequested(); // Stop monitoring
+        emit toggleMonitoringRequested(); // Start monitoring
+    } else {
+        qDebug() << "LogDisplayWindow::updateGameFolder - Monitoring is not active, ready for new folder.";
+        updateStatusLabel(tr("Game folder updated. Ready to start monitoring."));
+    }
+}

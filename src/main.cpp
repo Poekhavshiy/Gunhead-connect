@@ -16,7 +16,7 @@ void initialize_default_settings() {
     QCoreApplication::setOrganizationName("Poekhavshiy");
     QCoreApplication::setOrganizationDomain("https://github.com/Poekhavshiy/KillAPI-connect-plus");
     QCoreApplication::setApplicationName("KillAPI Connect Plus");
-    QCoreApplication::setApplicationVersion("0.1.2");
+    QCoreApplication::setApplicationVersion("0.1.3");
     
     QSettings settings("KillAPI", "KillAPI-Connect-Plus");
 

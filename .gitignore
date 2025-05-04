@@ -30,3 +30,7 @@ _deps/
 Testing/
 logs/
 
+#internal files
+all_do.sh
+devtools/
+buildtools/

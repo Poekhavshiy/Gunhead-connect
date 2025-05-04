@@ -16,10 +16,10 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Poekhavshiy"
             VALUE "FileDescription", "KillAPI Connect Plus"
-            VALUE "FileVersion", "0.1.2"
+            VALUE "FileVersion", "0.1.3"
             VALUE "LegalCopyright", "Copyright (C) 2025 Poekhavshiy"
             VALUE "ProductName", "KillAPI Connect Plus"
-            VALUE "ProductVersion", "0.1.2"
+            VALUE "ProductVersion", "0.1.3"
             VALUE "OriginalFilename", "KillAPiconnect.exe"
             VALUE "InternalName", "KillAPI Connect Plus"
         END

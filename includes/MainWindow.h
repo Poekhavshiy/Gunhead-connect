@@ -73,4 +73,5 @@ private slots:
     void startMonitoring();
     void stopMonitoring();
     void handleMonitoringToggleRequest(); // Add this slot
+    void onGameFolderChanged(const QString& newFolder);
 };

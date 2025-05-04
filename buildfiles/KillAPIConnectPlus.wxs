@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="KillAPI Connect Plus" Language="1033" Version="0.1.2.0" Manufacturer="Poekhavshiy" UpgradeCode="48316450-3311-4d1d-9829-f60d7ce81d8a">
+  <Product Id="*" Name="KillAPI Connect Plus" Language="1033" Version="0.1.3.0" Manufacturer="Poekhavshiy" UpgradeCode="48316450-3311-4d1d-9829-f60d7ce81d8a">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" 
          Description="Installs KillAPI Connect Plus - Star Citizen In-game Kill Analysis Frontend"
          Comments="Copyright © 2025 Poekhavshiy"
          Manufacturer="Poekhavshiy Software"
-         Keywords="KillAPI,Connect,Network,API,Analysis"
-         Manufacturer="Poekhavshiy Software" />
+         Keywords="KillAPI,Connect,Network,API,Analysis" />
 
       <Property Id="ARPHELPLINK" Value="https://discord.gg/aKGc47Fz55" />
       <Property Id="ARPURLINFOABOUT" Value="https://discord.com/discovery/applications/1330870778891206707" />
       <Property Id="ARPCONTACT" Value="hroter.ua@gmail.com" />
       <Property Id="ARPCOMMENTS" Value="Star Citizen In-game Kill Analysis Frontend" />
     
-    <!-- Add this MajorUpgrade element -->
-    <MajorUpgrade 
-      DowngradeErrorMessage="A newer version of [ProductName] is already installed. Setup will now exit."
-      Schedule="afterInstallInitialize" />
+    <MajorUpgrade
+    AllowSameVersionUpgrades="yes"
+    DowngradeErrorMessage="A newer version is already installed. Downgrading is not recommended."
+    Schedule="afterInstallInitialize" />
     
     <Icon Id="KillApiIcon" SourceFile="icons/KillApiConnect.ico" />
     <Property Id="ARPPRODUCTICON" Value="KillApiIcon" />

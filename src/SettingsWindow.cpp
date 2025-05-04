@@ -10,6 +10,8 @@
 #include <QVBoxLayout>
 #include <QDirIterator>
 #include <QIcon>
+#include <QFileDialog>
+#include <QProcess>
 
 SettingsWindow::SettingsWindow(QWidget* parent)
     : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), signalMapper(new QSignalMapper(this)) {
@@ -124,7 +126,7 @@ void SettingsWindow::setupUI() {
     mainLayout->addWidget(apiCard);
 
     // Sound Selector
-    QLabel* soundLabel = new QLabel(tr("Select Notification Sound"), this);
+    QLabel* soundLabel = new QLabel(tr("Select Notification Sound (Coming Soon™)"), this);
     soundEdit = new QLineEdit(this);
     soundEdit->setReadOnly(true);
 
@@ -208,23 +210,35 @@ void SettingsWindow::updatePath() {
     QString folder = QFileDialog::getExistingDirectory(this, tr("Select Game Folder"), gameFolder);
     if (!folder.isEmpty()) {
         if (!isGameFolderValid(folder)) {
-            QMessageBox::warning(this, tr("Invalid Folder"), tr("Selected folder does not contain required Star Citizen files."));
+            QMessageBox::warning(this, tr("Invalid Folder"), 
+                tr("Selected folder does not contain Star Citizen launcher."));
             return;
         }
-        gameFolder = folder;
-        pathEdit->setText(folder);
-        saveSettings();
+        
+        // Only update if the path actually changed
+        if (gameFolder != folder) {
+            gameFolder = folder;
+            pathEdit->setText(folder);
+            saveSettings();
+            emit gameFolderChanged(folder); // Notify MainWindow and LogDisplayWindow
+        }
     }
 }
 
 void SettingsWindow::savePath() {
     QString folder = pathEdit->text().trimmed();
     if (!isGameFolderValid(folder)) {
-        QMessageBox::warning(this, tr("Invalid Folder"), tr("Selected folder does not contain required Star Citizen files."));
+        QMessageBox::warning(this, tr("Invalid Folder"), 
+            tr("Selected folder does not contain Star Citizen launcher."));
         return;
     }
-    gameFolder = folder;
-    saveSettings();
+    
+    // Only update if the path actually changed
+    if (gameFolder != folder) {
+        gameFolder = folder;
+        saveSettings();
+        emit gameFolderChanged(folder); // Notify MainWindow and LogDisplayWindow
+    }
 }
 
 void SettingsWindow::saveApiKey() {
@@ -253,9 +267,8 @@ void SettingsWindow::checkForUpdates() {
     QString jsonFilePath = "data/logfile_regex_rules.json";
     QString currentAppVersion = QCoreApplication::applicationVersion();
     const QUrl jsonDownloadUrl("https://gunhead.sparked.network/static/data/logfile_regex_rules.json");
-    const QUrl releaseDownloadUrl("https://github.com/Poekhavshiy/KillAPI-connect.plus/releases/latest/download/KillAPi.connect.plus.exe");
-    
-    
+    const QUrl releaseDownloadUrl("https://github.com/Poekhavshiy/KillAPI-connect-plus/releases/latest/download/KillApiConnectPlusSetup.msi");
+
     CheckVersion::UpdateTriState appUpdateState = versionChecker.isAppUpdateAvailable(currentAppVersion, 5000);
     CheckVersion::UpdateTriState jsonUpdateState = versionChecker.isJsonUpdateAvailable(jsonFilePath, 5000);
 
@@ -268,14 +281,40 @@ void SettingsWindow::checkForUpdates() {
         if (reply == QMessageBox::Yes) {
             if (appUpdateState == CheckVersion::UpdateTriState::Yes) {
                 qDebug() << "SettingsWindow: User asked to update the App.";
-                if (versionChecker.downloadFile(releaseDownloadUrl, "KillAPi.connect.exe", 5000)) {
+
+                // Ask the user where to save the file
+                QString savePath = QFileDialog::getSaveFileName(
+                    this, 
+                    tr("Save Installer"), 
+                    QDir::homePath() + "/KillAPi.connect.msi", 
+                    tr("Installer Files (*.msi)")
+                );
+
+                if (savePath.isEmpty()) {
+                    qDebug() << "SettingsWindow: User canceled the save dialog.";
+                    return;
+                }
+
+                // Download the file
+                if (versionChecker.downloadFile(releaseDownloadUrl, savePath, 5000)) {
                     qDebug() << "SettingsWindow: App updated successfully.";
                     QMessageBox::information(this, tr("Update Successful"), tr("App updated successfully."));
+
+                    // Prompt the user to run the installer
+                    QMessageBox::StandardButton installReply = QMessageBox::question(
+                        this, tr("Run Installer"),
+                        tr("The installer has been downloaded. Would you like to run it now?"),
+                        QMessageBox::Yes | QMessageBox::No);
+
+                    if (installReply == QMessageBox::Yes) {
+                        // Launch the installer
+                        QProcess::startDetached("msiexec", {"/i", savePath});
+                    }
                 } else {
                     qDebug() << "SettingsWindow: App update failed.";
                     QMessageBox::warning(this, tr("Update Failed"), tr("Failed to update app."));
                 }
-                qDebug() << "Downloading latest app version.";
+qDebug() << "Downloading latest app version.";
                 // Add logic to download and install the app
             }
 
@@ -288,7 +327,7 @@ void SettingsWindow::checkForUpdates() {
                     qDebug() << "SettingsWindow: JSON file update failed.";
                     QMessageBox::warning(this, tr("Update Failed"), tr("Failed to update JSON file."));
                 }
-                qDebug() << "Downloading latest JSON version.";
+qDebug() << "Downloading latest JSON version.";
             }
         }
     } else if (appUpdateState == CheckVersion::UpdateTriState::No && jsonUpdateState == CheckVersion::UpdateTriState::No) {
@@ -402,6 +441,6 @@ void SettingsWindow::updateSelectedSound(const QString& soundFile) {
 
 bool SettingsWindow::isGameFolderValid(const QString& folder) const {
     QFileInfo launcher(folder + "/StarCitizen_Launcher.exe");
-    QFileInfo logFile(folder + "/game.log");
-    return launcher.exists() && launcher.isFile() && logFile.exists() && logFile.isFile();
+    return launcher.exists() && launcher.isFile();
+    // Removed game.log check as it may only exist during runtime
 }

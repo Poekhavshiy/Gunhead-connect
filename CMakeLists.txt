@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(KillApiConnect VERSION 0.1.2  LANGUAGES CXX)
+project(KillApiConnect VERSION 0.1.3  LANGUAGES CXX)
 set(PROJECT_AUTHOR "Poekhavshiy")
 set(PROJECT_ORGANIZATION "Poekhavshiy")
 
