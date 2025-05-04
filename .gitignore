@@ -34,3 +34,6 @@ logs/
 all_do.sh
 devtools/
 buildfiles/
+
+# Ignore Github specific files
+.github/
