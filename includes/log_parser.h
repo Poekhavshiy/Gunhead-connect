@@ -1,13 +1,22 @@
 #pragma once
 
 #include <string>
-#include "logger.h"
+#include <vector>
+#include <tuple>
+#include <unordered_map>
 #include <fstream>
 #include <regex>
+#include "logger.h"
 #include <nlohmann/json.hpp>
-#include <vector>
 
 using json = nlohmann::json;  // Add this line to define json alias
+
+// Define the Rule structure to hold regex patterns and fields
+struct Rule {
+    std::string identifier;
+    std::regex pattern;
+    std::vector<nlohmann::json> fields;
+};
 
 // Main parser functions
 std::string parse_log_line(const std::string& line);
@@ -34,3 +43,10 @@ bool is_npc_name(const std::string& name);
 
 // Process transforms from JSON configuration
 std::string process_transforms(const std::string& input, const json& steps);
+std::pair<std::string, std::string> detectLastGameMode(const std::string& logFilePath);
+std::string get_json_value(const std::string& jsonString, const std::string& key);
+json get_transform_steps(const std::string& transformName);
+std::tuple<std::string, std::string, std::string, std::string> detectGameModeAndPlayerFast(const std::string& logFilePath, int maxLines = 5000);
+
+// Change the return type to std::string
+std::string getGameModePattern(const std::string& identifier);

@@ -9,6 +9,13 @@
 #include <QStringList>
 #include <QSettings>
 #include "Transmitter.h"
+#include "SoundPlayer.h"
+
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+#endif
 
 class LogDisplayWindow : public QMainWindow {
     Q_OBJECT
@@ -28,6 +35,15 @@ public:
     bool getShowPvP() const { return showPvP; }
     bool getShowPvE() const { return showPvE; }
     bool getShowNPCNames() const { return showNPCNames; }
+
+    void resetLogDisplay(); // Public method that will call the private clearLog()
+    void setGameMode(const QString& gameMode, const QString& subGameMode = "");
+
+    void updateStatusLabel(const QString& message);
+
+    // New methods to control the monitoring button state
+    void disableMonitoringButton(const QString& text);
+    void enableMonitoringButton(const QString& text);
 
 signals:
     void windowClosed();
@@ -61,6 +77,13 @@ private:
     int logFontSize = 12;
     QStringList eventBuffer;
     bool isShuttingDown = false;
+    SoundPlayer* soundPlayer;
+    QString currentGameMode = "Unknown";
+    QString currentSubGameMode = "";
+
+    // Add member variables for initial game mode and sub game mode
+    QString initialGameMode;
+    QString initialSubGameMode;
 
     void setupUI();
     void applyColors();
@@ -70,7 +93,8 @@ private:
     QString formatEvent(const QString& identifier, const nlohmann::json& parsed) const;
     // Load settings from QSettings
     void loadFilterSettings();
-    void updateStatusLabel(const QString& message);
+    void playSystemSound();
+    QString getFriendlyGameModeName(const QString& rawMode) const;
 
 private slots:
     void clearLog();
@@ -88,4 +112,6 @@ private slots:
 public slots:
     void processLogQueue(const QString& log);
     void updateFilterSettings(bool showPvP, bool showPvE, bool showNPCNames);
+    void updateWindowTitle(const QString& gameMode, const QString& subGameMode);
+
 };

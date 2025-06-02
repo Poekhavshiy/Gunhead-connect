@@ -1,23 +1,31 @@
 #include <QApplication>
+#include <QFutureWatcher>
+#include <QtConcurrent>
 #include <QTranslator>
 #include <QLocale>
 #include <QFile>
 #include <QFontDatabase>
 #include <QSettings>
 #include <QIcon>
+#include <QTimer>
 
 #include "logger.h"
+#include "LoadingScreen.h"
 #include "MainWindow.h"
 #include "ThemeSelect.h"
 #include "SettingsWindow.h"
 #include "globals.h"
+#include "SoundPlayer.h"
+#include "version.h" // Add this include
+
+
 
 void initialize_default_settings() {
-    QCoreApplication::setOrganizationName("Poekhavshiy");
-    QCoreApplication::setOrganizationDomain("https://github.com/Poekhavshiy/KillAPI-connect-plus");
-    QCoreApplication::setApplicationName("KillAPI Connect Plus");
-    QCoreApplication::setApplicationVersion("0.1.3");
-    
+    QCoreApplication::setOrganizationName(APP_ORGANIZATION);
+    QCoreApplication::setOrganizationDomain(APP_DOMAIN);
+    QCoreApplication::setApplicationName(APP_NAME);
+    QCoreApplication::setApplicationVersion(APP_VERSION);
+
     QSettings settings("KillAPI", "KillAPI-Connect-Plus");
 
     // Check if settings have already been initialized
@@ -52,6 +60,12 @@ void initialize_default_settings() {
 }
 
 int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+    app.setApplicationName(APP_NAME);
+    app.setOrganizationName(APP_ORGANIZATION);
+    app.setApplicationVersion(APP_VERSION);
+    
+    // Parse command line args into global variables
     for (int i = 1; i < argc; ++i) {
         if (std::string(argv[i]) == "--debug") {
             ISDEBUG = true;
@@ -79,46 +93,47 @@ int main(int argc, char *argv[]) {
     init_logger(ISDEBUG, ISDEBUGTOCONSOLE, "logs/");
 
     log_info("main()", "KillAPI-Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
-
-    // Initialize settings before loading MainWindow
-    initialize_default_settings();
-
-    QApplication app(argc, argv);
-
-    QIcon icon(":/icons/KillApi.ico");
-    if (icon.isNull()) {
-        qDebug() << "Failed to load icon from resources.";
-    } else {
-        qDebug() << "Icon loaded successfully.";
+    
+    // Show loading screen immediately
+    LoadingScreen loadingScreen;
+    loadingScreen.show();
+    loadingScreen.updateProgress(0, "Starting application...");
+    
+    // Show debug info if in debug mode
+    if (ISDEBUG) {
+        qDebug() << "Application started in DEBUG MODE";
+        loadingScreen.updateProgress(5, "Debug mode enabled");
     }
     
-
-    // Set the application icon
-    app.setWindowIcon(icon);
-    // Load translation
-    QTranslator translator;
-    QString locale = QLocale::system().name(); // e.g. "en_US"
-    if (translator.load(":resources/translations/lang_" + locale + ".qm")) {
-        app.installTranslator(&translator);
-    }
-
-    // Create a temporary instance of ThemeSelectWindow to initialize the theme
-    ThemeSelectWindow themeSelectWindow;
-    themeSelectWindow.init(app);
-
-    // Initialize settings window
-    SettingsWindow settingsWindow;
-    settingsWindow.init();
-
-    // Check for updates if enabled
-    if (settingsWindow.getCheckUpdatesOnStartup()) {
-        settingsWindow.checkForUpdates();
-    }
-
-    MainWindow window;
+    // Pre-initialize audio subsystem in a background thread
+    loadingScreen.updateProgress(10, "Initializing audio system...");
+    QFutureWatcher<void> audioWatcher;
+    QFuture<void> audioFuture = QtConcurrent::run([]() {
+        SoundPlayer::preInitializeAudio();
+    });
     
-    //window.resize(settings.value("LogDisplay/WindowSize", QSize(310,250)).toSize());
-    window.show();
-
+    // Create but don't show main window yet
+    loadingScreen.updateProgress(20, "Creating application window...");
+    MainWindow* mainWindow = new MainWindow(nullptr, &loadingScreen);
+    
+    // Connect initialization progress signal
+    QObject::connect(mainWindow, &MainWindow::initializationProgress,
+                    &loadingScreen, &LoadingScreen::updateProgress);
+    
+    // Start background initialization in MainWindow
+    loadingScreen.updateProgress(30, "Preparing application...");
+    mainWindow->startBackgroundInitialization();
+    
+    // Wait for completion signal before showing main window
+    QObject::connect(mainWindow, &MainWindow::initializationComplete, [&]() {
+        loadingScreen.updateProgress(100, "Loading complete!");
+        
+        // Give user a moment to see the completed progress
+        QTimer::singleShot(500, [&mainWindow, &loadingScreen]() {
+            mainWindow->show();
+            loadingScreen.accept();
+        });
+    });
+    
     return app.exec();
 }

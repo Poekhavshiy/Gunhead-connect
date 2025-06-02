@@ -13,11 +13,15 @@
 #include <QCloseEvent>
 #include <QFile>
 #include <QTimer>
+#include <QThread>  // Add this line
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
-MainWindow::MainWindow(QWidget* parent)
+MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     : QMainWindow(parent)
     , settingsWindow(nullptr)
     , logDisplayWindow(nullptr)
@@ -28,8 +32,9 @@ MainWindow::MainWindow(QWidget* parent)
     , showPvE(true)
     , showNPCNames(true)
 {
+    // Set up the main window
     setWindowTitle("KillAPI Connect Plus");
-    setWindowIcon(QIcon(":/icons/KillApi.ico"));
+    setWindowIcon(QIcon(":/app_icon"));
     // Load the game log file path from QSettings
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     gameLogFilePath = settings.value("gameFolder", "").toString() + "/game.log";
@@ -40,6 +45,7 @@ MainWindow::MainWindow(QWidget* parent)
     showPvE = settings.value("LogDisplay/ShowPvE", true).toBool();
     showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
 
+    
     // Load the current theme directly
     ThemeSelectWindow themeSelect;
     Theme currentTheme = themeSelect.loadCurrentTheme();
@@ -72,12 +78,16 @@ MainWindow::MainWindow(QWidget* parent)
 
     QSize statusLabelSize = settings.value("statusLabelPreferredSize", QSize(280, 80)).toSize();
     
-    // When creating the status label
     statusLabel = new QLabel(tr("Ready"), central);
-    statusLabel->setObjectName("statusLabel"); // Add this line
+    statusLabel->setObjectName("statusLabel");
     statusLabel->setFixedSize(statusLabelSize);
-    statusLabel->setWordWrap(true); // Enable word wrapping for multi-line display
+    statusLabel->setWordWrap(true);
     statusLabel->setAlignment(Qt::AlignCenter);
+
+    debugPaths();
+    loadRegexRules();  
+    qDebug() << "Initializing Game Mode...";
+    initializeGameMode();  
 
     // Add buttons and label with a configurable gap to the right
     auto addWidgetWithGap = [&](QWidget* widget) {
@@ -94,34 +104,6 @@ MainWindow::MainWindow(QWidget* parent)
     addWidgetWithGap(logButton);
     addWidgetWithGap(statusLabel); // Add the status label in the same style
 
-    // Restore LogDisplayWindow visibility
-    if (logDisplayVisible) {
-        // Previous session had LogDisplayWindow open, restore it
-        qDebug() << "Restoring LogDisplayWindow from previous session.";
-        logDisplayWindow = new LogDisplayWindow(transmitter); // Pass the Transmitter instance
-        logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
-        logDisplayWindow->setWindowFlag(Qt::Window);
-
-        // Connect the LogDisplayWindow's close signal to update the button label
-        connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
-            qDebug() << "LogDisplayWindow closed signal received.";
-            logDisplayWindow = nullptr;
-            logButton->setText("View Log");
-        });
-
-        // Connect the monitoring toggle signal
-        connect(logDisplayWindow, &LogDisplayWindow::toggleMonitoringRequested, 
-                this, &MainWindow::handleMonitoringToggleRequest);
-
-        logDisplayWindow->show(); // Show the window
-        qDebug() << "LogDisplayWindow restored and shown.";
-        logButton->setText("Hide Log"); // Update button label
-    } else {
-        // Previous session had LogDisplayWindow closed, keep it closed
-        qDebug() << "LogDisplayWindow was closed in the previous session, keeping it closed.";
-        logButton->setText("View Log"); // Default label
-    }
-
     // Connect button signals
     connect(settingsButton, &QPushButton::clicked,
             this, &MainWindow::toggleSettingsWindow);
@@ -131,7 +113,13 @@ MainWindow::MainWindow(QWidget* parent)
             this, &MainWindow::startMonitoring);
     connect(logMonitor, &LogMonitor::logLineMatched, this, &MainWindow::handleLogLine);
     connect(logMonitor, &LogMonitor::monitoringStopped, this, [this](const QString& reason) {
-        updateStatusLabel(tr("Monitoring stopped:\n") + reason);
+        // Only stop monitoring if it's active and we're not already stopping
+        if (isMonitoring && !isStoppingMonitoring) {
+            updateStatusLabel(reason);
+            stopMonitoring();
+        } else {
+            updateStatusLabel(reason);
+        }
     });
     connect(logMonitor, &LogMonitor::monitoringStarted, this, [this]() {
         updateStatusLabel(tr("Monitoring started successfully.")); // Updated to use tr()
@@ -162,6 +150,73 @@ MainWindow::MainWindow(QWidget* parent)
         }
     });
     queueProcessTimer->start(5000); // Check every 5 seconds
+
+    // Connect Transmitter error signals
+    connect(&transmitter, &Transmitter::apiError, this, [this](Transmitter::ApiErrorType errorType, const QString& errorMessage) {
+        // Update status bar with error message
+        updateStatusLabel(errorMessage);
+        
+        // Stop monitoring for specific errors
+        if (errorType == Transmitter::ApiErrorType::PanelClosed || 
+            errorType == Transmitter::ApiErrorType::InvalidApiKey) {
+            if (isMonitoring) {
+                qDebug() << "Stopping monitoring due to API error:" << errorMessage;
+                stopMonitoring();
+            }
+        }
+    });
+
+    // Connect the game mode detection signals
+    connect(logMonitor, &LogMonitor::gameModeSwitched, this, 
+    [this](const QString& gameMode, const QString& subGameMode) {
+        // Update UI with the new game mode
+        if (gameMode == "PU") {
+            updateStatusLabel(tr("Game mode: Persistent Universe"));
+        } else if (gameMode == "AC") {
+            updateStatusLabel(tr("Game mode: Arena Commander: %1").arg(subGameMode));
+        }
+        
+        // If LogDisplayWindow is open, update its status directly
+        if (logDisplayWindow) {
+            if (gameMode == "PU") {
+                logDisplayWindow->updateStatusLabel(tr("Game mode changed to Persistent Universe"));
+            } else if (gameMode == "AC") {
+                logDisplayWindow->updateStatusLabel(tr("Game mode changed to Arena Commander: %1").arg(subGameMode));
+            }
+            
+            // Clear the log since game mode changed
+            logDisplayWindow->resetLogDisplay();
+        }
+        
+        // If monitoring is active, restart it
+        if (isMonitoring) {
+            stopMonitoring();
+            QTimer::singleShot(1000, this, &MainWindow::startMonitoring);
+        }
+    });
+    
+    // Add player info connection
+    connect(logMonitor, &LogMonitor::playerInfoDetected,
+            &transmitter, &Transmitter::updatePlayerInfo);
+    
+    // Initialize app with game mode tracking
+    QTimer::singleShot(0, this, &MainWindow::initializeApp);
+
+    // Create connection ping timer (60 second interval)
+    connectionPingTimer = new QTimer(this);
+    connectionPingTimer->setInterval(60000);  // 60 seconds
+    connect(connectionPingTimer, &QTimer::timeout, this, &MainWindow::sendConnectionPing);
+
+    // Connect LogMonitor signals to Transmitter slots
+    connect(logMonitor, &LogMonitor::gameModeSwitched, 
+        &transmitter, [this](const QString& gameMode, const QString& subGameMode) {
+            transmitter.updateGameMode(gameMode, subGameMode, true);
+        });
+
+    connect(logMonitor, &LogMonitor::playerInfoDetected,
+        &transmitter, [this](const QString& playerName, const QString& playerGEID) {
+            transmitter.updatePlayerInfo(playerName, playerGEID);
+        });
 }
 
 void MainWindow::handleLogLine(const QString& jsonPayload) {
@@ -209,17 +264,89 @@ void MainWindow::handleLogLine(const QString& jsonPayload) {
     }
 }
 
+// Add this method to perform the API connection verification before starting monitoring
+bool MainWindow::verifyApiConnectionAndStartMonitoring(QString apiKey) {
+
+    
+    if (apiKey.isEmpty()) {
+        updateStatusLabel(tr("Error: API key not configured. Please set up in Settings."));
+        return false;
+    }
+    
+    qDebug() << "Verifying API connection with debug ping before starting monitoring...";
+    updateStatusLabel(tr("Verifying API connection..."));
+    
+    // Send debug ping to verify connection
+    bool pingSuccess = transmitter.sendDebugPing(apiKey);
+    
+    if (!pingSuccess) {
+        qWarning() << "API connection verification failed. Cannot start monitoring.";
+        updateStatusLabel(tr("Error: Could not connect to KillAPI server. Monitoring not started."));
+        
+        // Show more detailed error in LogDisplayWindow if it's open
+        if (logDisplayWindow) {
+            logDisplayWindow->updateStatusLabel(tr("ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection."));
+        }
+        return false;
+    }
+    
+    qDebug() << "API connection verified successfully. Starting monitoring...";
+    
+    // Send full connection success event after successful ping
+    bool connectionSuccess = transmitter.sendConnectionSuccess(gameLogFilePath, apiKey);
+    if (!connectionSuccess) {
+        qWarning() << "Failed to send connection success event, but will continue with monitoring.";
+    } else {
+         if (logDisplayWindow) {
+            logDisplayWindow->updateStatusLabel(tr("Connected to KillAPI server successfully. Monitoring started."));
+        }
+        qDebug() << "Connection success event sent to API server.";
+    }
+    
+    return true;
+}
+
+// Modify the startMonitoring method to use the verification step
 void MainWindow::startMonitoring() {
     qDebug() << "MainWindow: Starting log monitoring.";
+    
+    // Disable both monitoring buttons and update text
+    startButton->setEnabled(false);
+    startButton->setText("Connecting...");
+    
+    // Also update LogDisplayWindow button if it exists
+    if (logDisplayWindow) {
+        logDisplayWindow->disableMonitoringButton("Connecting...");
+    }
+    
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    QString apiKey = settings.value("apiKey", "").toString();
+
     if (!QFile::exists(gameLogFilePath)) {
         qWarning() << "Game log file does not exist:" << gameLogFilePath;
-        qDebug() << "Please check the game folder path in settings.";
         updateStatusLabel(tr("Error: Game log file not found."));
+        
+        // Re-enable buttons on error
+        startButton->setEnabled(true);
+        startButton->setText("Start Monitoring");
+        if (logDisplayWindow) {
+            logDisplayWindow->enableMonitoringButton("Start Monitoring");
+        }
         return;
     }
+    
+    // Verify API connection before starting monitoring
+    if (!verifyApiConnectionAndStartMonitoring(apiKey)) {
+        // Re-enable buttons on failed connection
+        startButton->setEnabled(true);
+        startButton->setText("Start Monitoring");
+        if (logDisplayWindow) {
+            logDisplayWindow->enableMonitoringButton("Start Monitoring");
+        }
+        return; // Don't start monitoring if verification failed
+    }
 
-    // Debug output current filter settings before starting monitoring
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    // Declare QSettings before using it
     bool showPvP = settings.value("LogDisplay/ShowPvP", false).toBool();
     bool showPvE = settings.value("LogDisplay/ShowPvE", true).toBool();
     bool showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
@@ -232,7 +359,8 @@ void MainWindow::startMonitoring() {
     logMonitor->startMonitoring(gameLogFilePath);
     qDebug() << "Started monitoring game log file:" << gameLogFilePath;
 
-    // Update the button label and connect it to stopMonitoring
+    // After successful verification and starting monitoring
+    startButton->setEnabled(true); 
     startButton->setText("Stop Monitoring");
     disconnect(startButton, &QPushButton::clicked, this, &MainWindow::startMonitoring);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::stopMonitoring);
@@ -242,12 +370,39 @@ void MainWindow::startMonitoring() {
     if (logDisplayWindow) {
         logDisplayWindow->updateMonitoringButtonText(true);
     }
-
+    
+    // Start the connection ping timer
+    connectionPingTimer->start();
+    qDebug() << "Started connection ping timer - will check connection every 60 seconds";
+    
+    // Update status label
     updateStatusLabel(tr("Monitoring started."));
 }
 
+void MainWindow::handleMonitoringToggleRequest() {
+    qDebug() << "Monitoring toggle requested from LogDisplayWindow";
+    if (isMonitoring) {
+        stopMonitoring();
+    } else {
+        startMonitoring();
+    }
+    if (logDisplayWindow) {
+        logDisplayWindow->updateMonitoringButtonText(isMonitoring);
+    }
+}
+
 void MainWindow::stopMonitoring() {
-    qDebug() << "MainWindow: Stopping log monitoring.";
+    // Guard against recursive calls
+    if (isStoppingMonitoring) {
+        return;
+    }
+    isStoppingMonitoring = true;
+    
+    // Stop the connection ping timer
+    connectionPingTimer->stop();
+    qDebug() << "Stopped connection ping timer";
+    
+    qDebug() << "MainWindow::stopMonitoring - Stopping log monitoring.";
     if (logMonitor) {
         logMonitor->stopMonitoring();
     }
@@ -264,6 +419,7 @@ void MainWindow::stopMonitoring() {
     }
 
     updateStatusLabel(tr("Monitoring stopped."));
+    isStoppingMonitoring = false;
 }
 
 void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
@@ -323,29 +479,32 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
     }
 }
 
-void MainWindow::handleMonitoringToggleRequest() {
-    qDebug() << "Monitoring toggle requested from LogDisplayWindow";
-    if (isMonitoring) {
-        stopMonitoring();
-    } else {
-        startMonitoring();
-    }
-    if (logDisplayWindow) {
-        logDisplayWindow->updateMonitoringButtonText(isMonitoring);
-    }
-}
-
 void MainWindow::toggleSettingsWindow() {
-    if (settingsWindow && settingsWindow->isVisible()) {
-        settingsWindow->close();
-    } else {
-        if (!settingsWindow) {
-            settingsWindow = new SettingsWindow(this);
-            connect(settingsWindow, &SettingsWindow::settingsChanged,
-                    this, &MainWindow::applyTheme);
-            connect(settingsWindow, &SettingsWindow::gameFolderChanged, 
-                    this, &MainWindow::onGameFolderChanged);
+    if (settingsWindow) {
+        // Check if window exists and is minimized
+        if (settingsWindow->isMinimized()) {
+            // Restore the window from minimized state
+            settingsWindow->setWindowState(settingsWindow->windowState() & ~Qt::WindowMinimized);
+            settingsWindow->raise();
+            settingsWindow->activateWindow();
+        } 
+        // If visible and not minimized, close it
+        else if (settingsWindow->isVisible()) {
+            settingsWindow->close();
         }
+        // If not visible (but exists), show it
+        else {
+            settingsWindow->show();
+            settingsWindow->raise();
+            settingsWindow->activateWindow();
+        }
+    } else {
+        // Create new window if it doesn't exist
+        settingsWindow = new SettingsWindow(this);
+        connect(settingsWindow, &SettingsWindow::settingsChanged,
+                this, &MainWindow::applyTheme);
+        connect(settingsWindow, &SettingsWindow::gameFolderChanged, 
+                this, &MainWindow::onGameFolderChanged);
         settingsWindow->show();
     }
 }
@@ -506,22 +665,50 @@ void MainWindow::updateStatusLabel(const QString& status) {
 void MainWindow::focusInEvent(QFocusEvent* event) {
     QMainWindow::focusInEvent(event);
     
-    // Bring MainWindow to the front
-    raise();
-    activateWindow();
-    
-    // If LogDisplayWindow exists, make it visible again
+    // If LogDisplayWindow exists and is visible, bring it to the front
     if (logDisplayWindow && logDisplayWindow->isVisible()) {
-        // First activate LogDisplayWindow to bring it forward
-        logDisplayWindow->setWindowState(logDisplayWindow->windowState() & ~Qt::WindowMinimized);
-        logDisplayWindow->raise();
-        logDisplayWindow->activateWindow();
+        qDebug() << "MainWindow::focusInEvent - Attempting to bring LogDisplayWindow to foreground";
         
-        // Then reactivate MainWindow to get focus back
-        QTimer::singleShot(100, this, [this]() {
-            this->raise();
-            this->activateWindow();
+        // Get window handles
+        HWND mainHwnd = (HWND)this->winId();
+        HWND logHwnd = (HWND)logDisplayWindow->winId();
+        
+        // Ensure LogDisplayWindow is not minimized
+        logDisplayWindow->setWindowState(logDisplayWindow->windowState() & ~Qt::WindowMinimized);
+        logDisplayWindow->show();
+        
+        // Method 1: More aggressive z-order manipulation
+        // Get the foreground window's thread
+        DWORD foreThreadId = GetWindowThreadProcessId(GetForegroundWindow(), NULL);
+        DWORD currentThreadId = GetCurrentThreadId();
+        
+        // Attach to the foreground window's thread to allow focus changes
+        AttachThreadInput(currentThreadId, foreThreadId, TRUE);
+        
+        // Force LogDisplayWindow to the very top, even above active windows
+        SetWindowPos(logHwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        
+        // Wait a small amount of time for window manager to process
+        Sleep(50);
+        
+        // Remove topmost flag but keep the window visible
+        SetWindowPos(logHwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        
+        // Make MainWindow the foreground window
+        SetForegroundWindow(mainHwnd);
+        
+        // Detach from the thread
+        AttachThreadInput(currentThreadId, foreThreadId, FALSE);
+        
+        // Method 2: Use a timer to re-apply the topmost flag after a delay
+        QTimer::singleShot(200, this, [logHwnd]() {
+            // Second attempt after a short delay
+            SetWindowPos(logHwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            Sleep(50);
+            SetWindowPos(logHwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         });
+        
+        qDebug() << "MainWindow::focusInEvent - Enhanced window ordering applied using Windows API";
     }
 }
 
@@ -535,10 +722,11 @@ void MainWindow::setShowPvP(bool show) {
         emit filterSettingsChanged();
         qDebug() << "MainWindow::setShowPvP - Emitted filterSettingsChanged signal";
         
-        // Check if we need to restart monitoring for changes to take effect
+        // Automatically restart monitoring if active
         if (isMonitoring) {
-            qDebug() << "MainWindow::setShowPvP - Monitoring is active, require restart to apply";
-            updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
+            qDebug() << "MainWindow::setShowPvP - Automatically restarting monitoring to apply changes";
+            updateStatusLabel(tr("Filter changed - automatically applying changes"));
+            restartMonitoring();
         }
     } else {
         qDebug() << "MainWindow::setShowPvP - Value unchanged, no action taken";
@@ -555,10 +743,11 @@ void MainWindow::setShowPvE(bool show) {
         emit filterSettingsChanged();
         qDebug() << "MainWindow::setShowPvE - Emitted filterSettingsChanged signal";
         
-        // Check if we need to restart monitoring for changes to take effect
+        // Automatically restart monitoring if active
         if (isMonitoring) {
-            qDebug() << "MainWindow::setShowPvE - Monitoring is active, require restart to apply";
-            updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
+            qDebug() << "MainWindow::setShowPvE - Automatically restarting monitoring to apply changes";
+            updateStatusLabel(tr("Filter changed - automatically applying changes"));
+            restartMonitoring();
         }
     } else {
         qDebug() << "MainWindow::setShowPvE - Value unchanged, no action taken";
@@ -575,21 +764,63 @@ void MainWindow::setShowNPCNames(bool show) {
         emit filterSettingsChanged();
         qDebug() << "MainWindow::setShowNPCNames - Emitted filterSettingsChanged signal";
         
-        // Check if we need to restart monitoring for changes to take effect
+        // Automatically restart monitoring if active
         if (isMonitoring) {
-            qDebug() << "MainWindow::setShowNPCNames - Monitoring is active, require restart to apply";
-            updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
+            qDebug() << "MainWindow::setShowNPCNames - Automatically restarting monitoring to apply changes";
+            updateStatusLabel(tr("Filter changed - automatically applying changes"));
+            restartMonitoring();
         }
     } else {
         qDebug() << "MainWindow::setShowNPCNames - Value unchanged, no action taken";
     }
 }
 
+// Add a helper method to restart monitoring
+void MainWindow::restartMonitoring() {
+    if (isMonitoring) {
+        stopMonitoring();
+        // Use a short delay to ensure everything is cleaned up before restarting
+        QTimer::singleShot(100, this, &MainWindow::startMonitoring);
+    }
+}
+
 void MainWindow::onGameFolderChanged(const QString& newFolder) {
     qDebug() << "MainWindow::onGameFolderChanged - New game folder:" << newFolder;
 
-    // Update the game log file path
+    // Update the game folder path
     gameLogFilePath = newFolder + "/game.log";
+    qDebug() << "Game log file path updated to:" << gameLogFilePath;
+
+    // Check if the file exists
+    if (QFile::exists(gameLogFilePath)) {
+        qDebug() << "Game log file found, detecting game mode and player info...";
+
+        // Perform detection and unpack the tuple
+        auto [mode, subMode, playerName, playerGEID] = detectGameModeAndPlayerFast(gameLogFilePath.toStdString());
+        currentGameMode = mode;
+        currentSubGameMode = subMode;
+
+        qDebug() << "Detected game mode:" << QString::fromStdString(currentGameMode)
+                 << "Sub-mode:" << QString::fromStdString(currentSubGameMode)
+                 << "Player name:" << QString::fromStdString(playerName)
+                 << "Player GEID:" << QString::fromStdString(playerGEID);
+
+        // Update transmitter with player info if available
+        if (!playerName.empty() && !playerGEID.empty()) {
+            transmitter.updatePlayerInfo(QString::fromStdString(playerName), QString::fromStdString(playerGEID));
+        }
+
+        // Update UI with detected game mode
+        if (currentGameMode == "PU") {
+            updateStatusLabel(tr("Game mode: Persistent Universe"));
+        } else if (currentGameMode == "AC") {
+            updateStatusLabel(tr("Game mode: Arena Commander: %1").arg(QString::fromStdString(currentSubGameMode)));
+        } else {
+            updateStatusLabel(tr("Game mode: Unknown"));
+        }
+    } else {
+        qDebug() << "Game log file not found, cannot detect game mode:" << gameLogFilePath;
+    }
 
     // If monitoring is active, restart it
     if (isMonitoring) {
@@ -597,7 +828,7 @@ void MainWindow::onGameFolderChanged(const QString& newFolder) {
         stopMonitoring();
         startMonitoring();
     } else {
-        qDebug() << "MainWindow::onGameFolderChanged - Monitoring is not active, ready for new folder.";
+        qDebug() << "MainWindow::onGameFolderChanged - Monitoring is not active, ready to new folder.";
         updateStatusLabel(tr("Game folder updated. Ready to start monitoring."));
     }
 
@@ -605,4 +836,236 @@ void MainWindow::onGameFolderChanged(const QString& newFolder) {
     if (logDisplayWindow) {
         logDisplayWindow->updateGameFolder(newFolder);
     }
+}
+
+void MainWindow::initializeGameMode() {
+    if (!gameLogFilePath.isEmpty() && QFile::exists(gameLogFilePath)) {
+        qDebug() << "Detecting game mode from log file:" << gameLogFilePath;
+        
+        // Use detectGameModeAndPlayerFast instead of detectLastGameMode
+        auto [mode, subMode, playerName, playerGEID] = detectGameModeAndPlayerFast(gameLogFilePath.toStdString());
+        
+        // Fix: Assign std::string values directly without conversion
+        currentGameMode = mode;
+        currentSubGameMode = subMode;
+        
+        // Update transmitter with game mode info
+        transmitter.updateGameMode(QString::fromStdString(mode), 
+                                  QString::fromStdString(subMode), 
+                                  false);
+        
+        // Update transmitter with player info if available - ADD THIS DEBUG INFO
+        if (!playerName.empty() && !playerGEID.empty()) {
+            qDebug() << "PLAYER INFO FOUND - Updating Transmitter with:" 
+                     << QString::fromStdString(playerName)
+                     << "GEID:" << QString::fromStdString(playerGEID);
+                     
+            
+            // Force the player info update with explicit debug output
+            transmitter.updatePlayerInfo(QString::fromStdString(playerName), 
+                                        QString::fromStdString(playerGEID));
+                                        
+        
+            // Verify the player info was updated
+            qDebug() << "After update, Transmitter player name is:" 
+                     << transmitter.getCurrentPlayerName();
+        } else {
+            qDebug() << "WARNING: No player info found in log file!";
+        }
+        
+        // Rest of the method remains the same...
+    }
+}
+
+void MainWindow::initializeApp() {
+    qDebug() << "Initializing application...";
+
+    // Load regex rules (needed for game mode detection)
+    loadRegexRules();
+
+    // Perform initial game mode and player info detection
+    logMonitor->initializeGameMode();
+
+    // Start continuous log monitoring for future updates
+    logMonitor->startUnifiedMonitoring(gameLogFilePath);
+
+    // Connect signals for game mode and player info changes
+    connect(logMonitor, &LogMonitor::gameModeSwitched, this, &MainWindow::handleGameModeChange);
+    connect(logMonitor, &LogMonitor::playerInfoDetected, &transmitter, &Transmitter::updatePlayerInfo);
+
+    qDebug() << "Application initialization complete.";
+}
+
+void MainWindow::handleGameModeChange(const QString& gameMode, const QString& subGameMode) {
+    // Update UI with the new game mode
+    if (gameMode == "PU") {
+        updateStatusLabel(tr("Game mode: Persistent Universe"));
+    } else if (gameMode == "AC") {
+        updateStatusLabel(tr("Game mode: Arena Commander: %1").arg(subGameMode));
+    }
+    
+    // If LogDisplayWindow is open, update its status directly
+    if (logDisplayWindow) {
+        if (gameMode == "PU") {
+            logDisplayWindow->updateStatusLabel(tr("Game mode changed to Persistent Universe"));
+        } else if (gameMode == "AC") {
+            logDisplayWindow->updateStatusLabel(tr("Game mode changed to Arena Commander: %1").arg(subGameMode));
+        }
+    }
+    
+    // Only send the game mode update if monitoring is active
+    if (isMonitoring) {
+        QSettings settings("KillApiConnect", "KillApiConnectPlus");
+        QString apiKey = settings.value("apiKey", "").toString();
+        if (!apiKey.isEmpty()) {
+            transmitter.sendGameMode(apiKey);
+        }
+    }
+    
+    // Update the game mode in the transmitter
+    transmitter.updateGameMode(gameMode, subGameMode, isMonitoring);
+}
+
+// Add the connection ping method
+void MainWindow::sendConnectionPing() {
+    if (!isMonitoring) {
+        return;  // Safety check
+    }
+    
+    qDebug() << "Sending connection heartbeat ping";
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    QString apiKey = settings.value("apiKey", "").toString();
+    
+    if (apiKey.isEmpty()) {
+        qWarning() << "Cannot send connection ping: API key is empty";
+        return;
+    }
+    
+    bool pingSuccess = transmitter.sendDebugPing(apiKey);
+    
+    if (!pingSuccess) {
+        qWarning() << "Connection ping failed - API server may be unreachable";
+        QString errorMessage = tr("API connection error detected during routine check");
+        transmitter.handleNetworkError(QNetworkReply::ConnectionRefusedError, errorMessage);
+    } else {
+        qDebug() << "Connection ping successful - API connection is healthy";
+    }
+}
+
+// Add this method to create the LogDisplayWindow after initialization
+void MainWindow::createLogDisplayWindowIfNeeded() {
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    bool shouldBeVisible = settings.value("LogDisplay/Visible", false).toBool();
+    
+    if (shouldBeVisible && !logDisplayWindow) {
+        qDebug() << "Creating LogDisplayWindow after initialization complete";
+        logDisplayWindow = new LogDisplayWindow(transmitter);
+        logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
+        logDisplayWindow->setWindowFlag(Qt::Window);
+
+        // Connect the LogDisplayWindow's close signal to update the button label
+        connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
+            qDebug() << "LogDisplayWindow closed signal received.";
+            logDisplayWindow = nullptr;
+            logButton->setText("View Log");
+        });
+
+        // Connect the monitoring toggle signal
+        connect(logDisplayWindow, &LogDisplayWindow::toggleMonitoringRequested, 
+                this, &MainWindow::handleMonitoringToggleRequest);
+                
+        connect(logDisplayWindow, &LogDisplayWindow::filterPvPChanged, 
+                this, [this](bool show) {
+                    setShowPvP(show);
+                });
+                
+        connect(logDisplayWindow, &LogDisplayWindow::filterPvEChanged, 
+                this, [this](bool show) {
+                    setShowPvE(show);
+                });
+                
+        connect(logDisplayWindow, &LogDisplayWindow::filterNPCNamesChanged, 
+                this, [this](bool show) {
+                    setShowNPCNames(show);
+                });
+
+        // Update monitoring button state
+        logDisplayWindow->updateMonitoringButtonText(isMonitoring);
+
+        logDisplayWindow->show();
+        logButton->setText("Hide Log");
+
+        // Force an immediate title update with current values
+        QString gameMode = transmitter.getCurrentGameMode();
+        QString subGameMode = transmitter.getCurrentSubGameMode();
+        QString playerName = transmitter.getCurrentPlayerName();
+        
+        qDebug() << "Forcing initial title update with data:"
+                 << "Game Mode:" << gameMode
+                 << "Sub-game Mode:" << subGameMode
+                 << "Player Name:" << playerName;
+                 
+        QTimer::singleShot(500, this, [this, gameMode, subGameMode]() {
+            if (logDisplayWindow) {
+                logDisplayWindow->updateWindowTitle(gameMode, subGameMode);
+            }
+        });
+    } else {
+        logButton->setText("View Log");
+    }
+}
+
+// Add this method to MainWindow class:
+void MainWindow::emitInitializationComplete() {
+    // Create and show LogDisplayWindow if it was previously visible
+    createLogDisplayWindowIfNeeded();
+    
+    // Then emit the signal
+    emit initializationComplete();
+}
+
+// Add this method to MainWindow class:
+void MainWindow::startBackgroundInitialization() {
+    // Create worker thread for initialization
+    QThread* initThread = new QThread();
+    QObject* worker = new QObject();
+    worker->moveToThread(initThread);
+    
+    // Connect to perform work when thread starts
+    connect(initThread, &QThread::started, worker, [this, worker, initThread]() {
+        // Load regex rules (10% progress)
+        emit initializationProgress(40, "Loading regex rules...");
+        loadRegexRules();
+        
+        // Initialize game mode (30% progress)
+        emit initializationProgress(50, "Detecting game mode...");
+        initializeGameMode();
+        
+        // Set up log monitor (20% progress)
+        emit initializationProgress(70, "Setting up log monitoring...");
+        logMonitor->startGameModeTracking(gameLogFilePath);
+        
+        // Connect remaining signals (10% progress)
+        emit initializationProgress(90, "Finalizing setup...");
+        connect(logMonitor, &LogMonitor::gameModeSwitched, this, &MainWindow::handleGameModeChange);
+        connect(logMonitor, &LogMonitor::playerInfoDetected, &transmitter, &Transmitter::updatePlayerInfo);
+        
+        // Final setup steps
+        emit initializationProgress(95, "Ready!");
+        
+        // Clean up worker and thread
+        worker->deleteLater();
+        initThread->quit();
+        
+        // Signal completion on the main thread
+        QMetaObject::invokeMethod(this, "emitInitializationComplete", Qt::QueuedConnection);
+    });
+    
+
+
+    // Clean up thread when done
+    connect(initThread, &QThread::finished, initThread, &QThread::deleteLater);
+    
+    // Start the worker thread
+    initThread->start();
 }

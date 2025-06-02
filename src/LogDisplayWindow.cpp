@@ -9,14 +9,43 @@
 #include <QTextStream>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QFileInfo>
 #include <QRandomGenerator>
+#include <QApplication> 
 #include <QTimer>
+#include <QDir>
 #include "FilterUtils.h"
+
 
 static QStringList s_logDisplayCache;
 
 LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
-    : QMainWindow(parent), transmitter(transmitter), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") {
+    : QMainWindow(parent), transmitter(transmitter), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") 
+{
+    // Connect to gameModeChanged signal
+    connect(&transmitter, &Transmitter::gameModeChanged, this, 
+        [this](const QString& gameMode, const QString& subGameMode) {
+            qDebug() << "Received gameModeChanged signal:" << gameMode << subGameMode;
+            updateWindowTitle(gameMode, subGameMode);
+        });
+
+    // Connect to playerInfoChanged signal
+    connect(&transmitter, &Transmitter::playerInfoChanged, this, 
+        [this, &transmitter](const QString& playerName, const QString&) {
+            qDebug() << "Received playerInfoChanged signal:" << playerName;
+            QString gameMode = transmitter.getCurrentGameMode();
+            QString subGameMode = transmitter.getCurrentSubGameMode();
+            updateWindowTitle(gameMode, subGameMode);
+        });
+
+    // Update window title with initial game mode and player info
+    QString initialGameMode = transmitter.getCurrentGameMode();
+    QString initialSubGameMode = transmitter.getCurrentSubGameMode();
+    updateWindowTitle(initialGameMode, initialSubGameMode);
+
+    // Create sound player
+    soundPlayer = new SoundPlayer(this);
+    
     // Load filter settings from QSettings
     loadFilterSettings();
     
@@ -35,13 +64,43 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
 
     applyColors();
 
+    // Set window title based on current game mode at initialization
+    // Get current game mode from the transmitter
+    QString apiKey = settings.value("apiKey", "").toString();
+
+    // Check if game mode is available from the transmitter and update status
+    if (initialGameMode != "Unknown") {
+        if (initialGameMode == "PU") {
+            updateStatusLabel(tr("Game mode: Persistent Universe"));
+        } else if (initialGameMode == "AC") {
+            updateStatusLabel(tr("Game mode: Arena Commander") + 
+                             (initialSubGameMode.isEmpty() ? "" : ": " + initialSubGameMode));
+        }
+    }
+
     // Restore cached log if available
     if (!s_logDisplayCache.isEmpty()) {
         eventBuffer = s_logDisplayCache;
         filterAndDisplayLogs();
     } else {
-        addEvent(tr("Killfeed Log Display Initialized"));
+        // If no cached log, initialize with a default JSON message
+        QString initialLog = R"({"identifier":"status","message":")" + tr("Killfeed Log Display Initialized") + R"("})";
+        addEvent(initialLog);
     }
+
+    // Connect to transmitter errors
+    connect(&transmitter, &Transmitter::apiError, this, [this](Transmitter::ApiErrorType errorType, const QString& errorMessage) {
+        // Add error message to log display with special formatting
+        QString errorDisplay = QString("<span style='color:red;'>ERROR: %1</span>").arg(errorMessage);
+        logDisplay->append(errorDisplay);
+        
+        // Also update the status label with a different message
+        updateStatusLabel(tr("API connection error detected. Monitoring stopped."));
+    });
+
+    // Add in the LogDisplayWindow constructor after other connections
+    connect(&transmitter, &Transmitter::gameModeChanged,
+            this, static_cast<void (LogDisplayWindow::*)(const QString&, const QString&)>(&LogDisplayWindow::updateWindowTitle));
 }
 
 void LogDisplayWindow::resizeEvent(QResizeEvent* event) {
@@ -57,7 +116,6 @@ void LogDisplayWindow::moveEvent(QMoveEvent* event) {
 
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     settings.setValue("LogDisplay/WindowPosition", pos());
-    qDebug() << "Window position saved:" << pos();
 }
 
 void LogDisplayWindow::loadFilterSettings() {
@@ -66,6 +124,9 @@ void LogDisplayWindow::loadFilterSettings() {
     showPvE = settings.value("LogDisplay/ShowPvE", true).toBool();
     showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
     playSound = settings.value("LogDisplay/PlaySound", false).toBool();
+}
+void LogDisplayWindow::resetLogDisplay() {
+    clearLog();
 }
 
 void LogDisplayWindow::setupUI() {
@@ -169,6 +230,17 @@ void LogDisplayWindow::setupUI() {
     decreaseFontButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
     buttonLayout->addWidget(decreaseFontButton);
 
+    // Sound test button (for debugging)
+    QPushButton* testSoundButton = new QPushButton(tr("Test Sound"), this);
+    testSoundButton->setVisible(ISDEBUG);
+    connect(testSoundButton, &QPushButton::clicked, this, [this]() {
+        qDebug() << "Testing sound playback...";
+        
+        // Try multiple playback methods
+        playSystemSound();
+    });
+    buttonLayout->addWidget(testSoundButton);
+
     mainLayout->addLayout(buttonLayout);
     container->setLayout(mainLayout);
     setCentralWidget(container);
@@ -184,9 +256,9 @@ void LogDisplayWindow::onShowPvPToggled(bool checked) {
     emit filterPvPChanged(showPvP);
     qDebug() << "LogDisplayWindow::onShowPvPToggled - Emitted filterPvPChanged signal";
     
-    // This change now requires restarting monitoring to apply the new filter
-    updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
-    qDebug() << "LogDisplayWindow::onShowPvPToggled - Notified user to restart monitoring";
+    // Clear the log display and update the filtered view
+    clearLog();
+    updateStatusLabel(tr("PvP filter changed - automatically applying changes"));
 }
 
 void LogDisplayWindow::onShowPvEToggled(bool checked) {
@@ -199,9 +271,9 @@ void LogDisplayWindow::onShowPvEToggled(bool checked) {
     emit filterPvEChanged(showPvE);
     qDebug() << "LogDisplayWindow::onShowPvEToggled - Emitted filterPvEChanged signal";
     
-    // This change now requires restarting monitoring to apply the new filter
-    updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
-    qDebug() << "LogDisplayWindow::onShowPvEToggled - Notified user to restart monitoring";
+    // Clear the log display and update the filtered view
+    clearLog();
+    updateStatusLabel(tr("PvE filter changed - automatically applying changes"));
 }
 
 void LogDisplayWindow::onShowNPCNamesToggled(bool checked) {
@@ -214,9 +286,9 @@ void LogDisplayWindow::onShowNPCNamesToggled(bool checked) {
     emit filterNPCNamesChanged(showNPCNames);
     qDebug() << "LogDisplayWindow::onShowNPCNamesToggled - Emitted filterNPCNamesChanged signal";
     
-    // This change now requires restarting monitoring to apply the new filter
-    updateStatusLabel(tr("Filter changed: Restart monitoring to apply"));
-    qDebug() << "LogDisplayWindow::onShowNPCNamesToggled - Notified user to restart monitoring";
+    // Clear the log display and update the filtered view
+    clearLog();
+    updateStatusLabel(tr("NPC name filter changed - automatically applying changes"));
 }
 
 void LogDisplayWindow::updateFilterSettings(bool newShowPvP, bool newShowPvE, bool newShowNPCNames) {
@@ -245,15 +317,27 @@ void LogDisplayWindow::updateFilterSettings(bool newShowPvP, bool newShowPvE, bo
     }
 }
 
+// Update the addEvent method to apply filters
 void LogDisplayWindow::addEvent(const QString& eventText) {
+    // Skip empty JSON objects
+    if (eventText == "{}" || eventText.trimmed().isEmpty()) {
+        return;
+    }
+    
     qDebug() << "LogDisplayWindow::addEvent received:" << eventText;
 
-    // Add to buffer and cache
+    // Add to buffer - store all events for filtering later
     eventBuffer.append(eventText);
     if (eventBuffer.size() > 100) {
         eventBuffer.removeFirst();
     }
     s_logDisplayCache = eventBuffer; // Cache the buffer
+
+    // Check if this event should be displayed based on current filter settings
+    if (!FilterUtils::shouldDisplayEvent(eventText)) {
+        qDebug() << "LogDisplayWindow::addEvent - Filtered out event based on settings";
+        return; // Skip display but keep in buffer
+    }
 
     QString timePrefix;
 
@@ -288,14 +372,26 @@ void LogDisplayWindow::addEvent(const QString& eventText) {
 
     // Play sound if enabled
     if (playSound) {
-        QSettings settings("KillApiConnect", "KillApiConnectPlus");
-        QString soundFile = settings.value("LogDisplay/SoundFile", ":/sounds/default.mp3").toString();
-        QMediaPlayer* player = new QMediaPlayer(this);
-        QAudioOutput* audioOutput = new QAudioOutput(this);
-        player->setSource(QUrl::fromLocalFile(soundFile));
-        player->setAudioOutput(audioOutput);
-        audioOutput->setVolume(0.5);
-        player->play();
+        soundPlayer->playConfiguredSound(nullptr);
+    }
+
+    // Detect and display game mode changes
+    if (eventText.contains("game_mode_change")) {
+        QString currentGameMode = QString::fromStdString(get_json_value(eventText.toStdString(), "game_mode"));
+        QString currentSubGameMode = QString::fromStdString(get_json_value(eventText.toStdString(), "sub_game_mode"));
+
+        // Update window title based on game mode
+        updateWindowTitle(currentGameMode, currentSubGameMode);
+
+        if (currentGameMode == "PU") {
+            addEvent(tr("Game mode detected as Persistent Universe"));
+        } else if (currentGameMode == "AC") {
+            // Apply friendly name transformation
+            QString friendlySubGameMode = getFriendlyGameModeName(currentSubGameMode);
+            addEvent(tr("Game mode detected as Arena Commander: %1").arg(friendlySubGameMode));
+        } else {
+            addEvent(tr("Game mode detected as Unknown"));
+        }
     }
 }
 
@@ -328,6 +424,20 @@ QString LogDisplayWindow::prettifyLog(const QString& log) const {
     }
 
     QString identifier = QString::fromStdString(parsed.value("identifier", ""));
+
+    // Apply NPC name masking when "Show NPC Names" is unchecked
+    if (!showNPCNames && identifier == "kill_log") {
+        bool victimIsNPC = parsed.value("victim_is_npc", false);
+        bool killerIsNPC = parsed.value("killer_is_npc", false);
+
+        if (victimIsNPC) {
+            parsed["victim"] = "an NPC";
+        }
+        if (killerIsNPC) {
+            parsed["killer"] = "An NPC";
+        }
+    }
+
     QString message = formatEvent(identifier, parsed);
 
     // Combine timestamp and message
@@ -348,6 +458,10 @@ QString LogDisplayWindow::formatEvent(const QString& identifier, const nlohmann:
         QString killer = QString::fromStdString(parsed.value("killer", "Unknown"));
         QString victim = QString::fromStdString(parsed.value("victim", "Unknown"));
         message = QString("%1 killed %2").arg(killer, victim);
+    } else if (identifier == "vehicle_instant_destruction") {
+        QString vehicle = QString::fromStdString(parsed.value("vehicle", "Unknown"));
+        QString cause = QString::fromStdString(parsed.value("cause", "Unknown"));
+        message = QString("%1 was obliterated by %2").arg(vehicle, cause);
     } else if (identifier == "vehicle_destruction") {
         QString vehicle = QString::fromStdString(parsed.value("vehicle", "Unknown"));
         QString cause = QString::fromStdString(parsed.value("cause", "Unknown"));
@@ -362,10 +476,13 @@ QString LogDisplayWindow::formatEvent(const QString& identifier, const nlohmann:
         message = QString("%1 connected").arg(player);
     } else if (identifier == "player_disconnect") {
         message = QString("Player disconnected");
+    } else if (identifier == "status") {
+        // Handle status messages
+        message = QString::fromStdString(parsed.value("message", "Status update"));
     } else {
         if (ISDEBUG && false) {
             qDebug() << "Unknown identifier:" << identifier;
-                  message = QString::fromStdString(parsed.dump()); // Fallback to raw JSON
+            message = QString::fromStdString(parsed.dump()); // Fallback to raw JSON
         } else {
             message = "";
             qDebug() << "Unknown identifier:" << identifier << "in debug mode, not displaying.";
@@ -385,7 +502,7 @@ void LogDisplayWindow::clearLog() {
     eventBuffer.clear();
     s_logDisplayCache.clear(); // Clear the cache
     logDisplay->clear();
-    addEvent("Killfeed Log Display Cleared");
+    updateStatusLabel(tr("Killfeed Log Display Cleared"));
 }
 
 void LogDisplayWindow::changeTextColor() {
@@ -564,14 +681,7 @@ void LogDisplayWindow::processLogQueue(const QString& log) {
         
         // Play sound if enabled
         if (playSound) {
-            QSettings settings("KillApiConnect", "KillApiConnectPlus");
-            QString soundFile = settings.value("LogDisplay/SoundFile", ":/sounds/default.mp3").toString();
-            QMediaPlayer* player = new QMediaPlayer(this);
-            QAudioOutput* audioOutput = new QAudioOutput(this);
-            player->setSource(QUrl::fromLocalFile(soundFile));
-            player->setAudioOutput(audioOutput);
-            audioOutput->setVolume(0.5);
-            player->play();
+            soundPlayer->playConfiguredSound(nullptr);
         }
     } else {
         logDisplay->append(log);
@@ -591,11 +701,35 @@ void LogDisplayWindow::setApplicationShuttingDown(bool shuttingDown) {
 }
 
 void LogDisplayWindow::handleMonitoringButton() {
+    qDebug() << "LogDisplayWindow: Monitoring button clicked.";
+    
+    // Disable button and show connecting message if starting monitoring
+    if (monitoringButton->text() == "Start Monitoring") {
+        monitoringButton->setEnabled(false);
+        monitoringButton->setText("Connecting...");
+    }
+    
     emit toggleMonitoringRequested();
 }
 
+void LogDisplayWindow::disableMonitoringButton(const QString& text) {
+    if (monitoringButton) {
+        monitoringButton->setEnabled(false);
+        monitoringButton->setText(text);
+    }
+}
+
+void LogDisplayWindow::enableMonitoringButton(const QString& text) {
+    if (monitoringButton) {
+        monitoringButton->setEnabled(true);
+        monitoringButton->setText(text);
+    }
+}
+
+// Update the existing updateMonitoringButtonText method to also enable the button
 void LogDisplayWindow::updateMonitoringButtonText(bool isMonitoring) {
     if (monitoringButton) {
+        monitoringButton->setEnabled(true);
         monitoringButton->setText(isMonitoring ? "Stop Monitoring" : "Start Monitoring");
     }
 }
@@ -612,4 +746,56 @@ void LogDisplayWindow::updateGameFolder(const QString& newFolder) {
         qDebug() << "LogDisplayWindow::updateGameFolder - Monitoring is not active, ready for new folder.";
         updateStatusLabel(tr("Game folder updated. Ready to start monitoring."));
     }
+}
+
+// Add this new method to your LogDisplayWindow class
+void LogDisplayWindow::playSystemSound() {
+    soundPlayer->playConfiguredSound(logDisplay);
+}
+
+// Add this function to LogDisplayWindow class
+QString LogDisplayWindow::getFriendlyGameModeName(const QString& rawMode) const {
+    // Use the same transform function that's used in log parsing
+    // This applies the exact same transforms defined in logfile_regex_rules.json
+    std::string friendlyName = process_transforms(
+        rawMode.toStdString(),
+        get_transform_steps("friendly_game_mode_name")
+    );
+    
+    return QString::fromStdString(friendlyName);
+}
+
+void LogDisplayWindow::updateWindowTitle(const QString& gameMode, const QString& subGameMode) {
+    QString title = tr("Killfeed Log Display");
+
+    // Get player name from transmitter
+    QString playerName = transmitter.getCurrentPlayerName();
+    
+    // Debug logging to verify data
+    qDebug() << "Title Update - Game Mode:" << gameMode 
+             << "Sub-Game Mode:" << subGameMode
+             << "Player Name:" << playerName;
+
+    // Add player name to title
+    if (!playerName.isEmpty() && playerName != "Unknown") {
+        title += tr(" - Player: %1").arg(playerName);
+    } else {
+        title += tr(" - Player: [Unknown]");
+    }
+
+    // Add game mode information
+    if (gameMode == "PU") {
+        title += tr(" - Game Mode: Persistent Universe");
+    } else if (gameMode == "AC") {
+        title += tr(" - Game Mode: Arena Commander");
+        if (!subGameMode.isEmpty()) {
+            title += tr(" (%1)").arg(subGameMode);
+        }
+    } else if (!gameMode.isEmpty() && gameMode != "Unknown") {
+        title += tr(" - Game Mode: %1").arg(gameMode);
+    }
+
+    // Set the window title
+    setWindowTitle(title);
+    qDebug() << "Window title set to:" << title;
 }

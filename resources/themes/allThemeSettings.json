@@ -13,6 +13,19 @@
         "mainButtonRightSpace": 5
     },
     {
+    "name": "MilSpec Tactical",
+    "version": "1.0",
+    "description": "A military-style theme with tactical green tones and the MIL-STD-33558 typeface.",
+    "qss": ":/themes/milspec.qss",
+    "font": ":/fonts/MilSpec33558.ttf",
+    "mainWindowPreferredSize": { "width": 310, "height": 250 },
+    "settingsWindowPreferredSize": { "width": 500, "height": 600 },
+    "chooseLanguageWindowPreferredSize": { "width": 320, "height": 700 },
+    "chooseThemeWindowPreferredSize": { "width": 450, "height": 400 },
+    "statusLabelPreferredSize": { "width": 280, "height": 160 },
+    "mainButtonRightSpace": 5
+    }, 
+    {
         "name": "Long Cold",
         "version": "1.2",
         "description": "A theme inspired by a long, almost endless, very cold time period.",

@@ -196,8 +196,8 @@ QString CheckVersion::getLatestJsonVersion(int timeoutMs)
     const QUrl jsonUrl("https://gunhead.sparked.network/static/data/logfile_regex_rules.json");
     QByteArray data;
     if (!fetchData(jsonUrl, data, timeoutMs)) {
-        emit errorOccurred(tr("Failed to fetch latest JSON version data."));
-        log_error("CheckVersion", "Failed to fetch latest JSON version data.");
+        emit errorOccurred(tr("Failed to fetch latest rules."));
+        log_error("CheckVersion", "Failed to fetch latest rules.");
         return {};
     }
 
@@ -206,22 +206,22 @@ QString CheckVersion::getLatestJsonVersion(int timeoutMs)
 
         const auto doc = QJsonDocument::fromJson(data);
         if (doc.isNull()) {
-            emit errorOccurred(tr("Failed to parse JSON: Document is null"));
-            log_error("CheckVersion", "Failed to parse JSON: Document is null");
+            emit errorOccurred(tr("Failed to parse rules: Document is null"));
+            log_error("CheckVersion", "Failed to parse rules: Document is null");
             return {};
         }
 
         if (!doc.isObject()) {
-            emit errorOccurred(tr("Invalid JSON in latest config response"));
-            log_error("CheckVersion", "Invalid JSON in latest config response");
+            emit errorOccurred(tr("Invalid rules in latest config response"));
+            log_error("CheckVersion", "Invalid rules in latest config response");
             return {};
         }
 
         const QJsonObject obj = doc.object();
 
         if (!obj.contains("version")) {
-            emit errorOccurred(tr("JSON missing 'version' key"));
-            log_error("CheckVersion", "JSON missing 'version' key: " + QString(QJsonDocument(obj).toJson(QJsonDocument::Indented)).toStdString());
+            emit errorOccurred(tr("Rules file is missing 'version' key"));
+            log_error("CheckVersion", "Rules file is missing 'version' key: " + QString(QJsonDocument(obj).toJson(QJsonDocument::Indented)).toStdString());
             return {};
         }
 
@@ -237,16 +237,16 @@ QString CheckVersion::getLatestJsonVersion(int timeoutMs)
         }
             QString version = versionVal.toString();
 
-            log_info("CheckVersion", "Latest JSON version fetched successfully: " + version.toStdString());
+            log_info("CheckVersion", "Latest rules version fetched successfully: " + version.toStdString());
             return version;
 
     } catch (const std::exception& e) {
-        emit errorOccurred(tr("Exception occurred while parsing JSON: ") + QString::fromStdString(e.what()));
-        log_error("CheckVersion", "Exception occurred while parsing JSON: ", e.what());
+        emit errorOccurred(tr("Exception occurred while parsing rules: ") + QString::fromStdString(e.what()));
+        log_error("CheckVersion", "Exception occurred while parsing rules: ", e.what());
         return {};
     } catch (...) {
-        emit errorOccurred(tr("Unknown exception occurred while parsing JSON"));
-        log_error("CheckVersion", "Unknown exception occurred while parsing JSON");
+        emit errorOccurred(tr("Unknown exception occurred while parsing rules"));
+        log_error("CheckVersion", "Unknown exception occurred while parsing rules");
         return {};
     }
 }
@@ -254,10 +254,10 @@ QString CheckVersion::getLatestJsonVersion(int timeoutMs)
 CheckVersion::UpdateTriState CheckVersion::isJsonUpdateAvailable(const QString &localFilePath, int timeoutMs)
 {
     QString remoteVer = getLatestJsonVersion(timeoutMs);
-    log_debug("CheckVersion", "Remote JSON version: ", remoteVer.toStdString());
+    log_debug("CheckVersion", "Remote rules version: ", remoteVer.toStdString());
     if (remoteVer.isEmpty()) {
-        log_error("CheckVersion", "Failed to fetch latest JSON version.");
-        emit errorOccurred(tr("Failed to fetch latest JSON version."));
+        log_error("CheckVersion", "Failed to fetch latest rules version.");
+        emit errorOccurred(tr("Failed to fetch latest rules version."));
         return UpdateTriState::Error;
     }
 
@@ -267,10 +267,10 @@ CheckVersion::UpdateTriState CheckVersion::isJsonUpdateAvailable(const QString &
 
     if (compareVersions(vRemote, vLocal) > 0) {
         emit updateAvailable(remoteVer);
-        log_info("CheckVersion", "JSON update available: " + remoteVer.toStdString());
+        log_info("CheckVersion", "Rules update available: " + remoteVer.toStdString());
         return UpdateTriState::Yes;
     }
-    log_info("CheckVersion", "No JSON update available.");
+    log_info("CheckVersion", "No rules update available.");
     return UpdateTriState::No;
 }
 
@@ -303,38 +303,38 @@ QString CheckVersion::readLocalJsonVersion(const QString &filePath) {
     file.close();
 
     try {
-        log_debug("CheckVersion", "Raw local JSON data: ", data.toStdString());
+        log_debug("CheckVersion", "Raw local rules data: ", data.toStdString());
 
         const auto doc = QJsonDocument::fromJson(data);
         if (doc.isNull()) {
-            emit errorOccurred(tr("Failed to parse local JSON: Document is null"));
-            log_error("CheckVersion", "Failed to parse local JSON: Document is null");
+            emit errorOccurred(tr("Failed to parse local rules: Document is null"));
+            log_error("CheckVersion", "Failed to parse local rules: Document is null");
             return {};
         }
 
         if (!doc.isObject()) {
-            emit errorOccurred(tr("Invalid local JSON format"));
-            log_error("CheckVersion", "Invalid local JSON format");
+            emit errorOccurred(tr("Invalid local rules format"));
+            log_error("CheckVersion", "Invalid local rules format");
             return {};
         }
 
         QString version = doc.object().value("version").toString();
         if (version.isEmpty()) {
-            emit errorOccurred(tr("No version found in local JSON"));
-            log_error("CheckVersion", "No version found in local JSON");
+            emit errorOccurred(tr("No version found in local rules"));
+            log_error("CheckVersion", "No version found in local rules");
             return {};
         }
 
-        log_info("CheckVersion", "Local JSON version read successfully: " + version.toStdString());
+        log_info("CheckVersion", "Local rules version read successfully: " + version.toStdString());
         return version;
 
     } catch (const std::exception& e) {
-        emit errorOccurred(tr("Exception occurred while parsing local JSON: ") + QString::fromStdString(e.what()));
-        log_error("CheckVersion", "Exception occurred while parsing local JSON: ", e.what());
+        emit errorOccurred(tr("Exception occurred while parsing local rules: ") + QString::fromStdString(e.what()));
+        log_error("CheckVersion", "Exception occurred while parsing local rules: ", e.what());
         return {};
     } catch (...) {
-        emit errorOccurred(tr("Unknown exception occurred while parsing local JSON"));
-        log_error("CheckVersion", "Unknown exception occurred while parsing local JSON");
+        emit errorOccurred(tr("Unknown exception occurred while parsing local rules"));
+        log_error("CheckVersion", "Unknown exception occurred while parsing local rules");
         return {};
     }
 }

@@ -1,12 +1,17 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="icons/KillApi.ico">icons/KillApi.ico</file>
-    
+        <file alias="app_icon">icons/KillAPI.ico</file>
+        <file alias="icons/KillAPI.ico">icons/KillAPI.ico</file>
+        <file alias="icons/gunhead-logo.png">icons/gunhead-logo.png</file>
+
         <file alias="themes/themes.json">themes/allThemeSettings.json</file>
         
         <file alias="themes/originalsleek.qss">themes/originalsleek.qss</file>
         <file>fonts/Roboto-Regular.ttf</file>
         <file>fonts/Roboto-Bold.ttf</file>
+
+        <file alias="themes/milspec.qss">themes/milspec.qss</file>
+        <file>fonts/MilSpec33558.ttf</file>
 
         <file alias="themes/longcold.qss">themes/longcold.qss</file>
         <file>fonts/VCR_OSD_MONO_1.001.ttf</file>
@@ -44,5 +49,7 @@
         <file alias="sounds/blip-blip.mp3">sounds/blip-blip.mp3</file>
         <file alias="sounds/beep-beep.mp3">sounds/beep-beep.mp3</file>
         <file alias="sounds/boop.mp3">sounds/boop.mp3</file>
+        
+        <file alias="sounds/boop.wav">sounds/boop.wav</file>
     </qresource>
 </RCC>

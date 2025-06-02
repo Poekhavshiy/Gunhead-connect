@@ -5,12 +5,6 @@
 
 using json = nlohmann::json;
 
-struct Rule {
-    std::string identifier;
-    std::regex pattern;
-    json fields; // Store the fields array from the JSON file
-};
-
 std::vector<Rule> rules;
 std::unordered_map<std::string, json> transforms; // Changed from std::string to json
 
@@ -225,6 +219,20 @@ std::string process_transforms(const std::string& input, const json& steps) {
                         log_error("log_parser", "Failed to parse timestamp: ", e.what());
                     }
                     continue;
+                } else if (type == "map_values") {
+                    if (step.contains("map") && step["map"].is_object()) {
+                        const auto& map = step.at("map");
+                        
+                        // Check if the input string is a key in the map
+                        if (map.contains(result)) {
+                            result = map[result].get<std::string>();
+                            log_debug("log_parser", "Mapped value to: " + result);
+                        } else {
+                            log_debug("log_parser", "No mapping found for: " + result);
+                        }
+                    } else {
+                        log_warn("log_parser", "map_values transform missing 'map' object");
+                    }
                 } else {
                     log_warn("log_parser", "Unknown transform type: ", type);
                 }
@@ -358,4 +366,110 @@ long long parseTimestampToUnixTime(const std::string& isoTimestamp) {
 
     // Return the Unix timestamp (seconds since 1970-01-01 00:00:00 UTC)
     return static_cast<long long>(time);
+}
+
+// Add this implementation
+json get_transform_steps(const std::string& transformName) {
+    if (transforms.find(transformName) != transforms.end() && 
+        transforms[transformName].contains("steps")) {
+        return transforms[transformName]["steps"];
+    }
+    log_warn("log_parser", "Transform not found or missing 'steps': ", transformName);
+    return json::array(); // Return empty array if transform not found
+}
+
+std::string get_json_value(const std::string& jsonString, const std::string& key) {
+    try {
+        json j = json::parse(jsonString);
+        if (j.contains(key)) {
+            auto value = j[key];
+            if (value.is_string()) {
+                return value.get<std::string>();
+            } else {
+                return value.dump();
+            }
+        }
+    } catch (const std::exception& e) {
+        log_error("log_parser", "JSON parsing error in get_json_value:", e.what());
+    }
+    return ""; // Return empty string if key not found or on error
+}
+
+// Function to get regex patterns for game mode detection
+std::string getGameModePattern(const std::string& identifier) {
+    // Look through the rules vector for the matching identifier
+    for (const auto& rule : rules) {
+        if (rule.identifier == identifier) {
+            // Since std::regex doesn't have a .str() method to retrieve the pattern,
+            // we need to return the original pattern based on the identifier
+            if (identifier == "game_mode_pu") {
+                return "\\[\\+\\] \\[CIG\\] \\{Join PU\\}";
+            } else if (identifier == "game_mode_ac") {
+                return "\\[EALobby\\]\\[CEALobby::SetGameModeId\\].+?Changing game mode from.+?to (EA_\\w+)";
+            } else if (identifier == "player_character_info") {
+                return "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d]+).*?STATE_CURRENT";
+            }
+            log_warn("log_parser", "Known identifier but no hardcoded pattern: " + identifier);
+            return "";
+        }
+    }
+    
+    log_warn("log_parser", "Pattern for " + identifier + " not found in loaded rules");
+    return "";
+}
+
+// Optimized implementation to detect game mode and player info efficiently
+std::tuple<std::string, std::string, std::string, std::string> detectGameModeAndPlayerFast(const std::string& logFilePath, int maxLines) {
+    std::string gameMode = "Unknown";
+    std::string subGameMode = "";
+    std::string playerName = "";
+    std::string playerGEID = "";
+
+    std::ifstream file(logFilePath);
+    if (!file.is_open()) {
+        log_error("log_parser", "Failed to open log file for detection:", logFilePath);
+        return {gameMode, subGameMode, playerName, playerGEID};
+    }
+
+    int linesProcessed = 0;
+    bool foundGameMode = false;
+    bool foundPlayer = false;
+
+    std::regex puRegex(getGameModePattern("game_mode_pu"));
+    std::regex acRegex(getGameModePattern("game_mode_ac"));
+    std::regex playerRegex(getGameModePattern("player_character_info"));
+
+    std::string line;
+    while (std::getline(file, line) && linesProcessed < maxLines && !(foundGameMode && foundPlayer)) {
+        linesProcessed++;
+
+        std::smatch match;
+
+        if (!foundPlayer && std::regex_search(line, match, playerRegex)) {
+            // Debug the match to see what's happening
+            log_debug("log_parser", "Found potential player match with ", match.size(), " captures");
+            for (size_t i = 0; i < match.size(); ++i) {
+                log_debug("log_parser", "  Capture ", i, ": ", match[i].str());
+            }
+            
+            if (match.size() >= 3) {  // Changed from 4 to 3 - need full match + 2 capture groups
+                playerGEID = match[1].str();  // First capture group is GEID
+                playerName = match[2].str();  // Second capture group is name
+                log_debug("log_parser", "Extracted player info - Name: ", playerName, " GEID: ", playerGEID);
+                foundPlayer = true;
+            }
+        }
+
+        if (!foundGameMode && std::regex_search(line, match, puRegex)) {
+            gameMode = "PU";
+            foundGameMode = true;
+        } else if (!foundGameMode && std::regex_search(line, match, acRegex)) {
+            gameMode = "AC";
+            subGameMode = process_transforms(match[1].str(), get_transform_steps("friendly_game_mode_name"));
+            foundGameMode = true;
+        }
+    }
+
+    log_info("log_parser", "Fast scan processed", linesProcessed, "lines, found game mode:", gameMode, "player:", playerName);
+    return {gameMode, subGameMode, playerName, playerGEID};
 }

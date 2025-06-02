@@ -23,6 +23,9 @@ public:
 public slots:
     void onThemeChanged(const Theme& theme); // Slot to handle theme changes
 
+signals:
+    void languageChanged(const QString& language);
+
 private:
     QVBoxLayout* mainLayout;
     QButtonGroup* languageButtons;

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(KillApiConnect VERSION 0.1.3  LANGUAGES CXX)
+project(KillApiConnect VERSION 0.1.4  LANGUAGES CXX)
 set(PROJECT_AUTHOR "Poekhavshiy")
 set(PROJECT_ORGANIZATION "Poekhavshiy")
 
@@ -35,7 +35,6 @@ set(SOURCES
     ${SRC_DIR}/logger.cpp
     ${SRC_DIR}/mainwindow.cpp
     ${SRC_DIR}/logmonitor.cpp
-    ${SRC_DIR}/network.cpp
     ${SRC_DIR}/log_parser.cpp
     ${SRC_DIR}/MainWindow.cpp
     ${SRC_DIR}/SettingsWindow.cpp
@@ -46,6 +45,8 @@ set(SOURCES
     ${SRC_DIR}/LanguageSelect.cpp
     ${SRC_DIR}/language_manager.cpp
     ${SRC_DIR}/globals.cpp
+    ${SRC_DIR}/SoundPlayer.cpp
+    ${SRC_DIR}/LoadingScreen.cpp
 )
 
 set(HEADERS
@@ -59,9 +60,10 @@ set(HEADERS
     ${INC_DIR}/MainWindow.h
     ${INC_DIR}/logmonitor.h
     ${INC_DIR}/log_parser.h
-    ${INC_DIR}/network.h
     ${INC_DIR}/logger.h
     ${INC_DIR}/globals.h
+    ${INC_DIR}/SoundPlayer.h
+    ${INC_DIR}/LoadingScreen.h
 )
 
 set(UIS
@@ -73,11 +75,24 @@ set(QRC
 )
 
 # Qt setup
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network LinguistTools Multimedia)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network LinguistTools Multimedia MultimediaWidgets Concurrent)
 
 qt_add_executable(KillApiConnect
     WIN32
     ${SOURCES} ${HEADERS} ${UIS} ${QRC}
+)
+
+# Add this after the project() line:
+configure_file(
+    ${INC_DIR}/version.h.in
+    ${CMAKE_BINARY_DIR}/generated/version.h
+    @ONLY
+)
+
+# Add the generated directory to include paths
+target_include_directories(KillApiConnect PRIVATE 
+    ${INC_DIR}
+    ${CMAKE_BINARY_DIR}/generated
 )
 
 target_include_directories(KillApiConnect PRIVATE ${INC_DIR})
@@ -88,8 +103,19 @@ target_link_libraries(KillApiConnect PRIVATE
     Qt6::Widgets
     Qt6::Network
     Qt6::Multimedia
+    Qt6::Concurrent
     dwmapi
+    winmm
 )
+
+# Add proper deployment of DLLs
+if(WIN32)
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      $<TARGET_FILE:Qt6::Multimedia>
+      $<TARGET_FILE:Qt6::MultimediaWidgets>
+      $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+endif()
 
 # JSON library
 include(FetchContent)
@@ -117,36 +143,56 @@ set(TS_FILES
 )
 qt_add_translations(KillApiConnect TS_FILES ${TS_FILES})
 
-# Tests
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v3.8.1
-)
-FetchContent_MakeAvailable(Catch2)
-enable_testing()
+# Tests - only include when not in Release mode
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+  FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG v3.8.1
+  )
+  FetchContent_MakeAvailable(Catch2)
+  enable_testing()
 
-add_executable(tests
-    tests/test_log_parser.cpp
-    ${SRC_DIR}/log_parser.cpp
-    ${SRC_DIR}/logger.cpp
-    ${SRC_DIR}/globals.cpp
-)
-target_include_directories(tests PRIVATE ${SRC_DIR} ${INC_DIR} ${CMAKE_SOURCE_DIR}/tests)
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain nlohmann_json::nlohmann_json)
-include(Catch)
-catch_discover_tests(tests WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+  add_executable(tests
+      tests/test_log_parser.cpp
+      ${SRC_DIR}/log_parser.cpp
+      ${SRC_DIR}/logger.cpp
+      ${SRC_DIR}/globals.cpp
+  )
+
+  # Add the generated directory to the tests include paths
+  target_include_directories(tests PRIVATE 
+      ${SRC_DIR} 
+      ${INC_DIR} 
+      ${CMAKE_SOURCE_DIR}/tests
+      ${CMAKE_BINARY_DIR}/generated
+  )
+
+  target_link_libraries(tests PRIVATE Catch2::Catch2WithMain nlohmann_json::nlohmann_json)
+  include(Catch)
+  catch_discover_tests(tests WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif()
 
 # Install binary
 install(TARGETS KillApiConnect RUNTIME DESTINATION bin)
 
 # Windows DLL copying
 if(WIN32)
-    set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/resources/appicon.rc")
+    # Set the absolute path to the icon file
+    set(ICON_ABSOLUTE_PATH "${CMAKE_SOURCE_DIR}/resources/icons/KillApi.ico")
+    
+    # Configure the RC file
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/resources/appicon.rc.in
+        ${CMAKE_BINARY_DIR}/generated/appicon.rc
+        @ONLY
+    )
+    
+    # Use the generated RC file
+    set(APP_ICON_RESOURCE "${CMAKE_BINARY_DIR}/generated/appicon.rc")
     set_source_files_properties(${APP_ICON_RESOURCE} PROPERTIES LANGUAGE RC)
     target_sources(KillApiConnect PRIVATE ${APP_ICON_RESOURCE})
 
-    
     set(MINGW_DIR "C:/msys64/mingw64")
     set(QT_PLUGIN_PATH "C:/Dev/Qt/qt-install-dynamic/plugins")
     set(APP_DEST ${OUTDIR_WINDOWS})
@@ -172,12 +218,19 @@ if(WIN32)
     )
 
     # Common copy logic
-    foreach(TGT KillApiConnect tests)
-        add_custom_command(TARGET ${TGT} POST_BUILD
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        add_custom_command(TARGET KillApiConnect POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
-            COMMENT "Copying DLLs for ${TGT}"
+            COMMENT "Copying DLLs for Release build"
         )
-    endforeach()
+    else()
+        foreach(TGT KillApiConnect tests)
+            add_custom_command(TARGET ${TGT} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
+                COMMENT "Copying DLLs for ${TGT}"
+            )
+        endforeach()
+    endif()
 
     add_custom_command(TARGET KillApiConnect POST_BUILD
         # QT Plugins

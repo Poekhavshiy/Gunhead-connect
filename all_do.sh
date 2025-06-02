@@ -9,6 +9,8 @@
 ##   -br | --build-run     Build, Test and then run the executable
 ##   -jb | --just-build    Only build the project
 ##   -r | --run            Run the built executable through gdb
+##   -d | --debug         Enable debug mode
+##   -c | --console       Enable debugging to console mode
 ##   -t  | --test          Run the unit tests
 ##   -c  | --clean         Delete build/ directory only
 ##   -w  | --wipe          Delete build and compile commands, keep CMake-related files
@@ -55,6 +57,7 @@ DO_CLEAN=false
 DO_WIPE=false
 DO_COMPILE_DB=false
 DO_TEST=false
+EXTRA_RUN_ARGS=""
 
 # ====== Parse CLI arguments ======
 for arg in "$@"; do
@@ -66,6 +69,8 @@ for arg in "$@"; do
     --build-run|-br) DO_BUILD=true; DO_TEST=true; DO_RUN=true ;;
     --just-build|-jb) DO_BUILD=true ;;
     --run|-r) DO_RUN=true ;;
+    --debug|-d) EXTRA_RUN_ARGS="$EXTRA_RUN_ARGS --debug" ;;
+    --console|-c) EXTRA_RUN_ARGS="$EXTRA_RUN_ARGS --console" ;;
     --test|-t) DO_TEST=true ;;
     --compile-db|-cc) DO_COMPILE_DB=true ;;
     --help|-h) DO_HELP=true ;;
@@ -106,6 +111,12 @@ function wipe_build_artifacts() {
   fi
 }
 
+# ====== First handle cleaning operations ======
+if $NUKE_ALL || $DO_WIPE || $DO_CLEAN; then
+  wipe_build_artifacts
+  DO_COMPILE_DB=true
+fi
+
 function compile_db_only() {
   section "Exporting compile_commands.json"
   cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B "$BUILD_DIR" -G Ninja
@@ -114,7 +125,7 @@ function compile_db_only() {
 }
 
 # ====== Compile DB step only ======
-if $DO_COMPILE_DB; then
+if $DO_COMPILE_DB && ! $DO_BUILD; then
   compile_db_only
   exit 0
 fi
@@ -134,8 +145,15 @@ fi
 
 # ====== Build Section ======
 if $DO_BUILD; then
-  wipe_build_artifacts
-  
+ # Generate compile_commands.json as part of build process if requested
+  if $DO_COMPILE_DB; then
+    CURRENT_STEP="Generating compile_commands.json"
+    section "$CURRENT_STEP"
+    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B "$BUILD_DIR" -G Ninja
+    cp -f "$BUILD_DIR/compile_commands.json" "$COMPILE_DB_OUT/"
+    echo "Compile commands exported to: $COMPILE_DB_OUT/compile_commands.json"
+  fi
+
   CURRENT_STEP="Configuring with CMake ($PRESET)"
   section "$CURRENT_STEP"
   cmake --preset "$PRESET"
@@ -157,7 +175,7 @@ if $DO_RUN; then
   CURRENT_STEP="Running executable"
   section "$CURRENT_STEP"
   EXECUTABLE_PATH="$BUILD_DIR/$PRESET/bin/windows/KillApiconnect.exe"
-  gdb -x gdbinit "$EXECUTABLE_PATH"
+  gdb -x gdbinit --args "$EXECUTABLE_PATH" $EXTRA_RUN_ARGS
 fi
 
 # ====== Finalize ======

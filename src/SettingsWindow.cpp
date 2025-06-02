@@ -14,7 +14,10 @@
 #include <QProcess>
 
 SettingsWindow::SettingsWindow(QWidget* parent)
-    : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), signalMapper(new QSignalMapper(this)) {
+    : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), signalMapper(new QSignalMapper(this)) 
+{
+    soundPlayer = new SoundPlayer(this);
+    
     // === Load persisted theme ===
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     QSize settingsWindowSize = settings.value("settingsWindowPreferredSize", QSize(500, 600)).toSize();
@@ -75,7 +78,7 @@ void SettingsWindow::setupUI() {
     // Update checkbox and button below the update label
     updateCheckbox = new QCheckBox(tr("Check for new versions on startup"), this);
     connect(updateCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleUpdateCheck);
-    QPushButton* checkUpdatesButton = new QPushButton(tr("Check for updates now"), this);
+    checkUpdatesButton = new QPushButton(tr("Check for updates now"), this);
     connect(checkUpdatesButton, &QPushButton::clicked, this, &SettingsWindow::checkForUpdates);
 
     QVBoxLayout* updateLayout = new QVBoxLayout();
@@ -113,7 +116,7 @@ void SettingsWindow::setupUI() {
     QLabel* apiLabel = new QLabel(tr("KillAPI Key"), this);
     apiEdit = new QLineEdit(this);
     apiEdit->setEchoMode(QLineEdit::Password);
-    QPushButton* saveApiKeyButton = new QPushButton(tr("Save API Key"), this);
+    saveApiKeyButton = new QPushButton(tr("Save API Key"), this);
     connect(saveApiKeyButton, &QPushButton::clicked, this, &SettingsWindow::saveApiKey);
 
     QVBoxLayout* apiLayout = new QVBoxLayout();
@@ -126,20 +129,27 @@ void SettingsWindow::setupUI() {
     mainLayout->addWidget(apiCard);
 
     // Sound Selector
-    QLabel* soundLabel = new QLabel(tr("Select Notification Sound (Coming Soon™)"), this);
+    QLabel* soundLabel = new QLabel(tr("Select Notification Sound"), this);
     soundEdit = new QLineEdit(this);
     soundEdit->setReadOnly(true);
 
     QPushButton* leftButton = new QPushButton("<", this);
     QPushButton* rightButton = new QPushButton(">", this);
+    QPushButton* testSoundButton = new QPushButton(tr("Test"), this);
 
     connect(leftButton, &QPushButton::clicked, this, &SettingsWindow::selectPreviousSound);
     connect(rightButton, &QPushButton::clicked, this, &SettingsWindow::selectNextSound);
+    connect(testSoundButton, &QPushButton::clicked, this, [this]() {
+        QSettings settings("KillApiConnect", "KillApiConnectPlus");
+        QString soundFile = settings.value("LogDisplay/SoundFile", ":/sounds/beep-beep.mp3").toString();
+        soundPlayer->playSimpleSound(soundFile);
+    });
 
     QHBoxLayout* soundSelectorLayout = new QHBoxLayout();
     soundSelectorLayout->addWidget(leftButton);
     soundSelectorLayout->addWidget(soundEdit);
     soundSelectorLayout->addWidget(rightButton);
+    soundSelectorLayout->addWidget(testSoundButton);
 
     QVBoxLayout* soundLayout = new QVBoxLayout();
     soundLayout->addWidget(soundLabel);
@@ -242,27 +252,63 @@ void SettingsWindow::savePath() {
 }
 
 void SettingsWindow::saveApiKey() {
+    saveApiKeyButton->setEnabled(false); // Disable button
+    QApplication::setOverrideCursor(Qt::WaitCursor); // Set waiting cursor
+
     apiKey = apiEdit->text().trimmed();
 
     // Save the API key and other settings
     saveSettings();
+
+    // Add explicit variables to track which error occurred
+    bool panelClosedErrorOccurred = false;
+    bool invalidKeyErrorOccurred = false;
+
+    // Connect to error signals temporarily for this operation
+    QMetaObject::Connection panelClosedConnection = connect(&transmitter, &Transmitter::panelClosedError, this, [this, &panelClosedErrorOccurred]() {
+        panelClosedErrorOccurred = true;
+        QMessageBox::warning(this, tr("Panel Closed Error"), 
+            tr("The KillAPI panel for this server has been closed or doesn't exist.\n\n"
+               "This means your API key may be valid, but the Discord panel associated with it "
+               "has been closed by an administrator or does not exist anymore.\n\n"
+               "Please reopen the KillAPI panel or contact your Discord server administrator if you believe this is an error."));
+    });
+    
+    QMetaObject::Connection invalidKeyConnection = connect(&transmitter, &Transmitter::invalidApiKeyError, this, [this, &invalidKeyErrorOccurred]() {
+        invalidKeyErrorOccurred = true;
+        QMessageBox::warning(this, tr("Authentication Error"), 
+            tr("Invalid API key. The server rejected your credentials.\n\n"
+               "Please check your API key and try again. Make sure you copied the entire key "
+               "without any extra spaces or characters."));
+    });
 
     // Attempt to connect to KillAPI
     if (!apiKey.isEmpty()) {
         bool success = transmitter.sendConnectionSuccess(gameFolder, apiKey);
         if (success) {
             QMessageBox::information(this, tr("Success"), tr("KillAPI connected successfully!"));
-        } else {
-            QMessageBox::warning(this, tr("Error"), tr("Failed to connect to KillAPI. Please check your API key."));
-            apiKey.clear(); // Clear the API key on failure
-            saveSettings(); // Save the cleared API key
+        } 
+        else if (!panelClosedErrorOccurred && !invalidKeyErrorOccurred) {
+            // Only show a generic error if none of the specific errors were handled
+            QMessageBox::warning(this, tr("Connection Error"),
+                tr("Failed to connect to KillAPI. Please check your internet connection and try again."));
         }
     } else {
         QMessageBox::information(this, tr("API Key Saved"), tr("Your API key has been saved."));
     }
+
+    // Disconnect temporary connections
+    disconnect(panelClosedConnection);
+    disconnect(invalidKeyConnection);
+
+    QApplication::restoreOverrideCursor(); // Restore cursor
+    saveApiKeyButton->setEnabled(true); // Re-enable button
 }
 
 void SettingsWindow::checkForUpdates() {
+    checkUpdatesButton->setEnabled(false); // Disable button
+    QApplication::setOverrideCursor(Qt::WaitCursor); // Set waiting cursor
+
     CheckVersion versionChecker;
     QString jsonFilePath = "data/logfile_regex_rules.json";
     QString currentAppVersion = QCoreApplication::applicationVersion();
@@ -337,6 +383,9 @@ qDebug() << "Downloading latest JSON version.";
         qDebug() << "SettingsWindow: Error occurred while checking for updates.";
         QMessageBox::warning(this, tr("Error"), tr("An error occurred while checking for updates.\n Please check your internet connection and try again."));
     }
+
+    QApplication::restoreOverrideCursor(); // Restore cursor
+    checkUpdatesButton->setEnabled(true); // Re-enable button
 }
 
 void SettingsWindow::toggleThemeSelectWindow() {
@@ -368,6 +417,12 @@ void SettingsWindow::toggleLanguageSelectWindow() {
         languageSelectWindow = new LanguageSelectWindow(this);
         languageSelectWindow->setAttribute(Qt::WA_DeleteOnClose);
 
+        // Connect language change signal to track changes
+        connect(languageSelectWindow, &LanguageSelectWindow::languageChanged, 
+                this, [this](const QString& language) {
+                    transmitter.addSettingsChange("language", language);
+                });
+
         // Connect settingsChanged to LanguageSelectWindow's onThemeChanged slot
         connect(this, &SettingsWindow::settingsChanged, languageSelectWindow, &LanguageSelectWindow::onThemeChanged);
 
@@ -379,28 +434,67 @@ void SettingsWindow::onThemeChanged(const Theme& theme) {
     qDebug() << "Settings Window: === Settings Window Preferred Size:" << theme.settingsWindowPreferredSize;
     setFixedSize(theme.settingsWindowPreferredSize); // Resize SettingsWindow
 
+    // Add theme change to transmitter queue
+    transmitter.addSettingsChange("theme", theme.friendlyName);
+
     // Re-emit the themeChanged signal as settingsChanged
     emit settingsChanged(theme);
 }
 
 void SettingsWindow::selectPreviousSound() {
-    if (availableSounds.isEmpty()) {
-        return; // No sounds available
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    QString currentSound = settings.value("LogDisplay/SoundFile", ":/sounds/beep-beep.mp3").toString();
+    
+    // Get all available sounds (both MP3 and WAV)
+    QStringList soundFiles = soundPlayer->getAvailableSoundFiles();
+    
+    if (soundFiles.isEmpty()) {
+        return;
     }
-
-    // Decrement the index and wrap around if necessary
-    currentSoundIndex = (currentSoundIndex - 1 + availableSounds.size()) % availableSounds.size();
-    updateSelectedSound(availableSounds[currentSoundIndex]);
+    
+    int currentIndex = soundFiles.indexOf(currentSound);
+    if (currentIndex == -1) currentIndex = 0;
+    
+    int prevIndex = (currentIndex - 1 + soundFiles.size()) % soundFiles.size();
+    
+    QString prevSound = soundFiles[prevIndex];
+    settings.setValue("LogDisplay/SoundFile", prevSound);
+    
+    // Add sound change to transmitter queue
+    transmitter.addSettingsChange("sound", QFileInfo(prevSound).fileName());
+    
+    // Update display
+    soundEdit->setText(QFileInfo(prevSound).fileName());
+    
+    // Play sound preview
+    soundPlayer->playSimpleSound(prevSound);
 }
 
 void SettingsWindow::selectNextSound() {
-    if (availableSounds.isEmpty()) {
-        return; // No sounds available
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    QString currentSound = settings.value("LogDisplay/SoundFile", ":/sounds/beep-beep.mp3").toString();
+    
+    // Get all available sounds (both MP3 and WAV)
+    QStringList soundFiles = soundPlayer->getAvailableSoundFiles();
+    
+    if (soundFiles.isEmpty()) {
+        return;
     }
-
-    // Increment the index and wrap around if necessary
-    currentSoundIndex = (currentSoundIndex + 1) % availableSounds.size();
-    updateSelectedSound(availableSounds[currentSoundIndex]);
+    
+    int currentIndex = soundFiles.indexOf(currentSound);
+    int nextIndex = (currentIndex + 1) % soundFiles.size();
+    
+    QString nextSound = soundFiles[nextIndex];
+    settings.setValue("LogDisplay/SoundFile", nextSound);
+    
+    // Add sound change to transmitter queue
+    transmitter.addSettingsChange("sound", QFileInfo(nextSound).fileName());
+    
+    // Update display
+    soundEdit->setText(QFileInfo(nextSound).fileName());
+    
+    // Play sound preview
+    soundPlayer->playSimpleSound(nextSound);
 }
 
 QStringList SettingsWindow::getAvailableSounds() const {

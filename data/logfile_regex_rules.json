@@ -1,5 +1,5 @@
 {
-    "version": "0.0.5",
+    "version": "0.1.0",
     "transforms": {
         "parseTimestampToUnixTime": {
             "description": "Converts ISO 8601 timestamp to Unix time",
@@ -63,6 +63,18 @@
                 { "type": "remove_trailing_numbers" },
                 { "type": "remove_underscores" }
             ]
+        },
+        "friendly_game_mode_name": {
+            "description": "Converts game mode identifiers to friendly names",
+            "steps": [
+                { "type": "replace_character", "from": "_", "to": " " },
+                { "type": "map_values", "map": {
+                    "EA PirateSwarm": "Pirate Swarm",
+                    "EA FPSGunGame": "Gun Rush",
+                    "EA FreeFlight": "Free Flight",
+                    "EA SquadronBattle": "Squadron Battle"
+                }}
+            ]
         }
     },
     "rules": [
@@ -81,6 +93,23 @@
                 { "name": "weapon", "group": 7, "transform": "clean_weapon_name" },
                 { "name": "kill_mechanism", "group": 8, "transform": "clean_kill_mechanism" },
                 { "name": "damage_type", "group": 9, "transform": "clean_damage_type" }
+            ]
+        },
+        {
+            "identifier": "vehicle_instant_destruction",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 2 caused by '([^']+)' \\[(\\d+)\\].*?with '([^']+)'",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
+                { "name": "vehicle_id", "group": 3 },
+                { "name": "zone", "group": 4, "transform": "clean_zone_name" },
+                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
+                { "name": "driver_id", "group": 6 },
+                { "name": "driver_is_npc", "group": 5, "transform": "determine_if_npc" },
+                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
+                { "name": "cause_id", "group": 8 },
+                { "name": "cause_is_npc", "group": 7, "transform": "determine_if_npc" },
+                { "name": "weapon", "group": 9, "transform": "clean_weapon_name" }
             ]
         },
         {
@@ -128,6 +157,30 @@
             "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?\\[CIG\\] CCIGBroker::FastShutdown",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" }
+            ]
+        },
+        {
+            "identifier": "game_mode_pu",
+            "pattern": "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[\\+\\] \\[CIG\\] \\{Join PU\\} \\[\\d+\\] id\\[.*?\\] status\\[.*?\\] port\\[.*?\\]",
+            "fields": [
+                { "name": "game_mode", "value": "PU", "group": 0 }
+            ]
+        },
+        {
+            "identifier": "game_mode_ac",
+            "pattern": "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[Notice\\] <\\[EALobby\\] EALobbySetGameModeId> \\[EALobby\\]\\[CEALobby::SetGameModeId\\] .*? Changing game mode from .*? to (EA_\\w+)\\[.*?\\]",
+            "fields": [
+                { "name": "game_mode", "value": "AC", "group": 0 },
+                { "name": "sub_game_mode", "group": 1, "transform": "friendly_game_mode_name" }
+            ]
+        },
+        {
+            "identifier": "player_character_info",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d]+).*?state\\s*STATE_CURRENT",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "geid", "group": 2 },
+                { "name": "character_name", "group": 3 }
             ]
         }
     ]

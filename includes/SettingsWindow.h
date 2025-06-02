@@ -16,6 +16,7 @@
 #include "Transmitter.h"
 #include "ThemeSelect.h"
 #include "LanguageSelect.h"
+#include "SoundPlayer.h"
 
 class SettingsWindow : public QMainWindow {
     Q_OBJECT
@@ -67,6 +68,12 @@ private:
     void selectNextSound();
     QStringList getAvailableSounds() const;
     void updateSelectedSound(const QString& sound);
+    
+    QPushButton* checkUpdatesButton; // Declare checkUpdatesButton
+    QPushButton* saveApiKeyButton;
+
+    // Sound player
+    SoundPlayer* soundPlayer;
 
 private slots:
     void toggleUpdateCheck(int state);
@@ -76,6 +83,7 @@ private slots:
     void toggleLanguageSelectWindow();
     void toggleThemeSelectWindow();
     bool isGameFolderValid(const QString& folder) const;
+
 };
 
 #endif
