@@ -20,9 +20,6 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
     setWindowTitle(tr("Theme Selector"));
     setObjectName("themeSelectWindow");
 
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
-    setFixedSize(settings.value("chooseThemeWindowPreferredSize", QSize(400, 400)).toSize());
-
     QVector<Theme> themes = loadThemes();
     if (themes.isEmpty()) {
         qWarning() << "No themes loaded. Exiting.";
@@ -31,6 +28,9 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
 
     Theme current = loadCurrentTheme();
     applyTheme(current);
+    
+    // Always use the size from the loaded theme
+    setFixedSize(current.chooseThemeWindowPreferredSize);
 
     QWidget* central = new QWidget(this);
     setCentralWidget(central);
@@ -44,7 +44,7 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
     QButtonGroup* group = new QButtonGroup(this);
     for (const Theme& t : themes) {
         QPushButton* btn = new QPushButton(t.friendlyName, central);
-        btn->setObjectName("themeButton");
+        btn->setObjectName("themeSelectionButton"); // Changed from "themeButton"
         mainLayout->addWidget(btn);
         group->addButton(btn);
 
@@ -52,8 +52,12 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
             btn->setEnabled(false);
             btn->setProperty("selected", true);
             btn->setStyleSheet(""); // Let QSS handle the selected style
+            
+            // Force style system to apply the "selected" property styling
+            btn->style()->unpolish(btn);
+            btn->style()->polish(btn);
+            
             m_currentThemeButton = btn;
-            resize(t.chooseThemeWindowPreferredSize);
         }
 
         connect(btn, &QPushButton::clicked, this, [this, t, btn]() {
@@ -66,7 +70,7 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
 
             saveTheme(t);
             applyTheme(t);
-            resize(t.chooseThemeWindowPreferredSize);
+            setFixedSize(t.chooseThemeWindowPreferredSize);
 
             btn->setEnabled(false);
             btn->setProperty("selected", true);
@@ -78,6 +82,10 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
             emit themeChanged(t); // Ensure this is emitted
         });
     }
+
+    // Add this connection
+    connect(&LanguageManager::instance(), &LanguageManager::languageChanged,
+            this, &ThemeSelectWindow::retranslateUi);
 }
 
 void ThemeSelectWindow::connectSignals() {
@@ -111,12 +119,13 @@ void ThemeSelectWindow::saveTheme(const Theme& t) {
     settings.setValue("currentTheme", t.stylePath);
     settings.setValue("currentFont", t.fontPath);
     settings.setValue("currentBackgroundImage", t.backgroundImage);
-    settings.setValue("mainWindowPreferredSize", t.mainWindowPreferredSize);
-    settings.setValue("chooseThemeWindowPreferredSize", t.chooseThemeWindowPreferredSize);
-    settings.setValue("chooseLanguageWindowPreferredSize", t.chooseLanguageWindowPreferredSize);
-    settings.setValue("settingsWindowPreferredSize", t.settingsWindowPreferredSize);
+    // Remove window sizes from QSettings - always use JSON theme file
+    // settings.setValue("mainWindowPreferredSize", t.mainWindowPreferredSize);
+    // settings.setValue("chooseThemeWindowPreferredSize", t.chooseThemeWindowPreferredSize);
+    // settings.setValue("chooseLanguageWindowPreferredSize", t.chooseLanguageWindowPreferredSize);
+    // settings.setValue("settingsWindowPreferredSize", t.settingsWindowPreferredSize);
     settings.setValue("statusLabelPreferredSize", t.statusLabelPreferredSize);
-    settings.setValue("mainButtonRightSpace", t.mainButtonRightSpace); // Add this line
+    settings.setValue("mainButtonRightSpace", t.mainButtonRightSpace);
 
     qDebug() << "Saved theme:" << t.stylePath << "with font:" << t.fontPath;
 }
@@ -124,15 +133,40 @@ void ThemeSelectWindow::saveTheme(const Theme& t) {
 Theme ThemeSelectWindow::loadCurrentTheme() {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     Theme theme;
-    theme.stylePath = settings.value("currentTheme", ":/themes/originalsleek.qss").toString();
+    QString themePath = settings.value("currentTheme", ":/themes/originalsleek.qss").toString();
+    theme.stylePath = themePath;
     theme.fontPath = settings.value("currentFont", ":/fonts/PressStart2P-Regular.ttf").toString();
     theme.backgroundImage = settings.value("currentBackgroundImage", "").toString();
-    theme.mainWindowPreferredSize = settings.value("mainWindowPreferredSize", QSize(800, 600)).toSize();
-    theme.chooseThemeWindowPreferredSize = settings.value("chooseThemeWindowPreferredSize", QSize(400, 400)).toSize();
-    theme.chooseLanguageWindowPreferredSize = settings.value("chooseLanguageWindowPreferredSize", QSize(300, 300)).toSize();
-    theme.settingsWindowPreferredSize = settings.value("settingsWindowPreferredSize", QSize(500, 400)).toSize();
+    
+    // Initialize with fallback values that will be overwritten if found in the theme JSON
+    theme.mainWindowPreferredSize = QSize(800, 600);
+    theme.chooseThemeWindowPreferredSize = QSize(400, 400);
+    theme.chooseLanguageWindowPreferredSize = QSize(300, 300);
+    theme.settingsWindowPreferredSize = QSize(500, 400);
     theme.statusLabelPreferredSize = settings.value("statusLabelPreferredSize", QSize(280, 80)).toSize();
-    theme.mainButtonRightSpace = settings.value("mainButtonRightSpace", 140).toInt(); // Add this line
+    theme.mainButtonRightSpace = settings.value("mainButtonRightSpace", 140).toInt();
+    
+    // Find the matching theme in the themes.json file to get the current window sizes
+    QVector<Theme> themes = loadThemes();
+    for (const Theme& t : themes) {
+        if (t.stylePath == themePath) {
+            // Use window sizes from the theme JSON
+            theme.mainWindowPreferredSize = t.mainWindowPreferredSize;
+            theme.chooseThemeWindowPreferredSize = t.chooseThemeWindowPreferredSize;
+            theme.chooseLanguageWindowPreferredSize = t.chooseLanguageWindowPreferredSize;
+            theme.settingsWindowPreferredSize = t.settingsWindowPreferredSize;
+            theme.statusLabelPreferredSize = t.statusLabelPreferredSize;
+            theme.mainButtonRightSpace = t.mainButtonRightSpace;
+            
+            qDebug() << "Loaded window sizes from theme JSON for" << t.friendlyName 
+                     << "- Main:" << t.mainWindowPreferredSize
+                     << "Settings:" << t.settingsWindowPreferredSize
+                     << "Language:" << t.chooseLanguageWindowPreferredSize
+                     << "Theme:" << t.chooseThemeWindowPreferredSize;
+            break;
+        }
+    }
+    
     return theme;
 }
 
@@ -179,4 +213,14 @@ QVector<Theme> ThemeSelectWindow::loadThemes() {
     }
 
     return themes;
+}
+
+void ThemeSelectWindow::retranslateUi() {
+    // Only translate window title and header
+    setWindowTitle(tr("Theme Selector"));
+    header->setText(tr("> THEME SELECTOR"));
+    
+    // Theme buttons should NOT be translated - they are theme names
+    // Just update styling as needed
+    qDebug() << "ThemeSelectWindow UI retranslated";
 }

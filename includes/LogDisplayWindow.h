@@ -8,14 +8,56 @@
 #include <QHBoxLayout>
 #include <QStringList>
 #include <QSettings>
+#include <QComboBox>
+#include <QLabel>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QListWidget>
+#include <QListWidgetItem>
 #include "Transmitter.h"
 #include "SoundPlayer.h"
+#include "language_manager.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 #endif
+
+class FilterDropdownWidget : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit FilterDropdownWidget(QWidget* parent = nullptr);
+    void setShowPvP(bool show);
+    void setShowPvE(bool show);
+    void setShowShips(bool show);
+    void setShowOther(bool show);
+    void setShowNPCNames(bool show);
+    
+    bool getShowPvP() const;
+    bool getShowPvE() const;
+    bool getShowShips() const;
+    bool getShowOther() const;
+    bool getShowNPCNames() const;
+
+signals:
+    void filterChanged();
+
+private slots:
+    void onSelectAllChanged(bool checked);
+    void onIndividualFilterChanged();
+
+private:
+    QCheckBox* selectAllCheckbox;
+    QCheckBox* pvpCheckbox;
+    QCheckBox* pveCheckbox;
+    QCheckBox* shipsCheckbox;
+    QCheckBox* otherCheckbox;
+    QCheckBox* npcNamesCheckbox;
+    bool updatingSelectAll;
+};
 
 class LogDisplayWindow : public QMainWindow {
     Q_OBJECT
@@ -35,6 +77,10 @@ public:
     bool getShowPvP() const { return showPvP; }
     bool getShowPvE() const { return showPvE; }
     bool getShowNPCNames() const { return showNPCNames; }
+    
+    // New getters for the extended filter system
+    bool getShowShips() const { return showShips; }
+    bool getShowOther() const { return showOther; }
 
     void resetLogDisplay(); // Public method that will call the private clearLog()
     void setGameMode(const QString& gameMode, const QString& subGameMode = "");
@@ -44,13 +90,16 @@ public:
     // New methods to control the monitoring button state
     void disableMonitoringButton(const QString& text);
     void enableMonitoringButton(const QString& text);
+    void updateFilterDropdownWidth();
 
 signals:
     void windowClosed();
     void toggleMonitoringRequested();
-    // Add new signals for filter settings
+    // Filter signals
     void filterPvPChanged(bool show);
     void filterPvEChanged(bool show);
+    void filterShipsChanged(bool show);
+    void filterOtherChanged(bool show);
     void filterNPCNamesChanged(bool show);
 
 protected:
@@ -61,16 +110,25 @@ protected:
 private:
     Transmitter& transmitter;
     QTextEdit* logDisplay;
-    QCheckBox* showPvPCheckbox;
-    QCheckBox* showPvECheckbox;
-    QCheckBox* showNPCNamesCheckbox;
+    
+    // New filter system UI
+    QPushButton* filterDropdown;
+    FilterDropdownWidget* filterWidget;
+    QListWidget* filterListWidget;
     QCheckBox* playSoundCheckbox;
     QPushButton* testButton;
     QPushButton* monitoringButton;
+    
+    // Filter state variables
     bool showPvP;
     bool showPvE;
+    bool showShips;
+    bool showOther;
     bool showNPCNames;
     bool playSound;
+    
+    // JSON rules cache
+    QJsonObject rulesData;
 
     QString logBgColor = "#1e1e1e";
     QString logFgColor = "#dcdcdc";
@@ -91,10 +149,13 @@ private:
     QStringList filterLogs(const QStringList& logs) const;
     QString prettifyLog(const QString& log) const;
     QString formatEvent(const QString& identifier, const nlohmann::json& parsed) const;
+    QString formatEventFromTemplate(const QString& messageTemplate, const nlohmann::json& parsed) const;
     // Load settings from QSettings
     void loadFilterSettings();
+    void loadJsonRules();
     void playSystemSound();
     QString getFriendlyGameModeName(const QString& rawMode) const;
+    bool shouldShowEventType(const QString& filterType) const;
 
 private slots:
     void clearLog();
@@ -104,10 +165,15 @@ private slots:
     void decreaseFontSize();
     void handleTestButton();
     void handleMonitoringButton();
-    // Add slots for checkbox changes
+    // Updated slots for new filter system
     void onShowPvPToggled(bool checked);
     void onShowPvEToggled(bool checked);
+    void onShowShipsToggled(bool checked);
+    void onShowOtherToggled(bool checked);
     void onShowNPCNamesToggled(bool checked);
+    void onFilterDropdownChanged(int index);
+
+    void retranslateUi();
 
 public slots:
     void processLogQueue(const QString& log);

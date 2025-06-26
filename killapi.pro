@@ -1,5 +1,5 @@
 TRANSLATIONS += resources/translations/lang_en.ts \
-                resources/translations/lang_zh_CN.ts \
+                resources/translations/lang_zh.ts \
                 resources/translations/lang_ja.ts \
                 resources/translations/lang_uk.ts \
                 resources/translations/lang_ru.ts \

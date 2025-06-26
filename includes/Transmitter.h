@@ -29,11 +29,13 @@ public:
     
     // Error types enum for specific error handling
     enum class ApiErrorType {
-        None,
-        PanelClosed,
-        InvalidApiKey,
+        NoError,
         NetworkError,
-        Other
+        JsonParseError,
+        InvalidApiKey,
+        PanelClosed,
+        ServerError,  // Previously added
+        Other         // Add this new enum value
     };
 
     QQueue<QString> logQueue;

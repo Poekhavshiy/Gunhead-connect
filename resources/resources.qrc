@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="app_icon">icons/KillAPI.ico</file>
-        <file alias="icons/KillAPI.ico">icons/KillAPI.ico</file>
-        <file alias="icons/gunhead-logo.png">icons/gunhead-logo.png</file>
+        <file>icons/KillAPI.ico</file>
+        <file>icons/KillAPI.png</file>
+        <file>icons/KillAP-tray.png</file>
 
         <file alias="themes/themes.json">themes/allThemeSettings.json</file>
         
@@ -38,7 +38,7 @@
         <file alias="translations/lang_it.qm">translations/lang_it.qm</file>
         <file alias="translations/lang_pt.qm">translations/lang_pt.qm</file>
         <file alias="translations/lang_ru.qm">translations/lang_ru.qm</file>
-        <file alias="translations/lang_zh_CN.qm">translations/lang_zh_CN.qm</file>
+        <file alias="translations/lang_zh.qm">translations/lang_zh.qm</file>
         <file alias="translations/lang_ja.qm">translations/lang_ja.qm</file>
         <file alias="translations/lang_ko.qm">translations/lang_ko.qm</file>
         <file alias="translations/lang_uk.qm">translations/lang_uk.qm</file>

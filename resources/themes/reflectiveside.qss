@@ -68,7 +68,9 @@ QLabel#AudioDeviceLabel {
     color: #2b4f77;
 }
 
-QPushButton#themeButton[selected="true"] {
+QPushButton#themeButton[selected="true"],
+QPushButton#themeSelectionButton[selected="true"],
+QPushButton#languageSelectionButton[selected="true"] {
     background-color: #00aaff;
     color: white;
     font-weight: bold;

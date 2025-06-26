@@ -8,3 +8,4 @@ extern std::string currentGameMode;
 extern std::string currentSubGameMode;
 extern std::string currentPlayerName;
 extern std::string currentPlayerGEID;
+extern std::string systemLocale;

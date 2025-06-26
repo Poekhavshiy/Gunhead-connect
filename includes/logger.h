@@ -45,6 +45,9 @@ public:
 
     void init(bool debug_enabled = false, bool to_console = false, const std::string& log_dir = "data/");
     void shutdown();
+    
+    // Force cleanup - can be called from signal handlers or atexit
+    static void forceCleanup();
 
     void log(LogLevel level, const std::string& module, const std::string& message);
     void enable_module(const std::string& module);
@@ -67,10 +70,9 @@ private:
 
     void worker();
     std::string level_to_string(LogLevel level);
-    void ensureLogFile();
+    void checkLogRotation();
     void writeLog(const LogEntry& entry);
 
-    std::ofstream logfile;
     bool debug_enabled = false;
     bool console_output = false;
     std::string log_directory;

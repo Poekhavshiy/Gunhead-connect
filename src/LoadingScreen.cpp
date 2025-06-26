@@ -8,7 +8,7 @@
 LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
     // Set up the dialog
     setWindowTitle("Loading KillAPI Connect Plus");
-    setWindowIcon(QIcon(":/app_icon"));  // Ensure the application icon is set
+    setWindowIcon(QIcon(":/icons/KillAPI.ico"));  // Ensure the application icon is set
 
     // Ensure the window is recognized by the taskbar
     setAttribute(Qt::WA_ShowWithoutActivating, false);
@@ -34,25 +34,22 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     imageLabel->setAlignment(Qt::AlignCenter);
 
     // Load the gunhead-logo.png resource
-    QPixmap loadingIcon(":/icons/gunhead-logo.png");
+    QPixmap loadingIcon(":/icons/KillAPI.png");
 
     if (!loadingIcon.isNull()) {
         qDebug() << "Gunhead logo loaded successfully";
-        // Scale to appropriate size
-        imageLabel->setPixmap(loadingIcon.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        // Store the original pixmap
+        originalPixmap = loadingIcon.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        imageLabel->setPixmap(originalPixmap);
 
-        // Add rotation animation
-        QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect(this);
-        effect->setOpacity(0.85);  // Adjust opacity to make it slightly more opaque
-        imageLabel->setGraphicsEffect(effect);
-
-        QPropertyAnimation* animation = new QPropertyAnimation(effect, "opacity");
-        animation->setDuration(1500);
-        animation->setLoopCount(-1);  // infinite
-        animation->setStartValue(0.7);
-        animation->setEndValue(0.85);
-        animation->setEasingCurve(QEasingCurve::InOutQuad);
-        animation->start();
+        // Create rotation animation
+        rotationAnimation = new QPropertyAnimation(this, "rotation");
+        rotationAnimation->setDuration(2000); // 2 seconds per rotation
+        rotationAnimation->setLoopCount(-1);  // infinite
+        rotationAnimation->setStartValue(0.0);
+        rotationAnimation->setEndValue(360.0);
+        rotationAnimation->setEasingCurve(QEasingCurve::Linear);
+        rotationAnimation->start();
     } else {
         qDebug() << "Failed to load gunhead logo, using text fallback";
         imageLabel->setText("Loading...");
@@ -88,6 +85,62 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     layout->addWidget(progressBar);
 
     setLayout(layout);
+
+    // Hardcode the "originalsleek" theme for the loading screen's actual elements only
+    // Applies to: background, status label, progress bar, and fallback text
+
+    // Main background and font color
+    this->setStyleSheet(
+        "QDialog {"
+        "    background-color: #121212;"
+        "    color: #f0f0f0;"
+        "    font-family: 'Roboto', sans-serif;"
+        "    font-size: 14px;"
+        "}"
+        "QLabel {"
+        "    color: #bbbbbb;"
+        "    font-family: 'Roboto', sans-serif;"
+        "    font-size: 14px;"
+        "}"
+        "QLabel#statusLabel {"
+        "    font-size: 16px;"
+        "    color: #f0f0f0;"
+        "}"
+        "QProgressBar {"
+        "    border: 2px solid #CEFB17;"
+        "    border-radius: 5px;"
+        "    text-align: center;"
+        "    color: #CEFB17;"
+        "    background-color: #181818;"
+        "}"
+        "QProgressBar::chunk {"
+        "    background-color: #CEFB17;"
+        "    width: 10px;"
+        "}"
+                "QProgressBar {"
+        "    border: 2px solid #CEFB17;"
+        "    border-radius: 5px;"
+        "    text-align: center;"
+        "    color: #CEFB17;"
+        "}"
+        "QProgressBar::chunk {"
+        "    background-color: #CEFB17;"
+        "    width: 10px;"
+        "}"
+    );
+
+    // Set object name for status label so the style applies
+    statusLabel->setObjectName("statusLabel");
+
+    // Force a hardcoded dark background, regardless of global theme
+    this->setStyleSheet("background-color: #181818;"); // or your preferred default color
+
+    // Also clear stylesheets for all children to avoid theme bleed
+    for (QObject* child : this->children()) {
+        if (QWidget* w = qobject_cast<QWidget*>(child)) {
+            w->setStyleSheet("");
+        }
+    }
 }
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
@@ -102,7 +155,38 @@ void LoadingScreen::setMaximum(int max) {
     progressBar->setMaximum(max);
 }
 
+void LoadingScreen::setRotation(qreal angle) {
+    rotationAngle = angle;
+    
+    // Create a transform for rotation
+    QTransform transform;
+    transform.translate(originalPixmap.width()/2, originalPixmap.height()/2);
+    transform.rotate(rotationAngle);
+    transform.translate(-originalPixmap.width()/2, -originalPixmap.height()/2);
+    
+    // Apply the rotation to the pixmap
+    QPixmap rotatedPixmap = originalPixmap.transformed(transform, Qt::SmoothTransformation);
+    
+    // Update the label
+    imageLabel->setPixmap(rotatedPixmap);
+}
+
+qreal LoadingScreen::rotation() const { return rotationAngle; }
+
 LoadingScreen::~LoadingScreen() {
     // Clean up any resources if needed
     // The QObjects will be automatically deleted by Qt's parent-child mechanism
+}
+
+// Add this implementation to LoadingScreen.cpp:
+void LoadingScreen::showEvent(QShowEvent* event) {
+    QDialog::showEvent(event);
+    
+    // Ensure animation is running when the window becomes visible
+    if (rotationAnimation && rotationAnimation->state() != QAbstractAnimation::Running) {
+        rotationAnimation->start();
+    }
+    
+    // Process events to ensure animation starts immediately
+    QApplication::processEvents();
 }

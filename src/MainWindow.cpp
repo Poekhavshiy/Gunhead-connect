@@ -1,22 +1,37 @@
 #include "MainWindow.h"
+
 #include "SettingsWindow.h"
 #include "LogDisplayWindow.h"
-#include "ThemeSelect.h"
 #include "LogMonitor.h"
 #include "Transmitter.h"
 #include "log_parser.h"
+#include "window_utils.h"
+#include "GameLauncher.h"
+#include "language_manager.h"
+
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QAction>
+#include <QApplication>
+#include <QCloseEvent>
+#include <QTimer>
+#include <QThread>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QDebug>
+#include <QFile>
+#include <QStyle>
+#include <QIcon>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QSettings>
-#include <QDebug>
-#include <QCloseEvent>
-#include <QFile>
-#include <QTimer>
-#include <QThread>  // Add this line
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonParseError>
+#include <QResource>   // for QResource
+#include <QPixmap>     // for QPixmap
+#include <QPainter>    // for QPainter
+#include <QFont>       // for QFont
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -30,19 +45,25 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     , isMonitoring(false) // Initialize monitoring state
     , showPvP(false)
     , showPvE(true)
+    , showShips(true)
+    , showOther(false)
     , showNPCNames(true)
+    , systemTrayIcon(nullptr)
+    , trayIconMenu(nullptr)
 {
     // Set up the main window
     setWindowTitle("KillAPI Connect Plus");
-    setWindowIcon(QIcon(":/app_icon"));
+    setWindowIcon(QIcon(":/icons/KillAPI.ico"));
+    setObjectName("MainWindow"); // Set object name for identification
     // Load the game log file path from QSettings
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     gameLogFilePath = settings.value("gameFolder", "").toString() + "/game.log";
     logDisplayVisible = settings.value("LogDisplay/Visible", false).toBool();
 
     // Load filter settings from QSettings
     showPvP = settings.value("LogDisplay/ShowPvP", false).toBool();
     showPvE = settings.value("LogDisplay/ShowPvE", true).toBool();
+    showShips = settings.value("LogDisplay/ShowShips", true).toBool();
+    showOther = settings.value("LogDisplay/ShowOther", false).toBool();
     showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
 
     
@@ -63,7 +84,7 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     mainLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter); // Align buttons and label to center-right
 
     const int buttonWidth = 280; // Fixed width for buttons
-    int buttonRightSpace = settings.value("mainButtonRightSpace", 140).toInt();
+    int buttonRightSpace = currentTheme.mainButtonRightSpace; // Use value from theme JSON
     qDebug() << "Button right spacing:" << buttonRightSpace;
 
     // Create buttons and set their fixed width
@@ -76,7 +97,8 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     logButton = new QPushButton(tr("View Log"), central);
     logButton->setFixedWidth(buttonWidth);
 
-    QSize statusLabelSize = settings.value("statusLabelPreferredSize", QSize(280, 80)).toSize();
+    // Use status label size from theme
+    QSize statusLabelSize = currentTheme.statusLabelPreferredSize;
     
     statusLabel = new QLabel(tr("Ready"), central);
     statusLabel->setObjectName("statusLabel");
@@ -125,7 +147,6 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
         updateStatusLabel(tr("Monitoring started successfully.")); // Updated to use tr()
     });
         
-    //debugPaths();
     debugPaths();
     // Load regex rules
     loadRegexRules();
@@ -141,7 +162,6 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     QTimer* queueProcessTimer = new QTimer(this);
     connect(queueProcessTimer, &QTimer::timeout, this, [this]() {
         if (!transmitter.logQueue.isEmpty()) {
-            QSettings settings("KillApiConnect", "KillApiConnectPlus");
             QString apiKey = settings.value("apiKey", "").toString();
             if (!apiKey.isEmpty()) {
                 qDebug() << "Processing queue with" << transmitter.logQueue.size() << "items";
@@ -156,9 +176,10 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
         // Update status bar with error message
         updateStatusLabel(errorMessage);
         
-        // Stop monitoring for specific errors
+        // Stop monitoring for specific errors or server errors
         if (errorType == Transmitter::ApiErrorType::PanelClosed || 
-            errorType == Transmitter::ApiErrorType::InvalidApiKey) {
+            errorType == Transmitter::ApiErrorType::InvalidApiKey ||
+            errorType == Transmitter::ApiErrorType::ServerError) {  // Add ServerError type
             if (isMonitoring) {
                 qDebug() << "Stopping monitoring due to API error:" << errorMessage;
                 stopMonitoring();
@@ -217,6 +238,19 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
         &transmitter, [this](const QString& playerName, const QString& playerGEID) {
             transmitter.updatePlayerInfo(playerName, playerGEID);
         });
+        
+    // Add after other connect statements in the constructor
+    connect(&LanguageManager::instance(), &LanguageManager::languageChanged, 
+        this, &MainWindow::retranslateUi);
+        
+    // Create system tray icon if available (with delay to ensure system is ready)
+    QTimer::singleShot(500, this, [this]() {
+        if (QSystemTrayIcon::isSystemTrayAvailable()) {
+            createSystemTrayIcon();
+        } else {
+            qWarning() << "System tray not available - minimize to tray will not work";
+        }
+    });
 }
 
 void MainWindow::handleLogLine(const QString& jsonPayload) {
@@ -250,7 +284,6 @@ void MainWindow::handleLogLine(const QString& jsonPayload) {
     // The filtering is already done in LogMonitor, just process the event
     transmitter.enqueueLog(jsonPayload);
     
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     QString apiKey = settings.value("apiKey", "").toString();
     if (!apiKey.isEmpty()) {
         transmitter.processQueueInThread(apiKey);
@@ -319,7 +352,63 @@ void MainWindow::startMonitoring() {
         logDisplayWindow->disableMonitoringButton("Connecting...");
     }
     
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    // Check if auto-launch is enabled and Star Citizen is not running
+    bool autoLaunchGame = settings.value("autoLaunchGame", false).toBool();
+    qDebug() << "MainWindow: Auto-launch game setting:" << autoLaunchGame;
+    
+    if (autoLaunchGame) {
+        bool isRunning = GameLauncher::isStarCitizenRunning();
+        qDebug() << "MainWindow: Star Citizen running status:" << isRunning;
+        
+        if (!isRunning) {
+            updateStatusLabel(tr("Star Citizen not running. Attempting to launch..."));
+            qDebug() << "MainWindow: Auto-launch enabled and Star Citizen not running. Attempting to launch...";
+            
+            QString launcherPath = settings.value("launcherPath", "C:/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe").toString();
+            qDebug() << "MainWindow: Launcher path from settings:" << launcherPath;
+            
+            // Check if launcher path is still empty or invalid
+            if (launcherPath.isEmpty()) {
+                updateStatusLabel(tr("Failed to launch: RSI Launcher path not configured. Please set it in Settings."));
+                qWarning() << "MainWindow: RSI Launcher path is empty - user needs to configure it in Settings";
+                continueStartMonitoring();
+                return;
+            }
+            
+            QFileInfo launcherInfo(launcherPath);
+            if (!launcherInfo.exists()) {
+                updateStatusLabel(tr("Failed to launch: RSI Launcher not found at configured path. Please check Settings."));
+                qWarning() << "MainWindow: RSI Launcher not found at:" << launcherPath;
+                continueStartMonitoring();
+                return;
+            }
+            
+            if (GameLauncher::launchStarCitizen(launcherPath)) {
+                updateStatusLabel(tr("Star Citizen launched. Waiting for game to start..."));
+                qDebug() << "MainWindow: Star Citizen launch command sent successfully";
+                
+                // Give the game some time to start before proceeding
+                QTimer::singleShot(5000, this, [this]() {
+                    continueStartMonitoring();
+                });
+                return;
+            } else {
+                updateStatusLabel(tr("Failed to launch Star Citizen. Continuing with monitoring..."));
+                qWarning() << "MainWindow: Failed to launch Star Citizen";
+                // Continue with monitoring anyway
+            }
+        } else {
+            qDebug() << "MainWindow: Star Citizen is already running, skipping auto-launch";
+        }
+    } else {
+        qDebug() << "MainWindow: Auto-launch disabled, skipping game launch check";
+    }
+    
+    continueStartMonitoring();
+}
+
+void MainWindow::continueStartMonitoring() {
+    // Using class member settings directly
     QString apiKey = settings.value("apiKey", "").toString();
 
     if (!QFile::exists(gameLogFilePath)) {
@@ -371,6 +460,11 @@ void MainWindow::startMonitoring() {
         logDisplayWindow->updateMonitoringButtonText(true);
     }
     
+    // Update system tray action text
+    if (startStopAction) {
+        startStopAction->setText(tr("Stop Monitoring"));
+    }
+    
     // Start the connection ping timer
     connectionPingTimer->start();
     qDebug() << "Started connection ping timer - will check connection every 60 seconds";
@@ -417,6 +511,11 @@ void MainWindow::stopMonitoring() {
     if (logDisplayWindow) {
         logDisplayWindow->updateMonitoringButtonText(false);
     }
+    
+    // Update system tray action text
+    if (startStopAction) {
+        startStopAction->setText(tr("Start Monitoring"));
+    }
 
     updateStatusLabel(tr("Monitoring stopped."));
     isStoppingMonitoring = false;
@@ -424,17 +523,15 @@ void MainWindow::stopMonitoring() {
 
 void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
     qDebug() << "Toggling LogDisplayWindow visibility.";
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
-
     if (forceNotVisible || logDisplayWindow) {
         qDebug() << "LogDisplayWindow is open, closing it.";
-        settings.setValue("LogDisplay/Visible", false); // Update state in QSettings
+        settings.setValue("LogDisplay/Visible", false); // Use class member
         logDisplayVisible = false;
         if (logDisplayWindow) {
             logDisplayWindow->close();
             logDisplayWindow = nullptr; // Reset the pointer
         }
-        logButton->setText("View Log"); // Update button label
+        logButton->setText(tr("View Log"));
     } else {
         qDebug() << "LogDisplayWindow is closed, opening it.";
         logDisplayWindow = new LogDisplayWindow(transmitter);
@@ -444,7 +541,13 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
         // Connect LogDisplayWindow signals
         connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
             qDebug() << "LogDisplayWindow closed signal received.";
-            toggleLogDisplayWindow(true);
+            
+            // Save the closed state using class member
+            settings.setValue("LogDisplay/Visible", false);
+            logDisplayVisible = false;
+            
+            logDisplayWindow = nullptr;
+            logButton->setText(tr("View Log"));
         });
         
         connect(logDisplayWindow, &LogDisplayWindow::toggleMonitoringRequested, 
@@ -462,6 +565,18 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
                     setShowPvE(show);
                 });
                 
+        connect(logDisplayWindow, &LogDisplayWindow::filterShipsChanged,
+                this, [this](bool show) {
+                    qDebug() << "MainWindow: Received filterShipsChanged signal with value:" << show;
+                    setShowShips(show);
+                });
+
+        connect(logDisplayWindow, &LogDisplayWindow::filterOtherChanged,
+                this, [this](bool show) {
+                    qDebug() << "MainWindow: Received filterOtherChanged signal with value:" << show;
+                    setShowOther(show);
+                });
+                
         connect(logDisplayWindow, &LogDisplayWindow::filterNPCNamesChanged, 
                 this, [this](bool show) {
                     qDebug() << "MainWindow: Received filterNPCNamesChanged signal with value:" << show;
@@ -473,9 +588,9 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
             startButton->text() == "Stop Monitoring");
 
         logDisplayWindow->show();
-        settings.setValue("LogDisplay/Visible", true); // Update state in QSettings
+        settings.setValue("LogDisplay/Visible", true); // Use class member
         logDisplayVisible = true;
-        logButton->setText("Hide Log"); // Update button label
+        logButton->setText(tr("Hide Log")); // Update with tr() function
     }
 }
 
@@ -505,6 +620,11 @@ void MainWindow::toggleSettingsWindow() {
                 this, &MainWindow::applyTheme);
         connect(settingsWindow, &SettingsWindow::gameFolderChanged, 
                 this, &MainWindow::onGameFolderChanged);
+        connect(settingsWindow, &SettingsWindow::minimizeToTrayChanged,
+                this, &MainWindow::onMinimizeToTrayChanged);
+                
+        // Position the window before showing it
+        WindowUtils::positionWindowOnScreen(settingsWindow, this);
         settingsWindow->show();
     }
 }
@@ -514,13 +634,13 @@ void MainWindow::applyTheme(Theme themeData)
     qDebug() << "MainWindow resizing to:" << themeData.mainWindowPreferredSize << " and button right spacing:" << themeData.mainButtonRightSpace;
     setFixedSize(themeData.mainWindowPreferredSize); // Resize MainWindow
         
-    // ALWAYS update the spacing, don't check QSettings
-    qDebug() << "FORCE applying button spacing to:" << themeData.mainButtonRightSpace;
+    // Update the spacing without checking QSettings
+    qDebug() << "Applying button spacing to:" << themeData.mainButtonRightSpace;
     
     // Debug buttonLayouts
     qDebug() << "buttonLayouts contains" << buttonLayouts.size() << "layouts";
     
-    // Update all layouts regardless of condition
+    // Update all layouts
     for (QHBoxLayout* layout : buttonLayouts) {
         // Remove the old spacing item
         if (layout->count() > 1) {
@@ -536,8 +656,7 @@ void MainWindow::applyTheme(Theme themeData)
         qDebug() << "Added new spacing:" << themeData.mainButtonRightSpace;
     }
     
-    // Force a complete layout update
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    // Save only the button spacing, not window sizes
     settings.setValue("mainButtonRightSpace", themeData.mainButtonRightSpace);
     centralWidget()->updateGeometry();
     centralWidget()->layout()->invalidate();
@@ -588,11 +707,35 @@ void MainWindow::applyTheme(Theme themeData)
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
+    // Check if minimize to tray is enabled and system tray is available
+    bool minimizeToTray = settings.value("minimizeToTray", false).toBool();
+    
+    if (minimizeToTray && systemTrayIcon && systemTrayIcon->isVisible() && !isShuttingDown) {
+        // Hide the window instead of closing
+        hide();
+        event->ignore();
+        
+        // Show tray message the first time
+        static bool firstTimeMinimized = true;
+        if (firstTimeMinimized) {
+            showSystemTrayMessage(tr("KillApiConnect Plus"), 
+                                tr("Application was minimized to tray"));
+            firstTimeMinimized = false;
+        }
+        
+        qDebug() << "Window minimized to system tray";
+        return;
+    } else if (minimizeToTray && (!systemTrayIcon || !systemTrayIcon->isVisible())) {
+        qWarning() << "Minimize to tray enabled but system tray icon not available - closing normally";
+    }
+    
+    // Normal close behavior
+    isShuttingDown = true;
+    
     if (logMonitor) {
         logMonitor->stopMonitoring(); // Gracefully stop monitoring
         updateStatusLabel(tr("Monitoring stopped."));
     }
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     qDebug() << "Final state of LogDisplayWindow:" << logDisplayVisible << " or " << settings.value("LogDisplay/Visible", false).toBool();
     updateStatusLabel(tr("MainWindow closed, stopping monitoring and closing LogDisplayWindow."));
     if (logDisplayWindow) {
@@ -606,7 +749,6 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::loadRegexRules() {
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     QString rulesFilePath = settings.value("regexRulesFile", "data/logfile_regex_rules.json").toString();
 
     if (!QFile::exists(rulesFilePath)) {
@@ -625,8 +767,6 @@ void MainWindow::loadRegexRules() {
 }
 
 void MainWindow::debugPaths() {
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
-
     QString regexRulesFile = settings.value("regexRulesFile", "data/logfile_regex_rules.json").toString();
     qDebug() << "Regex Rules File Path:" << regexRulesFile;
 
@@ -657,7 +797,8 @@ void MainWindow::debugPaths() {
 
 void MainWindow::updateStatusLabel(const QString& status) {
     if (statusLabel) {
-        statusLabel->setText(status);
+        lastStatusKey = status; // Store the untranslated key
+        statusLabel->setText(tr(status.toUtf8().constData())); // Translate now
         qDebug() << "Status updated to:" << status;
     }
 }
@@ -716,7 +857,6 @@ void MainWindow::setShowPvP(bool show) {
     qDebug() << "MainWindow::setShowPvP - Value changing from" << showPvP << "to" << show;
     if (showPvP != show) {
         showPvP = show;
-        QSettings settings("KillApiConnect", "KillApiConnectPlus");
         settings.setValue("LogDisplay/ShowPvP", showPvP);
         qDebug() << "MainWindow::setShowPvP - Saved new value to QSettings";
         emit filterSettingsChanged();
@@ -737,7 +877,6 @@ void MainWindow::setShowPvE(bool show) {
     qDebug() << "MainWindow::setShowPvE - Value changing from" << showPvE << "to" << show;
     if (showPvE != show) {
         showPvE = show;
-        QSettings settings("KillApiConnect", "KillApiConnectPlus");
         settings.setValue("LogDisplay/ShowPvE", showPvE);
         qDebug() << "MainWindow::setShowPvE - Saved new value to QSettings";
         emit filterSettingsChanged();
@@ -754,24 +893,60 @@ void MainWindow::setShowPvE(bool show) {
     }
 }
 
+void MainWindow::setShowShips(bool show) {
+    qDebug() << "MainWindow::setShowShips - Value changing from" << showShips << "to" << show;
+    if (showShips != show) {
+        showShips = show;
+        settings.setValue("LogDisplay/ShowShips", showShips);
+        qDebug() << "MainWindow::setShowShips - Saved new value to QSettings";
+        emit filterSettingsChanged();
+        qDebug() << "MainWindow::setShowShips - Emitted filterSettingsChanged signal";
+        
+        // Automatically restart monitoring if active
+        if (isMonitoring) {
+            qDebug() << "MainWindow::setShowShips - Automatically restarting monitoring to apply changes";
+            updateStatusLabel(tr("Filter changed - automatically applying changes"));
+            restartMonitoring();
+        }
+    } else {
+        qDebug() << "MainWindow::setShowShips - Value unchanged, no action taken";
+    }
+}
+
+void MainWindow::setShowOther(bool show) {
+    qDebug() << "MainWindow::setShowOther - Value changing from" << showOther << "to" << show;
+    if (showOther != show) {
+        showOther = show;
+        settings.setValue("LogDisplay/ShowOther", showOther);
+        qDebug() << "MainWindow::setShowOther - Saved new value to QSettings";
+        emit filterSettingsChanged();
+        qDebug() << "MainWindow::setShowOther - Emitted filterSettingsChanged signal";
+        
+        // Automatically restart monitoring if active
+        if (isMonitoring) {
+            qDebug() << "MainWindow::setShowOther - Automatically restarting monitoring to apply changes";
+            updateStatusLabel(tr("Filter changed - automatically applying changes"));
+            restartMonitoring();
+        }
+    } else {
+        qDebug() << "MainWindow::setShowOther - Value unchanged, no action taken";
+    }
+}
+
 void MainWindow::setShowNPCNames(bool show) {
     qDebug() << "MainWindow::setShowNPCNames - Value changing from" << showNPCNames << "to" << show;
     if (showNPCNames != show) {
         showNPCNames = show;
-        QSettings settings("KillApiConnect", "KillApiConnectPlus");
         settings.setValue("LogDisplay/ShowNPCNames", showNPCNames);
         qDebug() << "MainWindow::setShowNPCNames - Saved new value to QSettings";
         emit filterSettingsChanged();
         qDebug() << "MainWindow::setShowNPCNames - Emitted filterSettingsChanged signal";
         
-        // Automatically restart monitoring if active
         if (isMonitoring) {
             qDebug() << "MainWindow::setShowNPCNames - Automatically restarting monitoring to apply changes";
             updateStatusLabel(tr("Filter changed - automatically applying changes"));
             restartMonitoring();
         }
-    } else {
-        qDebug() << "MainWindow::setShowNPCNames - Value unchanged, no action taken";
     }
 }
 
@@ -897,33 +1072,38 @@ void MainWindow::initializeApp() {
 }
 
 void MainWindow::handleGameModeChange(const QString& gameMode, const QString& subGameMode) {
-    // Update UI with the new game mode
-    if (gameMode == "PU") {
-        updateStatusLabel(tr("Game mode: Persistent Universe"));
-    } else if (gameMode == "AC") {
-        updateStatusLabel(tr("Game mode: Arena Commander: %1").arg(subGameMode));
-    }
+    // Add a static variable to track the last game mode update
+    static QString lastGameMode = "";
+    static QString lastSubGameMode = "";
     
-    // If LogDisplayWindow is open, update its status directly
-    if (logDisplayWindow) {
-        if (gameMode == "PU") {
-            logDisplayWindow->updateStatusLabel(tr("Game mode changed to Persistent Universe"));
-        } else if (gameMode == "AC") {
-            logDisplayWindow->updateStatusLabel(tr("Game mode changed to Arena Commander: %1").arg(subGameMode));
+    // Only process if this is a different game mode than the last one processed
+    if (gameMode != lastGameMode || subGameMode != lastSubGameMode) {
+        // Remember this game mode to prevent duplicates
+        lastGameMode = gameMode;
+        lastSubGameMode = subGameMode;  // This should be the 'subGameMode' variable passed to the method as an argument.
+        
+        // Only send the game mode update if monitoring is active
+        if (isMonitoring) {
+            QString apiKey = settings.value("apiKey", "").toString();
+            if (!apiKey.isEmpty()) {
+                transmitter.sendGameMode(apiKey);
+            }
         }
-    }
-    
-    // Only send the game mode update if monitoring is active
-    if (isMonitoring) {
-        QSettings settings("KillApiConnect", "KillApiConnectPlus");
-        QString apiKey = settings.value("apiKey", "").toString();
-        if (!apiKey.isEmpty()) {
-            transmitter.sendGameMode(apiKey);
+        
+        // Update the game mode in the transmitter
+        transmitter.updateGameMode(gameMode, subGameMode, isMonitoring);
+        
+        // If LogDisplayWindow is open, update its status directly
+        if (logDisplayWindow) {
+            if (gameMode == "PU") {
+                logDisplayWindow->updateStatusLabel(tr("Game mode changed to Persistent Universe"));
+            } else if (gameMode == "AC") {
+                logDisplayWindow->updateStatusLabel(tr("Game mode changed to Arena Commander: %1").arg(subGameMode));
+            }
         }
+    } else {
+        qDebug() << "Ignoring duplicate game mode change notification for" << gameMode << subGameMode;
     }
-    
-    // Update the game mode in the transmitter
-    transmitter.updateGameMode(gameMode, subGameMode, isMonitoring);
 }
 
 // Add the connection ping method
@@ -933,7 +1113,6 @@ void MainWindow::sendConnectionPing() {
     }
     
     qDebug() << "Sending connection heartbeat ping";
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     QString apiKey = settings.value("apiKey", "").toString();
     
     if (apiKey.isEmpty()) {
@@ -954,7 +1133,6 @@ void MainWindow::sendConnectionPing() {
 
 // Add this method to create the LogDisplayWindow after initialization
 void MainWindow::createLogDisplayWindowIfNeeded() {
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     bool shouldBeVisible = settings.value("LogDisplay/Visible", false).toBool();
     
     if (shouldBeVisible && !logDisplayWindow) {
@@ -966,8 +1144,13 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
         // Connect the LogDisplayWindow's close signal to update the button label
         connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
             qDebug() << "LogDisplayWindow closed signal received.";
+            
+            // Save the closed state using class member settings
+            settings.setValue("LogDisplay/Visible", false);
+            logDisplayVisible = false;
+            
             logDisplayWindow = nullptr;
-            logButton->setText("View Log");
+            logButton->setText(tr("View Log"));
         });
 
         // Connect the monitoring toggle signal
@@ -984,6 +1167,16 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
                     setShowPvE(show);
                 });
                 
+        connect(logDisplayWindow, &LogDisplayWindow::filterShipsChanged,
+                this, [this](bool show) {
+                    setShowShips(show);
+                });
+
+        connect(logDisplayWindow, &LogDisplayWindow::filterOtherChanged,
+                this, [this](bool show) {
+                    setShowOther(show);
+                });
+                
         connect(logDisplayWindow, &LogDisplayWindow::filterNPCNamesChanged, 
                 this, [this](bool show) {
                     setShowNPCNames(show);
@@ -993,7 +1186,7 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
         logDisplayWindow->updateMonitoringButtonText(isMonitoring);
 
         logDisplayWindow->show();
-        logButton->setText("Hide Log");
+        logButton->setText(tr("Hide Log")); // Use tr() here
 
         // Force an immediate title update with current values
         QString gameMode = transmitter.getCurrentGameMode();
@@ -1011,7 +1204,7 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
             }
         });
     } else {
-        logButton->setText("View Log");
+        logButton->setText(tr("View Log")); // Use tr() here
     }
 }
 
@@ -1068,4 +1261,168 @@ void MainWindow::startBackgroundInitialization() {
     
     // Start the worker thread
     initThread->start();
+}
+
+// Add this method to the MainWindow class
+void MainWindow::retranslateUi() {
+    // Update window title
+    setWindowTitle(tr("KillAPI Connect Plus"));
+    
+    // Update button texts
+    startButton->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
+    settingsButton->setText(tr("Settings"));
+    
+    // Fix the log button text based on the current state
+    if (logDisplayWindow) {
+        logButton->setText(tr("Hide Log"));
+    } else {
+        logButton->setText(tr("View Log"));
+    }
+    
+    // Update system tray menu if it exists
+    if (trayIconMenu) {
+        if (showHideAction) showHideAction->setText(tr("Show/Hide"));
+        if (startStopAction) startStopAction->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
+        if (exitAction) exitAction->setText(tr("Exit"));
+        
+        if (systemTrayIcon) {
+            systemTrayIcon->setToolTip(tr("KillApiConnect Plus"));
+        }
+    }
+    
+    // Retranslate the current status message if we have one
+    if (!lastStatusKey.isEmpty() && statusLabel) {
+        statusLabel->setText(tr(lastStatusKey.toUtf8().constData()));
+        qDebug() << "Status label retranslated to:" << statusLabel->text() 
+                 << "from key:" << lastStatusKey;
+    }
+    
+    qDebug() << "MainWindow UI retranslated";
+}
+
+void MainWindow::updateLogDisplayFilterWidth() {
+    if (logDisplayWindow) {
+        QTimer::singleShot(100, logDisplayWindow, &LogDisplayWindow::updateFilterDropdownWidth);
+    }
+}
+
+// System tray functionality
+void MainWindow::createSystemTrayIcon() {
+    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+        qWarning() << "System tray unavailable";
+        return;
+    }
+
+    trayIconMenu = new QMenu(this);
+
+    // Show/Hide action
+    showHideAction = new QAction(tr("Show/Hide"), this);
+    connect(showHideAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowHideClicked);
+    trayIconMenu->addAction(showHideAction);
+
+    // Start/Stop monitoring action
+    startStopAction = new QAction(tr("Start Monitoring"), this);
+    connect(startStopAction, &QAction::triggered, this, &MainWindow::onSystemTrayStartStopClicked);
+    trayIconMenu->addAction(startStopAction);
+
+    trayIconMenu->addSeparator();
+
+    // Exit action
+    exitAction = new QAction(tr("Exit"), this);
+    connect(exitAction, &QAction::triggered, this, &MainWindow::onSystemTrayExitClicked);
+    trayIconMenu->addAction(exitAction);
+
+    // Create system tray icon
+    systemTrayIcon = new QSystemTrayIcon(this);
+    systemTrayIcon->setContextMenu(trayIconMenu);
+
+    // Try to load the dedicated tray PNG first
+    const QString trayPngPath = ":/icons/KillAP-tray.png";
+    QIcon trayPngIcon(trayPngPath);
+    qDebug() << "Attempting to load tray icon from" << trayPngPath
+             << "isNull=" << trayPngIcon.isNull()
+             << "availableSizes=" << trayPngIcon.availableSizes();
+
+    if (!trayPngIcon.isNull()) {
+        systemTrayIcon->setIcon(trayPngIcon);
+        qDebug() << "System tray icon set from KillAP-tray.png";
+    } else {
+        // Fallback: draw a branded 'K' on transparent 16×16
+        qWarning() << "Failed to load" << trayPngPath << "- falling back to letter icon";
+        QPixmap pixmap(16, 16);
+        pixmap.fill(Qt::transparent);
+
+        QPainter p(&pixmap);
+        p.setRenderHint(QPainter::Antialiasing);
+        p.setPen(QColor("#cefc19")); // brand color
+        p.setFont(QFont("Consolas", 10, QFont::Bold));
+        p.drawText(pixmap.rect(), Qt::AlignCenter, "K");
+        p.end();
+
+        systemTrayIcon->setIcon(QIcon(pixmap));
+        qDebug() << "Fallback 'K' icon set with brand color #cefc19";
+    }
+
+    systemTrayIcon->setToolTip(tr("KillApiConnect Plus"));
+    connect(systemTrayIcon, &QSystemTrayIcon::activated,
+            this, &MainWindow::onSystemTrayActivated);
+
+    systemTrayIcon->show();
+    qDebug() << "Tray icon show() called; isVisible() =" << systemTrayIcon->isVisible();
+}
+
+void MainWindow::showSystemTrayMessage(const QString& title, const QString& message) {
+    if (systemTrayIcon && systemTrayIcon->isVisible()) {
+        systemTrayIcon->showMessage(title, message, QSystemTrayIcon::Information, 3000);
+    }
+}
+
+void MainWindow::toggleMonitoring() {
+    if (isMonitoring) {
+        stopMonitoring();
+    } else {
+        startMonitoring();
+    }
+}
+
+bool MainWindow::getMonitoringState() const {
+    return isMonitoring;
+}
+
+void MainWindow::onSystemTrayActivated(QSystemTrayIcon::ActivationReason reason) {
+    if (reason == QSystemTrayIcon::DoubleClick) {
+        onSystemTrayShowHideClicked();
+    }
+}
+
+void MainWindow::onMinimizeToTrayChanged(bool enabled) {
+    // Store the setting for use in closeEvent
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    settings.setValue("minimizeToTray", enabled);
+    
+    qDebug() << "Minimize to tray setting changed to:" << enabled;
+}
+
+void MainWindow::onSystemTrayStartStopClicked() {
+    toggleMonitoring();
+    
+    // Update action text
+    if (startStopAction) {
+        startStopAction->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
+    }
+}
+
+void MainWindow::onSystemTrayShowHideClicked() {
+    if (isVisible()) {
+        hide();
+    } else {
+        show();
+        raise();
+        activateWindow();
+    }
+}
+
+void MainWindow::onSystemTrayExitClicked() {
+    isShuttingDown = true;
+    QApplication::quit();
 }

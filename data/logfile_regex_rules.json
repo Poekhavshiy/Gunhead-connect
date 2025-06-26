@@ -5,7 +5,7 @@
             "description": "Converts ISO 8601 timestamp to Unix time",
             "steps": [
                 { "type": "parseTimestampToUnixTime" }
-        ]
+            ]
         },
         "determine_if_npc": {
             "description": "Determines if a name is an NPC",
@@ -80,7 +80,10 @@
     "rules": [
         {
             "identifier": "kill_log",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CActor::Kill: '([^']+)' \\[(\\d+)\\] in zone '([^']+)' killed by '([^']+)' \\[(\\d+)\\] using '([^']+)' \\[Class ([^\\]]+)\\] with damage type '([^']+)'",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CActor::Kill: '([^']+)' \\[(\\d+)\\] in zone '([^']+)' killed by '([^']+)' \\[(\\d+)\\] using '([^']+)' \\[Class ([^\\]]+)\\] with damage type '([^']+)'.*?\\[Team_ActorTech\\]\\[Actor\\]",
+            "filter_type": "kill",
+            "message_template": "{killer} killed {victim}",
+            "message_template_suicide": "{killer} killed themselves",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "victim", "group": 2, "transform": "clean_actor_name" },
@@ -97,7 +100,9 @@
         },
         {
             "identifier": "vehicle_instant_destruction",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 2 caused by '([^']+)' \\[(\\d+)\\].*?with '([^']+)'",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*?driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 2 caused by '([^']+)' \\[(\\d+)\\].*?with '([^']+)'.*?\\[Team_VehicleFeatures\\]\\[Vehicle\\]",
+            "filter_type": "ship",
+            "message_template": "{vehicle} was obliterated by {cause}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
@@ -114,7 +119,9 @@
         },
         {
             "identifier": "vehicle_destruction",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 1 to 2 caused by '([^']+)' \\[(\\d+)\\]",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*?driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 1 to 2 caused by '([^']+)' \\[(\\d+)\\].*?\\[Team_VehicleFeatures\\]\\[Vehicle\\]",
+            "filter_type": "ship",
+            "message_template": "{vehicle} was destroyed by {cause}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
@@ -130,7 +137,9 @@
         },
         {
             "identifier": "vehicle_soft_death",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 1 caused by '([^']+)' \\[(\\d+)\\]",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*?driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 1 caused by '([^']+)' \\[(\\d+)\\].*?\\[Team_VehicleFeatures\\]\\[Vehicle\\]",
+            "filter_type": "ship",
+            "message_template": "{cause} put vehicle {vehicle} of {driver} in soft death state",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
@@ -146,15 +155,20 @@
         },
         {
             "identifier": "player_connect",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?<Expect Incoming Connection>.*?nickname=\\\"([^\\\"]+)\\\"",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?<Expect Incoming Connection>.*?nickname=\\\"([^\\\"]+)\\\".*?playerGEID=([0-9]+).*?\\[Team_Network\\]\\[Network\\]\\[Gateway\\]",
+            "filter_type": "other",
+            "message_template": "{player} connected",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "player", "group": 2 }
+                { "name": "player", "group": 2 },
+                { "name": "player_geid", "group": 3 }
             ]
         },
         {
             "identifier": "player_disconnect",
             "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?\\[CIG\\] CCIGBroker::FastShutdown",
+            "filter_type": "other",
+            "message_template": "Player disconnected",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" }
             ]
@@ -181,6 +195,59 @@
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "geid", "group": 2 },
                 { "name": "character_name", "group": 3 }
+            ]
+        },
+        {
+            "identifier": "seat_entered",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<Vehicle Control Flow>\\s*CVehicle::Initialize::<lambda_1>::operator \\(\\): Local client node \\[(\\d+)\\] granted control token for '([^']+)' \\[(\\d+)\\] \\[([^\\]]+)\\]\\[Vehicle\\]",
+            "filter_type": "other",
+            "message_template": "Entered {vehicle}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "player_geid", "group": 2 },
+                { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
+                { "name": "vehicle_id", "group": 4 },
+                { "name": "vehicle_type", "group": 5 }
+            ]
+        },
+        {
+            "identifier": "seat_exited",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<Vehicle Control Flow>\\s*CVehicleMovementBase::ClearDriver: Local client node \\[(\\d+)\\] releasing control token for '([^']+)' \\[(\\d+)\\] \\[([^\\]]+)\\]\\[Vehicle\\]",
+            "filter_type": "other",
+            "message_template": "Exited {vehicle}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "player_geid", "group": 2 },
+                { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
+                { "name": "vehicle_id", "group": 4 },
+                { "name": "vehicle_type", "group": 5 }
+            ]
+        },
+        {
+            "identifier": "mission_start",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<SMarkerHandler_Base::CreateMissionObjectiveMarker>\\s*Creating objective marker: missionId \\[([^\\]]+)\\], generator name \\[([^\\]]+)\\], contract \\[([^\\]]+)\\]\\[([^\\]]+)\\],.*?\\[Team_MissionFeatures\\]\\[Missions\\]",
+            "filter_type": "other",
+            "message_template": "Mission started: {contract_name}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "mission_id", "group": 2 },
+                { "name": "generator_name", "group": 3 },
+                { "name": "contract_name", "group": 4 },
+                { "name": "contract_id", "group": 5 }
+            ]
+        },
+        {
+            "identifier": "mission_complete",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<EndMission>\\s*Ending mission for player\\. MissionId\\[([^\\]]+)\\] Player\\[([^\\]]+)\\] PlayerId\\[([^\\]]+)\\] CompletionType\\[([^\\]]+)\\] Reason\\[([^\\]]+)\\]\\s*\\[Team_MissionFeatures\\]\\[Missions\\]",
+            "filter_type": "other",
+            "message_template": "Mission completed: {completion_type}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "mission_id", "group": 2 },
+                { "name": "player_name", "group": 3 },
+                { "name": "player_geid", "group": 4 },
+                { "name": "completion_type", "group": 5 },
+                { "name": "reason", "group": 6 }
             ]
         }
     ]

@@ -1,142 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="zh_TW">
 <context>
     <name>CheckVersion</name>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="46"/>
         <source>Request timed out</source>
-        <translation>Richiesta scaduta</translation>
+        <translation>請求超時</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="65"/>
         <source>Failed to fetch latest app version data.</source>
-        <translation>Impossibile recuperare i dati della versione più recente dell&apos;applicazione.</translation>
+        <translation>無法獲取最新應用版本數據。</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="72"/>
         <source>Failed to parse JSON: Document is null</source>
-        <translation>Analisi JSON fallita: Il documento è nullo</translation>
+        <translation>無法解析JSON：文檔為空</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="78"/>
         <source>Invalid JSON in latest app response</source>
-        <translation>JSON non valido nella risposta dell&apos;ultima versione</translation>
+        <translation>最新應用響應中的JSON無效</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="85"/>
         <source>No tag name found in latest app response</source>
-        <translation>Nessun nome tag trovato nella risposta dell&apos;ultima versione</translation>
+        <translation>在最新應用響應中未找到標籤名稱</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="94"/>
         <source>Exception occurred while parsing JSON: </source>
-        <translation>Si è verificata un&apos;eccezione durante l&apos;analisi JSON: </translation>
+        <translation>解析JSON時發生異常：</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="98"/>
         <source>Unknown exception occurred while parsing JSON</source>
-        <translation>Si è verificata un&apos;eccezione sconosciuta durante l&apos;analisi JSON</translation>
+        <translation>解析JSON時發生未知異常</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="111"/>
         <source>The version check process failed.</source>
-        <translation>Il processo di verifica della versione è fallito.</translation>
+        <translation>版本檢查過程失敗。</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="135"/>
         <source>Cannot open file for writing: </source>
-        <translation>Impossibile aprire il file per la scrittura: </translation>
+        <translation>無法打開文件進行寫入：</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="154"/>
         <source>Failed to write all data to disk.</source>
-        <translation>Impossibile scrivere tutti i dati su disco.</translation>
+        <translation>無法將所有數據寫入磁盤。</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="169"/>
         <source>Network error: </source>
-        <translation>Errore di rete: </translation>
+        <translation>網絡錯誤：</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="180"/>
         <source>Download timed out due to inactivity.</source>
-        <translation>Download scaduto a causa di inattività.</translation>
+        <translation>由於不活動，下載超時。</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="199"/>
         <source>Failed to fetch latest rules.</source>
-        <translation>Impossibile recuperare le regole più recenti.</translation>
+        <translation>無法獲取最新規則。</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="209"/>
         <source>Failed to parse rules: Document is null</source>
-        <translation>Analisi delle regole fallita: Il documento è nullo</translation>
+        <translation>無法解析規則：文檔為空</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="215"/>
         <source>Invalid rules in latest config response</source>
-        <translation>Regole non valide nella risposta dell&apos;ultima configurazione</translation>
+        <translation>最新配置響應中的規則無效</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="223"/>
         <source>Rules file is missing &apos;version&apos; key</source>
-        <translation>Il file delle regole manca della chiave &apos;version&apos;</translation>
+        <translation>規則文件缺少 &apos;version&apos; 鍵</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="230"/>
         <source>&apos;version&apos; key is not a string</source>
-        <translation>La chiave &apos;version&apos; non è una stringa</translation>
+        <translation>&apos;version&apos; 鍵不是字符串</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="234"/>
         <source>&apos;version&apos; key is empty</source>
-        <translation>La chiave &apos;version&apos; è vuota</translation>
+        <translation>&apos;version&apos; 鍵為空</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="244"/>
         <source>Exception occurred while parsing rules: </source>
-        <translation>Si è verificata un&apos;eccezione durante l&apos;analisi delle regole: </translation>
+        <translation>解析規則時發生異常：</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="248"/>
         <source>Unknown exception occurred while parsing rules</source>
-        <translation>Si è verificata un&apos;eccezione sconosciuta durante l&apos;analisi delle regole</translation>
+        <translation>解析規則時發生未知異常</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="260"/>
         <source>Failed to fetch latest rules version.</source>
-        <translation>Impossibile recuperare la versione più recente delle regole.</translation>
+        <translation>無法獲取最新規則版本。</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="297"/>
         <source>Cannot open local JSON: </source>
-        <translation>Impossibile aprire il JSON locale: </translation>
+        <translation>無法打開本地JSON：</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="310"/>
         <source>Failed to parse local rules: Document is null</source>
-        <translation>Analisi delle regole locali fallita: Il documento è nullo</translation>
+        <translation>無法解析本地規則：文檔為空</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="316"/>
         <source>Invalid local rules format</source>
-        <translation>Formato delle regole locali non valido</translation>
+        <translation>本地規則格式無效</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="323"/>
         <source>No version found in local rules</source>
-        <translation>Nessuna versione trovata nelle regole locali</translation>
+        <translation>在本地規則中未找到版本</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="332"/>
         <source>Exception occurred while parsing local rules: </source>
-        <translation>Si è verificata un&apos;eccezione durante l&apos;analisi delle regole locali: </translation>
+        <translation>解析本地規則時發生異常：</translation>
     </message>
     <message>
         <location filename="../../src/CheckVersion.cpp" line="336"/>
         <source>Unknown exception occurred while parsing local rules</source>
-        <translation>Si è verificata un&apos;eccezione sconosciuta durante l&apos;analisi delle regole locali</translation>
+        <translation>解析本地規則時發生未知異常</translation>
     </message>
 </context>
 <context>
@@ -144,57 +144,57 @@
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1097"/>
         <source>Select All</source>
-        <translation>Seleziona Tutto</translation>
+        <translation>全選</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1109"/>
         <source>Show PvP</source>
-        <translation>Mostra PvP</translation>
+        <translation>顯示PvP</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1110"/>
         <source>Show player vs player kill events</source>
-        <translation>Mostra eventi di uccisione giocatore contro giocatore</translation>
+        <translation>顯示玩家對玩家擊殺事件</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1114"/>
         <source>Show PvE</source>
-        <translation>Mostra PvE</translation>
+        <translation>顯示PvE</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1115"/>
         <source>Show player vs environment (NPC) kill events</source>
-        <translation>Mostra eventi di uccisione giocatore contro ambiente (NPC)</translation>
+        <translation>顯示玩家對環境(NPC)擊殺事件</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1119"/>
         <source>Show Ship Events</source>
-        <translation>Mostra Eventi Nave</translation>
+        <translation>顯示船艦事件</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1120"/>
         <source>Show ship destruction and vehicle events</source>
-        <translation>Mostra eventi di distruzione navi e veicoli</translation>
+        <translation>顯示船艦毀壞和載具事件</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1124"/>
         <source>Show Other Events</source>
-        <translation>Mostra Altri Eventi</translation>
+        <translation>顯示其他事件</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1125"/>
         <source>Show connections, seat changes, missions, etc.</source>
-        <translation>Mostra connessioni, cambi di posto, missioni, ecc.</translation>
+        <translation>顯示連接、座位變更、任務等</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1135"/>
         <source>Show NPC Names</source>
-        <translation>Mostra Nomi NPC</translation>
+        <translation>顯示NPC名稱</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1136"/>
         <source>Show actual NPC names in events or just &apos;NPC&apos;</source>
-        <translation>Mostra i nomi effettivi degli NPC negli eventi o solo &apos;NPC&apos;</translation>
+        <translation>在事件中顯示實際NPC名稱或僅顯示&apos;NPC&apos;</translation>
     </message>
 </context>
 <context>
@@ -203,17 +203,17 @@
         <location filename="../../src/LanguageSelect.cpp" line="29"/>
         <location filename="../../src/LanguageSelect.cpp" line="155"/>
         <source>Language Selector</source>
-        <translation>Selettore Lingua</translation>
+        <translation>語言選擇器</translation>
     </message>
     <message>
         <location filename="../../src/LanguageSelect.cpp" line="49"/>
         <location filename="../../src/LanguageSelect.cpp" line="156"/>
         <source>&gt; LANGUAGE SELECT</source>
-        <translation>&gt; SELEZIONE LINGUA</translation>
+        <translation>&gt; 選擇語言</translation>
     </message>
     <message>
         <source>&gt; FAN TRANSLATIONS</source>
-        <translation type="vanished">&gt; TRADUZIONI DEI FAN</translation>
+        <translation type="vanished">&gt; 粉絲翻譯</translation>
     </message>
 </context>
 <context>
@@ -221,100 +221,100 @@
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="82"/>
         <source>Game mode: Persistent Universe</source>
-        <translation>Modalità di gioco: Universo Persistente</translation>
+        <translation>遊戲模式：永恆宇宙</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="84"/>
         <source>Game mode: Arena Commander</source>
-        <translation>Modalità di gioco: Arena Commander</translation>
+        <translation>遊戲模式：競技場指揮官</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="95"/>
         <source>Killfeed Log Display Initialized</source>
-        <translation>Visualizzazione Log Killfeed Inizializzata</translation>
+        <translation>擊殺記錄顯示已初始化</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="106"/>
         <source>API connection error detected. Monitoring stopped.</source>
-        <translation>Rilevato errore di connessione API. Monitoraggio interrotto.</translation>
+        <translation>檢測到API連接錯誤。監控已停止。</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="155"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="950"/>
         <source>Killfeed Log Display</source>
-        <translation>Visualizzazione Log Killfeed</translation>
+        <translation>擊殺記錄顯示</translation>
     </message>
     <message>
         <source>Show PvP</source>
-        <translation type="vanished">Mostra PvP</translation>
+        <translation type="vanished">顯示PvP</translation>
     </message>
     <message>
         <source>Show PvP events (e.g., player kills)</source>
-        <translation type="vanished">Mostra eventi PvP (es., uccisioni di giocatori)</translation>
+        <translation type="vanished">顯示PvP事件（例如，玩家擊殺）</translation>
     </message>
     <message>
         <source>Show PvE</source>
-        <translation type="vanished">Mostra PvE</translation>
+        <translation type="vanished">顯示PvE</translation>
     </message>
     <message>
         <source>Show PvE events (e.g., NPC kills)</source>
-        <translation type="vanished">Mostra eventi PvE (es., uccisioni di NPC)</translation>
+        <translation type="vanished">顯示PvE事件（例如，NPC擊殺）</translation>
     </message>
     <message>
         <source>Show NPC Names</source>
-        <translation type="vanished">Mostra Nomi NPC</translation>
+        <translation type="vanished">顯示NPC名稱</translation>
     </message>
     <message>
         <source>Show actual NPC names in events or just &apos;NPC&apos;</source>
-        <translation type="vanished">Mostra i nomi effettivi degli NPC negli eventi o solo &apos;NPC&apos;</translation>
+        <translation type="vanished">在事件中顯示實際NPC名稱或僅顯示&apos;NPC&apos;</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="266"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="997"/>
         <source>Play Sound</source>
-        <translation>Riproduci Suono</translation>
+        <translation>播放聲音</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="267"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="998"/>
         <source>Coming soon: Play sound on events</source>
-        <translation>Prossimamente: Riproduci suono sugli eventi</translation>
+        <translation>即將推出：事件發生時播放聲音</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="277"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1002"/>
         <source>Test</source>
-        <translation>Test</translation>
+        <translation>測試</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="283"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1007"/>
         <source>Start Monitoring</source>
-        <translation>Avvia Monitoraggio</translation>
+        <translation>開始監控</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="298"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1012"/>
         <source>Clear</source>
-        <translation>Cancella</translation>
+        <translation>清除</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="304"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1015"/>
         <source>Text Color</source>
-        <translation>Colore Testo</translation>
+        <translation>文字顏色</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="310"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1018"/>
         <source>Background Color</source>
-        <translation>Colore Sfondo</translation>
+        <translation>背景顏色</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="318"/>
         <source>Increase Font Size
 CTRL + +</source>
-        <translation>Aumenta Dimensione Font
+        <translation>增加字體大小
 CTRL + +</translation>
     </message>
     <message>
@@ -326,56 +326,56 @@ CTRL + +</translation>
         <location filename="../../src/LogDisplayWindow.cpp" line="328"/>
         <source>Decrease Font Size
 CTRL + -</source>
-        <translation>Diminuisci Dimensione Font
+        <translation>減小字體大小
 CTRL + -</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="336"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1021"/>
         <source>Test Sound</source>
-        <translation>Prova Suono</translation>
+        <translation>測試聲音</translation>
     </message>
     <message>
         <source>PvP filter changed - automatically applying changes</source>
-        <translation type="vanished">Filtro PvP modificato - applicazione automatica delle modifiche</translation>
+        <translation type="vanished">PvP過濾器已更改 - 自動應用更改</translation>
     </message>
     <message>
         <source>PvE filter changed - automatically applying changes</source>
-        <translation type="vanished">Filtro PvE modificato - applicazione automatica delle modifiche</translation>
+        <translation type="vanished">PvE過濾器已更改 - 自動應用更改</translation>
     </message>
     <message>
         <source>NPC name filter changed - automatically applying changes</source>
-        <translation type="vanished">Filtro nomi NPC modificato - applicazione automatica delle modifiche</translation>
+        <translation type="vanished">NPC名稱過濾器已更改 - 自動應用更改</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="686"/>
         <source>Killfeed Log Display Cleared</source>
-        <translation>Visualizzazione Log Killfeed Cancellata</translation>
+        <translation>擊殺記錄顯示已清除</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="928"/>
         <source>Game folder updated. Ready to start monitoring.</source>
-        <translation>Cartella di gioco aggiornata. Pronto per iniziare il monitoraggio.</translation>
+        <translation>遊戲文件夾已更新。準備開始監控。</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="962"/>
         <source> - Player: %1</source>
-        <translation> - Giocatore: %1</translation>
+        <translation> - 玩家：%1</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="964"/>
         <source> - Player: [Unknown]</source>
-        <translation> - Giocatore: [Sconosciuto]</translation>
+        <translation> - 玩家：[未知]</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="969"/>
         <source> - Game Mode: Persistent Universe</source>
-        <translation> - Modalità di Gioco: Universo Persistente</translation>
+        <translation> - 遊戲模式：永恆宇宙</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="971"/>
         <source> - Game Mode: Arena Commander</source>
-        <translation> - Modalità di Gioco: Arena Commander</translation>
+        <translation> - 遊戲模式：競技場指揮官</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="973"/>
@@ -385,38 +385,38 @@ CTRL + -</translation>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="976"/>
         <source> - Game Mode: %1</source>
-        <translation> - Modalità di Gioco: %1</translation>
+        <translation> - 遊戲模式：%1</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="990"/>
         <source>Select Filters     ▼</source>
-        <translation>Seleziona Filtri     ▼</translation>
+        <translation>選擇過濾器     ▼</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="1007"/>
         <source>Stop Monitoring</source>
-        <translation>Ferma Monitoraggio</translation>
+        <translation>停止監控</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="793"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
-        <translation>Errore: Chiave API non configurata. Si prega di configurarla nelle Impostazioni.</translation>
+        <translation>錯誤：API密鑰未配置。請在設置中進行設置。</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="166"/>
         <location filename="../../src/LogDisplayWindow.cpp" line="1188"/>
         <source>Select Filters   ▼</source>
-        <translation>Seleziona Filtri   ▼</translation>
+        <translation>選擇過濾器   ▼</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="798"/>
         <source>Starting test data processing...</source>
-        <translation>Avvio elaborazione dati di test...</translation>
+        <translation>開始處理測試數據...</translation>
     </message>
     <message>
         <location filename="../../src/LogDisplayWindow.cpp" line="839"/>
         <source>Test data processing complete.</source>
-        <translation>Elaborazione dati di test completata.</translation>
+        <translation>測試數據處理完成。</translation>
     </message>
 </context>
 <context>
@@ -424,7 +424,7 @@ CTRL + -</translation>
     <message>
         <location filename="../../src/logmonitor.cpp" line="152"/>
         <source>Game mode changed, monitoring reset</source>
-        <translation>Modalità di gioco cambiata, monitoraggio reimpostato</translation>
+        <translation>遊戲模式已更改，監控重置</translation>
     </message>
 </context>
 <context>
@@ -437,12 +437,12 @@ CTRL + -</translation>
     <message>
         <location filename="../../ui/mainwindow.ui" line="13"/>
         <source>Enter API Key</source>
-        <translation>Inserisci Chiave API</translation>
+        <translation>輸入API密鑰</translation>
     </message>
     <message>
         <location filename="../../ui/mainwindow.ui" line="20"/>
         <source>Start</source>
-        <translation>Avvia</translation>
+        <translation>開始</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="91"/>
@@ -452,13 +452,13 @@ CTRL + -</translation>
         <location filename="../../src/MainWindow.cpp" line="1324"/>
         <location filename="../../src/MainWindow.cpp" line="1411"/>
         <source>Start Monitoring</source>
-        <translation>Avvia Monitoraggio</translation>
+        <translation>開始監控</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="94"/>
         <location filename="../../src/MainWindow.cpp" line="1273"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>設置</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="97"/>
@@ -468,114 +468,114 @@ CTRL + -</translation>
         <location filename="../../src/MainWindow.cpp" line="1207"/>
         <location filename="../../src/MainWindow.cpp" line="1279"/>
         <source>View Log</source>
-        <translation>Visualizza Log</translation>
+        <translation>查看日誌</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="103"/>
         <source>Ready</source>
-        <translation>Pronto</translation>
+        <translation>就緒</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="147"/>
         <source>Monitoring started successfully.</source>
-        <translation>Monitoraggio avviato con successo.</translation>
+        <translation>監控成功啟動。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="195"/>
         <location filename="../../src/MainWindow.cpp" line="990"/>
         <source>Game mode: Persistent Universe</source>
-        <translation>Modalità di gioco: Universo Persistente</translation>
+        <translation>遊戲模式：永恆宇宙</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="197"/>
         <location filename="../../src/MainWindow.cpp" line="992"/>
         <source>Game mode: Arena Commander: %1</source>
-        <translation>Modalità di gioco: Arena Commander: %1</translation>
+        <translation>遊戲模式：競技場指揮官：%1</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="203"/>
         <location filename="../../src/MainWindow.cpp" line="1099"/>
         <source>Game mode changed to Persistent Universe</source>
-        <translation>Modalità di gioco cambiata in Universo Persistente</translation>
+        <translation>遊戲模式已更改為永恆宇宙</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="205"/>
         <location filename="../../src/MainWindow.cpp" line="1101"/>
         <source>Game mode changed to Arena Commander: %1</source>
-        <translation>Modalità di gioco cambiata in Arena Commander: %1</translation>
+        <translation>遊戲模式已更改為競技場指揮官：%1</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="305"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
-        <translation>Errore: Chiave API non configurata. Si prega di configurarla nelle Impostazioni.</translation>
+        <translation>錯誤：API密鑰未配置。請在設置中進行設置。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="310"/>
         <source>Verifying API connection...</source>
-        <translation>Verifica connessione API...</translation>
+        <translation>正在驗證API連接...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="317"/>
         <source>Error: Could not connect to KillAPI server. Monitoring not started.</source>
-        <translation>Errore: Impossibile connettersi al server KillAPI. Monitoraggio non avviato.</translation>
+        <translation>錯誤：無法連接到KillAPI服務器。監控未啟動。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="321"/>
         <source>ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection.</source>
-        <translation>ERRORE: Connessione al server KillAPI fallita. Controlla la tua chiave API e la connessione internet.</translation>
+        <translation>錯誤：無法連接到KillAPI服務器。請檢查您的API密鑰和網絡連接。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="334"/>
         <source>Connected to KillAPI server successfully. Monitoring started.</source>
-        <translation>Connessione al server KillAPI riuscita. Monitoraggio avviato.</translation>
+        <translation>成功連接到KillAPI服務器。監控已啟動。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="364"/>
         <source>Star Citizen not running. Attempting to launch...</source>
-        <translation>Star Citizen non in esecuzione. Tentativo di avvio in corso...</translation>
+        <translation>Star Citizen未運行。嘗試啟動...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="372"/>
         <source>Failed to launch: RSI Launcher path not configured. Please set it in Settings.</source>
-        <translation>Impossibile avviare: percorso del Launcher RSI non configurato. Configuralo nelle Impostazioni.</translation>
+        <translation>啟動失敗：RSI啟動器路徑未配置。請在設置中進行設置。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="380"/>
         <source>Failed to launch: RSI Launcher not found at configured path. Please check Settings.</source>
-        <translation>Impossibile avviare: Launcher RSI non trovato nel percorso configurato. Controlla le Impostazioni.</translation>
+        <translation>啟動失敗：在配置路徑中未找到RSI啟動器。請檢查設置。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="387"/>
         <source>Star Citizen launched. Waiting for game to start...</source>
-        <translation>Star Citizen avviato. In attesa che il gioco inizi...</translation>
+        <translation>星際公民已啟動。等待遊戲開始...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="396"/>
         <source>Failed to launch Star Citizen. Continuing with monitoring...</source>
-        <translation>Impossibile avviare Star Citizen. Proseguimento del monitoraggio...</translation>
+        <translation>啟動星際公民失敗。繼續監控...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="416"/>
         <source>Error: Game log file not found.</source>
-        <translation>Errore: File di log del gioco non trovato.</translation>
+        <translation>錯誤：未找到遊戲日誌文件。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="473"/>
         <source>Monitoring started.</source>
-        <translation>Monitoraggio avviato.</translation>
+        <translation>監控已啟動。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="520"/>
         <location filename="../../src/MainWindow.cpp" line="737"/>
         <source>Monitoring stopped.</source>
-        <translation>Monitoraggio arrestato.</translation>
+        <translation>監控已停止。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="593"/>
         <location filename="../../src/MainWindow.cpp" line="1189"/>
         <location filename="../../src/MainWindow.cpp" line="1277"/>
         <source>Hide Log</source>
-        <translation>Nascondi Log</translation>
+        <translation>隱藏日誌</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="721"/>
@@ -587,37 +587,37 @@ CTRL + -</translation>
     <message>
         <location filename="../../src/MainWindow.cpp" line="722"/>
         <source>Application was minimized to tray</source>
-        <translation>L&apos;applicazione è stata ridotta a icona nel vassoio di sistema</translation>
+        <translation>應用程序已最小化到系統托盤</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="740"/>
         <source>MainWindow closed, stopping monitoring and closing LogDisplayWindow.</source>
-        <translation>Finestra principale chiusa, arresto del monitoraggio e chiusura della finestra di visualizzazione log.</translation>
+        <translation>主窗口已關閉，停止監控並關閉日誌顯示窗口。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="786"/>
         <source>Please configure the game directory and API key.</source>
-        <translation>Si prega di configurare la directory del gioco e la chiave API.</translation>
+        <translation>請配置遊戲目錄和API密鑰。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="788"/>
         <source>Please configure the game directory.</source>
-        <translation>Si prega di configurare la directory del gioco.</translation>
+        <translation>請配置遊戲目錄。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="790"/>
         <source>Please configure your API key.</source>
-        <translation>Si prega di configurare la chiave API.</translation>
+        <translation>請配置您的API密鑰。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="792"/>
         <source>Game log file not found in the selected directory.</source>
-        <translation>File di log del gioco non trovato nella directory selezionata.</translation>
+        <translation>在選定的目錄中未找到遊戲日誌文件。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="794"/>
         <source>Ready to start monitoring.</source>
-        <translation>Pronto per avviare il monitoraggio.</translation>
+        <translation>準備開始監控。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="868"/>
@@ -626,22 +626,22 @@ CTRL + -</translation>
         <location filename="../../src/MainWindow.cpp" line="928"/>
         <location filename="../../src/MainWindow.cpp" line="947"/>
         <source>Filter changed - automatically applying changes</source>
-        <translation>Filtro modificato - applicazione automatica delle modifiche</translation>
+        <translation>過濾器已更改 - 自動應用更改</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="994"/>
         <source>Game mode: Unknown</source>
-        <translation>Modalità di gioco: Sconosciuta</translation>
+        <translation>遊戲模式：未知</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="1007"/>
         <source>Game folder updated. Ready to start monitoring.</source>
-        <translation>Cartella di gioco aggiornata. Pronto per avviare il monitoraggio.</translation>
+        <translation>遊戲文件夾已更新。準備開始監控。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="1127"/>
         <source>API connection error detected during routine check</source>
-        <translation>Errore di connessione API rilevato durante il controllo di routine</translation>
+        <translation>在例行檢查中檢測到API連接錯誤</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="1269"/>
@@ -652,13 +652,13 @@ CTRL + -</translation>
         <location filename="../../src/MainWindow.cpp" line="1284"/>
         <location filename="../../src/MainWindow.cpp" line="1319"/>
         <source>Show/Hide</source>
-        <translation>Mostra/Nascondi</translation>
+        <translation>顯示/隱藏</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="1286"/>
         <location filename="../../src/MainWindow.cpp" line="1331"/>
         <source>Exit</source>
-        <translation>Esci</translation>
+        <translation>退出</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="465"/>
@@ -666,7 +666,7 @@ CTRL + -</translation>
         <location filename="../../src/MainWindow.cpp" line="1285"/>
         <location filename="../../src/MainWindow.cpp" line="1411"/>
         <source>Stop Monitoring</source>
-        <translation>Ferma Monitoraggio</translation>
+        <translation>停止監控</translation>
     </message>
 </context>
 <context>
@@ -675,37 +675,37 @@ CTRL + -</translation>
         <location filename="../../src/SettingsWindow.cpp" line="61"/>
         <location filename="../../src/SettingsWindow.cpp" line="688"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>設置</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="85"/>
         <location filename="../../src/SettingsWindow.cpp" line="701"/>
         <source>Version: </source>
-        <translation>Versione: </translation>
+        <translation>版本：</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="93"/>
         <location filename="../../src/SettingsWindow.cpp" line="704"/>
         <source>Check for Updates</source>
-        <translation>Controlla Aggiornamenti</translation>
+        <translation>檢查更新</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="107"/>
         <location filename="../../src/SettingsWindow.cpp" line="721"/>
         <source>Check for new versions on startup</source>
-        <translation>Controlla nuove versioni all&apos;avvio</translation>
+        <translation>啟動時檢查新版本</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="109"/>
         <location filename="../../src/SettingsWindow.cpp" line="724"/>
         <source>Check for updates now</source>
-        <translation>Controlla aggiornamenti ora</translation>
+        <translation>立即檢查更新</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="160"/>
         <location filename="../../src/SettingsWindow.cpp" line="706"/>
         <source>Game LIVE Folder Path</source>
-        <translation>Percorso Cartella LIVE del Gioco</translation>
+        <translation>遊戲LIVE文件夾路徑</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="163"/>
@@ -713,107 +713,107 @@ CTRL + -</translation>
         <location filename="../../src/SettingsWindow.cpp" line="729"/>
         <location filename="../../src/SettingsWindow.cpp" line="732"/>
         <source>Browse</source>
-        <translation>Sfoglia</translation>
+        <translation>瀏覽</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="188"/>
         <location filename="../../src/SettingsWindow.cpp" line="735"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="123"/>
         <location filename="../../src/SettingsWindow.cpp" line="712"/>
         <source>KillAPI Key</source>
-        <translation>Chiave KillAPI</translation>
+        <translation>KillAPI密鑰</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="127"/>
         <location filename="../../src/SettingsWindow.cpp" line="738"/>
         <source>Save API Key</source>
-        <translation>Salva Chiave API</translation>
+        <translation>保存API密鑰</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="141"/>
         <location filename="../../src/SettingsWindow.cpp" line="723"/>
         <source>Minimize to system tray instead of closing</source>
-        <translation>Riduci a icona nel vassoio di sistema invece di chiudere</translation>
+        <translation>最小化到系統托盤而不是關閉</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="152"/>
         <location filename="../../src/SettingsWindow.cpp" line="692"/>
         <source>General</source>
-        <translation>Generale</translation>
+        <translation>一般</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="172"/>
         <location filename="../../src/SettingsWindow.cpp" line="709"/>
         <source>RSI Launcher Path</source>
-        <translation>Percorso del Launcher RSI</translation>
+        <translation>RSI啟動器路徑</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="184"/>
         <location filename="../../src/SettingsWindow.cpp" line="722"/>
         <source>Launch Star Citizen if not running when starting monitoring</source>
-        <translation>Avvia Star Citizen se non è in esecuzione quando si inizia il monitoraggio</translation>
+        <translation>在開始監控時若游戲未運行則啟動星際公民</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="210"/>
         <location filename="../../src/SettingsWindow.cpp" line="693"/>
         <source>Game</source>
-        <translation>Gioco</translation>
+        <translation>遊戲</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="218"/>
         <location filename="../../src/SettingsWindow.cpp" line="714"/>
         <source>Select Notification Sound</source>
-        <translation>Seleziona Suono di Notifica</translation>
+        <translation>選擇通知聲音</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="225"/>
         <location filename="../../src/SettingsWindow.cpp" line="741"/>
         <source>Test</source>
-        <translation>Test</translation>
+        <translation>測試</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="252"/>
         <location filename="../../src/SettingsWindow.cpp" line="744"/>
         <source>Change Language</source>
-        <translation>Cambia Lingua</translation>
+        <translation>更改語言</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="257"/>
         <location filename="../../src/SettingsWindow.cpp" line="747"/>
         <source>Change Theme</source>
-        <translation>Cambia Tema</translation>
+        <translation>更改主題</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="267"/>
         <location filename="../../src/SettingsWindow.cpp" line="694"/>
         <source>Sounds/Language/Themes</source>
-        <translation>Suoni/Lingua/Temi</translation>
+        <translation>聲音/語言/主題</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="354"/>
         <source>Select Game Folder</source>
-        <translation>Seleziona Cartella di Gioco</translation>
+        <translation>選擇遊戲文件夾</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="357"/>
         <location filename="../../src/SettingsWindow.cpp" line="377"/>
         <source>Invalid Folder</source>
-        <translation>Cartella Non Valida</translation>
+        <translation>無效文件夾</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="358"/>
         <location filename="../../src/SettingsWindow.cpp" line="378"/>
         <source>Selected folder does not contain Star Citizen launcher.</source>
-        <translation>La cartella selezionata non contiene il launcher di Star Citizen.</translation>
+        <translation>所選文件夾不包含星際公民啟動器。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="415"/>
         <source>Panel Closed Error</source>
-        <translation>Errore Pannello Chiuso</translation>
+        <translation>面板關閉錯誤</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="416"/>
@@ -822,154 +822,154 @@ CTRL + -</translation>
 This means your API key may be valid, but the Discord panel associated with it has been closed by an administrator or does not exist anymore.
 
 Please reopen the KillAPI panel or contact your Discord server administrator if you believe this is an error.</source>
-        <translation>Il pannello KillAPI per questo server è stato chiuso o non esiste.
+        <translation>此服務器的KillAPI面板已關閉或不存在。
 
-Questo significa che la tua chiave API potrebbe essere valida, ma il pannello Discord associato è stato chiuso da un amministratore o non esiste più.
+這意味著您的API密鑰可能有效，但與其關聯的Discord面板已被管理員關閉或不再存在。
 
-Riapri il pannello KillAPI o contatta l&apos;amministratore del server Discord se ritieni che questo sia un errore.</translation>
+如果您認為這是一個錯誤，請重新打開KillAPI面板或聯繫您的Discord服務器管理員。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="424"/>
         <source>Authentication Error</source>
-        <translation>Errore di Autenticazione</translation>
+        <translation>認證錯誤</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="425"/>
         <source>Invalid API key. The server rejected your credentials.
 
 Please check your API key and try again. Make sure you copied the entire key without any extra spaces or characters.</source>
-        <translation>Chiave API non valida. Il server ha rifiutato le tue credenziali.
+        <translation>無效的API密鑰。服務器拒絕了您的憑證。
 
-Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera chiave senza spazi o caratteri extra.</translation>
+請檢查您的API密鑰並重試。確保您複製了完整的密鑰，沒有任何額外的空格或字符。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="434"/>
         <source>Success</source>
-        <translation>Successo</translation>
+        <translation>成功</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="434"/>
         <source>KillAPI connected successfully!</source>
-        <translation>KillAPI connesso con successo!</translation>
+        <translation>KillAPI連接成功！</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="438"/>
         <source>Connection Error</source>
-        <translation>Errore di Connessione</translation>
+        <translation>連接錯誤</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="439"/>
         <source>Failed to connect to KillAPI. Please check your internet connection and try again.</source>
-        <translation>Impossibile connettersi a KillAPI. Controlla la tua connessione internet e riprova.</translation>
+        <translation>無法連接到KillAPI。請檢查您的網絡連接並重試。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="529"/>
         <source>Error</source>
-        <translation>Errore</translation>
+        <translation>錯誤</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="717"/>
         <source>Auto-launch Star Citizen</source>
-        <translation>Avvio automatico di Star Citizen</translation>
+        <translation>自動啟動星際公民</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="755"/>
         <source>Select RSI Launcher</source>
-        <translation>Seleziona Launcher RSI</translation>
+        <translation>選擇RSI啟動器</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="755"/>
         <source>Executable Files (*.exe)</source>
-        <translation>File Eseguibili (*.exe)</translation>
+        <translation>可執行文件 (*.exe)</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="442"/>
         <source>API Key Saved</source>
-        <translation>Chiave API Salvata</translation>
+        <translation>API密鑰已保存</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="442"/>
         <source>Your API key has been saved.</source>
-        <translation>La tua chiave API è stata salvata.</translation>
+        <translation>您的API密鑰已保存。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="469"/>
         <source>Updates Available</source>
-        <translation>Aggiornamenti Disponibili</translation>
+        <translation>有可用更新</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="470"/>
         <source>Updates are available. Would you like to download them?</source>
-        <translation>Sono disponibili aggiornamenti. Vuoi scaricarli?</translation>
+        <translation>有可用更新。您想下載它們嗎？</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="479"/>
         <source>Save Installer</source>
-        <translation>Salva Installer</translation>
+        <translation>保存安裝程序</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="481"/>
         <source>Installer Files (*.msi)</source>
-        <translation>File di Installazione (*.msi)</translation>
+        <translation>安裝程序文件 (*.msi)</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="492"/>
         <location filename="../../src/SettingsWindow.cpp" line="516"/>
         <source>Update Successful</source>
-        <translation>Aggiornamento Riuscito</translation>
+        <translation>更新成功</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="492"/>
         <source>App updated successfully.</source>
-        <translation>App aggiornata con successo.</translation>
+        <translation>應用程序更新成功。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="496"/>
         <source>Run Installer</source>
-        <translation>Esegui Installer</translation>
+        <translation>運行安裝程序</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="497"/>
         <source>The installer has been downloaded. Would you like to run it now?</source>
-        <translation>L&apos;installer è stato scaricato. Vuoi eseguirlo ora?</translation>
+        <translation>安裝程序已下載。您想現在運行它嗎？</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="506"/>
         <location filename="../../src/SettingsWindow.cpp" line="519"/>
         <source>Update Failed</source>
-        <translation>Aggiornamento Fallito</translation>
+        <translation>更新失敗</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="506"/>
         <source>Failed to update app.</source>
-        <translation>Impossibile aggiornare l&apos;app.</translation>
+        <translation>無法更新應用程序。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="516"/>
         <source>JSON file updated successfully.</source>
-        <translation>File JSON aggiornato con successo.</translation>
+        <translation>JSON文件更新成功。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="519"/>
         <source>Failed to update JSON file.</source>
-        <translation>Impossibile aggiornare il file JSON.</translation>
+        <translation>無法更新JSON文件。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="526"/>
         <source>No Updates</source>
-        <translation>Nessun Aggiornamento</translation>
+        <translation>無更新</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="526"/>
         <source>Your application and JSON file are up-to-date.</source>
-        <translation>La tua applicazione e il file JSON sono aggiornati.</translation>
+        <translation>您的應用程序和JSON文件是最新的。</translation>
     </message>
     <message>
         <location filename="../../src/SettingsWindow.cpp" line="529"/>
         <source>An error occurred while checking for updates.
  Please check your internet connection and try again.</source>
-        <translation>Si è verificato un errore durante il controllo degli aggiornamenti.
- Controlla la tua connessione internet e riprova.</translation>
+        <translation>檢查更新時發生錯誤。
+請檢查您的網絡連接並重試。</translation>
     </message>
 </context>
 <context>
@@ -978,13 +978,13 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <location filename="../../src/ThemeSelect.cpp" line="20"/>
         <location filename="../../src/ThemeSelect.cpp" line="220"/>
         <source>Theme Selector</source>
-        <translation>Selettore Tema</translation>
+        <translation>主題選擇器</translation>
     </message>
     <message>
         <location filename="../../src/ThemeSelect.cpp" line="39"/>
         <location filename="../../src/ThemeSelect.cpp" line="221"/>
         <source>&gt; THEME SELECTOR</source>
-        <translation>&gt; SELETTORE TEMA</translation>
+        <translation>&gt; 主題選擇器</translation>
     </message>
 </context>
 <context>
@@ -994,34 +994,34 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <location filename="../../src/Transmitter.cpp" line="235"/>
         <location filename="../../src/Transmitter.cpp" line="512"/>
         <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.</source>
-        <translation>Il pannello KillAPI per questo server è stato chiuso o non esiste.</translation>
+        <translation>此服務器的KillAPI面板已關閉或不存在。</translation>
     </message>
     <message>
         <location filename="../../src/Transmitter.cpp" line="155"/>
         <location filename="../../src/Transmitter.cpp" line="239"/>
         <location filename="../../src/Transmitter.cpp" line="516"/>
         <source>Invalid API key. Please check your API key and try again.</source>
-        <translation>Chiave API non valida. Controlla la tua chiave API e riprova.</translation>
+        <translation>無效的API密鑰。請檢查您的API密鑰並重試。</translation>
     </message>
     <message>
         <location filename="../../src/Transmitter.cpp" line="507"/>
         <source>API Error: %1</source>
-        <translation>Errore API: %1</translation>
+        <translation>API錯誤：%1</translation>
     </message>
     <message>
         <location filename="../../src/Transmitter.cpp" line="542"/>
         <source>Internal server error</source>
-        <translation>Errore interno del server</translation>
+        <translation>內部服務器錯誤</translation>
     </message>
     <message>
         <location filename="../../src/Transmitter.cpp" line="544"/>
         <source>Invalid API key</source>
-        <translation>Chiave API non valida</translation>
+        <translation>無效的API密鑰</translation>
     </message>
     <message>
         <location filename="../../src/Transmitter.cpp" line="546"/>
         <source>Panel is closed. Please login to the website first.</source>
-        <translation>Il pannello è chiuso. Accedi prima al sito web.</translation>
+        <translation>面板已關閉。請先登錄到網站。</translation>
     </message>
 </context>
 </TS>

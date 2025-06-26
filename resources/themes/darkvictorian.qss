@@ -103,7 +103,9 @@ QToolTip {
     padding: 5px;
 }
 
-QPushButton#themeButton[selected="true"] {
+QPushButton#themeButton[selected="true"],
+QPushButton#themeSelectionButton[selected="true"],
+QPushButton#languageSelectionButton[selected="true"] {
     background-color: #611d1d;
     color: white;
 }

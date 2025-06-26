@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <sstream>
 #include <thread>
+#include <cstdlib>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -36,12 +37,13 @@ void Logger::init(bool debug_enabled, bool to_console, const std::string& log_di
 void Logger::shutdown() {
     running.store(false);
     queue_cv.notify_all();
+    
+    // Process any remaining log entries before shutting down
     if (worker_thread.joinable()) {
         worker_thread.join();
     }
-    if (logfile.is_open()) {
-        logfile.close();
-    }
+    
+    std::cout << "Logger shutdown complete" << std::endl;
 }
 
 void Logger::setModuleFilter(const std::string& moduleName) {
@@ -68,8 +70,9 @@ void Logger::log(LogLevel level, const std::string& module, const std::string& m
 }
 
 void Logger::worker() {
-    ensureLogFile();
-
+    // Create log directory if it doesn't exist
+    fs::create_directories(log_directory);
+    
     while (running.load() || !log_queue.empty()) {
         std::unique_lock<std::mutex> lock(queue_mutex);
         queue_cv.wait(lock, [&]() { return !log_queue.empty() || !running.load(); });
@@ -78,7 +81,11 @@ void Logger::worker() {
             auto entry = log_queue.front();
             log_queue.pop();
             lock.unlock();
+            
+            // Check if log rotation is needed before writing
+            checkLogRotation();
             writeLog(entry);
+            
             lock.lock();
         }
     }
@@ -97,11 +104,16 @@ void Logger::writeLog(const LogEntry& entry) {
                   << entry.message << std::endl;
     }
 
-    if (logfile.is_open()) {
-        logfile << "[" << timestamp_stream.str() << "] "
-                << "[" << level_to_string(entry.level) << "] "
-                << "[" << entry.module << "] "
-                << entry.message << std::endl;
+    // Use write-and-close strategy to avoid file locking issues
+    std::string log_path = log_directory + "/app.log";
+    std::ofstream log_file(log_path, std::ios::app);
+    if (log_file.is_open()) {
+        log_file << "[" << timestamp_stream.str() << "] "
+                 << "[" << level_to_string(entry.level) << "] "
+                 << "[" << entry.module << "] "
+                 << entry.message << std::endl;
+        log_file.flush();
+        log_file.close(); // Immediately close after writing
     }
 }
 
@@ -116,11 +128,11 @@ std::string Logger::level_to_string(LogLevel level) {
     }
 }
 
-void Logger::ensureLogFile() {
-    fs::create_directories(log_directory);
+void Logger::checkLogRotation() {
     std::string log_path = log_directory + "/app.log";
-
+    
     if (fs::exists(log_path) && fs::file_size(log_path) > 1 * 1024 * 1024) {
+        // Rotate log files
         for (int i = 4; i > 0; --i) {
             std::string old_file = log_directory + "/app.log." + std::to_string(i);
             std::string new_file = log_directory + "/app.log." + std::to_string(i + 1);
@@ -130,10 +142,16 @@ void Logger::ensureLogFile() {
         }
         fs::rename(log_path, log_directory + "/app.log.1");
     }
+}
 
-    logfile.open(log_path, std::ios::app);
+void Logger::forceCleanup() {
+    Logger& logger = instance();
+    logger.shutdown();
 }
 
 void init_logger(bool debug_enabled, bool debug_to_console, const std::string& log_dir) {
     Logger::instance().init(debug_enabled, debug_to_console, log_dir);
+    
+    // Register cleanup function to be called on normal program exit
+    std::atexit(Logger::forceCleanup);
 }

@@ -6,33 +6,42 @@
 void LanguageManager::setSelectedLanguage(const QString& language) {
     if (selectedLanguage != language) {
         selectedLanguage = language;
-        emit languageChanged(); // Notify listeners that the language has changed
-        qDebug() << "Language changed:" << language;
+        qDebug() << "Language changed to:" << language;
     }
 }
 
 void LanguageManager::applySelectedLanguage() {
     QString localeCode;
-    if (selectedLanguage.contains("Chinese")) localeCode = "zh_CN";
-    else if (selectedLanguage.contains("Japanese")) localeCode = "ja";
-    else if (selectedLanguage.contains("Ukrainian")) localeCode = "uk";
-    else if (selectedLanguage.contains("Russian")) localeCode = "ru";
-    else if (selectedLanguage.contains("German")) localeCode = "de";
-    else if (selectedLanguage.contains("Spanish")) localeCode = "es";
-    else if (selectedLanguage.contains("French")) localeCode = "fr";
-    else if (selectedLanguage.contains("Italian")) localeCode = "it";
-    else if (selectedLanguage.contains("Polish")) localeCode = "pl";
-    else if (selectedLanguage.contains("Portuguese")) localeCode = "pt";
-    else if (selectedLanguage.contains("Korean")) localeCode = "ko";
+    qDebug() << "Applying language:" << selectedLanguage;
+    
+    // Match by exact name
+    if (selectedLanguage == "繁體中文") localeCode = "zh";
+    else if (selectedLanguage == "日本語") localeCode = "ja";
+    else if (selectedLanguage == "Українська") localeCode = "uk";
+    else if (selectedLanguage == "Русский" || selectedLanguage == "москаль") localeCode = "ru";
+    else if (selectedLanguage == "Deutsch") localeCode = "de";
+    else if (selectedLanguage == "Español") localeCode = "es";
+    else if (selectedLanguage == "Français") localeCode = "fr";
+    else if (selectedLanguage == "Italiano") localeCode = "it";
+    else if (selectedLanguage == "Polski") localeCode = "pl";
+    else if (selectedLanguage == "Português") localeCode = "pt";
+    else if (selectedLanguage == "한국어") localeCode = "ko";
     else localeCode = "en";
 
     QString qmPath = ":/translations/lang_" + localeCode + ".qm";
+    qDebug() << "Loading translation from:" << qmPath;
+    
+    // Remove previous translator if it exists
+    qApp->removeTranslator(&translator);
+    
+    // Load new translator
     if (translator.load(qmPath)) {
         qApp->installTranslator(&translator);
-        qDebug() << "Loaded translation for:" << localeCode;
-
+        qDebug() << "Successfully loaded translation for:" << localeCode;
+        
+        // Emit signal AFTER successfully installing the translator
         emit languageChanged();
     } else {
-        qDebug() << "Failed to load translation for:" << localeCode;
+        qDebug() << "Failed to load translation for:" << localeCode << "from path:" << qmPath;
     }
 }

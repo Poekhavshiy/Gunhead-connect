@@ -14,11 +14,7 @@ public:
     explicit LanguageSelectWindow(QWidget* parent = nullptr);
 
     // Static lists of languages
-    static const QStringList officialLanguages;
-    static const QStringList fanLanguages;
-
-    // Helper function to add the "Coming Soon™" suffix
-    static QString addComingSoonSuffix(const QString& language);
+    static const QStringList allLanguages;
 
 public slots:
     void onThemeChanged(const Theme& theme); // Slot to handle theme changes

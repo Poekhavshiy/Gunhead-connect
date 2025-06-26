@@ -14,6 +14,11 @@
 #include <QApplication> 
 #include <QTimer>
 #include <QDir>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QLabel>
+#include <QLineEdit>
 #include "FilterUtils.h"
 
 
@@ -22,6 +27,9 @@ static QStringList s_logDisplayCache;
 LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
     : QMainWindow(parent), transmitter(transmitter), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") 
 {
+    // Load JSON rules for dynamic event formatting
+    loadJsonRules();
+    
     // Connect to gameModeChanged signal
     connect(&transmitter, &Transmitter::gameModeChanged, this, 
         [this](const QString& gameMode, const QString& subGameMode) {
@@ -98,9 +106,9 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
         updateStatusLabel(tr("API connection error detected. Monitoring stopped."));
     });
 
-    // Add in the LogDisplayWindow constructor after other connections
-    connect(&transmitter, &Transmitter::gameModeChanged,
-            this, static_cast<void (LogDisplayWindow::*)(const QString&, const QString&)>(&LogDisplayWindow::updateWindowTitle));
+    // Add this connection to respond to language changes
+    connect(&LanguageManager::instance(), &LanguageManager::languageChanged,
+            this, &LogDisplayWindow::retranslateUi);
 }
 
 void LogDisplayWindow::resizeEvent(QResizeEvent* event) {
@@ -120,10 +128,24 @@ void LogDisplayWindow::moveEvent(QMoveEvent* event) {
 
 void LogDisplayWindow::loadFilterSettings() {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    
     showPvP = settings.value("LogDisplay/ShowPvP", false).toBool();
     showPvE = settings.value("LogDisplay/ShowPvE", true).toBool();
+    showShips = settings.value("LogDisplay/ShowShips", true).toBool();
+    showOther = settings.value("LogDisplay/ShowOther", false).toBool();
     showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
     playSound = settings.value("LogDisplay/PlaySound", false).toBool();
+    
+    // Load filter mode (0 = All Events, 1 = Custom)
+    int filterMode = settings.value("LogDisplay/FilterMode", 0).toInt();
+    if (filterMode == 0) { // All Events mode
+        showPvP = true;
+        showPvE = true;
+        showShips = true;
+        showOther = true;
+    }
+    
+    qDebug() << "Filter settings loaded - PvP:" << showPvP << "PvE:" << showPvE << "Ships:" << showShips << "Other:" << showOther << "NPC Names:" << showNPCNames << "Filter Mode:" << filterMode;
 }
 void LogDisplayWindow::resetLogDisplay() {
     clearLog();
@@ -131,7 +153,7 @@ void LogDisplayWindow::resetLogDisplay() {
 
 void LogDisplayWindow::setupUI() {
     setWindowTitle(tr("Killfeed Log Display"));
-    setWindowIcon(QIcon(":/app_icon"));
+    setWindowIcon(QIcon(":/icons/KillAPI.ico"));
 
     // Main layout
     QWidget* container = new QWidget(this);
@@ -140,28 +162,105 @@ void LogDisplayWindow::setupUI() {
     // Control bar
     QHBoxLayout* controlBarLayout = new QHBoxLayout();
 
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    // Create a button that looks like a dropdown - remove hardcoded styling
+    filterDropdown = new QPushButton(tr("Select Filters   ▼"), this);
 
-    // Show PvP Checkbox
-    showPvPCheckbox = new QCheckBox(tr("Show PvP"), this);
-    showPvPCheckbox->setChecked(showPvP);
-    showPvPCheckbox->setToolTip(tr("Show PvP events (e.g., player kills)"));
-    connect(showPvPCheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowPvPToggled);
-    controlBarLayout->addWidget(showPvPCheckbox);
-
-    // Show PvE Checkbox
-    showPvECheckbox = new QCheckBox(tr("Show PvE"), this);
-    showPvECheckbox->setChecked(showPvE);
-    showPvECheckbox->setToolTip(tr("Show PvE events (e.g., NPC kills)"));
-    connect(showPvECheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowPvEToggled);
-    controlBarLayout->addWidget(showPvECheckbox);
-
-    // Show NPC Names Checkbox
-    showNPCNamesCheckbox = new QCheckBox(tr("Show NPC Names"), this);
-    showNPCNamesCheckbox->setChecked(showNPCNames);
-    showNPCNamesCheckbox->setToolTip(tr("Show actual NPC names in events or just 'NPC'"));
-    connect(showNPCNamesCheckbox, &QCheckBox::toggled, this, &LogDisplayWindow::onShowNPCNamesToggled);
-    controlBarLayout->addWidget(showNPCNamesCheckbox);
+    // Initial width calculation will be done after theme is applied
+    filterDropdown->setStyleSheet(
+        "QPushButton {"
+        "    text-align: left;"
+        "    padding-left: 8px;"
+        "    padding-right: 8px;"
+        "    border: 1px solid;"
+        "}"
+    );
+    
+    // Calculate initial width based on current font
+    QTimer::singleShot(0, this, &LogDisplayWindow::updateFilterDropdownWidth);
+    
+    // Create the filter widget (hidden by default)
+    filterWidget = new FilterDropdownWidget(this);
+    filterWidget->setShowPvP(showPvP);
+    filterWidget->setShowPvE(showPvE);
+    filterWidget->setShowShips(showShips);
+    filterWidget->setShowOther(showOther);
+    filterWidget->setShowNPCNames(showNPCNames);
+    filterWidget->hide(); // Initially hidden
+    
+    // Connect button click to show popup
+    connect(filterDropdown, &QPushButton::clicked, this, [this]() {
+        // Check if popup is already open and close it
+        QWidget* existingPopup = this->findChild<QWidget*>("filterPopup");
+        if (existingPopup) {
+            existingPopup->close();
+            return;
+        }
+        
+        // Show custom filter widget as a popup
+        QPoint globalPos = filterDropdown->mapToGlobal(QPoint(0, filterDropdown->height()));
+        
+        // Create a popup widget to hold the filter options
+        QWidget* popup = new QWidget(nullptr, Qt::Popup);
+        popup->setObjectName("filterPopup"); // Set object name to find it later
+        popup->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
+        popup->setAttribute(Qt::WA_DeleteOnClose);
+        
+        QVBoxLayout* popupLayout = new QVBoxLayout(popup);
+        popupLayout->setContentsMargins(5, 5, 5, 5);
+        
+        // Create a new filter widget for the popup
+        FilterDropdownWidget* popupFilterWidget = new FilterDropdownWidget(popup);
+        popupFilterWidget->setShowPvP(showPvP);
+        popupFilterWidget->setShowPvE(showPvE);
+        popupFilterWidget->setShowShips(showShips);
+        popupFilterWidget->setShowOther(showOther);
+        popupFilterWidget->setShowNPCNames(showNPCNames);
+        
+        popupLayout->addWidget(popupFilterWidget);
+        
+        // Connect the popup filter widget changes
+        connect(popupFilterWidget, &FilterDropdownWidget::filterChanged, this, [this, popup, popupFilterWidget]() {
+            showPvP = popupFilterWidget->getShowPvP();
+            showPvE = popupFilterWidget->getShowPvE();
+            showShips = popupFilterWidget->getShowShips();
+            showOther = popupFilterWidget->getShowOther();
+            showNPCNames = popupFilterWidget->getShowNPCNames();
+            
+            // Update the main filter widget
+            filterWidget->setShowPvP(showPvP);
+            filterWidget->setShowPvE(showPvE);
+            filterWidget->setShowShips(showShips);
+            filterWidget->setShowOther(showOther);
+            filterWidget->setShowNPCNames(showNPCNames);
+            
+            // Save settings
+            QSettings settings("KillApiConnect", "KillApiConnectPlus");
+            settings.setValue("LogDisplay/ShowPvP", showPvP);
+            settings.setValue("LogDisplay/ShowPvE", showPvE);
+            settings.setValue("LogDisplay/ShowShips", showShips);
+            settings.setValue("LogDisplay/ShowOther", showOther);
+            settings.setValue("LogDisplay/ShowNPCNames", showNPCNames);
+            
+            // Emit signals for MainWindow
+            emit filterPvPChanged(showPvP);
+            emit filterPvEChanged(showPvE);
+            emit filterShipsChanged(showShips);
+            emit filterOtherChanged(showOther);
+            emit filterNPCNamesChanged(showNPCNames);
+            
+            // Refresh display
+            filterAndDisplayLogs();
+            
+            // Keep the dropdown open - don't close automatically
+        });
+        
+        popup->move(globalPos);
+        popup->show();
+        popup->raise();
+        popup->activateWindow();
+    });
+    
+    controlBarLayout->addWidget(filterDropdown);
 
     // Play Sound Checkbox
     playSoundCheckbox = new QCheckBox(tr("Play Sound"), this);
@@ -170,13 +269,13 @@ void LogDisplayWindow::setupUI() {
     connect(playSoundCheckbox, &QCheckBox::toggled, this, [this](bool checked) {
         playSound = checked;
         QSettings settings("KillApiConnect", "KillApiConnectPlus");
-        settings.setValue("LogDisplay/PlaySound", playSound); // Save immediately
+        settings.setValue("LogDisplay/PlaySound", playSound);
     });
     controlBarLayout->addWidget(playSoundCheckbox);
 
     // Test Button
     testButton = new QPushButton(tr("Test"), this);
-    testButton->setVisible(ISDEBUG); // Use ISDEBUG to control visibility
+    testButton->setVisible(ISDEBUG);
     connect(testButton, &QPushButton::clicked, this, &LogDisplayWindow::handleTestButton);
     controlBarLayout->addWidget(testButton);
 
@@ -192,21 +291,24 @@ void LogDisplayWindow::setupUI() {
     logDisplay->setReadOnly(true);
     mainLayout->addWidget(logDisplay);
 
-// Buttons layout
+    // Buttons layout
     QHBoxLayout* buttonLayout = new QHBoxLayout();
 
     // Clear button
     QPushButton* clearButton = new QPushButton(tr("Clear"), this);
+    clearButton->setObjectName("clearButton"); // Add this line
     connect(clearButton, &QPushButton::clicked, this, &LogDisplayWindow::clearLog);
     buttonLayout->addWidget(clearButton);
 
     // Text color button
     QPushButton* textColorButton = new QPushButton(tr("Text Color"), this);
+    textColorButton->setObjectName("textColorButton"); // Add this line
     connect(textColorButton, &QPushButton::clicked, this, &LogDisplayWindow::changeTextColor);
     buttonLayout->addWidget(textColorButton);
 
     // Background color button
     QPushButton* bgColorButton = new QPushButton(tr("Background Color"), this);
+    bgColorButton->setObjectName("bgColorButton"); // Add this line
     connect(bgColorButton, &QPushButton::clicked, this, &LogDisplayWindow::changeBackgroundColor);
     buttonLayout->addWidget(bgColorButton);
 
@@ -232,6 +334,7 @@ void LogDisplayWindow::setupUI() {
 
     // Sound test button (for debugging)
     QPushButton* testSoundButton = new QPushButton(tr("Test Sound"), this);
+    testSoundButton->setObjectName("testSoundButton"); // Add this line
     testSoundButton->setVisible(ISDEBUG);
     connect(testSoundButton, &QPushButton::clicked, this, [this]() {
         qDebug() << "Testing sound playback...";
@@ -246,6 +349,29 @@ void LogDisplayWindow::setupUI() {
     setCentralWidget(container);
 }
 
+void LogDisplayWindow::onFilterDropdownChanged(int index) {
+    // Remove the old checkbox visibility code since we're using FilterDropdownWidget now
+    // The FilterDropdownWidget handles its own visibility and state
+    
+    // Just update the filter settings based on the widget state
+    showPvP = filterWidget->getShowPvP();
+    showPvE = filterWidget->getShowPvE();
+    showShips = filterWidget->getShowShips();
+    showOther = filterWidget->getShowOther();
+    showNPCNames = filterWidget->getShowNPCNames();
+    
+    // Save settings
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    settings.setValue("LogDisplay/ShowPvP", showPvP);
+    settings.setValue("LogDisplay/ShowPvE", showPvE);
+    settings.setValue("LogDisplay/ShowShips", showShips);
+    settings.setValue("LogDisplay/ShowOther", showOther);
+    settings.setValue("LogDisplay/ShowNPCNames", showNPCNames);
+    
+    // Refresh display
+    filterAndDisplayLogs();
+}
+
 void LogDisplayWindow::onShowPvPToggled(bool checked) {
     qDebug() << "LogDisplayWindow::onShowPvPToggled - PvP filter changed from" 
              << showPvP << "to" << checked;
@@ -253,12 +379,10 @@ void LogDisplayWindow::onShowPvPToggled(bool checked) {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     settings.setValue("LogDisplay/ShowPvP", showPvP);
     qDebug() << "LogDisplayWindow::onShowPvPToggled - Saved setting to QSettings"; 
-    emit filterPvPChanged(showPvP);
+    emit filterPvPChanged(checked);
     qDebug() << "LogDisplayWindow::onShowPvPToggled - Emitted filterPvPChanged signal";
     
-    // Clear the log display and update the filtered view
-    clearLog();
-    updateStatusLabel(tr("PvP filter changed - automatically applying changes"));
+    filterAndDisplayLogs();
 }
 
 void LogDisplayWindow::onShowPvEToggled(bool checked) {
@@ -268,12 +392,36 @@ void LogDisplayWindow::onShowPvEToggled(bool checked) {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     settings.setValue("LogDisplay/ShowPvE", showPvE);
     qDebug() << "LogDisplayWindow::onShowPvEToggled - Saved setting to QSettings";
-    emit filterPvEChanged(showPvE);
+    emit filterPvEChanged(checked);
     qDebug() << "LogDisplayWindow::onShowPvEToggled - Emitted filterPvEChanged signal";
     
-    // Clear the log display and update the filtered view
-    clearLog();
-    updateStatusLabel(tr("PvE filter changed - automatically applying changes"));
+    filterAndDisplayLogs();
+}
+
+void LogDisplayWindow::onShowShipsToggled(bool checked) {
+    qDebug() << "LogDisplayWindow::onShowShipsToggled - Ships filter changed from" 
+             << showShips << "to" << checked;
+    showShips = checked;
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    settings.setValue("LogDisplay/ShowShips", showShips);
+    qDebug() << "LogDisplayWindow::onShowShipsToggled - Saved setting to QSettings";
+    emit filterShipsChanged(checked);
+    qDebug() << "LogDisplayWindow::onShowShipsToggled - Emitted filterShipsChanged signal";
+    
+    filterAndDisplayLogs();
+}
+
+void LogDisplayWindow::onShowOtherToggled(bool checked) {
+    qDebug() << "LogDisplayWindow::onShowOtherToggled - Other filter changed from" 
+             << showOther << "to" << checked;
+    showOther = checked;
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    settings.setValue("LogDisplay/ShowOther", showOther);
+    qDebug() << "LogDisplayWindow::onShowOtherToggled - Saved setting to QSettings";
+    emit filterOtherChanged(checked);
+    qDebug() << "LogDisplayWindow::onShowOtherToggled - Emitted filterOtherChanged signal";
+    
+    filterAndDisplayLogs();
 }
 
 void LogDisplayWindow::onShowNPCNamesToggled(bool checked) {
@@ -283,38 +431,32 @@ void LogDisplayWindow::onShowNPCNamesToggled(bool checked) {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
     settings.setValue("LogDisplay/ShowNPCNames", showNPCNames);
     qDebug() << "LogDisplayWindow::onShowNPCNamesToggled - Saved setting to QSettings";
-    emit filterNPCNamesChanged(showNPCNames);
+    emit filterNPCNamesChanged(checked);
     qDebug() << "LogDisplayWindow::onShowNPCNamesToggled - Emitted filterNPCNamesChanged signal";
     
-    // Clear the log display and update the filtered view
-    clearLog();
-    updateStatusLabel(tr("NPC name filter changed - automatically applying changes"));
+    filterAndDisplayLogs();
 }
 
-void LogDisplayWindow::updateFilterSettings(bool newShowPvP, bool newShowPvE, bool newShowNPCNames) {
-    bool changed = false;
+void LogDisplayWindow::updateFilterSettings(bool pvp, bool e, bool npcNames) {
+    showPvP = pvp;
+    showPvE = e;
+    showNPCNames = npcNames;
     
-    if (showPvP != newShowPvP) {
-        showPvP = newShowPvP;
-        showPvPCheckbox->setChecked(showPvP);
-        changed = true;
+    // Update the filter widget instead of individual checkboxes
+    if (filterWidget) {
+        filterWidget->setShowPvP(showPvP);
+        filterWidget->setShowPvE(showPvE);
+        filterWidget->setShowNPCNames(showNPCNames);
     }
     
-    if (showPvE != newShowPvE) {
-        showPvE = newShowPvE;
-        showPvECheckbox->setChecked(showPvE);
-        changed = true;
-    }
+    // Save settings
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    settings.setValue("LogDisplay/ShowPvP", showPvP);
+    settings.setValue("LogDisplay/ShowPvE", showPvE);
+    settings.setValue("LogDisplay/ShowNPCNames", showNPCNames);
     
-    if (showNPCNames != newShowNPCNames) {
-        showNPCNames = newShowNPCNames;
-        showNPCNamesCheckbox->setChecked(showNPCNames);
-        changed = true;
-    }
-    
-    if (changed) {
-        filterAndDisplayLogs();
-    }
+    // Refresh display
+    filterAndDisplayLogs();
 }
 
 // Update the addEvent method to apply filters
@@ -331,7 +473,15 @@ void LogDisplayWindow::addEvent(const QString& eventText) {
     if (eventBuffer.size() > 100) {
         eventBuffer.removeFirst();
     }
-    s_logDisplayCache = eventBuffer; // Cache the buffer
+    s_logDisplayCache = eventBuffer; // Cache the buffer    // Additional pre-check for game mode messages and player character info
+    if (eventText.contains("game_mode_pu") || 
+        eventText.contains("game_mode_ac") || 
+        eventText.contains("{Join PU}") ||
+        eventText.contains("EALobby") ||
+        eventText.contains("\"identifier\":\"player_character_info\"")) {
+        qDebug() << "LogDisplayWindow::addEvent - Filtered out game mode/system message";
+        return; // Skip display but keep in buffer
+    }
 
     // Check if this event should be displayed based on current filter settings
     if (!FilterUtils::shouldDisplayEvent(eventText)) {
@@ -355,15 +505,14 @@ void LogDisplayWindow::addEvent(const QString& eventText) {
             qint64 timestampValue = parsed["timestamp"].get<qint64>();
             QDateTime dateTime = QDateTime::fromSecsSinceEpoch(timestampValue);
             timePrefix = dateTime.toString("HH:mm:ss");
-        }
-
-        // Events are already filtered at the LogMonitor level, just prettify and display
+        }        // Events are already filtered at the LogMonitor level, just prettify and display
         QString prettifiedLog = prettifyLog(eventText);
         if (!prettifiedLog.isEmpty()) {
             logDisplay->append(prettifiedLog);
             logDisplay->verticalScrollBar()->setValue(logDisplay->verticalScrollBar()->maximum());
         } else {
-            logDisplay->append(eventText);
+            qDebug() << "LogDisplayWindow::addEvent - prettifyLog returned empty, not displaying event";
+            // Don't display anything if prettifyLog returned empty (filtered out)
         }
     } catch (const std::exception& e) {
         qWarning() << "Exception in addEvent:" << e.what();
@@ -373,25 +522,6 @@ void LogDisplayWindow::addEvent(const QString& eventText) {
     // Play sound if enabled
     if (playSound) {
         soundPlayer->playConfiguredSound(nullptr);
-    }
-
-    // Detect and display game mode changes
-    if (eventText.contains("game_mode_change")) {
-        QString currentGameMode = QString::fromStdString(get_json_value(eventText.toStdString(), "game_mode"));
-        QString currentSubGameMode = QString::fromStdString(get_json_value(eventText.toStdString(), "sub_game_mode"));
-
-        // Update window title based on game mode
-        updateWindowTitle(currentGameMode, currentSubGameMode);
-
-        if (currentGameMode == "PU") {
-            addEvent(tr("Game mode detected as Persistent Universe"));
-        } else if (currentGameMode == "AC") {
-            // Apply friendly name transformation
-            QString friendlySubGameMode = getFriendlyGameModeName(currentSubGameMode);
-            addEvent(tr("Game mode detected as Arena Commander: %1").arg(friendlySubGameMode));
-        } else {
-            addEvent(tr("Game mode detected as Unknown"));
-        }
     }
 }
 
@@ -436,57 +566,108 @@ QString LogDisplayWindow::prettifyLog(const QString& log) const {
         if (killerIsNPC) {
             parsed["killer"] = "An NPC";
         }
-    }
+    }    QString message = formatEvent(identifier, parsed);
 
-    QString message = formatEvent(identifier, parsed);
+    // Don't return entries with empty messages
+    if (message.isEmpty()) {
+        qDebug() << "LogDisplayWindow::prettifyLog - Filtered out message for identifier:" << identifier;
+        return ""; // Skip this entry entirely
+    }
 
     // Combine timestamp and message
     return timestamp.isEmpty() ? message : QString("[%1] %2").arg(timestamp, message);
 }
 
 QString LogDisplayWindow::formatEvent(const QString& identifier, const nlohmann::json& parsed) const {
-    QString message;
+    qDebug() << "LogDisplayWindow::formatEvent - Processing identifier:" << identifier;
 
-    if (identifier == "kill_log") {
-        if (parsed.value("killer", "") == parsed.value("victim", "")) {
-            message = QString("%1 killed themselves").arg(QString::fromStdString(parsed.value("killer", "")));
-        } else {
-            QString killer = QString::fromStdString(parsed.value("killer", "Unknown"));
-            QString victim = QString::fromStdString(parsed.value("victim", "Unknown"));
-            message = QString("%1 killed %2").arg(killer, victim);
+    // Filter out all game mode and system messages
+    if (identifier == "game_mode_pu" || 
+        identifier == "game_mode_ac" || 
+        identifier == "game_mode_change" ||
+        identifier == "game_mode_update" ||
+        identifier.startsWith("game_mode_") ||  // Catch any other game mode messages
+        identifier == "debug_ping" ||
+        identifier == "system_message" ||
+        identifier == "player_character_info") {
+        qDebug() << "LogDisplayWindow::formatEvent - Filtering out identifier:" << identifier;
+        return ""; // Return empty string to filter out these messages
+    }
+
+    // Look up rule configuration from JSON
+    QJsonArray rules = rulesData["rules"].toArray();
+    QString filterType;
+    QString messageTemplate;
+    QString messageTemplateSuicide;
+    
+    for (const QJsonValue& ruleValue : rules) {
+        QJsonObject rule = ruleValue.toObject();
+        if (rule["identifier"].toString() == identifier) {
+            filterType = rule["filter_type"].toString();
+            messageTemplate = rule["message_template"].toString();
+            messageTemplateSuicide = rule["message_template_suicide"].toString();
+            break;
         }
-        QString killer = QString::fromStdString(parsed.value("killer", "Unknown"));
-        QString victim = QString::fromStdString(parsed.value("victim", "Unknown"));
-        message = QString("%1 killed %2").arg(killer, victim);
-    } else if (identifier == "vehicle_instant_destruction") {
-        QString vehicle = QString::fromStdString(parsed.value("vehicle", "Unknown"));
-        QString cause = QString::fromStdString(parsed.value("cause", "Unknown"));
-        message = QString("%1 was obliterated by %2").arg(vehicle, cause);
-    } else if (identifier == "vehicle_destruction") {
-        QString vehicle = QString::fromStdString(parsed.value("vehicle", "Unknown"));
-        QString cause = QString::fromStdString(parsed.value("cause", "Unknown"));
-        message = QString("%1 was destroyed by %2").arg(vehicle, cause);
-    } else if (identifier == "vehicle_soft_death") {
-        QString vehicle = QString::fromStdString(parsed.value("vehicle", "Unknown"));
-        QString driver = QString::fromStdString(parsed.value("driver", "Unknown"));
-        QString cause = QString::fromStdString(parsed.value("cause", "Unknown"));
-        message = QString("%1 put vehicle %2 of %3 in soft death state").arg(cause, vehicle, driver);
-    } else if (identifier == "player_connect") {
-        QString player = QString::fromStdString(parsed.value("player", "Unknown"));
-        message = QString("%1 connected").arg(player);
-    } else if (identifier == "player_disconnect") {
-        message = QString("Player disconnected");
-    } else if (identifier == "status") {
-        // Handle status messages
-        message = QString::fromStdString(parsed.value("message", "Status update"));
+    }
+    
+    // Check if this event type should be displayed based on filter settings
+    if (!filterType.isEmpty()) {
+        if (filterType == "kill") {
+            // For kill events, check PvP/PvE filtering
+            bool killerIsNPC = parsed.value("killer_is_npc", false);
+            bool victimIsNPC = parsed.value("victim_is_npc", false);
+            
+            if (!killerIsNPC && !victimIsNPC) {
+                // Both are players - this is PvP
+                if (!showPvP) {
+                    qDebug() << "LogDisplayWindow::formatEvent - PvP event filtered out for identifier:" << identifier;
+                    return "";
+                }
+            } else if (killerIsNPC || victimIsNPC) {
+                // At least one is NPC - this is PvE
+                if (!showPvE) {
+                    qDebug() << "LogDisplayWindow::formatEvent - PvE event filtered out for identifier:" << identifier;
+                    return "";
+                }
+            }
+        } else if (!shouldShowEventType(filterType)) {
+            qDebug() << "LogDisplayWindow::formatEvent - Event type" << filterType << "filtered out for identifier:" << identifier;
+            return "";
+        }
+    }
+    
+    QString message;
+    
+    // Use message template if available
+    if (!messageTemplate.isEmpty()) {
+        // Special case for suicide detection in kill events
+        if (identifier == "kill_log" && 
+            !messageTemplateSuicide.isEmpty() &&
+            parsed.value("killer", "") == parsed.value("victim", "")) {
+            message = formatEventFromTemplate(messageTemplateSuicide, parsed);
+        } else {
+            message = formatEventFromTemplate(messageTemplate, parsed);
+        }
+        
+        qDebug() << "LogDisplayWindow::formatEvent - Using template for" << identifier << ":" << message;
+        return message;
+    }
+    
+    // Fallback to hardcoded formatting for events without templates
+    if (identifier == "status") {
+        // Only show important status messages
+        QString statusMsg = QString::fromStdString(parsed.value("message", ""));
+        if (statusMsg.contains("error", Qt::CaseInsensitive) || 
+            statusMsg.contains("warning", Qt::CaseInsensitive) ||
+            statusMsg.contains("initialized", Qt::CaseInsensitive)) {
+            message = statusMsg;
+        } else {
+            return ""; // Filter out routine status messages
+        }
     } else {
-        if (ISDEBUG && false) {
-            qDebug() << "Unknown identifier:" << identifier;
-            message = QString::fromStdString(parsed.dump()); // Fallback to raw JSON
-        } else {
-            message = "";
-            qDebug() << "Unknown identifier:" << identifier << "in debug mode, not displaying.";
-        }
+        // For events without templates, show a basic format
+        qDebug() << "LogDisplayWindow::formatEvent - No template found for identifier:" << identifier;
+        message = QString("Event: %1").arg(identifier); // Basic fallback
     }
 
     return message;
@@ -798,4 +979,219 @@ void LogDisplayWindow::updateWindowTitle(const QString& gameMode, const QString&
     // Set the window title
     setWindowTitle(title);
     qDebug() << "Window title set to:" << title;
+}
+
+void LogDisplayWindow::retranslateUi() {
+    // Update window title
+    updateWindowTitle(transmitter.getCurrentGameMode(), transmitter.getCurrentSubGameMode());
+    
+    // Update filter dropdown text
+    if (filterDropdown) {
+        filterDropdown->setText(tr("Select Filters     ▼"));
+        // Recalculate width after text and potentially font changes
+        QTimer::singleShot(0, this, &LogDisplayWindow::updateFilterDropdownWidth);
+    }
+    
+    // Update other UI elements
+    if (playSoundCheckbox) {
+        playSoundCheckbox->setText(tr("Play Sound"));
+        playSoundCheckbox->setToolTip(tr("Coming soon: Play sound on events"));
+    }
+    
+    // Update buttons
+    if (testButton) testButton->setText(tr("Test"));
+    
+    // Check the current text to determine if monitoring is active
+    if (monitoringButton) {
+        bool isCurrentlyMonitoring = monitoringButton->text() == "Stop Monitoring";
+        monitoringButton->setText(isCurrentlyMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
+    }
+    
+    // Find and update buttons by object name
+    QPushButton* clearBtn = findChild<QPushButton*>("clearButton");
+    if (clearBtn) clearBtn->setText(tr("Clear"));
+    
+    QPushButton* textColorBtn = findChild<QPushButton*>("textColorButton");
+    if (textColorBtn) textColorBtn->setText(tr("Text Color"));
+    
+    QPushButton* bgColorBtn = findChild<QPushButton*>("bgColorButton");
+    if (bgColorBtn) bgColorBtn->setText(tr("Background Color"));
+    
+    QPushButton* testSoundBtn = findChild<QPushButton*>("testSoundButton");
+    if (testSoundBtn) testSoundBtn->setText(tr("Test Sound"));
+    
+    qDebug() << "LogDisplayWindow UI retranslated";
+}
+
+void LogDisplayWindow::loadJsonRules() {
+    QFile file("data/logfile_regex_rules.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Could not open JSON rules file:" << file.errorString();
+        return;
+    }
+    
+    QByteArray data = file.readAll();
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+    
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "Failed to parse JSON rules file:" << parseError.errorString();
+        return;
+    }
+    
+    rulesData = doc.object();
+    qDebug() << "JSON rules loaded successfully";
+}
+
+bool LogDisplayWindow::shouldShowEventType(const QString& filterType) const {
+    if (filterType == "kill") {
+        // For kill events, we need to determine if it's PvP or PvE
+        // This will be handled in the calling context since we need parsed data
+        return true; // Let the caller handle PvP/PvE filtering
+    } else if (filterType == "ship") {
+        return showShips;
+    } else if (filterType == "other") {
+        return showOther;
+    }
+    
+    // For events without filter_type, default to showing them
+    return true;
+}
+
+QString LogDisplayWindow::formatEventFromTemplate(const QString& messageTemplate, const nlohmann::json& parsed) const {
+    QString message = messageTemplate;
+    
+    // Replace placeholders in the template with actual values
+    for (auto it = parsed.begin(); it != parsed.end(); ++it) {
+        QString placeholder = QString("{%1}").arg(QString::fromStdString(it.key()));
+        QString value;
+        
+        // Handle different JSON value types properly
+        if (it.value().is_string()) {
+            value = QString::fromStdString(it.value().get<std::string>());
+        } else if (it.value().is_number_integer()) {
+            value = QString::number(it.value().get<int64_t>());
+        } else if (it.value().is_number_float()) {
+            value = QString::number(it.value().get<double>());
+        } else if (it.value().is_boolean()) {
+            value = it.value().get<bool>() ? "true" : "false";
+        } else {
+            // For other types, convert to string representation
+            value = QString::fromStdString(it.value().dump());
+        }
+        
+        message.replace(placeholder, value);
+    }
+    
+    return tr(message.toUtf8().constData());
+}
+
+FilterDropdownWidget::FilterDropdownWidget(QWidget* parent) 
+    : QWidget(parent), updatingSelectAll(false) {
+    
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->setContentsMargins(8, 8, 8, 8);
+    layout->setSpacing(4);
+    
+    // Select All checkbox - remove hardcoded styling
+    selectAllCheckbox = new QCheckBox(tr("Select All"), this);
+    selectAllCheckbox->setObjectName("selectAllCheckbox"); // Add object name for theme targeting
+    connect(selectAllCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onSelectAllChanged);
+    layout->addWidget(selectAllCheckbox);
+    
+    // Separator line
+    QFrame* line = new QFrame(this);
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    layout->addWidget(line);
+    
+    // Individual filter checkboxes - let them inherit theme styling
+    pvpCheckbox = new QCheckBox(tr("Show PvP"), this);
+    pvpCheckbox->setToolTip(tr("Show player vs player kill events"));
+    connect(pvpCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
+    layout->addWidget(pvpCheckbox);
+    
+    pveCheckbox = new QCheckBox(tr("Show PvE"), this);
+    pveCheckbox->setToolTip(tr("Show player vs environment (NPC) kill events"));
+    connect(pveCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
+    layout->addWidget(pveCheckbox);
+    
+    shipsCheckbox = new QCheckBox(tr("Show Ship Events"), this);
+    shipsCheckbox->setToolTip(tr("Show ship destruction and vehicle events"));
+    connect(shipsCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
+    layout->addWidget(shipsCheckbox);
+    
+    otherCheckbox = new QCheckBox(tr("Show Other Events"), this);
+    otherCheckbox->setToolTip(tr("Show connections, seat changes, missions, etc."));
+    connect(otherCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
+    layout->addWidget(otherCheckbox);
+
+    // NPC Names checkbox (separate from others)
+    QFrame* line2 = new QFrame(this);
+    line2->setFrameShape(QFrame::HLine);
+    line2->setFrameShadow(QFrame::Sunken);
+    layout->addWidget(line2);
+    
+    npcNamesCheckbox = new QCheckBox(tr("Show NPC Names"), this);
+    npcNamesCheckbox->setToolTip(tr("Show actual NPC names in events or just 'NPC'"));
+    connect(npcNamesCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
+    layout->addWidget(npcNamesCheckbox);
+}
+
+void FilterDropdownWidget::setShowPvP(bool show) { pvpCheckbox->setChecked(show); }
+void FilterDropdownWidget::setShowPvE(bool show) { pveCheckbox->setChecked(show); }
+void FilterDropdownWidget::setShowShips(bool show) { shipsCheckbox->setChecked(show); }
+void FilterDropdownWidget::setShowOther(bool show) { otherCheckbox->setChecked(show); }
+void FilterDropdownWidget::setShowNPCNames(bool show) { npcNamesCheckbox->setChecked(show); }
+
+bool FilterDropdownWidget::getShowPvP() const { return pvpCheckbox->isChecked(); }
+bool FilterDropdownWidget::getShowPvE() const { return pveCheckbox->isChecked(); }
+bool FilterDropdownWidget::getShowShips() const { return shipsCheckbox->isChecked(); }
+bool FilterDropdownWidget::getShowOther() const { return otherCheckbox->isChecked(); }
+bool FilterDropdownWidget::getShowNPCNames() const { return npcNamesCheckbox->isChecked(); }
+
+void FilterDropdownWidget::onSelectAllChanged(bool checked) {
+    if (updatingSelectAll) return;
+    
+    updatingSelectAll = true;
+    pvpCheckbox->setChecked(checked);
+    pveCheckbox->setChecked(checked);
+    shipsCheckbox->setChecked(checked);
+    otherCheckbox->setChecked(checked);
+    // Note: NPC Names is independent of "Select All"
+    updatingSelectAll = false;
+    
+    emit filterChanged();
+}
+
+void FilterDropdownWidget::onIndividualFilterChanged() {
+    if (updatingSelectAll) return;
+    
+    // Update Select All checkbox based on individual states
+    bool allChecked = pvpCheckbox->isChecked() && 
+                     pveCheckbox->isChecked() && 
+                     shipsCheckbox->isChecked() && 
+                     otherCheckbox->isChecked();
+    
+    updatingSelectAll = true;
+    selectAllCheckbox->setChecked(allChecked);
+    updatingSelectAll = false;
+    
+    emit filterChanged();
+}
+
+void LogDisplayWindow::updateFilterDropdownWidth() {
+    if (!filterDropdown) return;
+    
+    // Recalculate width based on current font metrics
+    QFontMetrics fm(filterDropdown->font());
+    int textWidth = fm.horizontalAdvance(tr("Select Filters   ▼"));
+    int padding = 16; // 8px left + 8px right padding
+    int calculatedWidth = textWidth + padding;
+
+    // Update the button width
+    filterDropdown->setMinimumWidth(calculatedWidth);
+    filterDropdown->setMaximumWidth(calculatedWidth + 20); // Allow slight expansion
+    
+    qDebug() << "Filter dropdown width updated to:" << calculatedWidth << "based on font:" << filterDropdown->font().toString();
 }

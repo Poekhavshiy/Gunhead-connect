@@ -31,7 +31,9 @@ QLabel {
     font-size: 13px;
 }
 
-QPushButton#themeButton[selected="true"] {
+QPushButton#themeButton[selected="true"],
+QPushButton#themeSelectionButton[selected="true"],
+QPushButton#languageSelectionButton[selected="true"] {
     background-color: #88aa44;
     color: black;
     border: 1px solid #c0d060;

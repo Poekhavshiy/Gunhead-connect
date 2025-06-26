@@ -47,6 +47,7 @@ set(SOURCES
     ${SRC_DIR}/globals.cpp
     ${SRC_DIR}/SoundPlayer.cpp
     ${SRC_DIR}/LoadingScreen.cpp
+    ${SRC_DIR}/GameLauncher.cpp
 )
 
 set(HEADERS
@@ -64,6 +65,7 @@ set(HEADERS
     ${INC_DIR}/globals.h
     ${INC_DIR}/SoundPlayer.h
     ${INC_DIR}/LoadingScreen.h
+    ${INC_DIR}/GameLauncher.h
 )
 
 set(UIS
@@ -129,9 +131,9 @@ target_link_libraries(KillApiConnect PRIVATE nlohmann_json::nlohmann_json)
 # Translations
 set(TS_FILES
     ${TRANSLATIONS_DIR}/lang_en.ts
-    ${TRANSLATIONS_DIR}/lang_zh_CN.ts
+    ${TRANSLATIONS_DIR}/lang_zh.ts
     ${TRANSLATIONS_DIR}/lang_ja.ts
-    ${TRANSLATIONS_DIR}/lang_ua.ts
+    ${TRANSLATIONS_DIR}/lang_uk.ts
     ${TRANSLATIONS_DIR}/lang_ru.ts
     ${TRANSLATIONS_DIR}/lang_de.ts
     ${TRANSLATIONS_DIR}/lang_es.ts
@@ -139,7 +141,7 @@ set(TS_FILES
     ${TRANSLATIONS_DIR}/lang_it.ts
     ${TRANSLATIONS_DIR}/lang_pl.ts
     ${TRANSLATIONS_DIR}/lang_pt.ts
-    ${TRANSLATIONS_DIR}/lang_kr.ts
+    ${TRANSLATIONS_DIR}/lang_ko.ts
 )
 qt_add_translations(KillApiConnect TS_FILES ${TS_FILES})
 

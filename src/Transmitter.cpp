@@ -97,8 +97,8 @@ bool Transmitter::sendConnectionSuccess(const QString& logFilePath, const QStrin
         }
     }
 
-    // System locale and other fields remain the same
-    payload["system_locale"] = QLocale::system().name();
+    // System locale - use global variable instead of QLocale::system().name()
+    payload["system_locale"] = QString::fromStdString(systemLocale);
 
     // System timezone
     payload["system_timezone"] = QString::fromUtf8(QTimeZone::systemTimeZone().id());
@@ -525,15 +525,28 @@ bool Transmitter::sendGameMode(const QString& apiKey) {
     }
 }
 
-void Transmitter::handleNetworkError(QNetworkReply::NetworkError error, const QString& errorString) {
-    QString errorMessage = tr("API connection error: %1").arg(errorString);
-    qWarning() << "Network error occurred:" << errorString;
+void Transmitter::handleNetworkError(QNetworkReply::NetworkError error, const QString& errorMessage) {
+    qDebug() << "Network error:" << error << errorMessage;
     
-    // Emit the error signal
-    emit apiConnectionError(errorMessage);
+    // Get HTTP status code from reply if available
+    int statusCode = 0;
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    if (reply) {
+        statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    }
     
-    // Signal that monitoring should be stopped
-    emit monitoringStopped("API connection error detected. Monitoring stopped.");
+    // Check for specific error types
+    if (error == QNetworkReply::InternalServerError || 
+        errorMessage.contains("Internal server error") || 
+        statusCode == 500) {
+        emit apiError(ApiErrorType::ServerError, tr("Internal server error"));
+    } else if (error == QNetworkReply::AuthenticationRequiredError) {
+        emit apiError(ApiErrorType::InvalidApiKey, tr("Invalid API key"));
+    } else if (errorMessage.contains("Panel is closed")) {
+        emit apiError(ApiErrorType::PanelClosed, tr("Panel is closed. Please login to the website first."));
+    } else {
+        emit apiError(ApiErrorType::NetworkError, errorMessage);
+    }
 }
 
 // Add after handleNetworkError method

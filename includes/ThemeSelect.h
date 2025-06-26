@@ -15,6 +15,7 @@
 #include <QString>
 #include <QSize>
 #include <QStyle>
+#include "language_manager.h"
 
 struct Theme {
     QString stylePath;
@@ -52,7 +53,9 @@ private:
     void connectSignals();
     void applyTheme(const Theme& theme);
     void saveTheme(const Theme& t); // Save the current theme to settings
-   
+
+private slots:
+    void retranslateUi();
 };
 
 #endif // THEMESELECT_H

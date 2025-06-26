@@ -20,6 +20,8 @@ QPushButton {
     border: 1px solid #6272a4;
     border-radius: 4px;
     padding: 6px 12px;
+    font-weight: normal;
+    letter-spacing: normal;
 }
 
 QPushButton:hover {
@@ -80,7 +82,9 @@ QGroupBox:title {
     color: #bd93f9;
 }
 
-QPushButton#themeButton[selected="true"] {
+QPushButton#themeButton[selected="true"],
+QPushButton#themeSelectionButton[selected="true"],
+QPushButton#languageSelectionButton[selected="true"] {
     /* Example: */
     background-color: #00aaff;
     color: white;

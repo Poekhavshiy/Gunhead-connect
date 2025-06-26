@@ -4,6 +4,8 @@
 #include "Transmitter.h"
 #include "checkversion.h"
 #include "MainWindow.h"
+#include "window_utils.h"
+#include "GameLauncher.h" // Add GameLauncher include
 #include <QMessageBox>
 #include <QDebug>
 #include <QPushButton>
@@ -12,21 +14,26 @@
 #include <QIcon>
 #include <QFileDialog>
 #include <QProcess>
+#include <QTabWidget>
 
 SettingsWindow::SettingsWindow(QWidget* parent)
-    : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), signalMapper(new QSignalMapper(this)) 
+    : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), 
+      signalMapper(new QSignalMapper(this))
 {
     soundPlayer = new SoundPlayer(this);
     
-    // === Load persisted theme ===
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
-    QSize settingsWindowSize = settings.value("settingsWindowPreferredSize", QSize(500, 600)).toSize();
-    setFixedSize(settingsWindowSize);
+    // Load theme data to get the window size
+    ThemeSelectWindow themeSelect;
+    Theme currentTheme = themeSelect.loadCurrentTheme();
+    
+    // Always use the size from the theme JSON
+    setFixedSize(currentTheme.settingsWindowPreferredSize);
 
     // Initialize the list of available sounds
     availableSounds = getAvailableSounds();
 
     // Load the last selected sound from QSettings
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
     QString lastSelectedSound = settings.value("LogDisplay/SoundFile", "").toString();
     currentSoundIndex = availableSounds.indexOf(lastSelectedSound);
     if (currentSoundIndex == -1) {
@@ -40,6 +47,10 @@ SettingsWindow::SettingsWindow(QWidget* parent)
     if (!availableSounds.isEmpty()) {
         updateSelectedSound(availableSounds[currentSoundIndex]);
     }
+
+    // Connect language change signal to retranslate UI
+    connect(&LanguageManager::instance(), &LanguageManager::languageChanged, 
+            this, &SettingsWindow::retranslateUi);
 }
 
 void SettingsWindow::init() {
@@ -55,6 +66,21 @@ void SettingsWindow::setupUI() {
     container->setLayout(mainLayout);
     setCentralWidget(container);
 
+    // Create tab widget
+    tabWidget = new QTabWidget(this);
+    
+    // Setup tabs
+    setupGeneralTab(tabWidget);
+    setupGameTab(tabWidget);
+    setupSoundsLanguageThemesTab(tabWidget);
+    
+    mainLayout->addWidget(tabWidget);
+}
+
+void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
+    QWidget* generalTab = new QWidget();
+    QVBoxLayout* generalLayout = new QVBoxLayout(generalTab);
+    
     // --- Create a horizontal layout for version and update label ---
     QString versionString = tr("Version: ") + QCoreApplication::applicationVersion();
     QLabel* versionLabel = new QLabel(versionString, this);
@@ -62,9 +88,11 @@ void SettingsWindow::setupUI() {
     tinyFont.setPointSizeF(tinyFont.pointSizeF() * 0.7); // Make it smaller
     versionLabel->setFont(tinyFont);
     versionLabel->setStyleSheet("color: gray;");
+    versionLabel->setObjectName("versionLabel"); // Set object name for retranslation
 
     QLabel* updateLabel = new QLabel(tr("Check for Updates"), this);
     updateLabel->setContentsMargins(0, 0, 0, 0);
+    updateLabel->setObjectName("updateLabel"); // Set object name for retranslation
 
     QHBoxLayout* versionUpdateLayout = new QHBoxLayout();
     versionUpdateLayout->setContentsMargins(0, 0, 0, 0);
@@ -73,7 +101,7 @@ void SettingsWindow::setupUI() {
     versionUpdateLayout->addStretch();
     versionUpdateLayout->addWidget(versionLabel);
 
-    mainLayout->addLayout(versionUpdateLayout);
+    generalLayout->addLayout(versionUpdateLayout);
 
     // Update checkbox and button below the update label
     updateCheckbox = new QCheckBox(tr("Check for new versions on startup"), this);
@@ -89,35 +117,16 @@ void SettingsWindow::setupUI() {
 
     QWidget* updateCard = new QWidget(this);
     updateCard->setLayout(updateLayout);
-    mainLayout->addWidget(updateCard);
-
-    // Game Files Path
-    QLabel* pathLabel = new QLabel(tr("Game LIVE Folder Path"), this);
-    pathEdit = new QLineEdit(this);
-    QPushButton* browseButton = new QPushButton(tr("Browse"), this);
-    connect(browseButton, &QPushButton::clicked, this, &SettingsWindow::updatePath);
-    QPushButton* savePathButton = new QPushButton(tr("Save"), this);
-    connect(savePathButton, &QPushButton::clicked, this, &SettingsWindow::savePath);
-
-    QHBoxLayout* pathButtonsLayout = new QHBoxLayout();
-    pathButtonsLayout->addWidget(browseButton);
-    pathButtonsLayout->addWidget(savePathButton);
-
-    QVBoxLayout* pathLayout = new QVBoxLayout();
-    pathLayout->addWidget(pathLabel);
-    pathLayout->addWidget(pathEdit);
-    pathLayout->addLayout(pathButtonsLayout);
-
-    QWidget* pathCard = new QWidget(this);
-    pathCard->setLayout(pathLayout);
-    mainLayout->addWidget(pathCard);
+    generalLayout->addWidget(updateCard);
 
     // KillAPI Key
     QLabel* apiLabel = new QLabel(tr("KillAPI Key"), this);
+    apiLabel->setObjectName("apiLabel"); // Set object name for retranslation
     apiEdit = new QLineEdit(this);
     apiEdit->setEchoMode(QLineEdit::Password);
     saveApiKeyButton = new QPushButton(tr("Save API Key"), this);
     connect(saveApiKeyButton, &QPushButton::clicked, this, &SettingsWindow::saveApiKey);
+    saveApiKeyButton->setObjectName("saveApiKeyButton"); // Set object name for retranslation
 
     QVBoxLayout* apiLayout = new QVBoxLayout();
     apiLayout->addWidget(apiLabel);
@@ -126,16 +135,95 @@ void SettingsWindow::setupUI() {
 
     QWidget* apiCard = new QWidget(this);
     apiCard->setLayout(apiLayout);
-    mainLayout->addWidget(apiCard);
+    generalLayout->addWidget(apiCard);
+
+    // Minimize to Tray option
+    minimizeToTrayCheckbox = new QCheckBox(tr("Minimize to system tray instead of closing"), this);
+    connect(minimizeToTrayCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleMinimizeToTray);
+    
+    QVBoxLayout* trayLayout = new QVBoxLayout();
+    trayLayout->addWidget(minimizeToTrayCheckbox);
+    
+    QWidget* trayCard = new QWidget(this);
+    trayCard->setLayout(trayLayout);
+    generalLayout->addWidget(trayCard);
+
+    generalLayout->addStretch();
+    tabWidget->addTab(generalTab, tr("General"));
+}
+
+void SettingsWindow::setupGameTab(QTabWidget* tabWidget) {
+    QWidget* gameTab = new QWidget();
+    QVBoxLayout* gameLayout = new QVBoxLayout(gameTab);
+
+    // Game Files Path and Launcher Path
+    QLabel* pathLabel = new QLabel(tr("Game LIVE Folder Path"), this);
+    pathLabel->setObjectName("pathLabel"); // Set object name for retranslation
+    pathEdit = new QLineEdit(this);
+    QPushButton* browseButton = new QPushButton(tr("Browse"), this);
+    connect(browseButton, &QPushButton::clicked, this, &SettingsWindow::updatePath);
+    browseButton->setObjectName("browseButton"); // Set object name for retranslation
+
+    QHBoxLayout* pathLayout = new QHBoxLayout();
+    pathLayout->addWidget(pathEdit);
+    pathLayout->addWidget(browseButton);
+
+    // RSI Launcher Path (initially hidden)
+    QLabel* launcherPathLabel = new QLabel(tr("RSI Launcher Path"), this);
+    launcherPathLabel->setObjectName("launcherPathLabel");
+    launcherPathEdit = new QLineEdit(this);
+    QPushButton* browseLauncherButton = new QPushButton(tr("Browse"), this);
+    connect(browseLauncherButton, &QPushButton::clicked, this, &SettingsWindow::updateLauncherPath);
+    browseLauncherButton->setObjectName("browseLauncherButton");
+
+    QHBoxLayout* launcherPathLayout = new QHBoxLayout();
+    launcherPathLayout->addWidget(launcherPathEdit);
+    launcherPathLayout->addWidget(browseLauncherButton);
+
+    // Auto-launch checkbox
+    autoLaunchGameCheckbox = new QCheckBox(tr("Launch Star Citizen if not running when starting monitoring"), this);
+    connect(autoLaunchGameCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleAutoLaunchGame);
+
+    // Save button
+    QPushButton* savePathButton = new QPushButton(tr("Save"), this);
+    connect(savePathButton, &QPushButton::clicked, this, &SettingsWindow::savePath);
+    savePathButton->setObjectName("savePathButton");
+
+    // Create widgets for launcher controls (initially hidden)
+    launcherPathLabel->setVisible(false);
+    launcherPathEdit->setVisible(false);
+    browseLauncherButton->setVisible(false);
+
+    QVBoxLayout* gamePathLayout = new QVBoxLayout();
+    gamePathLayout->addWidget(pathLabel);
+    gamePathLayout->addLayout(pathLayout);
+    gamePathLayout->addWidget(launcherPathLabel);
+    gamePathLayout->addLayout(launcherPathLayout);
+    gamePathLayout->addWidget(autoLaunchGameCheckbox);
+    gamePathLayout->addWidget(savePathButton);
+
+    QWidget* pathCard = new QWidget(this);
+    pathCard->setLayout(gamePathLayout);
+    gameLayout->addWidget(pathCard);
+
+    gameLayout->addStretch();
+    tabWidget->addTab(gameTab, tr("Game"));
+}
+
+void SettingsWindow::setupSoundsLanguageThemesTab(QTabWidget* tabWidget) {
+    QWidget* soundsTab = new QWidget();
+    QVBoxLayout* soundsLayout = new QVBoxLayout(soundsTab);
 
     // Sound Selector
     QLabel* soundLabel = new QLabel(tr("Select Notification Sound"), this);
+    soundLabel->setObjectName("soundLabel"); // Set object name for retranslation
     soundEdit = new QLineEdit(this);
     soundEdit->setReadOnly(true);
 
     QPushButton* leftButton = new QPushButton("<", this);
     QPushButton* rightButton = new QPushButton(">", this);
     QPushButton* testSoundButton = new QPushButton(tr("Test"), this);
+    testSoundButton->setObjectName("testSoundButton"); // Set object name for retranslation
 
     connect(leftButton, &QPushButton::clicked, this, &SettingsWindow::selectPreviousSound);
     connect(rightButton, &QPushButton::clicked, this, &SettingsWindow::selectNextSound);
@@ -157,50 +245,79 @@ void SettingsWindow::setupUI() {
 
     QWidget* soundCard = new QWidget(this);
     soundCard->setLayout(soundLayout);
-    mainLayout->addWidget(soundCard);
+    soundsLayout->addWidget(soundCard);
 
     // Language and Theme Selector Box
     QVBoxLayout* selectorLayout = new QVBoxLayout();
     QPushButton* languageButton = new QPushButton(tr("Change Language"), this);
+    languageButton->setObjectName("languageButton"); // Add this line
     connect(languageButton, &QPushButton::clicked, this, &SettingsWindow::toggleLanguageSelectWindow);
     selectorLayout->addWidget(languageButton);
 
     QPushButton* themeButton = new QPushButton(tr("Change Theme"), this);
+    themeButton->setObjectName("themeButton"); // Add this line
     connect(themeButton, &QPushButton::clicked, this, &SettingsWindow::toggleThemeSelectWindow);
     selectorLayout->addWidget(themeButton);
 
     QWidget* selectorCard = new QWidget(this);
     selectorCard->setLayout(selectorLayout);
-    mainLayout->addWidget(selectorCard);
+    soundsLayout->addWidget(selectorCard);
+
+    soundsLayout->addStretch();
+    tabWidget->addTab(soundsTab, tr("Sounds/Language/Themes"));
 }
 
 void SettingsWindow::loadSettings() {
-    QSettings settings("KillApiConnect", "KillApiConnectPlus");
-
-    gameFolder = settings.value("gameFolder", "C:/Program Files/Roberts Space Industries/StarCitizen/LIVE").toString();
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");    gameFolder = settings.value("gameFolder", "C:/Program Files/Roberts Space Industries/StarCitizen/LIVE").toString();
+    launcherPath = settings.value("launcherPath", "C:/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe").toString();
+    
+    // If launcher path is empty, set the default and save it
+    if (launcherPath.isEmpty()) {
+        launcherPath = "C:/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe";
+        settings.setValue("launcherPath", launcherPath);
+    }
+    
     apiKey = settings.value("apiKey", "").toString();
     checkUpdatesOnStartup = settings.value("checkUpdatesOnStartup", false).toBool();
+    autoLaunchGame = settings.value("autoLaunchGame", false).toBool();
+    minimizeToTray = settings.value("minimizeToTray", false).toBool();
 
     pathEdit->setText(gameFolder);
+    launcherPathEdit->setText(launcherPath);
     apiEdit->setText(apiKey);
     updateCheckbox->setChecked(checkUpdatesOnStartup);
+    autoLaunchGameCheckbox->setChecked(autoLaunchGame);
+    minimizeToTrayCheckbox->setChecked(minimizeToTray);
+    
+    // Update launcher controls visibility based on auto-launch setting
+    toggleLauncherControlsVisibility(autoLaunchGame);
 }
 
 void SettingsWindow::saveSettings() {
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
 
     settings.setValue("gameFolder", gameFolder);
+    settings.setValue("launcherPath", launcherPath);
     settings.setValue("apiKey", apiKey);
     settings.setValue("checkUpdatesOnStartup", checkUpdatesOnStartup);
+    settings.setValue("autoLaunchGame", autoLaunchGame);
+    settings.setValue("minimizeToTray", minimizeToTray);
 
     qDebug() << "Settings saved:";
     qDebug() << "  Game Folder:" << gameFolder;
+    qDebug() << "  Launcher Path:" << launcherPath;
     qDebug() << "  API Key:" << apiKey;
     qDebug() << "  Check Updates on Startup:" << checkUpdatesOnStartup;
+    qDebug() << "  Auto Launch Game:" << autoLaunchGame;
+    qDebug() << "  Minimize to Tray:" << minimizeToTray;
 }
 
 QString SettingsWindow::getGameFolder() const {
     return gameFolder;
+}
+
+QString SettingsWindow::getLauncherPath() const {
+    return launcherPath;
 }
 
 QString SettingsWindow::getApiKey() const {
@@ -209,6 +326,23 @@ QString SettingsWindow::getApiKey() const {
 
 bool SettingsWindow::getCheckUpdatesOnStartup() const {
     return checkUpdatesOnStartup;
+}
+
+bool SettingsWindow::getAutoLaunchGame() const {
+    return autoLaunchGame;
+}
+
+bool SettingsWindow::getMinimizeToTray() const {
+    return minimizeToTray;
+}
+
+void SettingsWindow::toggleAutoLaunchGame(int state) {
+    autoLaunchGame = (state == Qt::Checked);
+    saveSettings();
+    qDebug() << "Auto-launch game setting changed to:" << autoLaunchGame;
+    
+    // Toggle launcher controls visibility
+    toggleLauncherControlsVisibility(autoLaunchGame);
 }
 
 void SettingsWindow::toggleUpdateCheck(int state) {
@@ -237,15 +371,26 @@ void SettingsWindow::updatePath() {
 
 void SettingsWindow::savePath() {
     QString folder = pathEdit->text().trimmed();
+    QString launcher = launcherPathEdit->text().trimmed();
+    
     if (!isGameFolderValid(folder)) {
         QMessageBox::warning(this, tr("Invalid Folder"), 
             tr("Selected folder does not contain Star Citizen launcher."));
         return;
     }
     
-    // Only update if the path actually changed
+    // Update both paths if they changed
+    bool changed = false;
     if (gameFolder != folder) {
         gameFolder = folder;
+        changed = true;
+    }
+    if (launcherPath != launcher) {
+        launcherPath = launcher;
+        changed = true;
+    }
+    
+    if (changed) {
         saveSettings();
         emit gameFolderChanged(folder); // Notify MainWindow and LogDisplayWindow
     }
@@ -405,6 +550,8 @@ void SettingsWindow::toggleThemeSelectWindow() {
             themeSelectWindow = nullptr;
         });
 
+        // Position the window before showing it
+        WindowUtils::positionWindowOnScreen(themeSelectWindow, this);
         themeSelectWindow->show();
     }
 }
@@ -426,19 +573,16 @@ void SettingsWindow::toggleLanguageSelectWindow() {
         // Connect settingsChanged to LanguageSelectWindow's onThemeChanged slot
         connect(this, &SettingsWindow::settingsChanged, languageSelectWindow, &LanguageSelectWindow::onThemeChanged);
 
+        // Position the window before showing it
+        WindowUtils::positionWindowOnScreen(languageSelectWindow, this);
         languageSelectWindow->show();
     }
 }
 
 void SettingsWindow::onThemeChanged(const Theme& theme) {
-    qDebug() << "Settings Window: === Settings Window Preferred Size:" << theme.settingsWindowPreferredSize;
-    setFixedSize(theme.settingsWindowPreferredSize); // Resize SettingsWindow
-
-    // Add theme change to transmitter queue
-    transmitter.addSettingsChange("theme", theme.friendlyName);
-
-    // Re-emit the themeChanged signal as settingsChanged
-    emit settingsChanged(theme);
+    qDebug() << "SettingsWindow: Theme changed - updating window size to" << theme.settingsWindowPreferredSize;
+    setFixedSize(theme.settingsWindowPreferredSize);
+    emit settingsChanged(theme); // Pass the updated theme data
 }
 
 void SettingsWindow::selectPreviousSound() {
@@ -537,4 +681,98 @@ bool SettingsWindow::isGameFolderValid(const QString& folder) const {
     QFileInfo launcher(folder + "/StarCitizen_Launcher.exe");
     return launcher.exists() && launcher.isFile();
     // Removed game.log check as it may only exist during runtime
+}
+
+void SettingsWindow::retranslateUi() {
+    // Update window title
+    setWindowTitle(tr("Settings"));
+    
+    // Update tab titles
+    if (tabWidget) {
+        tabWidget->setTabText(0, tr("General"));
+        tabWidget->setTabText(1, tr("Game"));
+        tabWidget->setTabText(2, tr("Sounds/Language/Themes"));
+    }
+    
+    // Update labels by object name
+    QList<QLabel*> labels = findChildren<QLabel*>();
+    for (QLabel* label : labels) {
+        if (label->objectName() == "versionLabel") {
+            label->setText(tr("Version: ") + QCoreApplication::applicationVersion());
+        }
+        else if (label->objectName() == "updateLabel") {
+            label->setText(tr("Check for Updates"));
+        }        else if (label->objectName() == "pathLabel") {
+            label->setText(tr("Game LIVE Folder Path"));
+        }
+        else if (label->objectName() == "launcherPathLabel") {
+            label->setText(tr("RSI Launcher Path"));
+        }
+        else if (label->objectName() == "apiLabel") {
+            label->setText(tr("KillAPI Key"));
+        }        else if (label->objectName() == "soundLabel") {
+            label->setText(tr("Select Notification Sound"));
+        }
+        else if (label->objectName() == "autoLaunchGameLabel") {
+            label->setText(tr("Auto-launch Star Citizen"));
+        }
+    }
+      // Update checkboxes
+    updateCheckbox->setText(tr("Check for new versions on startup"));
+    autoLaunchGameCheckbox->setText(tr("Launch Star Citizen if not running when starting monitoring"));
+    minimizeToTrayCheckbox->setText(tr("Minimize to system tray instead of closing"));
+    checkUpdatesButton->setText(tr("Check for updates now"));
+    
+    // Find all buttons by object name and update their text
+    QList<QPushButton*> buttons = findChildren<QPushButton*>();
+    for (QPushButton* button : buttons) {        if (button->objectName() == "browseButton") {
+            button->setText(tr("Browse"));
+        }
+        else if (button->objectName() == "browseLauncherButton") {
+            button->setText(tr("Browse"));
+        }
+        else if (button->objectName() == "savePathButton") {
+            button->setText(tr("Save"));
+        }
+        else if (button->objectName() == "saveApiKeyButton") {
+            button->setText(tr("Save API Key"));
+        }
+        else if (button->objectName() == "testSoundButton") {
+            button->setText(tr("Test"));
+        }
+        else if (button->objectName() == "languageButton") {
+            button->setText(tr("Change Language"));
+        }
+        else if (button->objectName() == "themeButton") {
+            button->setText(tr("Change Theme"));
+        }
+    }
+    
+    qDebug() << "SettingsWindow UI retranslated";
+}
+
+void SettingsWindow::updateLauncherPath() {
+    QString file = QFileDialog::getOpenFileName(this, tr("Select RSI Launcher"), launcherPath, tr("Executable Files (*.exe)"));
+    if (!file.isEmpty()) {
+        launcherPath = file;
+        launcherPathEdit->setText(file);
+    }
+}
+
+void SettingsWindow::toggleLauncherControlsVisibility(bool visible) {
+    // Find the launcher controls by object name
+    QLabel* launcherPathLabel = findChild<QLabel*>("launcherPathLabel");
+    QPushButton* browseLauncherButton = findChild<QPushButton*>("browseLauncherButton");
+    
+    if (launcherPathLabel) launcherPathLabel->setVisible(visible);
+    if (launcherPathEdit) launcherPathEdit->setVisible(visible);
+    if (browseLauncherButton) browseLauncherButton->setVisible(visible);
+}
+
+void SettingsWindow::toggleMinimizeToTray(int state) {
+    minimizeToTray = (state == Qt::Checked);
+    saveSettings();
+    qDebug() << "Minimize to tray setting changed to:" << minimizeToTray;
+    
+    emit minimizeToTrayChanged(minimizeToTray);
 }

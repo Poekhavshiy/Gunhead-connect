@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QFutureWatcher>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrent>
 #include <QTranslator>
 #include <QLocale>
 #include <QFile>
@@ -16,7 +16,7 @@
 #include "SettingsWindow.h"
 #include "globals.h"
 #include "SoundPlayer.h"
-#include "version.h" // Add this include
+#include "version.h" // Compile time version header, always throws error in IDE because it does not exist until compiled in.
 
 
 
@@ -65,6 +65,9 @@ int main(int argc, char *argv[]) {
     app.setOrganizationName(APP_ORGANIZATION);
     app.setApplicationVersion(APP_VERSION);
     
+    // Set global system locale at runtime
+    systemLocale = QLocale::system().name().toStdString();
+    
     // Parse command line args into global variables
     for (int i = 1; i < argc; ++i) {
         if (std::string(argv[i]) == "--debug") {
@@ -95,43 +98,43 @@ int main(int argc, char *argv[]) {
     log_info("main()", "KillAPI-Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
     
     // Show loading screen immediately
-    LoadingScreen loadingScreen;
-    loadingScreen.show();
-    loadingScreen.updateProgress(0, "Starting application...");
+    LoadingScreen* loadingScreen = new LoadingScreen();
+    loadingScreen->show();
+    QCoreApplication::processEvents(); // Force the UI to update before continuing with initialization
     
     // Show debug info if in debug mode
     if (ISDEBUG) {
         qDebug() << "Application started in DEBUG MODE";
-        loadingScreen.updateProgress(5, "Debug mode enabled");
+        loadingScreen->updateProgress(5, "Debug mode enabled");
     }
     
     // Pre-initialize audio subsystem in a background thread
-    loadingScreen.updateProgress(10, "Initializing audio system...");
+    loadingScreen->updateProgress(10, "Initializing audio system...");
     QFutureWatcher<void> audioWatcher;
     QFuture<void> audioFuture = QtConcurrent::run([]() {
         SoundPlayer::preInitializeAudio();
     });
     
     // Create but don't show main window yet
-    loadingScreen.updateProgress(20, "Creating application window...");
-    MainWindow* mainWindow = new MainWindow(nullptr, &loadingScreen);
+    loadingScreen->updateProgress(20, "Creating application window...");
+    MainWindow* mainWindow = new MainWindow(nullptr, loadingScreen);
     
     // Connect initialization progress signal
     QObject::connect(mainWindow, &MainWindow::initializationProgress,
-                    &loadingScreen, &LoadingScreen::updateProgress);
+                    loadingScreen, &LoadingScreen::updateProgress);
     
     // Start background initialization in MainWindow
-    loadingScreen.updateProgress(30, "Preparing application...");
+    loadingScreen->updateProgress(30, "Preparing application...");
     mainWindow->startBackgroundInitialization();
     
     // Wait for completion signal before showing main window
     QObject::connect(mainWindow, &MainWindow::initializationComplete, [&]() {
-        loadingScreen.updateProgress(100, "Loading complete!");
+        loadingScreen->updateProgress(100, "Loading complete!");
         
         // Give user a moment to see the completed progress
-        QTimer::singleShot(500, [&mainWindow, &loadingScreen]() {
+        QTimer::singleShot(500, [&mainWindow, loadingScreen]() {
             mainWindow->show();
-            loadingScreen.accept();
+            loadingScreen->accept();
         });
     });
     

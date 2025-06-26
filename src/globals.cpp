@@ -7,3 +7,4 @@ std::string currentGameMode = "Unknown";
 std::string currentSubGameMode = "";
 std::string currentPlayerName = "Unknown";
 std::string currentPlayerGEID = "";
+std::string systemLocale = "";

@@ -59,7 +59,9 @@ QPushButton#languageButton {
     font-weight: bold;
 }
 
-QPushButton#themeButton[selected="true"] {
+QPushButton#themeButton[selected="true"],
+QPushButton#themeSelectionButton[selected="true"],
+QPushButton#languageSelectionButton[selected="true"] {
     /* Example: */
     background-color: #00aaff;
     color: white;
