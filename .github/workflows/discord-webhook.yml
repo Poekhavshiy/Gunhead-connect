@@ -1,0 +1,59 @@
+name: Discord Webhook Notification
+
+on:
+  push:
+    branches:
+      - live
+      - test
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract commit data and send to Discord
+        run: |
+          # Extract commits safely from the push event
+          commits=$(jq -c '.commits // []' <<< '${{ toJson(github.event) }}')
+          
+          # Exit if no commits found
+          if [[ "$commits" == "[]" ]]; then
+            echo "No commits found. Exiting..."
+            exit 0
+          fi
+          
+          # Loop through each commit in the payload
+          echo "$commits" | jq -c '.[]' | while read commit; do
+            author=$(echo "$commit" | jq -r '.author.username // "Unknown"')
+            
+            # Only process commits from satur9 or Poekhavshiy
+            if [[ "$author" != "satur9" && "$author" != "Poekhavshiy" ]]; then
+              echo "Skipping commit from $author (not a tracked user)"
+              continue
+            fi
+            
+            message=$(echo "$commit" | jq -r '.message // "No commit message"')
+            
+            formatted_message="\`\`\`$message\`\`\`"
+            
+            # Create payload with bold author in content field
+            payload=$(jq -n --arg username "GitBot" \
+                              --arg avatar_url "https://cdn.discordapp.com/attachments/1337838441349648414/1344427822902677625/300px-Gunhead-CEFB17.png?ex=67c0df7b&is=67bf8dfb&hm=9787ede41b32b942ed5d2be7e4a898ccbf1a5a8d3326f1e33def08aee2e7735d&" \
+                              --arg author "$author" \
+                              --arg message "$formatted_message" \
+                              --argjson color 5197647 \
+                              '{
+                                "username": $username,
+                                "avatar_url": $avatar_url,
+                                "content": ("**" + $author + "**"),  # Corrected concatenation
+                                "embeds": [{
+                                  "description": $message,
+                                  "color": $color
+                                }]
+                              }')
+            
+            # Send payload to Discord Webhook
+            curl -H "Content-Type: application/json" -X POST -d "$payload" \
+              "$WEBHOOK_URL"
+            
+            sleep 1  # Prevents rate limiting issues
+          done
