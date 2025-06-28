@@ -40,7 +40,7 @@ TEST_CASE("Handle unmatched line gracefully", "[log_parser]") {
 TEST_CASE("Parse all log lines from game.log", "[log_parser]") {
     log_info("log_parser", "Starting test for parsing all log lines from game.log.");
     // Path to the sample game.log file
-    std::string logFilePath = "c:/Dev/KillApiConnect-Plus/tests/game.log";
+    std::string logFilePath = "tests/game.log";
 
     // Open the log file
     std::ifstream logFile(logFilePath);

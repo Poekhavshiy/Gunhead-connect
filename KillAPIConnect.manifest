@@ -1,7 +1,7 @@
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <dependency>
     <dependentAssembly>
-      <assemblyIdentity type="win32" name="KillAPI Connect Plus" version="1.5.0.0" />
+      <assemblyIdentity type="win32" name="Gunhead Connect" version="1.5.0.0" />
       <codeBase href="libs\" />
     </dependentAssembly>
 </assembly>

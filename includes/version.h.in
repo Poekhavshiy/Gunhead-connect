@@ -7,5 +7,5 @@
 #define APP_VERSION_TWEAK @PROJECT_VERSION_TWEAK@
 
 #define APP_ORGANIZATION "Poekhavshiy"
-#define APP_DOMAIN "https://github.com/Poekhavshiy/KillAPI-connect-plus"
-#define APP_NAME "KillAPI Connect Plus"
+#define APP_DOMAIN "https://github.com/Poekhavshiy/Gunhead-Connect"
+#define APP_NAME "Gunhead Connect"

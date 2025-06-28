@@ -123,3 +123,36 @@ QWidget#SettingsWindow QLabel#versionLabel {
     font-size: 11px;
 }
 
+/* Improve QCheckBox appearance for theme cohesion, only on SettingsWindow */
+QWidget#SettingsWindow QCheckBox {
+    background: none;
+    color: #f0f0f0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    spacing: 8px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid #00aaff;
+    background: #23272b; /* Slightly lighter than window bg for contrast */
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked {
+    background: #00aaff;
+    border: 2px solid #00aaff;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:unchecked {
+    background: #23272b;
+    border: 2px solid #444444;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:disabled {
+    background: #181818;
+    border: 2px solid #444444;
+    opacity: 0.5;
+}
+

@@ -21,7 +21,7 @@
 #include "version.h" // Compile time version header, always throws error in IDE because it does not exist until compiled in.
 
 // Define the server name for IPC
-#define SERVER_NAME "KillApiConnectPlusSingleInstance"
+#define SERVER_NAME "Gunhead-Connect-SingleInstance"
 
 void initialize_default_settings() {
     QCoreApplication::setOrganizationName(APP_ORGANIZATION);
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
     }
 
     init_logger(ISDEBUG, ISDEBUGTOCONSOLE, "logs/");
-    log_info("main()", "KillAPI-Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
+    log_info("main()", "Gunhead Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
     
     // Set up the local server to listen for other instances
     QLocalServer* localServer = new QLocalServer(&app);

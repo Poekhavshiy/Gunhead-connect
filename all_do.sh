@@ -174,7 +174,7 @@ fi
 if $DO_RUN; then
   CURRENT_STEP="Running executable"
   section "$CURRENT_STEP"
-  EXECUTABLE_PATH="$BUILD_DIR/$PRESET/bin/windows/KillApiconnect.exe"
+  EXECUTABLE_PATH="$BUILD_DIR/$PRESET/bin/windows/Gunhead-Connect.exe"
   gdb -x gdbinit --args "$EXECUTABLE_PATH" $EXTRA_RUN_ARGS
 fi
 

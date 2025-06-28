@@ -7,8 +7,8 @@
 
 LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
     // Set up the dialog
-    setWindowTitle("Loading KillAPI Connect Plus");
-    setWindowIcon(QIcon(":/icons/KillAPI.ico"));  // Ensure the application icon is set
+    setWindowTitle("Loading Gunhead Connect");
+    setWindowIcon(QIcon(":/icons/Gunhead.ico"));  // Ensure the application icon is set
 
     // Ensure the window is recognized by the taskbar
     setAttribute(Qt::WA_ShowWithoutActivating, false);
@@ -34,7 +34,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     imageLabel->setAlignment(Qt::AlignCenter);
 
     // Load the gunhead-logo.png resource
-    QPixmap loadingIcon(":/icons/KillAPI.png");
+    QPixmap loadingIcon(":/icons/Gunhead.png");
 
     if (!loadingIcon.isNull()) {
         qDebug() << "Gunhead logo loaded successfully";

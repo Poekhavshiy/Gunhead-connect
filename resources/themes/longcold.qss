@@ -149,3 +149,36 @@ QWidget#SettingsWindow QLabel {
     font-family: 'VCR OSD Mono', 'Courier New', monospace;
     font-size: 16px;
 }
+
+/* Improve QCheckBox appearance for theme cohesion, only on SettingsWindow */
+QWidget#SettingsWindow QCheckBox {
+    background: none;
+    color: #ffffff;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;
+    font-size: 18px;
+    spacing: 8px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid #ff2d2d;
+    background: #222; /* Slightly lighter than window bg for contrast */
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked {
+    background: #ff2d2d;
+    border: 2px solid #ff2d2d;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:unchecked {
+    background: #222;
+    border: 2px solid #444;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:disabled {
+    background: #111;
+    border: 2px solid #444;
+    opacity: 0.5;
+}

@@ -54,7 +54,7 @@ bool CheckVersion::fetchData(const QUrl &url, QByteArray &outData, int timeoutMs
 QString CheckVersion::getLatestAppVersion(int timeoutMs)
 {
     
-    QString releaseUrlString = "https://api.github.com/repos/Poekhavshiy/KillAPI-connect-plus/releases/latest";
+    QString releaseUrlString = "https://api.github.com/repos/Poekhavshiy/Gunhead-Connect/releases/latest";
     log_debug("CheckVersion", "Release URL: ", releaseUrlString.toStdString());
     
     QUrl releaseUrl(releaseUrlString);

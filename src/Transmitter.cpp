@@ -148,7 +148,7 @@ bool Transmitter::sendConnectionSuccess(const QString& logFilePath, const QStrin
         switch (errorType) {
             case ApiErrorType::PanelClosed:
                 emit panelClosedError();
-                emit apiError(ApiErrorType::PanelClosed, tr("The KillAPI panel for this server has been closed or doesn't exist."));
+                emit apiError(ApiErrorType::PanelClosed, tr("The Gunhead panel for this server has been closed or doesn't exist."));
                 break;
             case ApiErrorType::InvalidApiKey:
                 emit invalidApiKeyError();
@@ -232,7 +232,7 @@ void Transmitter::sendEvent(const QJsonObject& event, const QString& apiKey) {
             switch (errorType) {
                 case ApiErrorType::PanelClosed:
                     emit panelClosedError();
-                    emit apiError(ApiErrorType::PanelClosed, tr("The KillAPI panel for this server has been closed or doesn't exist."));
+                    emit apiError(ApiErrorType::PanelClosed, tr("The Gunhead panel for this server has been closed or doesn't exist."));
                     break;
                 case ApiErrorType::InvalidApiKey:
                     emit invalidApiKeyError();
@@ -509,7 +509,7 @@ bool Transmitter::sendGameMode(const QString& apiKey) {
         switch (errorType) {
             case ApiErrorType::PanelClosed:
                 emit panelClosedError();
-                emit apiError(ApiErrorType::PanelClosed, tr("The KillAPI panel for this server has been closed or doesn't exist."));
+                emit apiError(ApiErrorType::PanelClosed, tr("The Gunhead panel for this server has been closed or doesn't exist."));
                 break;
             case ApiErrorType::InvalidApiKey:
                 emit invalidApiKeyError();

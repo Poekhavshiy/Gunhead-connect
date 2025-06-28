@@ -128,8 +128,9 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     updateLabel->setObjectName("updateLabel"); // Set object name for retranslation
 
     QHBoxLayout* versionUpdateLayout = new QHBoxLayout();
-    versionUpdateLayout->setContentsMargins(0, 0, 0, 0);
-    versionUpdateLayout->setSpacing(8); // Small spacing between version and update label
+    // Add matching right margin (16px)
+    versionUpdateLayout->setContentsMargins(16, 0, 16, 0);
+    versionUpdateLayout->setSpacing(8);
     versionUpdateLayout->addWidget(updateLabel);
     versionUpdateLayout->addStretch();
     versionUpdateLayout->addWidget(versionLabel);
@@ -143,8 +144,9 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     connect(checkUpdatesButton, &QPushButton::clicked, this, &SettingsWindow::checkForUpdates);
 
     QVBoxLayout* updateLayout = new QVBoxLayout();
-    updateLayout->setContentsMargins(0, 0, 0, 0);
-    updateLayout->setSpacing(2); // Minimal spacing
+    // Add matching right margin (16px)
+    updateLayout->setContentsMargins(16, 0, 16, 0);
+    updateLayout->setSpacing(2);
     updateLayout->addWidget(updateCheckbox);
     updateLayout->addWidget(checkUpdatesButton);
 
@@ -152,8 +154,8 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     updateCard->setLayout(updateLayout);
     generalLayout->addWidget(updateCard);
 
-    // KillAPI Key
-    QLabel* apiLabel = new QLabel(tr("KillAPI Key"), this);
+    // Gunhead Key
+    QLabel* apiLabel = new QLabel(tr("Gunhead Key"), this);
     apiLabel->setObjectName("apiLabel"); // Set object name for retranslation
     apiEdit = new QLineEdit(this);
     apiEdit->setEchoMode(QLineEdit::Password);
@@ -162,6 +164,8 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     saveApiKeyButton->setObjectName("saveApiKeyButton"); // Set object name for retranslation
 
     QVBoxLayout* apiLayout = new QVBoxLayout();
+    // Add matching right margin (16px)
+    apiLayout->setContentsMargins(16, 0, 16, 0);
     apiLayout->addWidget(apiLabel);
     apiLayout->addWidget(apiEdit);
     apiLayout->addWidget(saveApiKeyButton);
@@ -175,6 +179,8 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     connect(minimizeToTrayCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleMinimizeToTray);
     
     QVBoxLayout* trayLayout = new QVBoxLayout();
+    // Add matching right margin (16px)
+    trayLayout->setContentsMargins(16, 0, 16, 0);
     trayLayout->addWidget(minimizeToTrayCheckbox);
     
     QWidget* trayCard = new QWidget(this);
@@ -459,10 +465,10 @@ void SettingsWindow::saveApiKey() {
     QMetaObject::Connection panelClosedConnection = connect(&transmitter, &Transmitter::panelClosedError, this, [this, &panelClosedErrorOccurred]() {
         panelClosedErrorOccurred = true;
         QMessageBox::warning(this, tr("Panel Closed Error"), 
-            tr("The KillAPI panel for this server has been closed or doesn't exist.\n\n"
+            tr("The Gunhead panel for this server has been closed or doesn't exist.\n\n"
                "This means your API key may be valid, but the Discord panel associated with it "
                "has been closed by an administrator or does not exist anymore.\n\n"
-               "Please reopen the KillAPI panel or contact your Discord server administrator if you believe this is an error."));
+               "Please reopen the Gunhead panel or contact your Discord server administrator if you believe this is an error."));
     });
     
     QMetaObject::Connection invalidKeyConnection = connect(&transmitter, &Transmitter::invalidApiKeyError, this, [this, &invalidKeyErrorOccurred]() {
@@ -473,16 +479,16 @@ void SettingsWindow::saveApiKey() {
                "without any extra spaces or characters."));
     });
 
-    // Attempt to connect to KillAPI
+    // Attempt to connect to Gunhead API Services
     if (!apiKey.isEmpty()) {
         bool success = transmitter.sendConnectionSuccess(gameFolder, apiKey);
         if (success) {
-            QMessageBox::information(this, tr("Success"), tr("KillAPI connected successfully!"));
+            QMessageBox::information(this, tr("Success"), tr("Gunhead Connected successfully!"));
         } 
         else if (!panelClosedErrorOccurred && !invalidKeyErrorOccurred) {
             // Only show a generic error if none of the specific errors were handled
             QMessageBox::warning(this, tr("Connection Error"),
-                tr("Failed to connect to KillAPI. Please check your internet connection and try again."));
+                tr("Failed to connect to Gunhead Server. Please check your internet connection and try again."));
         }
     } else {
         QMessageBox::information(this, tr("API Key Saved"), tr("Your API key has been saved."));
@@ -504,7 +510,7 @@ void SettingsWindow::checkForUpdates() {
     QString jsonFilePath = "data/logfile_regex_rules.json";
     QString currentAppVersion = QCoreApplication::applicationVersion();
     const QUrl jsonDownloadUrl("https://gunhead.sparked.network/static/data/logfile_regex_rules.json");
-    const QUrl releaseDownloadUrl("https://github.com/Poekhavshiy/KillAPI-connect-plus/releases/latest/download/KillApiConnectPlusSetup.msi");
+    const QUrl releaseDownloadUrl("https://github.com/Poekhavshiy/Gunhead-Connect/releases/latest/download/Gunhead-Connect-Setup.msi");
 
     CheckVersion::UpdateTriState appUpdateState = versionChecker.isAppUpdateAvailable(currentAppVersion, 5000);
     CheckVersion::UpdateTriState jsonUpdateState = versionChecker.isJsonUpdateAvailable(jsonFilePath, 5000);
@@ -523,7 +529,7 @@ void SettingsWindow::checkForUpdates() {
                 QString savePath = QFileDialog::getSaveFileName(
                     this, 
                     tr("Save Installer"), 
-                    QDir::homePath() + "/KillAPi.connect.msi", 
+                    QDir::homePath() + "/Gunhead-connect.msi", 
                     tr("Installer Files (*.msi)")
                 );
 
@@ -755,7 +761,7 @@ void SettingsWindow::retranslateUi() {
             label->setText(tr("RSI Launcher Path"));
         }
         else if (label->objectName() == "apiLabel") {
-            label->setText(tr("KillAPI Key"));
+            label->setText(tr("Gunhead Key"));
         }        else if (label->objectName() == "soundLabel") {
             label->setText(tr("Select Notification Sound"));
         }

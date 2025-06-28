@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/KillAPI.ico</file>
-        <file>icons/KillAPI.png</file>
-        <file>icons/KillAP-tray.png</file>
+        <file>icons/Gunhead.ico</file>
+        <file>icons/Gunhead.png</file>
+        <file>icons/Gunhead-tray.png</file>
 
         <file alias="themes/themes.json">themes/allThemeSettings.json</file>
         

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(KillApiConnect VERSION 0.1.5  LANGUAGES CXX)
+project(Gunhead-Connect VERSION 0.1.5  LANGUAGES CXX)
 set(PROJECT_AUTHOR "Poekhavshiy")
 set(PROJECT_ORGANIZATION "Poekhavshiy")
 
@@ -81,7 +81,7 @@ set(QRC
 # Qt setup
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network LinguistTools Multimedia MultimediaWidgets Concurrent)
 
-qt_add_executable(KillApiConnect
+qt_add_executable(Gunhead-Connect
     WIN32
     ${SOURCES} ${HEADERS} ${UIS} ${QRC}
 )
@@ -94,14 +94,14 @@ configure_file(
 )
 
 # Add the generated directory to include paths
-target_include_directories(KillApiConnect PRIVATE 
+target_include_directories(Gunhead-Connect PRIVATE 
     ${INC_DIR}
     ${CMAKE_BINARY_DIR}/generated
 )
 
-target_include_directories(KillApiConnect PRIVATE ${INC_DIR})
+target_include_directories(Gunhead-Connect PRIVATE ${INC_DIR})
 
-target_link_libraries(KillApiConnect PRIVATE
+target_link_libraries(Gunhead-Connect PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
@@ -128,7 +128,7 @@ FetchContent_Declare(json
   GIT_TAG v3.12.0
 )
 FetchContent_MakeAvailable(json)
-target_link_libraries(KillApiConnect PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(Gunhead-Connect PRIVATE nlohmann_json::nlohmann_json)
 
 # Translations
 set(TS_FILES
@@ -145,7 +145,7 @@ set(TS_FILES
     ${TRANSLATIONS_DIR}/lang_pt.ts
     ${TRANSLATIONS_DIR}/lang_ko.ts
 )
-qt_add_translations(KillApiConnect TS_FILES ${TS_FILES})
+qt_add_translations(Gunhead-Connect TS_FILES ${TS_FILES})
 
 # Tests - only include when not in Release mode
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -178,12 +178,12 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 # Install binary
-install(TARGETS KillApiConnect RUNTIME DESTINATION bin)
+install(TARGETS Gunhead-Connect RUNTIME DESTINATION bin)
 
 # Windows DLL copying
 if(WIN32)
     # Set the absolute path to the icon file
-    set(ICON_ABSOLUTE_PATH "${CMAKE_SOURCE_DIR}/resources/icons/KillApi.ico")
+    set(ICON_ABSOLUTE_PATH "${CMAKE_SOURCE_DIR}/resources/icons/Gunhead.ico")
     
     # Configure the RC file
     configure_file(
@@ -195,7 +195,7 @@ if(WIN32)
     # Use the generated RC file
     set(APP_ICON_RESOURCE "${CMAKE_BINARY_DIR}/generated/appicon.rc")
     set_source_files_properties(${APP_ICON_RESOURCE} PROPERTIES LANGUAGE RC)
-    target_sources(KillApiConnect PRIVATE ${APP_ICON_RESOURCE})
+    target_sources(Gunhead-Connect PRIVATE ${APP_ICON_RESOURCE})
 
     set(MINGW_DIR "C:/msys64/mingw64")
     set(QT_PLUGIN_PATH "C:/Dev/Qt/qt-install-dynamic/plugins")
@@ -223,12 +223,12 @@ if(WIN32)
 
     # Common copy logic
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        add_custom_command(TARGET KillApiConnect POST_BUILD
+        add_custom_command(TARGET Gunhead-Connect POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
             COMMENT "Copying DLLs for Release build"
         )
     else()
-        foreach(TGT KillApiConnect tests)
+        foreach(TGT Gunhead-Connect tests)
             add_custom_command(TARGET ${TGT} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
                 COMMENT "Copying DLLs for ${TGT}"
@@ -236,7 +236,7 @@ if(WIN32)
         endforeach()
     endif()
 
-    add_custom_command(TARGET KillApiConnect POST_BUILD
+    add_custom_command(TARGET Gunhead-Connect POST_BUILD
         # QT Plugins
         COMMAND ${CMAKE_COMMAND} -E make_directory ${APP_DLL_DEST}/platforms
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_PLUGIN_PATH}/platforms/qwindows.dll" ${APP_DLL_DEST}/platforms

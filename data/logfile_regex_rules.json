@@ -1,4 +1,7 @@
 {
+    "name": "Gunhead Connect Logfile Rules",
+    "website": "https://gunhead.sparkedhost.com",
+    "discord_url": "https://discord.gg/yhKd3RVZuD",
     "version": "0.1.5",
     "transforms": {
         "parseTimestampToUnixTime": {

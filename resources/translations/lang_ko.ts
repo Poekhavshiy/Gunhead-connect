@@ -226,7 +226,7 @@
     </message>
     <message>
         <location line="+11"/>
-        <source>Killfeed Log Display Initialized</source>
+        <source>Gunhead Log Display Initialized</source>
         <translation>킬피드 로그 디스플레이 초기화됨</translation>
     </message>
     <message>
@@ -237,7 +237,7 @@
     <message>
         <location line="+54"/>
         <location line="+790"/>
-        <source>Killfeed Log Display</source>
+        <source>Gunhead Log Display</source>
         <translation>킬피드 로그 디스플레이</translation>
     </message>
     <message>
@@ -309,7 +309,7 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="-335"/>
-        <source>Killfeed Log Display Cleared</source>
+        <source>Gunhead Log Display Cleared</source>
         <translation>킬피드 로그 디스플레이 지워짐</translation>
     </message>
     <message>
@@ -391,8 +391,8 @@ CTRL + -</translation>
     <name>MainWindow</name>
     <message>
         <location filename="../../ui/mainwindow.ui" line="+6"/>
-        <source>KillAPI</source>
-        <translation>KillAPI</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -476,18 +476,18 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Error: Could not connect to KillAPI server. Monitoring not started.</source>
-        <translation>오류: KillAPI 서버에 연결할 수 없습니다. 모니터링이 시작되지 않았습니다.</translation>
+        <source>Error: Could not connect to Gunhead server. Monitoring not started.</source>
+        <translation>오류: Gunhead 서버에 연결할 수 없습니다. 모니터링이 시작되지 않았습니다.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection.</source>
-        <translation>오류: KillAPI 서버에 연결하지 못했습니다. API 키와 인터넷 연결을 확인하세요.</translation>
+        <source>ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection.</source>
+        <translation>오류: Gunhead 서버에 연결하지 못했습니다. API 키와 인터넷 연결을 확인하세요.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Connected to KillAPI server successfully. Monitoring started.</source>
-        <translation>KillAPI 서버에 성공적으로 연결되었습니다. 모니터링이 시작되었습니다.</translation>
+        <source>Connected to Gunhead server successfully. Monitoring started.</source>
+        <translation>Gunhead 서버에 성공적으로 연결되었습니다. 모니터링이 시작되었습니다.</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -546,15 +546,15 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+183"/>
-        <source>KillApi Connect (Active)</source>
-        <translation>KillApi Connect (활성)</translation>
+        <source>Gunhead Connect (Active)</source>
+        <translation>Gunhead Connect (활성)</translation>
     </message>
     <message>
         <location line="-748"/>
         <location line="+577"/>
         <location line="+82"/>
-        <source>KillApiConnect Plus</source>
-        <translation>KillApiConnect Plus</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="-658"/>
@@ -617,8 +617,8 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+144"/>
-        <source>KillAPI Connect Plus</source>
-        <translation>KillAPI Connect Plus</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -688,8 +688,8 @@ CTRL + -</translation>
     <message>
         <location line="-625"/>
         <location line="+602"/>
-        <source>KillAPI Key</source>
-        <translation>KillAPI 키</translation>
+        <source>Gunhead Key</source>
+        <translation>Gunhead 키</translation>
     </message>
     <message>
         <location line="-598"/>
@@ -774,16 +774,16 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.
+        <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.
 
 This means your API key may be valid, but the Discord panel associated with it has been closed by an administrator or does not exist anymore.
 
-Please reopen the KillAPI panel or contact your Discord server administrator if you believe this is an error.</source>
-        <translation>이 서버의 KillAPI 패널이 닫혔거나 존재하지 않습니다.
+Please reopen the Gunhead panel or contact your Discord server administrator if you believe this is an error.</source>
+        <translation>이 서버의 Gunhead 패널이 닫혔거나 존재하지 않습니다.
 
 이는 API 키가 유효할 수 있지만, 관련 Discord 패널이 관리자에 의해 닫혔거나 더 이상 존재하지 않음을 의미합니다.
 
-이것이 오류라고 생각되면 KillAPI 패널을 다시 열거나 Discord 서버 관리자에게 문의하세요.</translation>
+이것이 오류라고 생각되면 Gunhead 패널을 다시 열거나 Discord 서버 관리자에게 문의하세요.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -806,8 +806,8 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
     </message>
     <message>
         <location line="+0"/>
-        <source>KillAPI connected successfully!</source>
-        <translation>KillAPI가 성공적으로 연결되었습니다!</translation>
+        <source>Gunhead Connected successfully!</source>
+        <translation>Gunhead가 성공적으로 연결되었습니다!</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -816,8 +816,8 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
     </message>
     <message>
         <location line="+1"/>
-        <source>Failed to connect to KillAPI. Please check your internet connection and try again.</source>
-        <translation>KillAPI에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.</translation>
+        <source>Failed to connect to Gunhead Server. Please check your internet connection and try again.</source>
+        <translation>Gunhead에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -965,8 +965,8 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
         <location filename="../../src/Transmitter.cpp" line="+151"/>
         <location line="+84"/>
         <location line="+277"/>
-        <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.</source>
-        <translation>이 서버의 KillAPI 패널이 닫혔거나 존재하지 않습니다.</translation>
+        <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.</source>
+        <translation>이 서버의 Gunhead 패널이 닫혔거나 존재하지 않습니다.</translation>
     </message>
     <message>
         <location line="-357"/>

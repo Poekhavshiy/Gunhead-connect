@@ -226,7 +226,7 @@
     </message>
     <message>
         <location line="+11"/>
-        <source>Killfeed Log Display Initialized</source>
+        <source>Gunhead Log Display Initialized</source>
         <translation>Affichage du journal des éliminations initialisé</translation>
     </message>
     <message>
@@ -237,7 +237,7 @@
     <message>
         <location line="+54"/>
         <location line="+790"/>
-        <source>Killfeed Log Display</source>
+        <source>Gunhead Log Display</source>
         <translation>Affichage du journal des éliminations</translation>
     </message>
     <message>
@@ -309,7 +309,7 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="-335"/>
-        <source>Killfeed Log Display Cleared</source>
+        <source>Gunhead Log Display Cleared</source>
         <translation>Affichage du journal des éliminations effacé</translation>
     </message>
     <message>
@@ -391,8 +391,8 @@ CTRL + -</translation>
     <name>MainWindow</name>
     <message>
         <location filename="../../ui/mainwindow.ui" line="+6"/>
-        <source>KillAPI</source>
-        <translation>KillAPI</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -476,18 +476,18 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Error: Could not connect to KillAPI server. Monitoring not started.</source>
-        <translation>Erreur : Impossible de se connecter au serveur KillAPI. Surveillance non démarrée.</translation>
+        <source>Error: Could not connect to Gunhead server. Monitoring not started.</source>
+        <translation>Erreur : Impossible de se connecter au serveur Gunhead Server. Surveillance non démarrée.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection.</source>
-        <translation>ERREUR : Échec de connexion au serveur KillAPI. Veuillez vérifier votre clé API et votre connexion internet.</translation>
+        <source>ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection.</source>
+        <translation>ERREUR : Échec de connexion au serveur Gunhead Server. Veuillez vérifier votre clé API et votre connexion internet.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Connected to KillAPI server successfully. Monitoring started.</source>
-        <translation>Connexion au serveur KillAPI réussie. Surveillance démarrée.</translation>
+        <source>Connected to Gunhead server successfully. Monitoring started.</source>
+        <translation>Connexion au serveur Gunhead réussie. Surveillance démarrée.</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -538,15 +538,15 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+183"/>
-        <source>KillApi Connect (Active)</source>
-        <translation>KillApi Connect (Actif)</translation>
+        <source>Gunhead Connect (Active)</source>
+        <translation>Gunhead Connect (Actif)</translation>
     </message>
     <message>
         <location line="-748"/>
         <location line="+577"/>
         <location line="+82"/>
-        <source>KillApiConnect Plus</source>
-        <translation>KillApiConnect Plus</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="-658"/>
@@ -609,8 +609,8 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+144"/>
-        <source>KillAPI Connect Plus</source>
-        <translation>KillAPI Connect Plus</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -688,8 +688,8 @@ CTRL + -</translation>
     <message>
         <location line="-625"/>
         <location line="+602"/>
-        <source>KillAPI Key</source>
-        <translation>Clé KillAPI</translation>
+        <source>Gunhead Key</source>
+        <translation>Clé Gunhead</translation>
     </message>
     <message>
         <location line="-598"/>
@@ -774,16 +774,16 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.
+        <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.
 
 This means your API key may be valid, but the Discord panel associated with it has been closed by an administrator or does not exist anymore.
 
-Please reopen the KillAPI panel or contact your Discord server administrator if you believe this is an error.</source>
-        <translation>Le panneau KillAPI pour ce serveur a été fermé ou n&apos;existe pas.
+Please reopen the Gunhead panel or contact your Discord server administrator if you believe this is an error.</source>
+        <translation>Le panneau Gunhead pour ce serveur a été fermé ou n&apos;existe pas.
 
 Cela signifie que votre clé API peut être valide, mais le panneau Discord associé a été fermé par un administrateur ou n&apos;existe plus.
 
-Veuillez rouvrir le panneau KillAPI ou contacter l&apos;administrateur de votre serveur Discord si vous pensez qu&apos;il s&apos;agit d&apos;une erreur.</translation>
+Veuillez rouvrir le panneau Gunhead ou contacter l&apos;administrateur de votre serveur Discord si vous pensez qu&apos;il s&apos;agit d&apos;une erreur.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -806,8 +806,8 @@ Veuillez vérifier votre clé API et réessayer. Assurez-vous d&apos;avoir copi�
     </message>
     <message>
         <location line="+0"/>
-        <source>KillAPI connected successfully!</source>
-        <translation>KillAPI connecté avec succès !</translation>
+        <source>Gunhead Connected successfully!</source>
+        <translation>Gunhead Connecté avec succès !</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -816,8 +816,8 @@ Veuillez vérifier votre clé API et réessayer. Assurez-vous d&apos;avoir copi�
     </message>
     <message>
         <location line="+1"/>
-        <source>Failed to connect to KillAPI. Please check your internet connection and try again.</source>
-        <translation>Échec de la connexion à KillAPI. Veuillez vérifier votre connexion internet et réessayer.</translation>
+        <source>Failed to connect to Gunhead Server. Please check your internet connection and try again.</source>
+        <translation>Échec de la connexion à Gunhead Server. Veuillez vérifier votre connexion internet et réessayer.</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -965,8 +965,8 @@ Veuillez vérifier votre clé API et réessayer. Assurez-vous d&apos;avoir copi�
         <location filename="../../src/Transmitter.cpp" line="+151"/>
         <location line="+84"/>
         <location line="+277"/>
-        <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.</source>
-        <translation>Le panneau KillAPI pour ce serveur a été fermé ou n&apos;existe pas.</translation>
+        <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.</source>
+        <translation>Le panneau Gunhead pour ce serveur a été fermé ou n&apos;existe pas.</translation>
     </message>
     <message>
         <location line="-357"/>

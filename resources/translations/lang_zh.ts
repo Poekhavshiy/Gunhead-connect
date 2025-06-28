@@ -226,7 +226,7 @@
     </message>
     <message>
         <location line="+11"/>
-        <source>Killfeed Log Display Initialized</source>
+        <source>Gunhead Log Display Initialized</source>
         <translation>擊殺記錄顯示已初始化</translation>
     </message>
     <message>
@@ -237,7 +237,7 @@
     <message>
         <location line="+54"/>
         <location line="+790"/>
-        <source>Killfeed Log Display</source>
+        <source>Gunhead Log Display</source>
         <translation>擊殺記錄顯示</translation>
     </message>
     <message>
@@ -309,7 +309,7 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="-335"/>
-        <source>Killfeed Log Display Cleared</source>
+        <source>Gunhead Log Display Cleared</source>
         <translation>擊殺記錄顯示已清除</translation>
     </message>
     <message>
@@ -391,8 +391,8 @@ CTRL + -</translation>
     <name>MainWindow</name>
     <message>
         <location filename="../../ui/mainwindow.ui" line="+6"/>
-        <source>KillAPI</source>
-        <translation>KillAPI</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -476,18 +476,18 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Error: Could not connect to KillAPI server. Monitoring not started.</source>
-        <translation>錯誤：無法連接到KillAPI服務器。監控未啟動。</translation>
+        <source>Error: Could not connect to Gunhead server. Monitoring not started.</source>
+        <translation>錯誤：無法連接到Gunhead服務器。監控未啟動。</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection.</source>
-        <translation>錯誤：無法連接到KillAPI服務器。請檢查您的API密鑰和網絡連接。</translation>
+        <source>ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection.</source>
+        <translation>錯誤：無法連接到Gunhead服務器。請檢查您的API密鑰和網絡連接。</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Connected to KillAPI server successfully. Monitoring started.</source>
-        <translation>成功連接到KillAPI服務器。監控已啟動。</translation>
+        <source>Connected to Gunhead server successfully. Monitoring started.</source>
+        <translation>成功連接到Gunhead服務器。監控已啟動。</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -538,15 +538,15 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+183"/>
-        <source>KillApi Connect (Active)</source>
-        <translation>KillApi Connect (活動中)</translation>
+        <source>Gunhead Connect (Active)</source>
+        <translation>Gunhead Connect (活動中)</translation>
     </message>
     <message>
         <location line="-748"/>
         <location line="+577"/>
         <location line="+82"/>
-        <source>KillApiConnect Plus</source>
-        <translation>KillApiConnect Plus</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="-658"/>
@@ -609,8 +609,8 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+144"/>
-        <source>KillAPI Connect Plus</source>
-        <translation>KillAPI Connect Plus</translation>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -688,8 +688,8 @@ CTRL + -</translation>
     <message>
         <location line="-625"/>
         <location line="+602"/>
-        <source>KillAPI Key</source>
-        <translation>KillAPI密鑰</translation>
+        <source>Gunhead Key</source>
+        <translation>Gunhead密鑰</translation>
     </message>
     <message>
         <location line="-598"/>
@@ -774,16 +774,16 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.
+        <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.
 
 This means your API key may be valid, but the Discord panel associated with it has been closed by an administrator or does not exist anymore.
 
-Please reopen the KillAPI panel or contact your Discord server administrator if you believe this is an error.</source>
-        <translation>此服務器的KillAPI面板已關閉或不存在。
+Please reopen the Gunhead panel or contact your Discord server administrator if you believe this is an error.</source>
+        <translation>此服務器的Gunhead面板已關閉或不存在。
 
 這意味著您的API密鑰可能有效，但與其關聯的Discord面板已被管理員關閉或不再存在。
 
-如果您認為這是一個錯誤，請重新打開KillAPI面板或聯繫您的Discord服務器管理員。</translation>
+如果您認為這是一個錯誤，請重新打開Gunhead面板或聯繫您的Discord服務器管理員。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -806,8 +806,8 @@ Please check your API key and try again. Make sure you copied the entire key wit
     </message>
     <message>
         <location line="+0"/>
-        <source>KillAPI connected successfully!</source>
-        <translation>KillAPI連接成功！</translation>
+        <source>Gunhead Connected successfully!</source>
+        <translation>Gunhead連接成功！</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -816,8 +816,8 @@ Please check your API key and try again. Make sure you copied the entire key wit
     </message>
     <message>
         <location line="+1"/>
-        <source>Failed to connect to KillAPI. Please check your internet connection and try again.</source>
-        <translation>無法連接到KillAPI。請檢查您的網絡連接並重試。</translation>
+        <source>Failed to connect to Gunhead Server. Please check your internet connection and try again.</source>
+        <translation>無法連接到Gunhead。請檢查您的網絡連接並重試。</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -965,8 +965,8 @@ Please check your API key and try again. Make sure you copied the entire key wit
         <location filename="../../src/Transmitter.cpp" line="+151"/>
         <location line="+84"/>
         <location line="+277"/>
-        <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.</source>
-        <translation>此服務器的KillAPI面板已關閉或不存在。</translation>
+        <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.</source>
+        <translation>此服務器的Gunhead面板已關閉或不存在。</translation>
     </message>
     <message>
         <location line="-357"/>

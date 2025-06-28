@@ -93,7 +93,7 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
         filterAndDisplayLogs();
     } else {
         // If no cached log, initialize with a default JSON message
-        QString initialLog = R"({"identifier":"status","message":")" + tr("Killfeed Log Display Initialized") + R"("})";
+        QString initialLog = R"({"identifier":"status","message":")" + tr("Gunhead Log Display Initialized") + R"("})";
         addEvent(initialLog);
     }
 
@@ -158,8 +158,8 @@ void LogDisplayWindow::resetLogDisplay() {
 
 void LogDisplayWindow::setupUI() {
     setObjectName("LogDisplayWindow"); // This is crucial - defines the window's identity for QSS
-    setWindowTitle(tr("Killfeed Log Display"));
-    setWindowIcon(QIcon(":/icons/KillAPI.ico"));
+    setWindowTitle(tr("Gunhead Log Display"));
+    setWindowIcon(QIcon(":/icons/Gunhead.ico"));
 
     // Main layout
     QWidget* container = new QWidget(this);
@@ -684,7 +684,7 @@ void LogDisplayWindow::clearLog() {
     eventBuffer.clear();
     s_logDisplayCache.clear(); // Clear the cache
     logDisplay->clear();
-    updateStatusLabel(tr("Killfeed Log Display Cleared"));
+    updateStatusLabel(tr("Gunhead Log Display Cleared"));
 }
 
 void LogDisplayWindow::changeTextColor() {
@@ -948,7 +948,7 @@ QString LogDisplayWindow::getFriendlyGameModeName(const QString& rawMode) const 
 }
 
 void LogDisplayWindow::updateWindowTitle(const QString& gameMode, const QString& subGameMode) {
-    QString title = tr("Killfeed Log Display");
+    QString title = tr("Gunhead Log Display");
 
     // Get player name from transmitter
     QString playerName = transmitter.getCurrentPlayerName();

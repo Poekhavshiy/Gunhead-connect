@@ -52,8 +52,8 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     , trayIconMenu(nullptr)
 {
     // Set up the main window
-    setWindowTitle("KillAPI Connect Plus");
-    setWindowIcon(QIcon(":/icons/KillAPI.ico"));
+    setWindowTitle("Gunhead Connect");
+    setWindowIcon(QIcon(":/icons/Gunhead.ico"));
     setObjectName("MainWindow"); // Set object name for identification
     // Load the game log file path from QSettings
     gameLogFilePath = settings.value("gameFolder", "").toString() + "/game.log";
@@ -340,11 +340,11 @@ bool MainWindow::verifyApiConnectionAndStartMonitoring(QString apiKey) {
     
     if (!pingSuccess) {
         qWarning() << "API connection verification failed. Cannot start monitoring.";
-        updateStatusLabel(tr("Error: Could not connect to KillAPI server. Monitoring not started."));
+        updateStatusLabel(tr("Error: Could not connect to Gunhead server. Monitoring not started."));
         
         // Show more detailed error in LogDisplayWindow if it's open
         if (logDisplayWindow) {
-            logDisplayWindow->updateStatusLabel(tr("ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection."));
+            logDisplayWindow->updateStatusLabel(tr("ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection."));
         }
         return false;
     }
@@ -357,7 +357,7 @@ bool MainWindow::verifyApiConnectionAndStartMonitoring(QString apiKey) {
         qWarning() << "Failed to send connection success event, but will continue with monitoring.";
     } else {
          if (logDisplayWindow) {
-            logDisplayWindow->updateStatusLabel(tr("Connected to KillAPI server successfully. Monitoring started."));
+            logDisplayWindow->updateStatusLabel(tr("Connected to Gunhead server successfully. Monitoring started."));
         }
         qDebug() << "Connection success event sent to API server.";
     }
@@ -746,7 +746,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
         // Show tray message the first time
         static bool firstTimeMinimized = true;
         if (firstTimeMinimized) {
-            showSystemTrayMessage(tr("KillApiConnect Plus"), 
+            showSystemTrayMessage(tr("Gunhead Connect"), 
                                 tr("Application was minimized to tray"));
             firstTimeMinimized = false;
         }
@@ -1303,7 +1303,7 @@ void MainWindow::startBackgroundInitialization() {
 // Add this method to the MainWindow class
 void MainWindow::retranslateUi() {
     // Update window title
-    setWindowTitle(tr("KillAPI Connect Plus"));
+    setWindowTitle(tr("Gunhead Connect"));
     
     // Update button texts
     startButton->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
@@ -1323,7 +1323,7 @@ void MainWindow::retranslateUi() {
         if (exitAction) exitAction->setText(tr("Exit"));
         
         if (systemTrayIcon) {
-            systemTrayIcon->setToolTip(tr("KillApiConnect Plus"));
+            systemTrayIcon->setToolTip(tr("Gunhead Connect"));
         }
     }
     
@@ -1379,7 +1379,7 @@ void MainWindow::createSystemTrayIcon() {
     systemTrayIcon->setContextMenu(trayIconMenu);
     
     // Try to load the dedicated tray PNG first
-    const QString trayPngPath = ":/icons/KillAP-tray.png";
+    const QString trayPngPath = ":/icons/Gunhead-tray.png";
     QIcon trayPngIcon(trayPngPath);
     qDebug() << "Attempting to load tray icon from" << trayPngPath
              << "isNull=" << trayPngIcon.isNull()
@@ -1387,7 +1387,7 @@ void MainWindow::createSystemTrayIcon() {
 
     if (!trayPngIcon.isNull()) {
         systemTrayIcon->setIcon(trayPngIcon);
-        qDebug() << "System tray icon set from KillAP-tray.png";
+        qDebug() << "System tray icon set from Gunhead-tray.png";
     } else {
         // Fallback: draw a branded 'K' on transparent 16×16
         qWarning() << "Failed to load" << trayPngPath << "- falling back to letter icon";
@@ -1405,7 +1405,7 @@ void MainWindow::createSystemTrayIcon() {
         qDebug() << "Fallback 'K' icon set with brand color #cefc19";
     }
 
-    systemTrayIcon->setToolTip(tr("KillApiConnect Plus"));
+    systemTrayIcon->setToolTip(tr("Gunhead Connect"));
     connect(systemTrayIcon, &QSystemTrayIcon::activated,
             this, &MainWindow::onSystemTrayActivated);
 
@@ -1494,6 +1494,6 @@ void MainWindow::activateFromAnotherInstance()
     
     // If we're in system tray mode, also update the tray icon
     if (systemTrayIcon) {
-        systemTrayIcon->setToolTip(tr("KillApi Connect (Active)"));
+        systemTrayIcon->setToolTip(tr("Gunhead Connect (Active)"));
     }
 }
