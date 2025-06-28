@@ -34,6 +34,8 @@ public:
     bool getCheckUpdatesOnStartup() const;
     bool getAutoLaunchGame() const;  // Add getter for auto-launch game setting
     bool getMinimizeToTray() const;  // Add getter for minimize to tray setting
+    bool getStartMinimized() const;  // Add this getter
+    bool getStartMonitoringOnLaunch() const; // Add this getter
     void checkForUpdates(); // Declare the function here
     void retranslateUi(); // Method to retranslate UI elements
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -52,6 +54,8 @@ private:    // Settings fields
     bool checkUpdatesOnStartup;
     bool autoLaunchGame;
     bool minimizeToTray;  // Add minimize to tray setting
+    bool startMinimized;  // Add this with the other boolean settings
+    bool startMonitoringOnLaunch; // Add this to the private settings fields
 
     // UI elements
     QTabWidget* tabWidget;
@@ -62,6 +66,8 @@ private:    // Settings fields
     QCheckBox* updateCheckbox;
     QCheckBox* autoLaunchGameCheckbox;  // Add auto-launch game checkbox
     QCheckBox* minimizeToTrayCheckbox;  // Add minimize to tray checkbox
+    QCheckBox* startMinimizedCheckbox;  // Add this with the other checkboxes
+    QCheckBox* startMonitoringOnLaunchCheckbox; // Add this to the UI elements section
     QSignalMapper* signalMapper;
 
     // Transmitter instance
@@ -99,6 +105,8 @@ private:    // Settings fields
 private slots:
     void toggleUpdateCheck(int state);
     void toggleMinimizeToTray(int state);  // Add slot for minimize to tray toggle
+    void toggleStartMinimized(int state);  // Add this toggle method
+    void toggleStartMonitoringOnLaunch(int state); // Add this to the private slots
     void updatePath();
     void updateLauncherPath();  // Add launcher path update slot
     void savePath();

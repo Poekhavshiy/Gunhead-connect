@@ -178,10 +178,15 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     minimizeToTrayCheckbox = new QCheckBox(tr("Minimize to system tray instead of closing"), this);
     connect(minimizeToTrayCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleMinimizeToTray);
     
+    // Add the Start Minimized option
+    startMinimizedCheckbox = new QCheckBox(tr("Start application minimized on launch"), this);
+    connect(startMinimizedCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleStartMinimized);
+    
     QVBoxLayout* trayLayout = new QVBoxLayout();
     // Add matching right margin (16px)
     trayLayout->setContentsMargins(16, 0, 16, 0);
     trayLayout->addWidget(minimizeToTrayCheckbox);
+    trayLayout->addWidget(startMinimizedCheckbox);  // Add the new checkbox
     
     QWidget* trayCard = new QWidget(this);
     trayCard->setLayout(trayLayout);
@@ -236,6 +241,10 @@ void SettingsWindow::setupGameTab(QTabWidget* tabWidget) {
     autoLaunchGameCheckbox = new QCheckBox(tr("Auto-launch Star Citizen when monitoring starts"), this);
     connect(autoLaunchGameCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleAutoLaunchGame);
 
+    // Add auto-start monitoring checkbox
+    startMonitoringOnLaunchCheckbox = new QCheckBox(tr("Start monitoring automatically when application launches"), this);
+    connect(startMonitoringOnLaunchCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleStartMonitoringOnLaunch);
+
     // Save button
     QPushButton* savePathButton = new QPushButton(tr("Save"), this);
     connect(savePathButton, &QPushButton::clicked, this, &SettingsWindow::savePath);
@@ -252,6 +261,7 @@ void SettingsWindow::setupGameTab(QTabWidget* tabWidget) {
     gamePathLayout->addWidget(launcherPathLabel);
     gamePathLayout->addLayout(launcherPathLayout);
     gamePathLayout->addWidget(autoLaunchGameCheckbox);
+    gamePathLayout->addWidget(startMonitoringOnLaunchCheckbox); // Add the new checkbox
     gamePathLayout->addWidget(savePathButton);
 
     QWidget* pathCard = new QWidget(this);
@@ -332,14 +342,18 @@ void SettingsWindow::loadSettings() {
     apiKey = settings.value("apiKey", "").toString();
     checkUpdatesOnStartup = settings.value("checkUpdatesOnStartup", false).toBool();
     autoLaunchGame = settings.value("autoLaunchGame", false).toBool();
+    startMonitoringOnLaunch = settings.value("startMonitoringOnLaunch", false).toBool(); // Add this
     minimizeToTray = settings.value("minimizeToTray", false).toBool();
+    startMinimized = settings.value("startMinimized", false).toBool();  // Add this line
 
     pathEdit->setText(gameFolder);
     launcherPathEdit->setText(launcherPath);
     apiEdit->setText(apiKey);
     updateCheckbox->setChecked(checkUpdatesOnStartup);
     autoLaunchGameCheckbox->setChecked(autoLaunchGame);
+    startMonitoringOnLaunchCheckbox->setChecked(startMonitoringOnLaunch); // Add this
     minimizeToTrayCheckbox->setChecked(minimizeToTray);
+    startMinimizedCheckbox->setChecked(startMinimized);  // Add this line
     
     // Update launcher controls visibility based on auto-launch setting
     toggleLauncherControlsVisibility(autoLaunchGame);
@@ -353,7 +367,9 @@ void SettingsWindow::saveSettings() {
     settings.setValue("apiKey", apiKey);
     settings.setValue("checkUpdatesOnStartup", checkUpdatesOnStartup);
     settings.setValue("autoLaunchGame", autoLaunchGame);
+    settings.setValue("startMonitoringOnLaunch", startMonitoringOnLaunch); // Add this
     settings.setValue("minimizeToTray", minimizeToTray);
+    settings.setValue("startMinimized", startMinimized);  // Add this line
 
     qDebug() << "Settings saved:";
     qDebug() << "  Game Folder:" << gameFolder;
@@ -361,7 +377,9 @@ void SettingsWindow::saveSettings() {
     qDebug() << "  API Key:" << apiKey;
     qDebug() << "  Check Updates on Startup:" << checkUpdatesOnStartup;
     qDebug() << "  Auto Launch Game:" << autoLaunchGame;
+    qDebug() << "  Start Monitoring on Launch:" << startMonitoringOnLaunch; // Add this
     qDebug() << "  Minimize to Tray:" << minimizeToTray;
+    qDebug() << "  Start Minimized:" << startMinimized;  // Add this line
 }
 
 QString SettingsWindow::getGameFolder() const {
@@ -388,6 +406,15 @@ bool SettingsWindow::getMinimizeToTray() const {
     return minimizeToTray;
 }
 
+bool SettingsWindow::getStartMinimized() const {
+    return startMinimized;
+}
+
+// Add the getter method
+bool SettingsWindow::getStartMonitoringOnLaunch() const {
+    return startMonitoringOnLaunch;
+}
+
 void SettingsWindow::toggleAutoLaunchGame(int state) {
     autoLaunchGame = (state == Qt::Checked);
     saveSettings();
@@ -395,6 +422,13 @@ void SettingsWindow::toggleAutoLaunchGame(int state) {
     
     // Toggle launcher controls visibility
     toggleLauncherControlsVisibility(autoLaunchGame);
+}
+
+// Add the toggle handler
+void SettingsWindow::toggleStartMonitoringOnLaunch(int state) {
+    startMonitoringOnLaunch = (state == Qt::Checked);
+    saveSettings();
+    qDebug() << "Start monitoring on launch setting changed to:" << startMonitoringOnLaunch;
 }
 
 void SettingsWindow::toggleUpdateCheck(int state) {
@@ -529,7 +563,7 @@ void SettingsWindow::checkForUpdates() {
                 QString savePath = QFileDialog::getSaveFileName(
                     this, 
                     tr("Save Installer"), 
-                    QDir::homePath() + "/Gunhead-connect.msi", 
+                    QDir::homePath() + "/Gunhead-Connect-Setup.msi", 
                     tr("Installer Files (*.msi)")
                 );
 
@@ -771,8 +805,10 @@ void SettingsWindow::retranslateUi() {
     }
       // Update checkboxes
     updateCheckbox->setText(tr("Check for new versions on startup"));
-    autoLaunchGameCheckbox->setText(tr("Auto-Launch Star Citizen when monitoring starts"));
+    autoLaunchGameCheckbox->setText(tr("Auto-launch Star Citizen when monitoring starts"));
+    startMonitoringOnLaunchCheckbox->setText(tr("Start monitoring automatically when application launches")); // Add this
     minimizeToTrayCheckbox->setText(tr("Minimize to system tray instead of closing"));
+    startMinimizedCheckbox->setText(tr("Start application minimized on launch"));  // Add this line
     checkUpdatesButton->setText(tr("Check for updates now"));
     
     // Find all buttons by object name and update their text
@@ -827,6 +863,12 @@ void SettingsWindow::toggleMinimizeToTray(int state) {
     qDebug() << "Minimize to tray setting changed to:" << minimizeToTray;
     
     emit minimizeToTrayChanged(minimizeToTray);
+}
+
+void SettingsWindow::toggleStartMinimized(int state) {
+    startMinimized = (state == Qt::Checked);
+    saveSettings();
+    qDebug() << "Start minimized setting changed to:" << startMinimized;
 }
 
 bool SettingsWindow::eventFilter(QObject* watched, QEvent* event)

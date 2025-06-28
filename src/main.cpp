@@ -173,14 +173,62 @@ int main(int argc, char *argv[]) {
         
         // Give user a moment to see the completed progress
         QTimer::singleShot(500, [&mainWindow, loadingScreen]() {
-            mainWindow->show();
+            QSettings settings("KillApiConnect", "KillApiConnectPlus");
+            bool startMinimized = settings.value("startMinimized", false).toBool();
+            bool minimizeToTray = settings.value("minimizeToTray", false).toBool();
+            bool startMonitoringOnLaunch = settings.value("startMonitoringOnLaunch", false).toBool(); // Add this
             
-            // Add this: reapply theme after window is shown
+            if (startMinimized) {
+                // If minimize to tray is enabled, don't show window at all
+                if (minimizeToTray && QSystemTrayIcon::isSystemTrayAvailable()) {
+                    // Create system tray if not already created
+                    mainWindow->createSystemTrayIcon();
+                    // Show a notification that app is running in tray
+                    mainWindow->showSystemTrayMessage(
+                        QObject::tr("Gunhead Connect"), 
+                        QObject::tr("Application started minimized to tray")
+                    );
+                } else {
+                    // Show minimized to taskbar
+                    mainWindow->showMinimized();
+                }
+            } else {
+                // Normal show behavior
+                mainWindow->show();
+            }
+            
+            // Reapply theme after window is shown
             QTimer::singleShot(100, []() {
                 ThemeManager::instance().applyCurrentThemeToAllWindows();
             });
             
             loadingScreen->accept();
+            
+            // Add auto-start monitoring with a small delay to ensure everything is initialized
+            if (startMonitoringOnLaunch) {
+                qDebug() << "Auto-start monitoring enabled, starting monitoring automatically";
+                // Capture startMinimized in this outer lambda
+                QTimer::singleShot(1000, [mainWindow, startMinimized]() {
+                    // Store the current monitoring state to detect failure
+                    bool wasMonitoring = mainWindow->getMonitoringState();
+                    
+                    // Attempt to start monitoring
+                    mainWindow->toggleMonitoring();
+                    
+                    // After a short delay, check if monitoring started successfully
+                    QTimer::singleShot(3000, [mainWindow, wasMonitoring, startMinimized]() {
+                        bool isNowMonitoring = mainWindow->getMonitoringState();
+                        
+                        // If monitoring didn't start and app is minimized, show notification
+                        if (!isNowMonitoring && wasMonitoring == isNowMonitoring && startMinimized) {
+                            mainWindow->showSystemTrayMessage(
+                                QObject::tr("Monitoring Error"),
+                                QObject::tr("Failed to start monitoring automatically. Please check the application.")
+                            );
+                        }
+                    });
+                });
+            }
         });
     });
     

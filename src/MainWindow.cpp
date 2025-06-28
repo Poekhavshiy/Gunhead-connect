@@ -1345,6 +1345,12 @@ void MainWindow::updateLogDisplayFilterWidth() {
 
 // System tray functionality
 void MainWindow::createSystemTrayIcon() {
+    // Check if icon already exists to prevent duplicates
+    if (systemTrayIcon) {
+        qDebug() << "System tray icon already exists, skipping creation";
+        return;
+    }
+
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
         qWarning() << "System tray unavailable";
         return;

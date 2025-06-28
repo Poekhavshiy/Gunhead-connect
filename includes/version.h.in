@@ -6,6 +6,6 @@
 #define APP_VERSION_PATCH @PROJECT_VERSION_PATCH@
 #define APP_VERSION_TWEAK @PROJECT_VERSION_TWEAK@
 
-#define APP_ORGANIZATION "Poekhavshiy"
+#define APP_ORGANIZATION "Gunhead Team"
 #define APP_DOMAIN "https://github.com/Poekhavshiy/Gunhead-Connect"
 #define APP_NAME "Gunhead Connect"

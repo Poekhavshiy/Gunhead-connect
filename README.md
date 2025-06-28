@@ -15,7 +15,7 @@ Gunhead Connect works alongside the Gunhead Discord Bot. The bot processes and d
 ## Installation
 
  **Download the Application**:
-    [Download the latest version](https://gunhead.sparked.network/static/data/Gunhead.msi).
+    [Download the latest version](https://gunhead.sparked.network/static/data/Gunhead-Connect-Setup.msi).
 
 ## Features
 
