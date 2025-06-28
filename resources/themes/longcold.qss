@@ -1,9 +1,25 @@
+/* Universal base selectors for consistency */
+QWidget, QMainWindow {
+    background: none;
+    color: #ffffff;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;
+    font-size: 18px;
+}
+
+QPushButton, QLineEdit, QComboBox, QCheckBox, QRadioButton, QLabel, QTabWidget, QTabBar, QScrollArea, QGroupBox {
+    background: none;
+    color: #ffffff;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;
+    font-size: 18px;
+}
+
+/* ...existing theme-specific selectors remain below... */
 /* Global */
-QWidget {
+QWidget#MainWindow, QWidget#LogDisplayWindow, QWidget#SettingsWindow, QWidget#languageSelectWindow, QWidget#themeSelectWindow {
     background-color: #000000;
     color: #ffffff;
     font-family: 'VCR OSD Mono', 'Courier New', monospace;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 /* Headers */
@@ -15,23 +31,37 @@ QLabel#headerLabel, QLabel#fanHeaderLabel {
 }
 
 /* Buttons */
-QPushButton {
+QWidget#MainWindow QPushButton,
+QWidget#LogDisplayWindow QPushButton,
+QWidget#SettingsWindow QPushButton,
+QWidget#languageSelectWindow QPushButton,
+QWidget#themeSelectWindow QPushButton {
     background-color: #1e1e1e;
     border: 2px solid #444;
     padding: 8px 12px;
     margin: 4px 0;
     color: #ffffff;
-    font-weight: bold;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;  /* Explicit font */
+    font-size: 18px;                                        /* Explicit size */
+    font-weight: bold;                                      /* Explicit weight */
     text-transform: uppercase;
 }
 
-QPushButton:hover {
+QWidget#MainWindow QPushButton:hover,
+QWidget#LogDisplayWindow QPushButton:hover,
+QWidget#SettingsWindow QPushButton:hover,
+QWidget#languageSelectWindow QPushButton:hover,
+QWidget#themeSelectWindow QPushButton:hover {
     background-color: #333333;
     border-color: #ff2d2d;
     color: #ff2d2d;
 }
 
-QPushButton:pressed {
+QWidget#MainWindow QPushButton:pressed,
+QWidget#LogDisplayWindow QPushButton:pressed,
+QWidget#SettingsWindow QPushButton:pressed,
+QWidget#languageSelectWindow QPushButton:pressed,
+QWidget#themeSelectWindow QPushButton:pressed {
     background-color: #550000;
     border-color: #ff4444;
 }
@@ -62,13 +92,60 @@ QPushButton#languageButton {
 QPushButton#themeButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
-    /* Example: */
-    background-color: #00aaff;
-    color: white;
-    /* Add any other selected styles here */
+    background-color: #ff2d2d;
+    color: #ffffff;
+    border: 2px solid #ff2d2d;
+    font-weight: bold;
 }
 
-QLabel#statusLabel {
+QWidget#MainWindow QLabel#statusLabel,
+QWidget#LogDisplayWindow QLabel#statusLabel,
+QWidget#SettingsWindow QLabel#statusLabel,
+QWidget#languageSelectWindow QLabel#statusLabel,
+QWidget#themeSelectWindow QLabel#statusLabel {
     font-size: 16px;
     color: #d0c8b0; /* Adjust color as needed */
+}
+
+/* Add specific styling for tab widgets */
+QWidget#SettingsWindow QTabWidget::pane {
+    border: 2px solid #444;
+    background-color: #000000;
+}
+
+QWidget#SettingsWindow QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QWidget#SettingsWindow QTabBar::tab {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 2px solid #444;
+    padding: 8px;
+    margin-right: 2px;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;
+    font-size: 18px;
+    text-transform: uppercase;
+    min-width: 60px;
+    max-width: 280px;   /* Prevents tabs from being too wide */
+}
+
+QWidget#SettingsWindow QTabBar::tab:selected {
+    background-color: #ff2d2d;
+    color: #ffffff;
+    border: 2px solid #ff2d2d;
+    font-weight: bold;
+}
+
+QWidget#SettingsWindow QTabBar::tab:hover {
+    background-color: #333333;
+    border-color: #ff2d2d;
+    color: #ff2d2d;
+}
+
+/* Ensure all labels have appropriate contrast */
+QWidget#SettingsWindow QLabel {
+    color: #ffffff;
+    font-family: 'VCR OSD Mono', 'Courier New', monospace;
+    font-size: 16px;
 }

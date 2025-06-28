@@ -1,7 +1,8 @@
 // LanguageSelect
 #include "LanguageSelect.h"
 #include "language_manager.h"
-#include "globals.h" // Add this include
+#include "globals.h"
+#include "ThemeManager.h" // Change this from "ThemeSelect.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -29,9 +30,8 @@ LanguageSelectWindow::LanguageSelectWindow(QWidget* parent)
     setWindowTitle(tr("Language Selector"));
     setObjectName("languageSelectWindow");
 
-    // Load current theme to get window size
-    ThemeSelectWindow themeSelect;
-    Theme currentTheme = themeSelect.loadCurrentTheme();
+    // Load current theme from ThemeManager instead of ThemeSelectWindow
+    Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
     
     // Always use the size from the theme JSON
     setFixedSize(currentTheme.chooseLanguageWindowPreferredSize);
@@ -63,6 +63,8 @@ LanguageSelectWindow::LanguageSelectWindow(QWidget* parent)
     mainLayout->addSpacerItem(bottomPadding);
 
     // Connect signals and slots
+    connect(&ThemeManager::instance(), &ThemeManager::themeChanged,
+            this, &LanguageSelectWindow::onThemeChanged);
     connect(&LanguageManager::instance(), &LanguageManager::languageChanged, this, &LanguageSelectWindow::retranslateUi);
     connectSignals();
 }

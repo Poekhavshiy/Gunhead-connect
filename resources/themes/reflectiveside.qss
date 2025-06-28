@@ -1,5 +1,22 @@
+/* Universal base selectors for consistency */
+QWidget, QMainWindow {
+    background: none;
+    color: #2b4f77;
+    font-family: "Segoe UI";
+    font-size: 16px;
+}
+
+QPushButton, QLineEdit, QComboBox, QCheckBox, QRadioButton, QLabel, QTabWidget, QTabBar, QScrollArea, QGroupBox {
+    background: none;
+    color: #2b4f77;
+    font-family: "Segoe UI";
+    font-size: 16px;
+}
+
+/* ...existing theme-specific selectors remain below... */
 /* Global font and background */
-QWidget {
+QWidget#MainWindow, QWidget#LogDisplayWindow, QWidget#SettingsWindow, QWidget#languageSelectWindow, QWidget#themeSelectWindow,
+QMainWindow#MainWindow, QMainWindow#LogDisplayWindow, QMainWindow#SettingsWindow, QMainWindow#languageSelectWindow, QMainWindow#themeSelectWindow {
     background-color: #e9f3fa; /* very light blue-white */
     font-family: "Segoe UI";
     font-size: 16px;
@@ -27,7 +44,11 @@ QLabel#VolumeLabel {
 }
 
 /* Generic labels like MUSIC VOLUME, DIALOGUE VOLUME */
-QLabel {
+QWidget#MainWindow QLabel,
+QWidget#LogDisplayWindow QLabel,
+QWidget#SettingsWindow QLabel,
+QWidget#languageSelectWindow QLabel,
+QWidget#themeSelectWindow QLabel {
     font-size: 16px;
     color: #2b4f77;
 }
@@ -68,7 +89,28 @@ QLabel#AudioDeviceLabel {
     color: #2b4f77;
 }
 
-QPushButton#themeButton[selected="true"],
+/* Button styling with specific font */
+QPushButton {
+    background-color: #c3d8ec;
+    border: 1px solid #8fb1d3;
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: #2b4f77;
+    font-family: "Segoe UI";  /* Explicit font specification */
+    font-size: 14px;          /* Explicit size */
+    font-weight: normal;      /* Explicit weight */
+}
+
+QPushButton:hover {
+    background-color: #d8e8f5;
+}
+
+QPushButton:pressed {
+    background-color: #aac4dc;
+}
+
+/* Selected button states */
+QPushButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
     background-color: #00aaff;
@@ -77,7 +119,99 @@ QPushButton#languageSelectionButton[selected="true"] {
     border: 2px solid #005577;
 }
 
-QLabel#statusLabel {
+QWidget#MainWindow QLabel#statusLabel,
+QWidget#LogDisplayWindow QLabel#statusLabel,
+QWidget#SettingsWindow QLabel#statusLabel,
+QWidget#languageSelectWindow QLabel#statusLabel,
+QWidget#themeSelectWindow QLabel#statusLabel {
     font-size: 16px;
     color: #2b4f77; /* Adjust color as needed */
+}
+
+/* Add specific styling for tab widgets */
+QWidget#SettingsWindow QTabWidget::pane {
+    border: 1px solid #8fb1d3;
+    background-color: #e9f3fa;
+}
+
+QWidget#SettingsWindow QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QWidget#SettingsWindow QTabBar::tab {
+    background-color: #c3d8ec;
+    color: #2b4f77;
+    border: 1px solid #8fb1d3;
+    border-bottom-color: #8fb1d3;
+    padding: 8px;
+    margin-right: 2px;
+    font-family: "Segoe UI";
+    font-size: 14px;
+    min-width: 80px;
+}
+
+QWidget#SettingsWindow QTabBar::tab:selected {
+    background-color: #00aaff;
+    color: white;
+    border-bottom-color: #00aaff;
+}
+
+QWidget#SettingsWindow QTabBar::tab:hover {
+    background-color: #d8e8f5;
+}
+
+/* Ensure labels in Settings have appropriate contrast */
+QWidget#SettingsWindow QLabel {
+    color: #2b4f77;
+    font-family: "Segoe UI";
+    font-size: 16px;
+}
+
+/* Add checkbox specific styling */
+QWidget#SettingsWindow QCheckBox,
+QWidget#LogDisplayWindow QCheckBox {
+    color: #2b4f77;  /* Dark blue text for contrast against light background */
+    font-family: "Segoe UI";
+    font-size: 14px;
+    spacing: 5px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator,
+QWidget#LogDisplayWindow QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #8fb1d3;
+    background-color: #ffffff;
+    border-radius: 3px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked {
+    background-color: #00aaff;
+    border: 1px solid #00aaff;
+}
+
+QWidget#MainWindow QLineEdit,
+QWidget#LogDisplayWindow QLineEdit,
+QWidget#SettingsWindow QLineEdit,
+QWidget#languageSelectWindow QLineEdit,
+QWidget#themeSelectWindow QLineEdit {
+    background-color: #e9f3fa;      /* Match the main background */
+    color: #2b4f77;                 /* Main theme text color */
+    border: 1.5px solid #8fb1d3;    /* Soft blue border */
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-family: "Segoe UI";
+    font-size: 16px;
+    selection-background-color: #00aaff; /* Bright blue highlight */
+    selection-color: #ffffff;
+}
+
+QWidget#MainWindow QLineEdit:focus,
+QWidget#LogDisplayWindow QLineEdit:focus,
+QWidget#SettingsWindow QLineEdit:focus,
+QWidget#languageSelectWindow QLineEdit:focus,
+QWidget#themeSelectWindow QLineEdit:focus {
+    border: 2px solid #00aaff;      /* Brighter blue border on focus */
+    background-color: #d8e8f5;      /* Slightly deeper blue on focus */
 }

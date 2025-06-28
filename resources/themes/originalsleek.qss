@@ -1,42 +1,125 @@
-QWidget {
+/* Universal base selectors for consistency */
+QWidget, QMainWindow {
+    background: none;
+    color: #f0f0f0; /* Explicitly set the base font color */
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+QPushButton, QLineEdit, QComboBox, QCheckBox, QRadioButton, QLabel, QTabWidget, QTabBar, QScrollArea, QGroupBox {
+    background: none;
+    color: #f0f0f0; /* Explicitly set the base font color */
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+/* ...existing theme-specific selectors remain below... */
+QWidget#MainWindow, QWidget#LogDisplayWindow, QWidget#SettingsWindow, QWidget#languageSelectWindow, QWidget#themeSelectWindow {
     background-color: #121212;
     color: #f0f0f0;
     font-family: "Roboto", sans-serif;
     font-size: 14px;
 }
 
-QPushButton {
+QWidget#MainWindow QPushButton,
+QWidget#LogDisplayWindow QPushButton,
+QWidget#SettingsWindow QPushButton,
+QWidget#languageSelectWindow QPushButton,
+QWidget#themeSelectWindow QPushButton {
     background-color: #2a2a2a;
     border: none;
     padding: 10px;
     border-radius: 6px;
-    font-weight: normal;
+    font-family: "Roboto", sans-serif;  /* Explicit font */
+    font-size: 14px;                    /* Explicit size */
+    font-weight: normal;                /* Explicit weight */
     letter-spacing: normal;
 }
 
-QPushButton:hover {
+QWidget#MainWindow QPushButton:hover,
+QWidget#LogDisplayWindow QPushButton:hover,
+QWidget#SettingsWindow QPushButton:hover,
+QWidget#languageSelectWindow QPushButton:hover,
+QWidget#themeSelectWindow QPushButton:hover {
     background-color: #3a3a3a;
 }
 
-QPushButton:pressed {
+QWidget#MainWindow QPushButton:pressed,
+QWidget#LogDisplayWindow QPushButton:pressed,
+QWidget#SettingsWindow QPushButton:pressed,
+QWidget#languageSelectWindow QPushButton:pressed,
+QWidget#themeSelectWindow QPushButton:pressed {
     background-color: #444444;
 }
 
-QLabel {
+QWidget#MainWindow QLabel,
+QWidget#LogDisplayWindow QLabel,
+QWidget#SettingsWindow QLabel,
+QWidget#languageSelectWindow QLabel,
+QWidget#themeSelectWindow QLabel {
     color: #bbbbbb;
 }
 
-QPushButton#themeButton[selected="true"],
+QPushButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
-    /* Example: */
     background-color: #00aaff;
     color: white;
-    /* Add any other selected styles here */
+    font-weight: bold;
 }
 
-QLabel#statusLabel {
+QWidget#MainWindow QLabel#statusLabel,
+QWidget#LogDisplayWindow QLabel#statusLabel,
+QWidget#SettingsWindow QLabel#statusLabel,
+QWidget#languageSelectWindow QLabel#statusLabel,
+QWidget#themeSelectWindow QLabel#statusLabel {
     font-size: 16px;
     color: #f0f0f0; /* Adjust color as needed */
+}
+
+/* Add specific styling for tab widgets */
+QWidget#SettingsWindow QTabWidget::pane {
+    border: 1px solid #444444;
+    background-color: #121212;
+}
+
+QWidget#SettingsWindow QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QWidget#SettingsWindow QTabBar::tab {
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+    border: 1px solid #444444;
+    border-bottom-color: #444444;
+    padding: 8px;
+    margin-right: 2px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    min-width: 80px;
+}
+
+QWidget#SettingsWindow QTabBar::tab:selected {
+    background-color: #00aaff;
+    color: white;
+    font-weight: bold;
+    border-bottom-color: #00aaff;
+}
+
+QWidget#SettingsWindow QTabBar::tab:hover {
+    background-color: #3a3a3a;
+}
+
+/* Ensure all labels have appropriate contrast */
+QWidget#SettingsWindow QLabel {
+    color: #bbbbbb;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+/* Specific settings for the version label to maintain readability */
+QWidget#SettingsWindow QLabel#versionLabel {
+    color: #888888;
+    font-size: 11px;
 }
 

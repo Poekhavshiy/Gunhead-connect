@@ -1,13 +1,32 @@
+/* Universal base selectors for consistency */
+QWidget, QMainWindow {
+    background: none;
+    color: #d0c8b0;
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
+}
+
+QPushButton, QLineEdit, QComboBox, QCheckBox, QRadioButton, QLabel, QTabWidget, QTabBar, QScrollArea, QGroupBox {
+    background: none;
+    color: #d0c8b0;
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
+}
+
+/* ...existing theme-specific selectors remain below... */
 /* dark_victorian.qss */
-QWidget {
-    background-color: #1c1c1c; /* deep near-black */
+QMainWindow#MainWindow, QMainWindow#LogDisplayWindow, QMainWindow#SettingsWindow, QMainWindow#languageSelectWindow, QMainWindow#themeSelectWindow {
+    background-color: #1a1a1a;
     color: #d0c8b0; /* faded parchment white */
     font-family: "EB Garamond", serif;
     font-size: 18px;
 }
 
-QMainWindow {
-    background-color: #1a1a1a;
+QWidget#MainWindow, QWidget#LogDisplayWindow, QWidget#SettingsWindow, QWidget#languageSelectWindow, QWidget#themeSelectWindow {
+    background-color: #1c1c1c; /* deep near-black */
+    color: #d0c8b0; /* faded parchment white */
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
 }
 
 QMenuBar {
@@ -40,77 +59,158 @@ QStatusBar {
     color: #a0a0a0;
 }
 
-QPushButton {
+QWidget#MainWindow QPushButton,
+QWidget#LogDisplayWindow QPushButton,
+QWidget#SettingsWindow QPushButton,
+QWidget#languageSelectWindow QPushButton,
+QWidget#themeSelectWindow QPushButton {
     background-color: #2b2b2b;
     color: #d0c8b0;
     border: 1px solid #403030;
     border-radius: 4px;
     padding: 5px 10px;
+    font-family: "EB Garamond", serif;  /* Explicit font */
+    font-size: 18px;                    /* Explicit size */
+    font-weight: normal;                /* Explicit weight */
 }
 
-QPushButton:hover {
+QWidget#MainWindow QPushButton:hover,
+QWidget#LogDisplayWindow QPushButton:hover,
+QWidget#SettingsWindow QPushButton:hover,
+QWidget#languageSelectWindow QPushButton:hover,
+QWidget#themeSelectWindow QPushButton:hover {
     background-color: #403030;
 }
 
-QLineEdit, QTextEdit, QPlainTextEdit {
+QWidget#MainWindow QLineEdit, QWidget#MainWindow QTextEdit, QWidget#MainWindow QPlainTextEdit,
+QWidget#LogDisplayWindow QLineEdit, QWidget#LogDisplayWindow QTextEdit, QWidget#LogDisplayWindow QPlainTextEdit,
+QWidget#SettingsWindow QLineEdit, QWidget#SettingsWindow QTextEdit, QWidget#SettingsWindow QPlainTextEdit,
+QWidget#languageSelectWindow QLineEdit, QWidget#languageSelectWindow QTextEdit, QWidget#languageSelectWindow QPlainTextEdit,
+QWidget#themeSelectWindow QLineEdit, QWidget#themeSelectWindow QTextEdit, QWidget#themeSelectWindow QPlainTextEdit {
     background-color: #222;
     color: #d0c8b0;
     border: 1px solid #403030;
     border-radius: 4px;
 }
 
-QScrollBar:vertical, QScrollBar:horizontal {
+QWidget#MainWindow QScrollBar:vertical, QWidget#MainWindow QScrollBar:horizontal,
+QWidget#LogDisplayWindow QScrollBar:vertical, QWidget#LogDisplayWindow QScrollBar:horizontal,
+QWidget#SettingsWindow QScrollBar:vertical, QWidget#SettingsWindow QScrollBar:horizontal,
+QWidget#languageSelectWindow QScrollBar:vertical, QWidget#languageSelectWindow QScrollBar:horizontal,
+QWidget#themeSelectWindow QScrollBar:vertical, QWidget#themeSelectWindow QScrollBar:horizontal {
     background: #1c1c1c;
     border: 1px solid #403030;
     width: 12px;
 }
 
-QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+QWidget#MainWindow QScrollBar::handle:vertical, QWidget#MainWindow QScrollBar::handle:horizontal,
+QWidget#LogDisplayWindow QScrollBar::handle:vertical, QWidget#LogDisplayWindow QScrollBar::handle:horizontal,
+QWidget#SettingsWindow QScrollBar::handle:vertical, QWidget#SettingsWindow QScrollBar::handle:horizontal,
+QWidget#languageSelectWindow QScrollBar::handle:vertical, QWidget#languageSelectWindow QScrollBar::handle:horizontal,
+QWidget#themeSelectWindow QScrollBar::handle:vertical, QWidget#themeSelectWindow QScrollBar::handle:horizontal {
     background: #403030;
     min-height: 20px;
     border-radius: 6px;
 }
 
-QTabWidget::pane {
+QWidget#MainWindow QTabWidget::pane, QWidget#LogDisplayWindow QTabWidget::pane, QWidget#SettingsWindow QTabWidget::pane, QWidget#languageSelectWindow QTabWidget::pane, QWidget#themeSelectWindow QTabWidget::pane {
     border: 1px solid #403030;
     background: #1c1c1c;
 }
 
-QTabBar::tab {
+QWidget#MainWindow QTabBar::tab, QWidget#LogDisplayWindow QTabBar::tab, QWidget#SettingsWindow QTabBar::tab, QWidget#languageSelectWindow QTabBar::tab, QWidget#themeSelectWindow QTabBar::tab {
     background: #222;
     border: 1px solid #403030;
     padding: 8px;
     color: #d0c8b0;
 }
 
-QTabBar::tab:selected {
+QWidget#MainWindow QTabBar::tab:selected, QWidget#LogDisplayWindow QTabBar::tab:selected, QWidget#SettingsWindow QTabBar::tab:selected, QWidget#languageSelectWindow QTabBar::tab:selected, QWidget#themeSelectWindow QTabBar::tab:selected {
     background: #403030;
 }
 
-QCheckBox, QRadioButton {
+QWidget#MainWindow QCheckBox, QWidget#MainWindow QRadioButton,
+QWidget#LogDisplayWindow QCheckBox, QWidget#LogDisplayWindow QRadioButton,
+QWidget#SettingsWindow QCheckBox, QWidget#SettingsWindow QRadioButton,
+QWidget#languageSelectWindow QCheckBox, QWidget#languageSelectWindow QRadioButton,
+QWidget#themeSelectWindow QCheckBox, QWidget#themeSelectWindow QRadioButton {
     spacing: 5px;
 }
 
-QCheckBox::indicator, QRadioButton::indicator {
+QWidget#MainWindow QCheckBox::indicator, QWidget#MainWindow QRadioButton::indicator,
+QWidget#LogDisplayWindow QCheckBox::indicator, QWidget#LogDisplayWindow QRadioButton::indicator,
+QWidget#SettingsWindow QCheckBox::indicator, QWidget#SettingsWindow QRadioButton::indicator,
+QWidget#languageSelectWindow QCheckBox::indicator, QWidget#languageSelectWindow QRadioButton::indicator,
+QWidget#themeSelectWindow QCheckBox::indicator, QWidget#themeSelectWindow QRadioButton::indicator {
     width: 16px;
     height: 16px;
 }
 
-QToolTip {
+QWidget#MainWindow QToolTip,
+QWidget#LogDisplayWindow QToolTip,
+QWidget#SettingsWindow QToolTip,
+QWidget#languageSelectWindow QToolTip,
+QWidget#themeSelectWindow QToolTip {
     background-color: #403030;
     color: #f0e6d2;
     border: 1px solid #d0c8b0;
     padding: 5px;
 }
 
-QPushButton#themeButton[selected="true"],
+QWidget#MainWindow QPushButton[selected="true"],
+QWidget#LogDisplayWindow QPushButton[selected="true"],
+QWidget#SettingsWindow QPushButton[selected="true"],
+QWidget#languageSelectWindow QPushButton[selected="true"],
+QWidget#themeSelectWindow QPushButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
     background-color: #611d1d;
     color: white;
+    font-weight: bold;
 }
 
-QLabel#statusLabel {
+QWidget#MainWindow QLabel#statusLabel,
+QWidget#LogDisplayWindow QLabel#statusLabel,
+QWidget#SettingsWindow QLabel#statusLabel,
+QWidget#languageSelectWindow QLabel#statusLabel,
+QWidget#themeSelectWindow QLabel#statusLabel {
     font-size: 16px;
     color: #d0c8b0; /* Adjust color as needed */
+}
+
+/* Add specific styling for tab widgets */
+QWidget#SettingsWindow QTabWidget::pane {
+    border: 1px solid #403030;
+    background-color: #1c1c1c;
+}
+
+QWidget#SettingsWindow QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QWidget#SettingsWindow QTabBar::tab {
+    background-color: #222;
+    color: #d0c8b0;
+    border: 1px solid #403030;
+    padding: 8px;
+    margin-right: 2px;
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
+    min-width: 80px;
+}
+
+QWidget#SettingsWindow QTabBar::tab:selected {
+    background-color: #403030;
+    border-bottom-color: #403030;
+}
+
+QWidget#SettingsWindow QTabBar::tab:hover {
+    background-color: #333;
+}
+
+/* Ensure labels in Settings have appropriate contrast */
+QWidget#SettingsWindow QLabel {
+    color: #d0c8b0;
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
 }

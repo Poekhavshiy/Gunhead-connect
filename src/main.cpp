@@ -8,6 +8,8 @@
 #include <QSettings>
 #include <QIcon>
 #include <QTimer>
+#include <QLocalSocket>
+#include <QLocalServer>
 
 #include "logger.h"
 #include "LoadingScreen.h"
@@ -18,7 +20,8 @@
 #include "SoundPlayer.h"
 #include "version.h" // Compile time version header, always throws error in IDE because it does not exist until compiled in.
 
-
+// Define the server name for IPC
+#define SERVER_NAME "KillApiConnectPlusSingleInstance"
 
 void initialize_default_settings() {
     QCoreApplication::setOrganizationName(APP_ORGANIZATION);
@@ -68,6 +71,21 @@ int main(int argc, char *argv[]) {
     // Set global system locale at runtime
     systemLocale = QLocale::system().name().toStdString();
     
+    // Check for existing instance first
+    QLocalSocket socket;
+    socket.connectToServer(SERVER_NAME);
+    if (socket.waitForConnected(500)) {
+        // An instance is already running
+        // Send a "show" command to the running instance
+        socket.write("show");
+        socket.flush();
+        socket.waitForBytesWritten();
+        
+        // Log the attempt to start a second instance
+        qDebug() << "Application already running - activating existing instance";
+        return 0;
+    }
+    
     // Parse command line args into global variables
     for (int i = 1; i < argc; ++i) {
         if (std::string(argv[i]) == "--debug") {
@@ -94,8 +112,14 @@ int main(int argc, char *argv[]) {
     }
 
     init_logger(ISDEBUG, ISDEBUGTOCONSOLE, "logs/");
-
     log_info("main()", "KillAPI-Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
+    
+    // Set up the local server to listen for other instances
+    QLocalServer* localServer = new QLocalServer(&app);
+    localServer->removeServer(SERVER_NAME);
+    if (!localServer->listen(SERVER_NAME)) {
+        qWarning() << "Could not create local server:" << localServer->errorString();
+    }
     
     // Show loading screen immediately
     LoadingScreen* loadingScreen = new LoadingScreen();
@@ -119,6 +143,22 @@ int main(int argc, char *argv[]) {
     loadingScreen->updateProgress(20, "Creating application window...");
     MainWindow* mainWindow = new MainWindow(nullptr, loadingScreen);
     
+    // Handle incoming connections from other instances
+    QObject::connect(localServer, &QLocalServer::newConnection, [mainWindow, localServer]() {
+        QLocalSocket* socket = localServer->nextPendingConnection();
+        if (socket) {
+            socket->waitForReadyRead(1000);
+            QByteArray command = socket->readAll();
+            
+            if (command == "show") {
+                // Use our new public method instead
+                mainWindow->activateFromAnotherInstance();
+            }
+            
+            socket->deleteLater();
+        }
+    });
+    
     // Connect initialization progress signal
     QObject::connect(mainWindow, &MainWindow::initializationProgress,
                     loadingScreen, &LoadingScreen::updateProgress);
@@ -134,6 +174,12 @@ int main(int argc, char *argv[]) {
         // Give user a moment to see the completed progress
         QTimer::singleShot(500, [&mainWindow, loadingScreen]() {
             mainWindow->show();
+            
+            // Add this: reapply theme after window is shown
+            QTimer::singleShot(100, []() {
+                ThemeManager::instance().applyCurrentThemeToAllWindows();
+            });
+            
             loadingScreen->accept();
         });
     });

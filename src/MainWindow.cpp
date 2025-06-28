@@ -68,8 +68,7 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
 
     
     // Load the current theme directly
-    ThemeSelectWindow themeSelect;
-    Theme currentTheme = themeSelect.loadCurrentTheme();
+    Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
 
     // Apply the theme's preferred size
     setFixedSize(currentTheme.mainWindowPreferredSize);
@@ -249,6 +248,33 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
             createSystemTrayIcon();
         } else {
             qWarning() << "System tray not available - minimize to tray will not work";
+        }
+    });
+
+    // Connect debug mode change signal to update Transmitter's API URL and UI elements
+    connect(settingsWindow, &SettingsWindow::debugModeChanged, this, [this](bool enabled) {
+        // The global ISDEBUG flag is already set in SettingsWindow::activateDebugMode()
+        
+        qDebug() << "MainWindow: Debug mode changed to" << enabled;
+        
+        // Forward debug mode change to LogDisplayWindow if it exists
+        if (logDisplayWindow) {
+            logDisplayWindow->setDebugModeEnabled(enabled);
+        }
+
+        // Log the change
+        QString message = enabled ? "Debug mode activated via settings" : "Debug mode deactivated via settings";
+        if (logDisplayWindow) {
+            logDisplayWindow->updateStatusLabel(tr(message.toUtf8().constData()));
+        }
+        
+        // The Transmitter already uses ISDEBUG to determine which API URL to use
+        // so we don't need to set it directly, but we can force a debug ping to test the connection
+        if (enabled) {
+            QString apiKey = settings.value("apiKey", "").toString();
+            if (!apiKey.isEmpty()) {
+                transmitter.sendDebugPing(apiKey);
+            }
         }
     });
 }
@@ -538,6 +564,11 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
         logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
         logDisplayWindow->setWindowFlag(Qt::Window);
 
+        // Use a QueuedConnection to ensure LogDisplayWindow is fully constructed
+        QTimer::singleShot(0, []() {
+            ThemeManager::instance().applyCurrentThemeToAllWindows();
+        });
+
         // Connect LogDisplayWindow signals
         connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
             qDebug() << "LogDisplayWindow closed signal received.";
@@ -588,9 +619,6 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
             startButton->text() == "Stop Monitoring");
 
         logDisplayWindow->show();
-        settings.setValue("LogDisplay/Visible", true); // Use class member
-        logDisplayVisible = true;
-        logButton->setText(tr("Hide Log")); // Update with tr() function
     }
 }
 
@@ -731,6 +759,13 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     
     // Normal close behavior
     isShuttingDown = true;
+    
+    // Hide the system tray icon immediately to prevent ghost icons
+    if (systemTrayIcon) {
+        systemTrayIcon->hide();
+        systemTrayIcon->deleteLater();
+        systemTrayIcon = nullptr;
+    }
     
     if (logMonitor) {
         logMonitor->stopMonitoring(); // Gracefully stop monitoring
@@ -1141,19 +1176,21 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
         logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
         logDisplayWindow->setWindowFlag(Qt::Window);
 
-        // Connect the LogDisplayWindow's close signal to update the button label
+        // Apply the current theme to all windows (including the new LogDisplayWindow)
+        ThemeManager::instance().applyCurrentThemeToAllWindows();
+
+        // Connect LogDisplayWindow signals
         connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
             qDebug() << "LogDisplayWindow closed signal received.";
             
-            // Save the closed state using class member settings
+            // Save the closed state using class member
             settings.setValue("LogDisplay/Visible", false);
             logDisplayVisible = false;
             
             logDisplayWindow = nullptr;
             logButton->setText(tr("View Log"));
         });
-
-        // Connect the monitoring toggle signal
+        
         connect(logDisplayWindow, &LogDisplayWindow::toggleMonitoringRequested, 
                 this, &MainWindow::handleMonitoringToggleRequest);
                 
@@ -1314,7 +1351,12 @@ void MainWindow::createSystemTrayIcon() {
     }
 
     trayIconMenu = new QMenu(this);
-
+    
+    // Prevent the tray menu from inheriting styles
+    trayIconMenu->setStyleSheet("");
+    trayIconMenu->setAttribute(Qt::WA_StyledBackground, false);
+    trayIconMenu->setStyle(QApplication::style()); // Use system style
+    
     // Show/Hide action
     showHideAction = new QAction(tr("Show/Hide"), this);
     connect(showHideAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowHideClicked);
@@ -1335,7 +1377,7 @@ void MainWindow::createSystemTrayIcon() {
     // Create system tray icon
     systemTrayIcon = new QSystemTrayIcon(this);
     systemTrayIcon->setContextMenu(trayIconMenu);
-
+    
     // Try to load the dedicated tray PNG first
     const QString trayPngPath = ":/icons/KillAP-tray.png";
     QIcon trayPngIcon(trayPngPath);
@@ -1424,5 +1466,34 @@ void MainWindow::onSystemTrayShowHideClicked() {
 
 void MainWindow::onSystemTrayExitClicked() {
     isShuttingDown = true;
+    
+    // Hide and clean up the tray icon before quitting
+    if (systemTrayIcon) {
+        systemTrayIcon->hide();
+        systemTrayIcon->deleteLater();
+        systemTrayIcon = nullptr;
+    }
+    
     QApplication::quit();
+}
+
+void MainWindow::activateFromAnotherInstance() 
+{
+    // If window is visible but minimized, restore it
+    if (isVisible() && isMinimized()) {
+        showNormal();
+    }
+    // If hidden (in system tray), show it
+    else if (!isVisible()) {
+        show();
+    }
+    
+    // Bring to front
+    raise();
+    activateWindow();
+    
+    // If we're in system tray mode, also update the tray icon
+    if (systemTrayIcon) {
+        systemTrayIcon->setToolTip(tr("KillApi Connect (Active)"));
+    }
 }

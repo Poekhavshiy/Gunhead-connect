@@ -1,5 +1,21 @@
+/* Universal base selectors for consistency */
+QWidget, QMainWindow {
+    background: none;
+    color: #cc2c74;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+}
+
+QPushButton, QLineEdit, QComboBox, QCheckBox, QRadioButton, QLabel, QTabWidget, QTabBar, QScrollArea, QGroupBox {
+    background: none;
+    color: #cc2c74;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+}
+
+/* ...existing theme-specific selectors remain below... */
 /* Base Widget */
-QWidget {
+QWidget#MainWindow, QWidget#LogDisplayWindow, QWidget#SettingsWindow, QWidget#languageSelectWindow, QWidget#themeSelectWindow {
     background-color: #ffeef2;
     color: #cc2c74;
     font-family: "Sawarabi Gothic";
@@ -16,23 +32,37 @@ QLabel#headerLabel, QLabel#fanHeaderLabel {
 }
 
 /* Buttons */
-QPushButton {
+QWidget#MainWindow QPushButton,
+QWidget#LogDisplayWindow QPushButton,
+QWidget#SettingsWindow QPushButton,
+QWidget#languageSelectWindow QPushButton,
+QWidget#themeSelectWindow QPushButton {
     background-color: #f9629f;
     color: #fffafc;
     border: 2px solid #ffb6c1;
     border-radius: 8px;
     padding: 6px 16px;
-    font-weight: bold;
+    font-family: "Sawarabi Gothic";     /* Explicit font */
+    font-size: 11pt;                    /* Explicit size */
+    font-weight: bold;                  /* Explicit weight */
     letter-spacing: 1px;
 }
 
-QPushButton:hover {
+QWidget#MainWindow QPushButton:hover,
+QWidget#LogDisplayWindow QPushButton:hover,
+QWidget#SettingsWindow QPushButton:hover,
+QWidget#languageSelectWindow QPushButton:hover,
+QWidget#themeSelectWindow QPushButton:hover {
     background-color: #f93e61;
     border: 2px solid #cc2c74;
     color: #fffafc;
 }
 
-QPushButton:pressed {
+QWidget#MainWindow QPushButton:pressed,
+QWidget#LogDisplayWindow QPushButton:pressed,
+QWidget#SettingsWindow QPushButton:pressed,
+QWidget#languageSelectWindow QPushButton:pressed,
+QWidget#themeSelectWindow QPushButton:pressed {
     background-color: #cc2c74;
     border: 2px solid #f9629f;
 }
@@ -74,16 +104,37 @@ QGroupBox:title {
 }
 
 /* Line Edit (future use) */
-QLineEdit {
-    background-color: #fffafc;
-    color: #cc2c74;
-    border: 2px solid #ffb6c1;
+QWidget#MainWindow QLineEdit,
+QWidget#LogDisplayWindow QLineEdit,
+QWidget#SettingsWindow QLineEdit,
+QWidget#languageSelectWindow QLineEdit,
+QWidget#themeSelectWindow QLineEdit {
+    background-color: #fffafc;      /* Very light pink/white */
+    color: #cc2c74;                 /* Maid Cafe main text color */
+    border: 2px solid #ffb6c1;      /* Soft pink border */
     padding: 6px;
-    border-radius: 6px;
+    border-radius: 8px;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+    selection-background-color: #f9629f; /* Pink highlight on selection */
+    selection-color: #fffafc;
+}
+
+QWidget#MainWindow QLineEdit:focus,
+QWidget#LogDisplayWindow QLineEdit:focus,
+QWidget#SettingsWindow QLineEdit:focus,
+QWidget#languageSelectWindow QLineEdit:focus,
+QWidget#themeSelectWindow QLineEdit:focus {
+    border: 2px solid #f93e61;      /* Brighter pink border on focus */
+    background-color: #ffeef2;      /* Slightly deeper pink on focus */
 }
 
 /* ComboBox (future use) */
-QComboBox {
+QWidget#MainWindow QComboBox,
+QWidget#LogDisplayWindow QComboBox,
+QWidget#SettingsWindow QComboBox,
+QWidget#languageSelectWindow QComboBox,
+QWidget#themeSelectWindow QComboBox {
     background-color: #fffafc;
     color: #f9629f;
     border: 2px solid #f93e61;
@@ -91,16 +142,88 @@ QComboBox {
     border-radius: 6px;
 }
 
-QPushButton#themeButton[selected="true"],
+QPushButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
-    /* Example: */
-    background-color: #00aaff;
+    background-color: #f93e61;
     color: white;
-    /* Add any other selected styles here */
+    font-weight: bold;
+    border: 3px solid white;
 }
 
-QLabel#statusLabel {
+QWidget#MainWindow QLabel#statusLabel,
+QWidget#LogDisplayWindow QLabel#statusLabel,
+QWidget#SettingsWindow QLabel#statusLabel,
+QWidget#languageSelectWindow QLabel#statusLabel,
+QWidget#themeSelectWindow QLabel#statusLabel {
     font-size: 16px;
     color: #f93e61; /* Adjust color as needed */
+}
+
+/* Add specific styling for tab widgets */
+QWidget#SettingsWindow QTabWidget::pane {
+    border: 2px dashed #ffb6c1;
+    background-color: #ffeef2;
+    border-radius: 8px;
+}
+
+QWidget#SettingsWindow QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QWidget#SettingsWindow QTabBar::tab {
+    background-color: #f9629f;
+    color: #fffafc;
+    border: 2px solid #ffb6c1;
+    border-bottom-color: #ffb6c1;
+    border-radius: 8px 8px 0 0;
+    padding: 8px;
+    margin-right: 3px;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+    font-weight: bold;
+    min-width: 100px;
+}
+
+QWidget#SettingsWindow QTabBar::tab:selected {
+    background-color: #f93e61;
+    color: white;
+    border: 3px solid white;
+    border-bottom-color: #f93e61;
+}
+
+QWidget#SettingsWindow QTabBar::tab:hover {
+    background-color: #f93e61;
+    border: 2px solid #cc2c74;
+}
+
+/* Ensure all labels have appropriate contrast */
+QWidget#SettingsWindow QLabel {
+    color: #cc2c74;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+}
+
+/* Add checkbox specific styling */
+QWidget#SettingsWindow QCheckBox,
+QWidget#LogDisplayWindow QCheckBox {
+    color: #cc2c74;  /* Pink text for contrast against light background */
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+    spacing: 5px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator,
+QWidget#LogDisplayWindow QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffb6c1;
+    background-color: #ffffff;
+    border-radius: 4px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked {
+    background-color: #f93e61;
+    border: 2px solid #f93e61;
 }

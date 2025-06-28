@@ -14,8 +14,10 @@
 #include <QSignalMapper>
 #include <QVariant>
 #include <QTabWidget>
+#include <QTimer>
 #include "Transmitter.h"
 #include "ThemeSelect.h"
+#include "ThemeManager.h"
 #include "LanguageSelect.h"
 #include "SoundPlayer.h"
 #include "language_manager.h" // Include language manager header
@@ -34,11 +36,14 @@ public:
     bool getMinimizeToTray() const;  // Add getter for minimize to tray setting
     void checkForUpdates(); // Declare the function here
     void retranslateUi(); // Method to retranslate UI elements
+    bool eventFilter(QObject* watched, QEvent* event) override;
+    void activateDebugMode();
 
 signals:
     void gameFolderChanged(const QString& newFolder);
     void settingsChanged(Theme themeData); // Signal to notify when settings change
     void minimizeToTrayChanged(bool enabled); // Signal when minimize to tray setting changes
+    void debugModeChanged(bool enabled); // Add debug mode changed signal
 
 private:    // Settings fields
     QString gameFolder;
@@ -87,6 +92,10 @@ private:    // Settings fields
     // Sound player
     SoundPlayer* soundPlayer;
 
+    // Debug mode support
+    int debugClickCount;
+    QTimer* debugClickTimer;
+
 private slots:
     void toggleUpdateCheck(int state);
     void toggleMinimizeToTray(int state);  // Add slot for minimize to tray toggle
@@ -98,7 +107,6 @@ private slots:
     void toggleThemeSelectWindow();
     void toggleAutoLaunchGame(int state);  // Add slot for auto-launch game toggle
     bool isGameFolderValid(const QString& folder) const;
-
 };
 
 #endif

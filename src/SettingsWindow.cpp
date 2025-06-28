@@ -5,7 +5,9 @@
 #include "checkversion.h"
 #include "MainWindow.h"
 #include "window_utils.h"
-#include "GameLauncher.h" // Add GameLauncher include
+#include "GameLauncher.h"
+#include "globals.h"
+#include "logger.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QPushButton>
@@ -15,16 +17,19 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QTabWidget>
+#include <QTabBar> 
+#include <QMouseEvent>  // For QMouseEvent in eventFilter
 
 SettingsWindow::SettingsWindow(QWidget* parent)
     : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), 
       signalMapper(new QSignalMapper(this))
 {
+    setObjectName("SettingsWindow");
     soundPlayer = new SoundPlayer(this);
     
     // Load theme data to get the window size
     ThemeSelectWindow themeSelect;
-    Theme currentTheme = themeSelect.loadCurrentTheme();
+    Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
     
     // Always use the size from the theme JSON
     setFixedSize(currentTheme.settingsWindowPreferredSize);
@@ -75,6 +80,34 @@ void SettingsWindow::setupUI() {
     setupSoundsLanguageThemesTab(tabWidget);
     
     mainLayout->addWidget(tabWidget);
+
+    // Ensure the correct font is set before relayout
+    tabWidget->setFont(this->font());
+    QTabBar* tabBar = tabWidget->tabBar();
+    if (tabBar) {
+        // Set font and expand properties
+        tabBar->setFont(this->font());
+        tabBar->setExpanding(true); // Force tabs to fill the bar
+        
+        // Set minimum width for each tab explicitly
+        for (int i = 0; i < tabBar->count(); i++) {
+            QString tabText = tabWidget->tabText(i);
+            QFontMetrics fm(tabBar->font());
+            int textWidth = fm.horizontalAdvance(tabText);
+            int minTabWidth = textWidth + 60;
+            tabBar->setMinimumWidth(minTabWidth);
+        }
+        
+        // Update layout and visuals
+        tabBar->updateGeometry();
+        tabBar->adjustSize();
+        tabBar->repaint();
+    }
+    
+    // Update tab widget layout
+    tabWidget->updateGeometry();
+    tabWidget->adjustSize();
+    tabWidget->repaint();
 }
 
 void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
@@ -150,6 +183,19 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
 
     generalLayout->addStretch();
     tabWidget->addTab(generalTab, tr("General"));
+
+    // Set up Easter Egg for debug mode activation
+    versionLabel->setObjectName("versionLabel");
+    versionLabel->installEventFilter(this);
+    versionLabel->setCursor(Qt::PointingHandCursor); // Visual hint that it's clickable
+    debugClickCount = 0;
+    debugClickTimer = new QTimer(this);
+    debugClickTimer->setSingleShot(true);
+    debugClickTimer->setInterval(30000); // 30 seconds timeout
+    connect(debugClickTimer, &QTimer::timeout, this, [this]() {
+        debugClickCount = 0;
+        qDebug() << "Debug mode activation sequence timed out, resetting counter";
+    });
 }
 
 void SettingsWindow::setupGameTab(QTabWidget* tabWidget) {
@@ -181,7 +227,7 @@ void SettingsWindow::setupGameTab(QTabWidget* tabWidget) {
     launcherPathLayout->addWidget(browseLauncherButton);
 
     // Auto-launch checkbox
-    autoLaunchGameCheckbox = new QCheckBox(tr("Launch Star Citizen if not running when starting monitoring"), this);
+    autoLaunchGameCheckbox = new QCheckBox(tr("Auto-launch Star Citizen when monitoring starts"), this);
     connect(autoLaunchGameCheckbox, &QCheckBox::checkStateChanged, this, &SettingsWindow::toggleAutoLaunchGame);
 
     // Save button
@@ -264,7 +310,7 @@ void SettingsWindow::setupSoundsLanguageThemesTab(QTabWidget* tabWidget) {
     soundsLayout->addWidget(selectorCard);
 
     soundsLayout->addStretch();
-    tabWidget->addTab(soundsTab, tr("Sounds/Language/Themes"));
+    tabWidget->addTab(soundsTab, tr("User Interface"));
 }
 
 void SettingsWindow::loadSettings() {
@@ -541,8 +587,8 @@ void SettingsWindow::toggleThemeSelectWindow() {
         themeSelectWindow = new ThemeSelectWindow(this);
         themeSelectWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-        // Connect ThemeSelectWindow's signal to SettingsWindow
-        connect(themeSelectWindow, &ThemeSelectWindow::themeChanged, 
+        // Connect to ThemeManager's signal instead of ThemeSelectWindow's
+        connect(&ThemeManager::instance(), &ThemeManager::themeChanged, 
                 this, &SettingsWindow::onThemeChanged);
 
         // Clean up the pointer when the window is closed
@@ -719,7 +765,7 @@ void SettingsWindow::retranslateUi() {
     }
       // Update checkboxes
     updateCheckbox->setText(tr("Check for new versions on startup"));
-    autoLaunchGameCheckbox->setText(tr("Launch Star Citizen if not running when starting monitoring"));
+    autoLaunchGameCheckbox->setText(tr("Auto-Launch Star Citizen when monitoring starts"));
     minimizeToTrayCheckbox->setText(tr("Minimize to system tray instead of closing"));
     checkUpdatesButton->setText(tr("Check for updates now"));
     
@@ -775,4 +821,77 @@ void SettingsWindow::toggleMinimizeToTray(int state) {
     qDebug() << "Minimize to tray setting changed to:" << minimizeToTray;
     
     emit minimizeToTrayChanged(minimizeToTray);
+}
+
+bool SettingsWindow::eventFilter(QObject* watched, QEvent* event)
+{
+    if (watched->objectName() == "versionLabel" && event->type() == QEvent::MouseButtonPress) {
+        // Cast to QMouseEvent* using static_cast (not reinterpret_cast)
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+        
+        // Check for Ctrl+Shift+Click
+        if (mouseEvent->button() == Qt::LeftButton && 
+            (QApplication::keyboardModifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) == 
+            (Qt::ControlModifier | Qt::ShiftModifier)) {
+            
+            // Start the timer on first click
+            if (debugClickCount == 0) {
+                debugClickTimer->start();
+            }
+            
+            debugClickCount++;
+            qDebug() << "Debug activation click:" << debugClickCount;
+            
+            // Check if we've reached 5 clicks
+            if (debugClickCount >= 5) {
+                debugClickCount = 0; 
+                debugClickTimer->stop();
+                activateDebugMode();
+            }
+            return true; // Event handled
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
+}
+
+void SettingsWindow::activateDebugMode()
+{
+    // Change global setting
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    bool currentDebugMode = settings.value("DebugMode", false).toBool();
+    bool newDebugMode = !currentDebugMode;
+    settings.setValue("DebugMode", newDebugMode);
+    
+    // Update the global debug flag directly
+    extern bool ISDEBUG;
+    ISDEBUG = newDebugMode;
+    
+    // Get the version label to flash it
+    QLabel* versionLabel = findChild<QLabel*>("versionLabel");
+    if (!versionLabel) {
+        qWarning() << "Could not find versionLabel for debug mode activation feedback";
+        return;
+    }
+    
+    // Visual feedback - flash the version label
+    QString originalStyleSheet = versionLabel->styleSheet();
+    versionLabel->setStyleSheet("color: red; font-weight: bold;");
+    
+    qDebug() << "Debug mode changed to:" << newDebugMode;
+    
+    // Emit the signal about the debug mode change
+    emit debugModeChanged(newDebugMode);
+    
+    // Show feedback without reinitialization
+    QTimer::singleShot(100, this, [this, versionLabel, originalStyleSheet, newDebugMode]() {
+        if (versionLabel) {
+            versionLabel->setStyleSheet(originalStyleSheet);
+        }
+        
+        QMessageBox::information(this, 
+            newDebugMode ? "Debug Mode Activated" : "Debug Mode Deactivated",
+            newDebugMode ? 
+                "Debug mode has been activated. Additional logging will be enabled." :
+                "Debug mode has been deactivated. Returning to normal logging level.");
+    });
 }

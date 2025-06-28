@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "LogDisplayWindow.h"
 #include "log_parser.h"
+#include "ThemeManager.h"
 #include <QScrollBar>
 #include <QDebug>
 #include <QSettings>
@@ -109,6 +110,10 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
     // Add this connection to respond to language changes
     connect(&LanguageManager::instance(), &LanguageManager::languageChanged,
             this, &LogDisplayWindow::retranslateUi);
+
+    // Connect to theme changes
+    connect(&ThemeManager::instance(), &ThemeManager::themeApplied,
+            this, &LogDisplayWindow::onThemeChanged);
 }
 
 void LogDisplayWindow::resizeEvent(QResizeEvent* event) {
@@ -152,28 +157,24 @@ void LogDisplayWindow::resetLogDisplay() {
 }
 
 void LogDisplayWindow::setupUI() {
+    setObjectName("LogDisplayWindow"); // This is crucial - defines the window's identity for QSS
     setWindowTitle(tr("Killfeed Log Display"));
     setWindowIcon(QIcon(":/icons/KillAPI.ico"));
 
     // Main layout
     QWidget* container = new QWidget(this);
+    container->setObjectName("logDisplayContainer"); // Add container object name for QSS
     QVBoxLayout* mainLayout = new QVBoxLayout(container);
 
     // Control bar
     QHBoxLayout* controlBarLayout = new QHBoxLayout();
 
-    // Create a button that looks like a dropdown - remove hardcoded styling
+    // Create a button that looks like a dropdown - REMOVE custom styling
     filterDropdown = new QPushButton(tr("Select Filters   ▼"), this);
-
-    // Initial width calculation will be done after theme is applied
-    filterDropdown->setStyleSheet(
-        "QPushButton {"
-        "    text-align: left;"
-        "    padding-left: 8px;"
-        "    padding-right: 8px;"
-        "    border: 1px solid;"
-        "}"
-    );
+    filterDropdown->setObjectName("filterDropdown"); // Add object name for QSS targeting
+    
+    // Remove inline stylesheet that might override theme
+    // filterDropdown->setStyleSheet(""); // Clear any previous styling
     
     // Calculate initial width based on current font
     QTimer::singleShot(0, this, &LogDisplayWindow::updateFilterDropdownWidth);
@@ -1183,15 +1184,77 @@ void FilterDropdownWidget::onIndividualFilterChanged() {
 void LogDisplayWindow::updateFilterDropdownWidth() {
     if (!filterDropdown) return;
     
+    // Save the original stylesheet
+    QString originalStyle = filterDropdown->styleSheet();
+    
+    // Temporarily clear any text alignment that might affect measurement
+    filterDropdown->setStyleSheet("");
+    
     // Recalculate width based on current font metrics
     QFontMetrics fm(filterDropdown->font());
     int textWidth = fm.horizontalAdvance(tr("Select Filters   ▼"));
-    int padding = 16; // 8px left + 8px right padding
+    int padding = 24; // Increased padding for reliable display
     int calculatedWidth = textWidth + padding;
 
     // Update the button width
     filterDropdown->setMinimumWidth(calculatedWidth);
-    filterDropdown->setMaximumWidth(calculatedWidth + 20); // Allow slight expansion
+    filterDropdown->setMaximumWidth(calculatedWidth + 40); // More expansion room
+    
+    // Restore original style with text alignment explicitly set for dropdown
+    filterDropdown->setStyleSheet(originalStyle + " QPushButton#filterDropdown { text-align: left; padding-left: 8px; }");
     
     qDebug() << "Filter dropdown width updated to:" << calculatedWidth << "based on font:" << filterDropdown->font().toString();
+}
+
+// Implement the new method
+
+void LogDisplayWindow::setDebugModeEnabled(bool enabled)
+{
+    qDebug() << "LogDisplayWindow: Setting debug mode to" << enabled;
+    
+    // Show or hide the test buttons based on debug mode
+    if (testButton) {
+        testButton->setVisible(enabled);
+    }
+    
+    // Find the test sound button and update its visibility
+    QPushButton* testSoundBtn = findChild<QPushButton*>("testSoundButton");
+    if (testSoundBtn) {
+        testSoundBtn->setVisible(enabled);
+    }
+    
+    // Update status label with debug mode change
+    QString message = enabled ? 
+        "Debug mode enabled - test buttons visible" : 
+        "Debug mode disabled - test buttons hidden";
+    updateStatusLabel(tr(message.toUtf8().constData()));
+    
+    // If debug mode is enabled, add a debug message to the log
+    if (enabled) {
+        QString debugInfo = QString(
+            "Debug Info: Qt %1, App %2, OS: %3")
+            .arg(QT_VERSION_STR)
+            .arg(QCoreApplication::applicationVersion())
+            .arg(QSysInfo::prettyProductName());
+        
+        QJsonObject debugObj;
+        debugObj["identifier"] = "status";
+        debugObj["message"] = debugInfo;
+        
+        addEvent(QJsonDocument(debugObj).toJson());
+    }
+}
+
+void LogDisplayWindow::recalculateLayout() {
+    // Force filter dropdown to update its width
+    if (filterDropdown) {
+        updateFilterDropdownWidth();
+        
+        // Force a second update after brief delay to ensure font is fully loaded
+        QTimer::singleShot(100, this, &LogDisplayWindow::updateFilterDropdownWidth);
+    }
+}
+
+void LogDisplayWindow::onThemeChanged() {
+    recalculateLayout();
 }

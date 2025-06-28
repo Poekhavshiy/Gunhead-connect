@@ -109,6 +109,7 @@ public:
     void showSystemTrayMessage(const QString& title, const QString& message);
     void toggleMonitoring(); // Add public method to toggle monitoring
     bool getMonitoringState() const; // Add getter for monitoring state
+    void activateFromAnotherInstance();
 
 signals:
     void filterSettingsChanged(); 

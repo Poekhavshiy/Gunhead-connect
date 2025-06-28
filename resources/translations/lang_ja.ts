@@ -4,137 +4,137 @@
 <context>
     <name>CheckVersion</name>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="46"/>
+        <location filename="../../src/checkversion.cpp" line="+46"/>
         <source>Request timed out</source>
         <translation>リクエストがタイムアウトしました</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="65"/>
+        <location line="+19"/>
         <source>Failed to fetch latest app version data.</source>
         <translation>最新のアプリバージョンデータの取得に失敗しました。</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="72"/>
+        <location line="+7"/>
         <source>Failed to parse JSON: Document is null</source>
         <translation>JSONの解析に失敗しました：ドキュメントがnullです</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="78"/>
+        <location line="+6"/>
         <source>Invalid JSON in latest app response</source>
         <translation>最新のアプリレスポンスに無効なJSONがあります</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="85"/>
+        <location line="+7"/>
         <source>No tag name found in latest app response</source>
         <translation>最新のアプリレスポンスにタグ名が見つかりません</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="94"/>
+        <location line="+9"/>
         <source>Exception occurred while parsing JSON: </source>
         <translation>JSONの解析中に例外が発生しました： </translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="98"/>
+        <location line="+4"/>
         <source>Unknown exception occurred while parsing JSON</source>
         <translation>JSONの解析中に不明な例外が発生しました</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="111"/>
+        <location line="+13"/>
         <source>The version check process failed.</source>
         <translation>バージョンチェックプロセスが失敗しました。</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="135"/>
+        <location line="+24"/>
         <source>Cannot open file for writing: </source>
         <translation>書き込み用にファイルを開けません： </translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="154"/>
+        <location line="+19"/>
         <source>Failed to write all data to disk.</source>
         <translation>すべてのデータをディスクに書き込めませんでした。</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="169"/>
+        <location line="+15"/>
         <source>Network error: </source>
         <translation>ネットワークエラー： </translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="180"/>
+        <location line="+11"/>
         <source>Download timed out due to inactivity.</source>
         <translation>非アクティブのためダウンロードがタイムアウトしました。</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="199"/>
+        <location line="+19"/>
         <source>Failed to fetch latest rules.</source>
         <translation>最新のルールを取得できませんでした。</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="209"/>
+        <location line="+10"/>
         <source>Failed to parse rules: Document is null</source>
         <translation>ルールの解析に失敗しました：ドキュメントがnullです</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="215"/>
+        <location line="+6"/>
         <source>Invalid rules in latest config response</source>
         <translation>最新の設定レスポンスに無効なルールがあります</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="223"/>
+        <location line="+8"/>
         <source>Rules file is missing &apos;version&apos; key</source>
         <translation>ルールファイルに「version」キーがありません</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="230"/>
+        <location line="+7"/>
         <source>&apos;version&apos; key is not a string</source>
         <translation>「version」キーが文字列ではありません</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="234"/>
+        <location line="+4"/>
         <source>&apos;version&apos; key is empty</source>
         <translation>「version」キーが空です</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="244"/>
+        <location line="+10"/>
         <source>Exception occurred while parsing rules: </source>
         <translation>ルールの解析中に例外が発生しました： </translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="248"/>
+        <location line="+4"/>
         <source>Unknown exception occurred while parsing rules</source>
         <translation>ルールの解析中に不明な例外が発生しました</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="260"/>
+        <location line="+12"/>
         <source>Failed to fetch latest rules version.</source>
         <translation>最新のルールバージョンを取得できませんでした。</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="297"/>
+        <location line="+37"/>
         <source>Cannot open local JSON: </source>
         <translation>ローカルJSONを開けません： </translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="310"/>
+        <location line="+13"/>
         <source>Failed to parse local rules: Document is null</source>
         <translation>ローカルルールの解析に失敗しました：ドキュメントがnullです</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="316"/>
+        <location line="+6"/>
         <source>Invalid local rules format</source>
         <translation>無効なローカルルール形式です</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="323"/>
+        <location line="+7"/>
         <source>No version found in local rules</source>
         <translation>ローカルルールにバージョンが見つかりません</translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="332"/>
+        <location line="+9"/>
         <source>Exception occurred while parsing local rules: </source>
         <translation>ローカルルールの解析中に例外が発生しました： </translation>
     </message>
     <message>
-        <location filename="../../src/CheckVersion.cpp" line="336"/>
+        <location line="+4"/>
         <source>Unknown exception occurred while parsing local rules</source>
         <translation>ローカルルールの解析中に不明な例外が発生しました</translation>
     </message>
@@ -142,57 +142,57 @@
 <context>
     <name>FilterDropdownWidget</name>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1097"/>
+        <location filename="../../src/LogDisplayWindow.cpp" line="+1098"/>
         <source>Select All</source>
         <translation>すべて選択</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1109"/>
+        <location line="+12"/>
         <source>Show PvP</source>
         <translation>PvPを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1110"/>
+        <location line="+1"/>
         <source>Show player vs player kill events</source>
         <translation>プレイヤー対プレイヤーの撃破イベントを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1114"/>
+        <location line="+4"/>
         <source>Show PvE</source>
         <translation>PvEを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1115"/>
+        <location line="+1"/>
         <source>Show player vs environment (NPC) kill events</source>
         <translation>プレイヤー対環境（NPC）の撃破イベントを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1119"/>
+        <location line="+4"/>
         <source>Show Ship Events</source>
         <translation>艦船イベントを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1120"/>
+        <location line="+1"/>
         <source>Show ship destruction and vehicle events</source>
         <translation>艦船の破壊と車両イベントを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1124"/>
+        <location line="+4"/>
         <source>Show Other Events</source>
         <translation>その他のイベントを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1125"/>
+        <location line="+1"/>
         <source>Show connections, seat changes, missions, etc.</source>
         <translation>接続、座席変更、ミッションなどを表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1135"/>
+        <location line="+10"/>
         <source>Show NPC Names</source>
         <translation>NPC名を表示</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1136"/>
+        <location line="+1"/>
         <source>Show actual NPC names in events or just &apos;NPC&apos;</source>
         <translation>イベントで実際のNPC名を表示するか、単に「NPC」と表示するか</translation>
     </message>
@@ -200,221 +200,181 @@
 <context>
     <name>LanguageSelectWindow</name>
     <message>
-        <location filename="../../src/LanguageSelect.cpp" line="29"/>
-        <location filename="../../src/LanguageSelect.cpp" line="155"/>
+        <location filename="../../src/LanguageSelect.cpp" line="+30"/>
+        <location line="+127"/>
         <source>Language Selector</source>
         <translation>言語セレクター</translation>
     </message>
     <message>
-        <location filename="../../src/LanguageSelect.cpp" line="49"/>
-        <location filename="../../src/LanguageSelect.cpp" line="156"/>
+        <location line="-108"/>
+        <location line="+109"/>
         <source>&gt; LANGUAGE SELECT</source>
         <translation>&gt; 言語選択</translation>
-    </message>
-    <message>
-        <source>&gt; FAN TRANSLATIONS</source>
-        <translation type="vanished">&gt; ファン翻訳</translation>
     </message>
 </context>
 <context>
     <name>LogDisplayWindow</name>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="82"/>
+        <location filename="../../src/LogDisplayWindow.cpp" line="-1054"/>
         <source>Game mode: Persistent Universe</source>
         <translation>ゲームモード：パーシステントユニバース</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="84"/>
+        <location line="+2"/>
         <source>Game mode: Arena Commander</source>
         <translation>ゲームモード：アリーナコマンダー</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="95"/>
+        <location line="+11"/>
         <source>Killfeed Log Display Initialized</source>
         <translation>キルフィードログ表示が初期化されました</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="106"/>
+        <location line="+11"/>
         <source>API connection error detected. Monitoring stopped.</source>
         <translation>API接続エラーが検出されました。監視を停止しました。</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="155"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="950"/>
+        <location line="+54"/>
+        <location line="+790"/>
         <source>Killfeed Log Display</source>
         <translation>キルフィードログ表示</translation>
     </message>
     <message>
-        <source>Show PvP</source>
-        <translation type="vanished">PvPを表示</translation>
-    </message>
-    <message>
-        <source>Show PvP events (e.g., player kills)</source>
-        <translation type="vanished">PvPイベントを表示（例：プレイヤーキル）</translation>
-    </message>
-    <message>
-        <source>Show PvE</source>
-        <translation type="vanished">PvEを表示</translation>
-    </message>
-    <message>
-        <source>Show PvE events (e.g., NPC kills)</source>
-        <translation type="vanished">PvEイベントを表示（例：NPCキル）</translation>
-    </message>
-    <message>
-        <source>Show NPC Names</source>
-        <translation type="vanished">NPC名を表示</translation>
-    </message>
-    <message>
-        <source>Show actual NPC names in events or just &apos;NPC&apos;</source>
-        <translation type="vanished">イベントで実際のNPC名を表示するか、単に「NPC」と表示するか</translation>
-    </message>
-    <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="266"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="997"/>
+        <location line="-684"/>
+        <location line="+731"/>
         <source>Play Sound</source>
         <translation>サウンドを再生</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="267"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="998"/>
+        <location line="-730"/>
+        <location line="+731"/>
         <source>Coming soon: Play sound on events</source>
         <translation>近日公開：イベント時にサウンドを再生</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="277"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1002"/>
+        <location line="-721"/>
+        <location line="+725"/>
         <source>Test</source>
         <translation>テスト</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="283"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1007"/>
+        <location line="-719"/>
+        <location line="+724"/>
         <source>Start Monitoring</source>
         <translation>監視を開始</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="298"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1012"/>
+        <location line="-709"/>
+        <location line="+714"/>
         <source>Clear</source>
         <translation>クリア</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="304"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1015"/>
+        <location line="-708"/>
+        <location line="+711"/>
         <source>Text Color</source>
         <translation>テキスト色</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="310"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1018"/>
+        <location line="-705"/>
+        <location line="+708"/>
         <source>Background Color</source>
         <translation>背景色</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="318"/>
+        <location line="-700"/>
         <source>Increase Font Size
 CTRL + +</source>
         <translation>フォントサイズを大きく
 CTRL + +</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="326"/>
+        <location line="+8"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="328"/>
+        <location line="+2"/>
         <source>Decrease Font Size
 CTRL + -</source>
         <translation>フォントサイズを小さく
 CTRL + -</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="336"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1021"/>
+        <location line="+8"/>
+        <location line="+685"/>
         <source>Test Sound</source>
         <translation>サウンドをテスト</translation>
     </message>
     <message>
-        <source>PvP filter changed - automatically applying changes</source>
-        <translation type="vanished">PvPフィルターが変更されました - 変更を自動適用しています</translation>
-    </message>
-    <message>
-        <source>PvE filter changed - automatically applying changes</source>
-        <translation type="vanished">PvEフィルターが変更されました - 変更を自動適用しています</translation>
-    </message>
-    <message>
-        <source>NPC name filter changed - automatically applying changes</source>
-        <translation type="vanished">NPC名フィルターが変更されました - 変更を自動適用しています</translation>
-    </message>
-    <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="686"/>
+        <location line="-335"/>
         <source>Killfeed Log Display Cleared</source>
         <translation>キルフィードログ表示がクリアされました</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="928"/>
+        <location line="+242"/>
         <source>Game folder updated. Ready to start monitoring.</source>
         <translation>ゲームフォルダが更新されました。監視を開始する準備ができました。</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="962"/>
+        <location line="+34"/>
         <source> - Player: %1</source>
         <translation> - プレイヤー：%1</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="964"/>
+        <location line="+2"/>
         <source> - Player: [Unknown]</source>
         <translation> - プレイヤー：[不明]</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="969"/>
+        <location line="+5"/>
         <source> - Game Mode: Persistent Universe</source>
         <translation> - ゲームモード：パーシステントユニバース</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="971"/>
+        <location line="+2"/>
         <source> - Game Mode: Arena Commander</source>
         <translation> - ゲームモード：アリーナコマンダー</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="973"/>
+        <location line="+2"/>
         <source> (%1)</source>
         <translation> (%1)</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="976"/>
+        <location line="+3"/>
         <source> - Game Mode: %1</source>
         <translation> - ゲームモード：%1</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="990"/>
+        <location line="+14"/>
         <source>Select Filters     ▼</source>
         <translation>フィルターを選択     ▼</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1007"/>
+        <location line="+17"/>
         <source>Stop Monitoring</source>
         <translation>監視を停止</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="793"/>
+        <location line="-214"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
         <translation>エラー：APIキーが設定されていません。設定で設定してください。</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="166"/>
-        <location filename="../../src/LogDisplayWindow.cpp" line="1188"/>
+        <location line="-621"/>
+        <location line="+1022"/>
         <source>Select Filters   ▼</source>
         <translation>フィルターを選択   ▼</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="798"/>
+        <location line="-396"/>
         <source>Starting test data processing...</source>
         <translation>テストデータ処理を開始しています...</translation>
     </message>
     <message>
-        <location filename="../../src/LogDisplayWindow.cpp" line="839"/>
+        <location line="+41"/>
         <source>Test data processing complete.</source>
         <translation>テストデータ処理が完了しました。</translation>
     </message>
@@ -422,7 +382,7 @@ CTRL + -</translation>
 <context>
     <name>LogMonitor</name>
     <message>
-        <location filename="../../src/logmonitor.cpp" line="152"/>
+        <location filename="../../src/logmonitor.cpp" line="+152"/>
         <source>Game mode changed, monitoring reset</source>
         <translation>ゲームモードが変更されました、監視をリセットします</translation>
     </message>
@@ -430,241 +390,245 @@ CTRL + -</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/mainwindow.ui" line="6"/>
+        <location filename="../../ui/mainwindow.ui" line="+6"/>
         <source>KillAPI</source>
         <translation>KillAPI</translation>
     </message>
     <message>
-        <location filename="../../ui/mainwindow.ui" line="13"/>
+        <location line="+7"/>
         <source>Enter API Key</source>
         <translation>APIキーを入力</translation>
     </message>
     <message>
-        <location filename="../../ui/mainwindow.ui" line="20"/>
+        <location line="+7"/>
         <source>Start</source>
         <translation>開始</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="91"/>
-        <location filename="../../src/MainWindow.cpp" line="517"/>
-        <location filename="../../src/MainWindow.cpp" line="1272"/>
-        <location filename="../../src/MainWindow.cpp" line="1285"/>
-        <location filename="../../src/MainWindow.cpp" line="1324"/>
-        <location filename="../../src/MainWindow.cpp" line="1411"/>
+        <location filename="../../src/MainWindow.cpp" line="+90"/>
+        <location line="+453"/>
+        <location line="+766"/>
+        <location line="+13"/>
+        <location line="+44"/>
+        <location line="+87"/>
         <source>Start Monitoring</source>
         <translation>監視を開始</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="94"/>
-        <location filename="../../src/MainWindow.cpp" line="1273"/>
+        <location line="-1360"/>
+        <location line="+1217"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="97"/>
-        <location filename="../../src/MainWindow.cpp" line="534"/>
-        <location filename="../../src/MainWindow.cpp" line="550"/>
-        <location filename="../../src/MainWindow.cpp" line="1153"/>
-        <location filename="../../src/MainWindow.cpp" line="1207"/>
-        <location filename="../../src/MainWindow.cpp" line="1279"/>
+        <location line="-1214"/>
+        <location line="+464"/>
+        <location line="+21"/>
+        <location line="+610"/>
+        <location line="+53"/>
+        <location line="+72"/>
         <source>View Log</source>
         <translation>ログを表示</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="103"/>
+        <location line="-1214"/>
         <source>Ready</source>
         <translation>準備完了</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="147"/>
+        <location line="+44"/>
         <source>Monitoring started successfully.</source>
         <translation>監視が正常に開始されました。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="195"/>
-        <location filename="../../src/MainWindow.cpp" line="990"/>
+        <location line="+48"/>
+        <location line="+831"/>
         <source>Game mode: Persistent Universe</source>
         <translation>ゲームモード：パーシステントユニバース</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="197"/>
-        <location filename="../../src/MainWindow.cpp" line="992"/>
+        <location line="-829"/>
+        <location line="+831"/>
         <source>Game mode: Arena Commander: %1</source>
         <translation>ゲームモード：アリーナコマンダー：%1</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="203"/>
-        <location filename="../../src/MainWindow.cpp" line="1099"/>
+        <location line="-825"/>
+        <location line="+932"/>
         <source>Game mode changed to Persistent Universe</source>
         <translation>ゲームモードがパーシステントユニバースに変更されました</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="205"/>
-        <location filename="../../src/MainWindow.cpp" line="1101"/>
+        <location line="-930"/>
+        <location line="+932"/>
         <source>Game mode changed to Arena Commander: %1</source>
         <translation>ゲームモードがアリーナコマンダーに変更されました：%1</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="305"/>
+        <location line="-805"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
         <translation>エラー：APIキーが設定されていません。設定で設定してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="310"/>
+        <location line="+5"/>
         <source>Verifying API connection...</source>
         <translation>API接続を確認しています...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="317"/>
+        <location line="+7"/>
         <source>Error: Could not connect to KillAPI server. Monitoring not started.</source>
         <translation>エラー：KillAPIサーバーに接続できませんでした。監視は開始されていません。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="321"/>
+        <location line="+4"/>
         <source>ERROR: Failed to connect to KillAPI server. Please check your API key and internet connection.</source>
         <translation>エラー：KillAPIサーバーへの接続に失敗しました。APIキーとインターネット接続を確認してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="334"/>
+        <location line="+13"/>
         <source>Connected to KillAPI server successfully. Monitoring started.</source>
         <translation>KillAPIサーバーに正常に接続しました。監視を開始しました。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="364"/>
+        <location line="+30"/>
         <source>Star Citizen not running. Attempting to launch...</source>
         <translation>Star Citizenが実行されていません。起動を試みています...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="372"/>
+        <location line="+8"/>
         <source>Failed to launch: RSI Launcher path not configured. Please set it in Settings.</source>
         <translation>起動に失敗: RSIランチャーのパスが設定されていません。設定で設定してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="380"/>
+        <location line="+8"/>
         <source>Failed to launch: RSI Launcher not found at configured path. Please check Settings.</source>
         <translation>起動に失敗: 設定されたパスにRSIランチャーが見つかりません。設定を確認してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="387"/>
+        <location line="+7"/>
         <source>Star Citizen launched. Waiting for game to start...</source>
         <translation>Star Citizenが起動しました。ゲームの開始を待っています...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="396"/>
+        <location line="+9"/>
         <source>Failed to launch Star Citizen. Continuing with monitoring...</source>
         <translation>Star Citizenの起動に失敗しました。監視を続行しています...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="416"/>
+        <location line="+20"/>
         <source>Error: Game log file not found.</source>
         <translation>エラー：ゲームログファイルが見つかりません。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="473"/>
+        <location line="+57"/>
         <source>Monitoring started.</source>
         <translation>監視を開始しました。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="520"/>
-        <location filename="../../src/MainWindow.cpp" line="737"/>
+        <location line="+47"/>
+        <location line="+226"/>
         <source>Monitoring stopped.</source>
         <translation>監視を停止しました。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="593"/>
-        <location filename="../../src/MainWindow.cpp" line="1189"/>
-        <location filename="../../src/MainWindow.cpp" line="1277"/>
+        <location line="+454"/>
+        <location line="+88"/>
         <source>Hide Log</source>
         <translation>ログを隠す</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="721"/>
-        <location filename="../../src/MainWindow.cpp" line="1289"/>
-        <location filename="../../src/MainWindow.cpp" line="1366"/>
+        <location line="+183"/>
+        <source>KillApi Connect (Active)</source>
+        <translation>KillApi Connect (アクティブ)</translation>
+    </message>
+    <message>
+        <location line="-748"/>
+        <location line="+577"/>
+        <location line="+82"/>
         <source>KillApiConnect Plus</source>
         <translation>KillApiConnect Plus</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="722"/>
+        <location line="-658"/>
         <source>Application was minimized to tray</source>
         <translation>アプリケーションがトレイに最小化されました</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="740"/>
+        <location line="+25"/>
         <source>MainWindow closed, stopping monitoring and closing LogDisplayWindow.</source>
         <translation>メインウィンドウが閉じられました、監視を停止してログ表示ウィンドウを閉じています。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="786"/>
+        <location line="+46"/>
         <source>Please configure the game directory and API key.</source>
         <translation>ゲームディレクトリとAPIキーを設定してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="788"/>
+        <location line="+2"/>
         <source>Please configure the game directory.</source>
         <translation>ゲームディレクトリを設定してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="790"/>
+        <location line="+2"/>
         <source>Please configure your API key.</source>
         <translation>APIキーを設定してください。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="792"/>
+        <location line="+2"/>
         <source>Game log file not found in the selected directory.</source>
         <translation>選択したディレクトリにゲームログファイルが見つかりません。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="794"/>
+        <location line="+2"/>
         <source>Ready to start monitoring.</source>
         <translation>監視を開始する準備ができました。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="868"/>
-        <location filename="../../src/MainWindow.cpp" line="888"/>
-        <location filename="../../src/MainWindow.cpp" line="908"/>
-        <location filename="../../src/MainWindow.cpp" line="928"/>
-        <location filename="../../src/MainWindow.cpp" line="947"/>
+        <location line="+74"/>
+        <location line="+20"/>
+        <location line="+20"/>
+        <location line="+20"/>
+        <location line="+19"/>
         <source>Filter changed - automatically applying changes</source>
         <translation>フィルターが変更されました - 変更を自動適用しています</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="994"/>
+        <location line="+47"/>
         <source>Game mode: Unknown</source>
         <translation>ゲームモード：不明</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1007"/>
+        <location line="+13"/>
         <source>Game folder updated. Ready to start monitoring.</source>
         <translation>ゲームフォルダが更新されました。監視を開始する準備ができました。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1127"/>
+        <location line="+120"/>
         <source>API connection error detected during routine check</source>
         <translation>定期チェック中にAPI接続エラーが検出されました</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1269"/>
+        <location line="+144"/>
         <source>KillAPI Connect Plus</source>
         <translation>KillAPI Connect Plus</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1284"/>
-        <location filename="../../src/MainWindow.cpp" line="1319"/>
+        <location line="+15"/>
+        <location line="+40"/>
         <source>Show/Hide</source>
         <translation>表示/非表示</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1286"/>
-        <location filename="../../src/MainWindow.cpp" line="1331"/>
+        <location line="-38"/>
+        <location line="+50"/>
         <source>Exit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="465"/>
-        <location filename="../../src/MainWindow.cpp" line="1272"/>
-        <location filename="../../src/MainWindow.cpp" line="1285"/>
-        <location filename="../../src/MainWindow.cpp" line="1411"/>
+        <location line="-882"/>
+        <location line="+818"/>
+        <location line="+13"/>
+        <location line="+131"/>
         <source>Stop Monitoring</source>
         <translation>監視を停止</translation>
     </message>
@@ -672,151 +636,144 @@ CTRL + -</translation>
 <context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="61"/>
-        <location filename="../../src/SettingsWindow.cpp" line="688"/>
+        <location filename="../../src/SettingsWindow.cpp" line="+66"/>
+        <location line="+668"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="85"/>
-        <location filename="../../src/SettingsWindow.cpp" line="701"/>
+        <location line="-616"/>
+        <location line="+629"/>
         <source>Version: </source>
         <translation>バージョン： </translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="93"/>
-        <location filename="../../src/SettingsWindow.cpp" line="704"/>
+        <location line="-621"/>
+        <location line="+624"/>
         <source>Check for Updates</source>
         <translation>アップデートを確認</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="107"/>
-        <location filename="../../src/SettingsWindow.cpp" line="721"/>
+        <location line="-610"/>
+        <location line="+627"/>
         <source>Check for new versions on startup</source>
         <translation>起動時に新しいバージョンを確認</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="109"/>
-        <location filename="../../src/SettingsWindow.cpp" line="724"/>
+        <location line="-625"/>
+        <location line="+628"/>
         <source>Check for updates now</source>
         <translation>今すぐアップデートを確認</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="160"/>
-        <location filename="../../src/SettingsWindow.cpp" line="706"/>
+        <location line="-564"/>
+        <location line="+546"/>
         <source>Game LIVE Folder Path</source>
         <translation>ゲームLIVEフォルダパス</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="163"/>
-        <location filename="../../src/SettingsWindow.cpp" line="175"/>
-        <location filename="../../src/SettingsWindow.cpp" line="729"/>
-        <location filename="../../src/SettingsWindow.cpp" line="732"/>
+        <location line="-543"/>
+        <location line="+12"/>
+        <location line="+554"/>
+        <location line="+3"/>
         <source>Browse</source>
         <translation>参照</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="188"/>
-        <location filename="../../src/SettingsWindow.cpp" line="735"/>
+        <location line="-544"/>
+        <location line="+547"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="123"/>
-        <location filename="../../src/SettingsWindow.cpp" line="712"/>
+        <location line="-625"/>
+        <location line="+602"/>
         <source>KillAPI Key</source>
         <translation>KillAPIキー</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="127"/>
-        <location filename="../../src/SettingsWindow.cpp" line="738"/>
+        <location line="-598"/>
+        <location line="+624"/>
         <source>Save API Key</source>
         <translation>APIキーを保存</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="141"/>
-        <location filename="../../src/SettingsWindow.cpp" line="723"/>
+        <location line="-610"/>
+        <location line="+595"/>
         <source>Minimize to system tray instead of closing</source>
         <translation>閉じる代わりにシステムトレイに最小化</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="152"/>
-        <location filename="../../src/SettingsWindow.cpp" line="692"/>
+        <location line="-584"/>
+        <location line="+553"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="172"/>
-        <location filename="../../src/SettingsWindow.cpp" line="709"/>
+        <location line="-520"/>
+        <location line="+537"/>
         <source>RSI Launcher Path</source>
         <translation>RSIランチャーのパス</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="184"/>
-        <location filename="../../src/SettingsWindow.cpp" line="722"/>
-        <source>Launch Star Citizen if not running when starting monitoring</source>
-        <translation>監視開始時にStar Citizenが実行されていない場合は起動する</translation>
-    </message>
-    <message>
-        <location filename="../../src/SettingsWindow.cpp" line="210"/>
-        <location filename="../../src/SettingsWindow.cpp" line="693"/>
+        <location line="-499"/>
+        <location line="+483"/>
         <source>Game</source>
         <translation>ゲーム</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="218"/>
-        <location filename="../../src/SettingsWindow.cpp" line="714"/>
+        <location line="-475"/>
+        <location line="+496"/>
         <source>Select Notification Sound</source>
         <translation>通知音を選択</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="225"/>
-        <location filename="../../src/SettingsWindow.cpp" line="741"/>
+        <location line="-489"/>
+        <location line="+516"/>
         <source>Test</source>
         <translation>テスト</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="252"/>
-        <location filename="../../src/SettingsWindow.cpp" line="744"/>
+        <location line="-489"/>
+        <location line="+492"/>
         <source>Change Language</source>
         <translation>言語を変更</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="257"/>
-        <location filename="../../src/SettingsWindow.cpp" line="747"/>
+        <location line="-487"/>
+        <location line="+490"/>
         <source>Change Theme</source>
         <translation>テーマを変更</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="267"/>
-        <location filename="../../src/SettingsWindow.cpp" line="694"/>
+        <location line="-53"/>
         <source>Sounds/Language/Themes</source>
         <translation>サウンド/言語/テーマ</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="354"/>
+        <location line="-340"/>
         <source>Select Game Folder</source>
         <translation>ゲームフォルダを選択</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="357"/>
-        <location filename="../../src/SettingsWindow.cpp" line="377"/>
+        <location line="+3"/>
+        <location line="+20"/>
         <source>Invalid Folder</source>
         <translation>無効なフォルダ</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="358"/>
-        <location filename="../../src/SettingsWindow.cpp" line="378"/>
+        <location line="-19"/>
+        <location line="+20"/>
         <source>Selected folder does not contain Star Citizen launcher.</source>
         <translation>選択したフォルダにStar Citizenランチャーが含まれていません。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="415"/>
+        <location line="+37"/>
         <source>Panel Closed Error</source>
         <translation>パネル閉鎖エラー</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="416"/>
+        <location line="+1"/>
         <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.
 
 This means your API key may be valid, but the Discord panel associated with it has been closed by an administrator or does not exist anymore.
@@ -829,12 +786,12 @@ Please reopen the KillAPI panel or contact your Discord server administrator if 
 これがエラーだと思われる場合は、KillAPIパネルを再度開くか、Discordサーバー管理者に連絡してください。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="424"/>
+        <location line="+8"/>
         <source>Authentication Error</source>
         <translation>認証エラー</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="425"/>
+        <location line="+1"/>
         <source>Invalid API key. The server rejected your credentials.
 
 Please check your API key and try again. Make sure you copied the entire key without any extra spaces or characters.</source>
@@ -843,129 +800,144 @@ Please check your API key and try again. Make sure you copied the entire key wit
 APIキーを確認して再試行してください。余分なスペースや文字なしで、キー全体をコピーしたことを確認してください。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="434"/>
+        <location line="+9"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="434"/>
+        <location line="+0"/>
         <source>KillAPI connected successfully!</source>
         <translation>KillAPIが正常に接続されました！</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="438"/>
+        <location line="+4"/>
         <source>Connection Error</source>
         <translation>接続エラー</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="439"/>
+        <location line="+1"/>
         <source>Failed to connect to KillAPI. Please check your internet connection and try again.</source>
         <translation>KillAPIへの接続に失敗しました。インターネット接続を確認して再試行してください。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="529"/>
+        <location line="+90"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="717"/>
+        <location line="+188"/>
         <source>Auto-launch Star Citizen</source>
         <translation>Star Citizenを自動起動</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="755"/>
+        <location line="+5"/>
+        <source>Auto-Launch Star Citizen when monitoring starts</source>
+        <translation>監視が開始されるときにStar Citizenを自動起動</translation>
+    </message>
+    <message>
+        <location line="+33"/>
         <source>Select RSI Launcher</source>
         <translation>RSIランチャーを選択</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="755"/>
+        <location line="+0"/>
         <source>Executable Files (*.exe)</source>
         <translation>実行可能ファイル (*.exe)</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="442"/>
+        <location line="-313"/>
         <source>API Key Saved</source>
         <translation>APIキーが保存されました</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="442"/>
+        <location line="-258"/>
+        <source>Auto-launch Star Citizen when monitoring starts</source>
+        <translation>監視が開始されるときにStar Citizenを自動起動</translation>
+    </message>
+    <message>
+        <location line="+83"/>
+        <source>User Interface</source>
+        <translation>ユーザーインターフェース</translation>
+    </message>
+    <message>
+        <location line="+175"/>
         <source>Your API key has been saved.</source>
         <translation>APIキーが保存されました。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="469"/>
+        <location line="+27"/>
         <source>Updates Available</source>
         <translation>アップデートが利用可能</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="470"/>
+        <location line="+1"/>
         <source>Updates are available. Would you like to download them?</source>
         <translation>アップデートが利用可能です。ダウンロードしますか？</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="479"/>
+        <location line="+9"/>
         <source>Save Installer</source>
         <translation>インストーラーを保存</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="481"/>
+        <location line="+2"/>
         <source>Installer Files (*.msi)</source>
         <translation>インストーラーファイル (*.msi)</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="492"/>
-        <location filename="../../src/SettingsWindow.cpp" line="516"/>
+        <location line="+11"/>
+        <location line="+24"/>
         <source>Update Successful</source>
         <translation>アップデート成功</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="492"/>
+        <location line="-24"/>
         <source>App updated successfully.</source>
         <translation>アプリが正常に更新されました。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="496"/>
+        <location line="+4"/>
         <source>Run Installer</source>
         <translation>インストーラーを実行</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="497"/>
+        <location line="+1"/>
         <source>The installer has been downloaded. Would you like to run it now?</source>
         <translation>インストーラーがダウンロードされました。今すぐ実行しますか？</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="506"/>
-        <location filename="../../src/SettingsWindow.cpp" line="519"/>
+        <location line="+9"/>
+        <location line="+13"/>
         <source>Update Failed</source>
         <translation>アップデート失敗</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="506"/>
+        <location line="-13"/>
         <source>Failed to update app.</source>
         <translation>アプリの更新に失敗しました。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="516"/>
+        <location line="+10"/>
         <source>JSON file updated successfully.</source>
         <translation>JSONファイルが正常に更新されました。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="519"/>
+        <location line="+3"/>
         <source>Failed to update JSON file.</source>
         <translation>JSONファイルの更新に失敗しました。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="526"/>
+        <location line="+7"/>
         <source>No Updates</source>
         <translation>アップデートなし</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="526"/>
+        <location line="+0"/>
         <source>Your application and JSON file are up-to-date.</source>
         <translation>アプリケーションとJSONファイルは最新です。</translation>
     </message>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="529"/>
+        <location line="+3"/>
         <source>An error occurred while checking for updates.
  Please check your internet connection and try again.</source>
         <translation>アップデートの確認中にエラーが発生しました。
@@ -975,14 +947,14 @@ APIキーを確認して再試行してください。余分なスペースや�
 <context>
     <name>ThemeSelectWindow</name>
     <message>
-        <location filename="../../src/ThemeSelect.cpp" line="20"/>
-        <location filename="../../src/ThemeSelect.cpp" line="220"/>
+        <location filename="../../src/ThemeSelect.cpp" line="+33"/>
+        <location line="+83"/>
         <source>Theme Selector</source>
         <translation>テーマセレクター</translation>
     </message>
     <message>
-        <location filename="../../src/ThemeSelect.cpp" line="39"/>
-        <location filename="../../src/ThemeSelect.cpp" line="221"/>
+        <location line="-60"/>
+        <location line="+61"/>
         <source>&gt; THEME SELECTOR</source>
         <translation>&gt; テーマセレクター</translation>
     </message>
@@ -990,36 +962,36 @@ APIキーを確認して再試行してください。余分なスペースや�
 <context>
     <name>Transmitter</name>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="151"/>
-        <location filename="../../src/Transmitter.cpp" line="235"/>
-        <location filename="../../src/Transmitter.cpp" line="512"/>
+        <location filename="../../src/Transmitter.cpp" line="+151"/>
+        <location line="+84"/>
+        <location line="+277"/>
         <source>The KillAPI panel for this server has been closed or doesn&apos;t exist.</source>
         <translation>このサーバーのKillAPIパネルは閉鎖されているか存在しません。</translation>
     </message>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="155"/>
-        <location filename="../../src/Transmitter.cpp" line="239"/>
-        <location filename="../../src/Transmitter.cpp" line="516"/>
+        <location line="-357"/>
+        <location line="+84"/>
+        <location line="+277"/>
         <source>Invalid API key. Please check your API key and try again.</source>
         <translation>無効なAPIキーです。APIキーを確認して再試行してください。</translation>
     </message>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="507"/>
+        <location line="-9"/>
         <source>API Error: %1</source>
         <translation>APIエラー：%1</translation>
     </message>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="542"/>
+        <location line="+35"/>
         <source>Internal server error</source>
         <translation>内部サーバーエラー</translation>
     </message>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="544"/>
+        <location line="+2"/>
         <source>Invalid API key</source>
         <translation>無効なAPIキー</translation>
     </message>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="546"/>
+        <location line="+2"/>
         <source>Panel is closed. Please login to the website first.</source>
         <translation>パネルが閉じられています。まずウェブサイトにログインしてください。</translation>
     </message>

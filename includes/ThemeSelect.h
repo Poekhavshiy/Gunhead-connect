@@ -6,29 +6,12 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <QSettings>
-#include <QFile>
-#include <QFontDatabase>
-#include <QApplication>
 #include <QButtonGroup>
 #include <QVector>
 #include <QString>
-#include <QSize>
 #include <QStyle>
 #include "language_manager.h"
-
-struct Theme {
-    QString stylePath;
-    QString friendlyName;
-    QString fontPath;
-    QString backgroundImage;
-    QSize mainWindowPreferredSize;
-    QSize chooseThemeWindowPreferredSize;    
-    QSize chooseLanguageWindowPreferredSize;
-    QSize settingsWindowPreferredSize;
-    QSize statusLabelPreferredSize; // New property for status label sizing
-    int mainButtonRightSpace; // New property for button right spacing
-};
+#include "ThemeManager.h"  // Include ThemeManager
 
 class ThemeSelectWindow : public QMainWindow {
     Q_OBJECT
@@ -36,23 +19,15 @@ class ThemeSelectWindow : public QMainWindow {
 public:
     explicit ThemeSelectWindow(QWidget* parent = nullptr);
     void init(QApplication& app);  // Call this early in main()
-    Theme loadCurrentTheme();  // Returns {qssPath, fontPath}
-
-
-signals:
-    void themeChanged(Theme themeData); // Signal to notify theme change
 
 private:
     QVBoxLayout* mainLayout;
     QLabel* header;
     QPushButton* selectButton;
-
-    QVector<Theme> loadThemes(); // Function to load embedded themes
     QPushButton* m_currentThemeButton = nullptr;
 
     void connectSignals();
-    void applyTheme(const Theme& theme);
-    void saveTheme(const Theme& t); // Save the current theme to settings
+    QMainWindow* findMainWindow();
 
 private slots:
     void retranslateUi();

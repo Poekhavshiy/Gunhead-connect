@@ -91,6 +91,8 @@ public:
     void disableMonitoringButton(const QString& text);
     void enableMonitoringButton(const QString& text);
     void updateFilterDropdownWidth();
+    void setDebugModeEnabled(bool enabled);
+    void recalculateLayout();
 
 signals:
     void windowClosed();
@@ -179,5 +181,5 @@ public slots:
     void processLogQueue(const QString& log);
     void updateFilterSettings(bool showPvP, bool showPvE, bool showNPCNames);
     void updateWindowTitle(const QString& gameMode, const QString& subGameMode);
-
+    void onThemeChanged();
 };

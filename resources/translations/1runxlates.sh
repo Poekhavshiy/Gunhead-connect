@@ -21,7 +21,7 @@ TRANSLATION_FILES=(
 if [ "$1" == "update" ]; then
     # Update translation files
     for ts_file in "${TRANSLATION_FILES[@]}"; do
-        $QT_BIN/lupdate . -ts "$ts_file"
+        $QT_BIN/lupdate -locations relative -no-obsolete -source-language en . -ts "$ts_file"
     done
     echo "Translation files updated."
     

@@ -1,5 +1,21 @@
+/* Universal base selectors for consistency */
+QWidget, QMainWindow {
+    background: none;
+    color: #f8f8f2;
+    font-family: "Code-NewRoman";
+    font-size: 11pt;
+}
+
+QPushButton, QLineEdit, QComboBox, QCheckBox, QRadioButton, QLabel, QTabWidget, QTabBar, QScrollArea, QGroupBox {
+    background: none;
+    color: #f8f8f2;
+    font-family: "Code-NewRoman";
+    font-size: 11pt;
+}
+
+/* ...existing theme-specific selectors remain below... */
 /* Base */
-QWidget {
+QWidget#MainWindow, QWidget#LogDisplayWindow, QWidget#SettingsWindow, QWidget#languageSelectWindow, QWidget#themeSelectWindow {
     background-color: #282a36;
     color: #f8f8f2;
     font-family: Code-NewRoman;
@@ -14,23 +30,37 @@ QLabel#headerLabel, QLabel#fanHeaderLabel {
 }
 
 /* Push Buttons */
-QPushButton {
+QWidget#MainWindow QPushButton,
+QWidget#LogDisplayWindow QPushButton,
+QWidget#SettingsWindow QPushButton,
+QWidget#languageSelectWindow QPushButton,
+QWidget#themeSelectWindow QPushButton {
     background-color: #44475a;
     color: #f8f8f2;
     border: 1px solid #6272a4;
     border-radius: 4px;
     padding: 6px 12px;
-    font-weight: normal;
+    font-family: "Code-NewRoman";       /* Explicit font */
+    font-size: 11pt;                    /* Explicit size */
+    font-weight: normal;                /* Explicit weight */
     letter-spacing: normal;
 }
 
-QPushButton:hover {
+QWidget#MainWindow QPushButton:hover,
+QWidget#LogDisplayWindow QPushButton:hover,
+QWidget#SettingsWindow QPushButton:hover,
+QWidget#languageSelectWindow QPushButton:hover,
+QWidget#themeSelectWindow QPushButton:hover {
     background-color: #6272a4;
     color: #f8f8f2;
     border: 1px solid #bd93f9;
 }
 
-QPushButton:pressed {
+QWidget#MainWindow QPushButton:pressed,
+QWidget#LogDisplayWindow QPushButton:pressed,
+QWidget#SettingsWindow QPushButton:pressed,
+QWidget#languageSelectWindow QPushButton:pressed,
+QWidget#themeSelectWindow QPushButton:pressed {
     background-color: #bd93f9;
     color: #282a36;
 }
@@ -54,7 +84,11 @@ QScrollArea {
 }
 
 /* Line edits (if needed later) */
-QLineEdit {
+QWidget#MainWindow QLineEdit,
+QWidget#LogDisplayWindow QLineEdit,
+QWidget#SettingsWindow QLineEdit,
+QWidget#languageSelectWindow QLineEdit,
+QWidget#themeSelectWindow QLineEdit {
     background-color: #44475a;
     color: #f8f8f2;
     border: 1px solid #6272a4;
@@ -62,7 +96,11 @@ QLineEdit {
 }
 
 /* Comboboxes */
-QComboBox {
+QWidget#MainWindow QComboBox,
+QWidget#LogDisplayWindow QComboBox,
+QWidget#SettingsWindow QComboBox,
+QWidget#languageSelectWindow QComboBox,
+QWidget#themeSelectWindow QComboBox {
     background-color: #44475a;
     color: #f8f8f2;
     border: 1px solid #6272a4;
@@ -82,16 +120,60 @@ QGroupBox:title {
     color: #bd93f9;
 }
 
-QPushButton#themeButton[selected="true"],
+QPushButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
-    /* Example: */
-    background-color: #00aaff;
-    color: white;
-    /* Add any other selected styles here */
+    background-color: #ff79c6;
+    color: #282a36;
+    font-weight: bold;
+    border: 1px solid #bd93f9;
 }
 
-QLabel#statusLabel {
+QWidget#MainWindow QLabel#statusLabel,
+QWidget#LogDisplayWindow QLabel#statusLabel,
+QWidget#SettingsWindow QLabel#statusLabel,
+QWidget#languageSelectWindow QLabel#statusLabel,
+QWidget#themeSelectWindow QLabel#statusLabel {
     font-size: 16px;
     color: #d0c8b0; /* Adjust color as needed */
+}
+
+/* Add specific styling for tab widgets */
+QWidget#SettingsWindow QTabWidget::pane {
+    border: 1px solid #6272a4;
+    background-color: #282a36;
+}
+
+QWidget#SettingsWindow QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QWidget#SettingsWindow QTabBar::tab {
+    background-color: #44475a;
+    color: #f8f8f2;
+    border: 1px solid #6272a4;
+    border-bottom-color: #6272a4;
+    padding: 8px;
+    margin-right: 2px;
+    font-family: "Code-NewRoman";
+    font-size: 11pt;
+    min-width: 80px;
+}
+
+QWidget#SettingsWindow QTabBar::tab:selected {
+    background-color: #bd93f9;
+    color: #282a36;
+    border-bottom-color: #bd93f9;
+    font-weight: bold;
+}
+
+QWidget#SettingsWindow QTabBar::tab:hover {
+    background-color: #6272a4;
+}
+
+/* Ensure all labels in Settings have appropriate contrast */
+QWidget#SettingsWindow QLabel {
+    color: #f8f8f2;
+    font-family: "Code-NewRoman";
+    font-size: 11pt;
 }

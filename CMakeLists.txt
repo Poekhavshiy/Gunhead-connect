@@ -48,6 +48,7 @@ set(SOURCES
     ${SRC_DIR}/SoundPlayer.cpp
     ${SRC_DIR}/LoadingScreen.cpp
     ${SRC_DIR}/GameLauncher.cpp
+    ${SRC_DIR}/ThemeManager.cpp
 )
 
 set(HEADERS
@@ -66,6 +67,7 @@ set(HEADERS
     ${INC_DIR}/SoundPlayer.h
     ${INC_DIR}/LoadingScreen.h
     ${INC_DIR}/GameLauncher.h
+    ${INC_DIR}/ThemeManager.h
 )
 
 set(UIS
