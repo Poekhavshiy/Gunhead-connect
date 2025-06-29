@@ -1,7 +1,7 @@
 # Gunhead Connect
 
 Gunhead Connect is a cross-platform desktop application written in C++ (using MinGW64 on Windows) and Qt6. It is designed to integrate with the Gunhead Discord Bot and optionally display real-time event logs from **Star Citizen** in a customizable window. The application provides a user-friendly interface for configuring settings, monitoring logs, and interacting with the Gunhead API.
-![Action](https://imgur.com/a/AWk6Nz0)
+![Action](https://github.com/user-attachments/assets/a4716972-813f-4fde-9d46-20d3e0cfb93e)
 ![App Screenshot](https://i.imgur.com/gGIvUYl.png)
 
 ---
