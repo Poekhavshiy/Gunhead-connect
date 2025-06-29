@@ -37,7 +37,7 @@ jobs:
             
             # Create payload with bold author in content field
             payload=$(jq -n --arg username "GitBot" \
-                              --arg avatar_url "https://cdn.discordapp.com/attachments/1337838441349648414/1344427822902677625/300px-Gunhead-CEFB17.png?ex=67c0df7b&is=67bf8dfb&hm=9787ede41b32b942ed5d2be7e4a898ccbf1a5a8d3326f1e33def08aee2e7735d&" \
+                              --arg avatar_url "https://cdn.discordapp.com/attachments/1337838441349648414/1388768200468201543/image.png?ex=68622ead&is=6860dd2d&hm=12310511e636ed1cb65d1ec9e21afdfae11b0cb31de57323151df78872c365f3&" \
                               --arg author "$author" \
                               --arg message "$formatted_message" \
                               --argjson color 5197647 \
