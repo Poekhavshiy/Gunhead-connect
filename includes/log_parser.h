@@ -39,7 +39,7 @@ std::string clean_kill_mechanism(const std::string& mechanism);
 
 // Utility functions
 long long parseTimestampToUnixTime(const std::string& isoTimestamp);
-bool is_npc_name(const std::string& name);
+bool is_npc_name(const std::string& name, const std::string& id = "");
 
 // Process transforms from JSON configuration
 std::string process_transforms(const std::string& input, const json& steps);

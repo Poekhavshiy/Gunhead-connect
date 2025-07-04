@@ -109,7 +109,37 @@ std::string parse_log_line(const std::string& line) {
                                 if (transformData.contains("steps")) {
                                     const auto& steps = transformData["steps"];
                                     try {
-                                        value = process_transforms(value, steps);
+                                        // Check if this is a determine_if_npc transform and try to find corresponding ID
+                                        if (transform == "determine_if_npc") {
+                                            std::string correspondingId = "";
+                                            
+                                            // Look for corresponding ID field based on field name patterns
+                                            std::string idFieldName = "";
+                                            if (fieldName == "victim") idFieldName = "victim_id";
+                                            else if (fieldName == "killer") idFieldName = "killer_id";
+                                            else if (fieldName == "driver") idFieldName = "driver_id";
+                                            else if (fieldName == "cause") idFieldName = "cause_id";
+                                            
+                                            // Find the ID field in the same rule
+                                            if (!idFieldName.empty()) {
+                                                for (const auto& otherField : rule.fields) {
+                                                    if (otherField["name"] == idFieldName) {
+                                                        int idGroupIndex = otherField["group"];
+                                                        if (idGroupIndex < match.size()) {
+                                                            correspondingId = match[idGroupIndex].str();
+                                                            log_debug("log_parser", "Found corresponding ID: ", correspondingId, " for field: ", fieldName);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                            // Use the enhanced is_npc_name function with ID context
+                                            bool isNpc = is_npc_name(value, correspondingId);
+                                            value = isNpc ? "true" : "false";
+                                        } else {
+                                            value = process_transforms(value, steps);
+                                        }
                                         log_debug("log_parser", "Transformed value: ", value);
                                     } catch (const std::exception& e) {
                                         log_error("log_parser", "Error applying transform: ", transform, ": ", e.what());
@@ -170,7 +200,7 @@ std::string process_transforms(const std::string& input, const json& steps) {
 
         // Special case: if there's only one step and it's "is_npc", return true/false directly
         if (steps.size() == 1 && steps[0].contains("type") && steps[0]["type"] == "is_npc") {
-            bool isNpc = is_npc_name(input);
+            bool isNpc = is_npc_name(input); // Uses default empty ID parameter
             return isNpc ? "true" : "false";
         }
 
@@ -187,7 +217,7 @@ std::string process_transforms(const std::string& input, const json& steps) {
 
             try {
                 if (type == "is_npc") {
-                    if (!is_npc_name(result)) {
+                    if (!is_npc_name(result)) { // Uses default empty ID parameter
                         // If the string is not an NPC, skip the rest of the transforms
                         log_debug("log_parser", "Not an NPC name, skipping remaining transforms");
                         break;
@@ -286,7 +316,7 @@ std::string clean_actor_name(const std::string& name) {
         "AIModule_Unmanned_PU_"
     };
 
-    if (!is_npc_name(name)) {
+    if (!is_npc_name(name)) { // Uses default empty ID parameter
         // If name is a player name and not an NPC name, return it as-is
         return name;
     }
@@ -340,10 +370,29 @@ std::string clean_vehicle_name(const std::string& vehicle) {
 }
 
 // Function to check if a name is an NPC name
-bool is_npc_name(const std::string& name) {
-    return name.find("PU_Human_Enemy_GroundCombat_NPC_") == 0
-        || name.find("AIModule_Unmanned_PU_") == 0
-        || name.length() > 20;
+bool is_npc_name(const std::string& name, const std::string& id) {
+    // Quick backout: if name starts with a known NPC prefix, it's an NPC
+    static const std::vector<std::string> npc_prefixes = {
+        "PU_Human_Enemy_GroundCombat_NPC_",
+        "AIModule_Unmanned_PU_"
+    };
+    for (const auto& prefix : npc_prefixes) {
+        if (name.rfind(prefix, 0) == 0) { // starts with prefix
+            return true;
+        }
+    }
+    log_debug("is_npc_name", "Checking name: '", name, "' with id: '", id, "'");
+    // If ID is provided, check if name ends with _ID (underscore + ID)
+    if (!id.empty()) {
+        if (name.size() > id.size() + 1 &&
+            name.compare(name.size() - id.size(), id.size(), id) == 0 &&
+            name[name.size() - id.size() - 1] == '_') {
+            return true;
+        }
+    }
+
+    // No match
+    return false;
 }
 
 // Function to parse an ISO 8601 timestamp and convert to Unix time

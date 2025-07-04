@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/Gunhead.ico</file>
+        <file>icons/Gunhead-debug.ico</file>
         <file>icons/Gunhead.png</file>
         <file>icons/Gunhead-tray.png</file>
 

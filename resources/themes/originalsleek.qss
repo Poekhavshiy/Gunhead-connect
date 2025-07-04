@@ -156,3 +156,48 @@ QWidget#SettingsWindow QCheckBox::indicator:disabled {
     opacity: 0.5;
 }
 
+/* Add a dedicated section for the tray menu and its actions */
+QMenu#TrayMenu, QMenu#TrayMenu QMenu, QMenu#TrayMenu QWidget, QMenu#TrayMenu QAction, QMenu#TrayMenu::item {
+    background-color: #23272b;
+    color: #f0f0f0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 8px 16px;
+}
+
+QMenu#TrayMenu::item:selected {
+    background-color: #00aaff;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+QMenu#TrayMenu::separator {
+    height: 1px;
+    background: #444444;
+    margin: 6px 0;
+}
+
+QMenu#TrayMenu::icon {
+    padding-left: 4px;
+    padding-right: 8px;
+}
+
+QMenu#TrayMenu QAbstractButton, QMenu#TrayMenu QPushButton {
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 8px 16px;
+    border: none;
+}
+
+QMenu#TrayMenu QAbstractButton:hover, QMenu#TrayMenu QPushButton:hover {
+    background-color: #3a3a3a;
+}
+
+QMenu#TrayMenu QAbstractButton:pressed, QMenu#TrayMenu QPushButton:pressed {
+    background-color: #444444;
+}
+

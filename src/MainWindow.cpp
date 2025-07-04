@@ -1356,13 +1356,21 @@ void MainWindow::createSystemTrayIcon() {
         return;
     }
 
-    trayIconMenu = new QMenu(this);
-    
-    // Prevent the tray menu from inheriting styles
-    trayIconMenu->setStyleSheet("");
-    trayIconMenu->setAttribute(Qt::WA_StyledBackground, false);
-    trayIconMenu->setStyle(QApplication::style()); // Use system style
-    
+    // Create the tray menu with no parent to avoid inheriting QSS
+    trayIconMenu = new QMenu(nullptr);
+    trayIconMenu->setObjectName("TrayMenu"); // ADDED: for QSS targeting
+
+    // Apply ONLY the "originalsleek" theme to the tray menu
+    QFile sleekQss(":/themes/originalsleek.qss");
+    if (sleekQss.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString sleekStyle = QString::fromUtf8(sleekQss.readAll());
+        trayIconMenu->setStyleSheet(sleekStyle);
+        qDebug() << "Applied 'originalsleek' theme to tray menu";
+    } else {
+        trayIconMenu->setStyleSheet("");
+        qWarning() << "Could not load 'originalsleek.qss', tray menu will use default style";
+    }
+
     // Show/Hide action
     showHideAction = new QAction(tr("Show/Hide"), this);
     connect(showHideAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowHideClicked);
@@ -1383,7 +1391,7 @@ void MainWindow::createSystemTrayIcon() {
     // Create system tray icon
     systemTrayIcon = new QSystemTrayIcon(this);
     systemTrayIcon->setContextMenu(trayIconMenu);
-    
+
     // Try to load the dedicated tray PNG first
     const QString trayPngPath = ":/icons/Gunhead-tray.png";
     QIcon trayPngIcon(trayPngPath);

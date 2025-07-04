@@ -76,3 +76,46 @@ TEST_CASE("Parse all log lines from game.log", "[log_parser]") {
     log_info("log_parser", "Finished parsing all log lines from game.log.");
     log_debug("log_parser", "Total lines processed: ", lineNumber);
 }
+
+TEST_CASE("Enhanced is_npc_name function with ID checking", "[log_parser]") {
+    log_info("log_parser", "Starting test for enhanced is_npc_name function.");
+    
+    SECTION("NPC names with matching IDs") {
+        // Test PU_Human_Enemy_GroundCombat_NPC pattern with ID at end
+        REQUIRE(is_npc_name("PU_Human_Enemy_GroundCombat_NPC_Contestedzones_grunt_4761609868390", "4761609868390"));
+        REQUIRE(is_npc_name("PU_Human_Enemy_GroundCombat_NPC_Contestedzones_grunt_4761609868393", "4761609868393"));
+        REQUIRE(is_npc_name("PU_Human_Enemy_GroundCombat_NPC_Contestedzones_juggernaut_4761609865538", "4761609865538"));
+        REQUIRE(is_npc_name("Kopion_4141066440373", "4141066440373"));
+        REQUIRE(is_npc_name("Kopion_4141066445916", "4141066445916"));
+        REQUIRE(is_npc_name("Kopion_4220719238291", "4220719238291"));
+        REQUIRE(is_npc_name("Kopion_4762818481788", "4762818481788"));
+    }
+    
+    SECTION("Player names should not be detected as NPCs even with ID") {
+        // Regular player names with IDs should not be detected as NPCs
+        REQUIRE_FALSE(is_npc_name("RapidUnscheduledDisassembly", "1234567890"));
+        REQUIRE_FALSE(is_npc_name("SomePlayer", "9876543210"));
+        REQUIRE_FALSE(is_npc_name("Hawklord", "201924351750"));
+    }
+    
+    SECTION("NPC names with known prefixes but wrong IDs should fall back to pattern matching, where we cannot prefix match and have no valid ID assume player name") {
+        // These should still be detected as NPCs due to pattern matching
+        REQUIRE(is_npc_name("PU_Human_Enemy_GroundCombat_NPC_Contestedzones_grunt_4761609868390", "wrong_id"));
+        REQUIRE_FALSE(is_npc_name("Kopion_4141066440373", "wrong_id"));
+        
+        // But regular names with wrong IDs should not be NPCs
+        REQUIRE_FALSE(is_npc_name("RegularPlayer", "wrong_id"));
+    }
+    
+    SECTION("Fallback to pattern-based detection without ID") {
+        // Test original pattern-based detection when no ID is provided
+        REQUIRE(is_npc_name("PU_Human_Enemy_GroundCombat_NPC_Something"));
+        REQUIRE(is_npc_name("AIModule_Unmanned_PU_SomeThing"));
+        
+        // Regular names should not be detected as NPCs
+        REQUIRE_FALSE(is_npc_name("RegularPlayer"));
+        REQUIRE_FALSE(is_npc_name("ShortName"));
+    }
+    
+    log_info("log_parser", "Enhanced is_npc_name function tests completed.");
+}
