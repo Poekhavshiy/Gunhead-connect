@@ -34,12 +34,12 @@ jobs:
             fi
 
             # Exclude merge commits (e.g., "Merge branch ...")
-            if [[ "$message" == Merge\ branch* ]]; then
+            if [[ "$message" == Merge\ branch* || "$message" == gMerge\ branch* ]]; then
               echo "Skipping merge commit: $message"
               continue
             fi
 
-            formatted_message="\`\`\`$message\`\`\`"
+            formatted_message="[CONNECT]:\`\`\`$message\`\`\`"
 
             # Create payload with bold author in content field
             payload=$(jq -n --arg username "GitBot" \
