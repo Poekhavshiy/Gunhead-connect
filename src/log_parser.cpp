@@ -88,6 +88,19 @@ std::string parse_log_line(const std::string& line) {
                 result["identifier"] = rule.identifier;
 
                 try {
+                    // First pass: extract all field values (especially IDs)
+                    std::unordered_map<std::string, std::string> fieldValues;
+                    for (const auto& field : rule.fields) {
+                        const std::string& fieldName = field["name"];
+                        int groupIndex = field["group"];
+                        if (groupIndex < match.size()) {
+                            fieldValues[fieldName] = match[groupIndex].str();
+                        }
+                    }
+
+                    // Second pass: apply transforms and build result
+                    std::unordered_map<std::string, bool> npcStatus; // Track NPC status for each base field
+
                     for (const auto& field : rule.fields) {
                         const std::string& fieldName = field["name"];
                         int groupIndex = field["group"];
@@ -101,7 +114,7 @@ std::string parse_log_line(const std::string& line) {
                         std::string value = match[groupIndex].str();
                         log_debug("log_parser", "Field: ", fieldName, ", Value: ", value);
 
-                        // Apply transformation dynamically
+                        // Only apply transforms to base fields, not *_is_npc fields
                         if (!transform.empty()) {
                             auto transformIt = transforms.find(transform);
                             if (transformIt != transforms.end()) {
@@ -109,34 +122,26 @@ std::string parse_log_line(const std::string& line) {
                                 if (transformData.contains("steps")) {
                                     const auto& steps = transformData["steps"];
                                     try {
-                                        // Check if this is a determine_if_npc transform and try to find corresponding ID
-                                        if (transform == "determine_if_npc") {
-                                            std::string correspondingId = "";
-                                            
-                                            // Look for corresponding ID field based on field name patterns
-                                            std::string idFieldName = "";
+                                        // For clean_actor_name, run is_npc and store result
+                                        if (transform == "clean_actor_name") {
+                                            std::string idFieldName;
                                             if (fieldName == "victim") idFieldName = "victim_id";
                                             else if (fieldName == "killer") idFieldName = "killer_id";
                                             else if (fieldName == "driver") idFieldName = "driver_id";
                                             else if (fieldName == "cause") idFieldName = "cause_id";
-                                            
-                                            // Find the ID field in the same rule
+
+                                            std::string correspondingId;
                                             if (!idFieldName.empty()) {
-                                                for (const auto& otherField : rule.fields) {
-                                                    if (otherField["name"] == idFieldName) {
-                                                        int idGroupIndex = otherField["group"];
-                                                        if (idGroupIndex < match.size()) {
-                                                            correspondingId = match[idGroupIndex].str();
-                                                            log_debug("log_parser", "Found corresponding ID: ", correspondingId, " for field: ", fieldName);
-                                                            break;
-                                                        }
-                                                    }
+                                                auto it = fieldValues.find(idFieldName);
+                                                if (it != fieldValues.end()) {
+                                                    correspondingId = it->second;
+                                                    log_debug("log_parser", "Found corresponding ID: ", correspondingId, " for field: ", fieldName);
                                                 }
                                             }
-                                            
-                                            // Use the enhanced is_npc_name function with ID context
                                             bool isNpc = is_npc_name(value, correspondingId);
-                                            value = isNpc ? "true" : "false";
+                                            npcStatus[fieldName] = isNpc;
+                                            // Continue with the rest of the clean_actor_name steps
+                                            value = process_transforms(value, steps);
                                         } else {
                                             value = process_transforms(value, steps);
                                         }
@@ -152,6 +157,7 @@ std::string parse_log_line(const std::string& line) {
                             }
                         }
 
+                        // Store the value in the result
                         if (fieldName == "timestamp" && transform == "parseTimestampToUnixTime") {
                             try {
                                 long long unixTime = std::stoll(value);
@@ -160,15 +166,22 @@ std::string parse_log_line(const std::string& line) {
                                 result[fieldName] = value; // fallback to string if conversion fails
                             }
                         } else {
-                            // Check if the value is a boolean string
-                            if (value == "true") {
-                                result[fieldName] = true;
-                            } else if (value == "false") {
-                                result[fieldName] = false;
-                            } else {
-                                result[fieldName] = value;
-                            }
+                            result[fieldName] = value;
                         }
+                    }
+
+                    // After all fields, set *_is_npc fields based on npcStatus
+                    if (npcStatus.find("victim") != npcStatus.end()) {
+                        result["victim_is_npc"] = npcStatus["victim"];
+                    }
+                    if (npcStatus.find("killer") != npcStatus.end()) {
+                        result["killer_is_npc"] = npcStatus["killer"];
+                    }
+                    if (npcStatus.find("driver") != npcStatus.end()) {
+                        result["driver_is_npc"] = npcStatus["driver"];
+                    }
+                    if (npcStatus.find("cause") != npcStatus.end()) {
+                        result["cause_is_npc"] = npcStatus["cause"];
                     }
 
                     std::string resultJson = result.dump();
@@ -196,12 +209,6 @@ std::string process_transforms(const std::string& input, const json& steps) {
         if (!steps.is_array()) {
             log_warn("log_parser", "Steps is not an array");
             return result;
-        }
-
-        // Special case: if there's only one step and it's "is_npc", return true/false directly
-        if (steps.size() == 1 && steps[0].contains("type") && steps[0]["type"] == "is_npc") {
-            bool isNpc = is_npc_name(input); // Uses default empty ID parameter
-            return isNpc ? "true" : "false";
         }
 
         for (size_t i = 0; i < steps.size(); ++i) {
@@ -318,6 +325,7 @@ std::string clean_actor_name(const std::string& name) {
 
     if (!is_npc_name(name)) { // Uses default empty ID parameter
         // If name is a player name and not an NPC name, return it as-is
+        log_debug("clean_actor_name", "Name is not an NPC, returning as-is: ", name);
         return name;
     }
 
@@ -371,27 +379,33 @@ std::string clean_vehicle_name(const std::string& vehicle) {
 
 // Function to check if a name is an NPC name
 bool is_npc_name(const std::string& name, const std::string& id) {
-    // Quick backout: if name starts with a known NPC prefix, it's an NPC
+    log_debug("is_npc_name", "Checking if name is NPC: ", name, ", ID: ", id);
+    // Quick backout: if name starts with a known NPC prefix, it's an NPC (legacy/compat)
     static const std::vector<std::string> npc_prefixes = {
         "PU_Human_Enemy_GroundCombat_NPC_",
         "AIModule_Unmanned_PU_"
     };
     for (const auto& prefix : npc_prefixes) {
-        if (name.rfind(prefix, 0) == 0) { // starts with prefix
+        if (name.rfind(prefix, 0) == 0) {
+            log_debug("is_npc_name", "Found NPC prefix: ", prefix);
             return true;
         }
     }
-    log_debug("is_npc_name", "Checking name: '", name, "' with id: '", id, "'");
-    // If ID is provided, check if name ends with _ID (underscore + ID)
+    // If ID is provided, check if the last underscore-separated part matches the ID
     if (!id.empty()) {
-        if (name.size() > id.size() + 1 &&
-            name.compare(name.size() - id.size(), id.size(), id) == 0 &&
-            name[name.size() - id.size() - 1] == '_') {
-            return true;
+        auto last_underscore = name.rfind('_');
+        if (last_underscore != std::string::npos) {
+            std::string tail = name.substr(last_underscore + 1);
+            log_debug("is_npc_name", "Extracted tail: '", tail, "', ID: '", id, "'");
+            
+            // Check if extracted tail matches the ID
+            if (tail == id) {
+                log_debug("is_npc_name", "ID match found - returning true");
+                return true;
+            }
         }
     }
-
-    // No match
+    log_debug("is_npc_name", "No NPC pattern matched - returning false");
     return false;
 }
 

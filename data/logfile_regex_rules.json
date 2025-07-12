@@ -10,12 +10,6 @@
                 { "type": "parseTimestampToUnixTime" }
             ]
         },
-        "determine_if_npc": {
-            "description": "Determines if a name is an NPC",
-            "steps": [
-                { "type": "is_npc" }
-            ]
-        },
         "clean_actor_name": {
             "description": "Cleans up actor names and determines if they are NPCs",
             "steps": [
@@ -89,13 +83,11 @@
             "message_template_suicide": "{killer} killed themselves",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "victim", "group": 2, "transform": "clean_actor_name" },
                 { "name": "victim_id", "group": 3 },
-                { "name": "victim_is_npc", "group": 2, "transform": "determine_if_npc" },
+                { "name": "victim", "group": 2, "transform": "clean_actor_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
-                { "name": "killer", "group": 5, "transform": "clean_actor_name" },
                 { "name": "killer_id", "group": 6 },
-                { "name": "killer_is_npc", "group": 5, "transform": "determine_if_npc" },
+                { "name": "killer", "group": 5, "transform": "clean_actor_name" },
                 { "name": "weapon", "group": 7, "transform": "clean_weapon_name" },
                 { "name": "kill_mechanism", "group": 8, "transform": "clean_kill_mechanism" },
                 { "name": "damage_type", "group": 9, "transform": "clean_damage_type" }
@@ -108,15 +100,13 @@
             "message_template": "{vehicle} was obliterated by {cause}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_id", "group": 3 },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
-                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
                 { "name": "driver_id", "group": 6 },
-                { "name": "driver_is_npc", "group": 5, "transform": "determine_if_npc" },
-                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
+                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
                 { "name": "cause_id", "group": 8 },
-                { "name": "cause_is_npc", "group": 7, "transform": "determine_if_npc" },
+                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
                 { "name": "weapon", "group": 9, "transform": "clean_weapon_name" }
             ]
         },
@@ -127,15 +117,13 @@
             "message_template": "{vehicle} was destroyed by {cause}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_id", "group": 3 },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
-                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
                 { "name": "driver_id", "group": 6 },
-                { "name": "driver_is_npc", "group": 5, "transform": "determine_if_npc" },
-                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
+                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
                 { "name": "cause_id", "group": 8 },
-                { "name": "cause_is_npc", "group": 7, "transform": "determine_if_npc" }
+                { "name": "cause", "group": 7, "transform": "clean_actor_name" }
             ]
         },
         {
@@ -145,15 +133,13 @@
             "message_template": "{cause} put vehicle {vehicle} of {driver} in soft death state",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_id", "group": 3 },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
-                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
                 { "name": "driver_id", "group": 6 },
-                { "name": "driver_is_npc", "group": 5, "transform": "determine_if_npc" },
-                { "name": "cause", "group": 7, "transform": "clean_actor_name" },
+                { "name": "driver", "group": 5, "transform": "clean_actor_name" },
                 { "name": "cause_id", "group": 8 },
-                { "name": "cause_is_npc", "group": 7, "transform": "determine_if_npc" }
+                { "name": "cause", "group": 7, "transform": "clean_actor_name" }
             ]
         },
         {
@@ -208,8 +194,8 @@
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "player_geid", "group": 2 },
-                { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_id", "group": 4 },
+                { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_type", "group": 5 }
             ]
         },
@@ -221,8 +207,8 @@
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "player_geid", "group": 2 },
-                { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_id", "group": 4 },
+                { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_type", "group": 5 }
             ]
         },
