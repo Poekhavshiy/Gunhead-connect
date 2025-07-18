@@ -40,7 +40,7 @@ public:
     void retranslateUi(); // Method to retranslate UI elements
     bool eventFilter(QObject* watched, QEvent* event) override;
     void activateDebugMode();
-
+    void closeSubWindows();
 signals:
     void gameFolderChanged(const QString& newFolder);
     void settingsChanged(Theme themeData); // Signal to notify when settings change

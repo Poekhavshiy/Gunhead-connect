@@ -19,13 +19,26 @@ public:
 
     explicit Transmitter(QObject* parent = nullptr);
 
-    bool sendDebugPing(const QString& apiKey);
+    bool sendDebugPing(const QString& apiKey, bool force = false);
     bool sendConnectionSuccess(const QString& logFilePath, const QString& apiKey);
     bool sendGameMode(const QString& apiKey); // New function for sending game mode
     void enqueueLog(const QString& log);
     void processQueueInThread(const QString& apiKey);
     
     void handleNetworkError(QNetworkReply::NetworkError error, const QString& errorString);
+
+    void addSettingsChange(const QString& type, const QString& value);
+    void clearSettingsChanges();
+    void updateGameMode(const QString& identifier, const QString& logFilePath, bool isMonitoring);
+    void updatePlayerInfo(const QString& playerName, const QString& playerGEID);
+
+    // Getter methods for player and game mode information
+    QString getCurrentPlayerName() const;
+    QString getCurrentPlayerGEID() const;
+    QString getCurrentGameMode() const;
+    QString getCurrentSubGameMode() const;
+
+    QDateTime getNextAllowedPingTime() const;
     
     // Error types enum for specific error handling
     enum class ApiErrorType {
@@ -77,20 +90,9 @@ private:
     QList<SettingsChange> settingsChanges; // Queue of settings changes
     QMutex settingsChangesMutex;           // Mutex to protect the queue
 
-public:
-    // Add to the public section
-    void addSettingsChange(const QString& type, const QString& value);
-    void clearSettingsChanges();
-    void updateGameMode(const QString& identifier, const QString& logFilePath, bool isMonitoring);
-    void updatePlayerInfo(const QString& playerName, const QString& playerGEID);
+    mutable QDateTime lastEventSentTime; // Store the time of the last event sent (mutable for const methods)
+    mutable QMutex lastEventMutex;       // Mutex to protect lastEventSentTime (mutable for const methods)
 
-    // Getter methods for player and game mode information
-    QString getCurrentPlayerName() const;
-    QString getCurrentPlayerGEID() const;
-    QString getCurrentGameMode() const;
-    QString getCurrentSubGameMode() const;
-
-private:
     QString currentPlayerName;
     QString currentPlayerGEID;
     QString currentGameMode;

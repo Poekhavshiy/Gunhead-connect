@@ -382,6 +382,17 @@ void SettingsWindow::saveSettings() {
     qDebug() << "  Start Minimized:" << startMinimized;  // Add this line
 }
 
+void SettingsWindow::closeSubWindows() {
+    if (themeSelectWindow) {
+        themeSelectWindow->close();
+        themeSelectWindow = nullptr;
+    }
+    if (languageSelectWindow) {
+        languageSelectWindow->close();
+        languageSelectWindow = nullptr;
+    }
+}
+
 QString SettingsWindow::getGameFolder() const {
     return gameFolder;
 }
@@ -498,6 +509,7 @@ void SettingsWindow::saveApiKey() {
     // Connect to error signals temporarily for this operation
     QMetaObject::Connection panelClosedConnection = connect(&transmitter, &Transmitter::panelClosedError, this, [this, &panelClosedErrorOccurred]() {
         panelClosedErrorOccurred = true;
+        QApplication::restoreOverrideCursor(); // Restore cursor BEFORE showing dialog
         QMessageBox::warning(this, tr("Panel Closed Error"), 
             tr("The Gunhead panel for this server has been closed or doesn't exist.\n\n"
                "This means your API key may be valid, but the Discord panel associated with it "
@@ -507,6 +519,7 @@ void SettingsWindow::saveApiKey() {
     
     QMetaObject::Connection invalidKeyConnection = connect(&transmitter, &Transmitter::invalidApiKeyError, this, [this, &invalidKeyErrorOccurred]() {
         invalidKeyErrorOccurred = true;
+        QApplication::restoreOverrideCursor(); // Restore cursor BEFORE showing dialog
         QMessageBox::warning(this, tr("Authentication Error"), 
             tr("Invalid API key. The server rejected your credentials.\n\n"
                "Please check your API key and try again. Make sure you copied the entire key "
@@ -517,14 +530,17 @@ void SettingsWindow::saveApiKey() {
     if (!apiKey.isEmpty()) {
         bool success = transmitter.sendConnectionSuccess(gameFolder, apiKey);
         if (success) {
+            QApplication::restoreOverrideCursor(); // Restore cursor BEFORE showing dialog
             QMessageBox::information(this, tr("Success"), tr("Gunhead Connected successfully!"));
         } 
         else if (!panelClosedErrorOccurred && !invalidKeyErrorOccurred) {
+            QApplication::restoreOverrideCursor(); // Restore cursor BEFORE showing dialog
             // Only show a generic error if none of the specific errors were handled
             QMessageBox::warning(this, tr("Connection Error"),
                 tr("Failed to connect to Gunhead Server. Please check your internet connection and try again."));
         }
     } else {
+        QApplication::restoreOverrideCursor(); // Restore cursor BEFORE showing dialog
         QMessageBox::information(this, tr("API Key Saved"), tr("Your API key has been saved."));
     }
 
@@ -532,7 +548,8 @@ void SettingsWindow::saveApiKey() {
     disconnect(panelClosedConnection);
     disconnect(invalidKeyConnection);
 
-    QApplication::restoreOverrideCursor(); // Restore cursor
+    // Ensure cursor is restored in all cases
+    QApplication::restoreOverrideCursor();
     saveApiKeyButton->setEnabled(true); // Re-enable button
 }
 

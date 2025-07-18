@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Gunhead-Connect VERSION 0.1.5  LANGUAGES CXX)
+project(Gunhead-Connect VERSION 0.1.6  LANGUAGES CXX)
 set(PROJECT_AUTHOR "Gunhead Team")
 set(PROJECT_ORGANIZATION "Gunhead Team")
 

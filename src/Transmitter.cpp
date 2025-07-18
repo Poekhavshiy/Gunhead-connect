@@ -33,8 +33,22 @@ Transmitter& Transmitter::getInstance() {
     return instance;
 }
 
+QDateTime Transmitter::getNextAllowedPingTime() const {
+    QMutexLocker locker(&lastEventMutex);
+    if (!lastEventSentTime.isValid()) return QDateTime();
+    return lastEventSentTime.addSecs(1800);
+}
 
-bool Transmitter::sendDebugPing(const QString& apiKey) {
+bool Transmitter::sendDebugPing(const QString& apiKey, bool force /* = false */) {
+    QMutexLocker locker(&lastEventMutex);
+    QDateTime now = QDateTime::currentDateTimeUtc();
+    if (!force && lastEventSentTime.isValid() && lastEventSentTime.secsTo(now) < 1800) {
+        qDebug() << "Debug ping skipped: only" << lastEventSentTime.secsTo(now) << "seconds since last event.";
+        return false;
+    }
+    lastEventSentTime = now;
+    locker.unlock();
+
     QJsonObject payload;
     payload["identifier"] = "debug_ping";
     payload["api_key"] = apiKey;
@@ -60,6 +74,11 @@ bool Transmitter::sendDebugPing(const QString& apiKey) {
 }
 
 bool Transmitter::sendConnectionSuccess(const QString& logFilePath, const QString& apiKey) {
+    {
+        QMutexLocker locker(&lastEventMutex);
+        lastEventSentTime = QDateTime::currentDateTimeUtc();
+    }
+
     QJsonObject payload;
     payload["identifier"] = "connection_success";
     payload["log_file_path"] = logFilePath;
@@ -165,6 +184,11 @@ bool Transmitter::sendConnectionSuccess(const QString& logFilePath, const QStrin
 }
 
 void Transmitter::sendEvent(const QJsonObject& event, const QString& apiKey) {
+    {
+        QMutexLocker locker(&lastEventMutex);
+        lastEventSentTime = QDateTime::currentDateTimeUtc();
+    }
+
     // Create a mutable copy of the event
     QJsonObject validatedEvent = event;
     
@@ -412,6 +436,11 @@ void Transmitter::processQueueInThread(const QString& apiKey) {
 }
 
 void Transmitter::processDirectJson(const QString& jsonStr, const QString& apiKey) {
+    {
+        QMutexLocker locker(&lastEventMutex);
+        lastEventSentTime = QDateTime::currentDateTimeUtc();
+    }
+
     if (jsonStr.isEmpty() || jsonStr == "{}") {
         qWarning() << "Ignoring empty JSON";
         return;

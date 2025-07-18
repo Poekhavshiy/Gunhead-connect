@@ -35,10 +35,12 @@ public:
     bool isApplicationShuttingDown() const; // Getter for isShuttingDown
 
 private:
+    QString lastGrowlDetails; // ADDED: Store last growl details for click expansion
     QPushButton* startButton;
     QPushButton* settingsButton;
     QPushButton* logButton; // Declare logButton
     QLabel* statusLabel;
+    QAction* showLogDisplayAction;
 
     QPointer<QWidget> bgContainer; // Background container
     QPointer<SettingsWindow> settingsWindow; // Settings window
@@ -66,6 +68,7 @@ private:
     QString lastStatusKey; // Store the untranslated key for status messages
 
     QTimer* connectionPingTimer;  // Timer for regular connection checks
+    QDateTime getNextAllowedPingTime() const;
     
     // System tray
     QSystemTrayIcon* systemTrayIcon;
@@ -106,7 +109,7 @@ public:
     
     // System tray methods
     void createSystemTrayIcon();
-    void showSystemTrayMessage(const QString& title, const QString& message);
+    void showSystemTrayMessage(const QString& title, const QString& message, const QString& details = QString()); // MODIFIED: Add details param
     void toggleMonitoring(); // Add public method to toggle monitoring
     bool getMonitoringState() const; // Add getter for monitoring state
     void activateFromAnotherInstance();
@@ -138,5 +141,7 @@ private slots:
     void onSystemTrayStartStopClicked();
     void onSystemTrayShowHideClicked();
     void onSystemTrayExitClicked();
+    void onSystemTrayShowLogDisplayClicked();
+    void onSystemTrayMessageClicked();
 
 };

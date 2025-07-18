@@ -331,37 +331,35 @@ bool MainWindow::verifyApiConnectionAndStartMonitoring(QString apiKey) {
         updateStatusLabel(tr("Error: API key not configured. Please set up in Settings."));
         return false;
     }
-    
+
     qDebug() << "Verifying API connection with debug ping before starting monitoring...";
     updateStatusLabel(tr("Verifying API connection..."));
-    
-    // Send debug ping to verify connection
-    bool pingSuccess = transmitter.sendDebugPing(apiKey);
-    
+
+    // Force the debug ping to always send for verification
+    bool pingSuccess = transmitter.sendDebugPing(apiKey, true);
+
     if (!pingSuccess) {
         qWarning() << "API connection verification failed. Cannot start monitoring.";
         updateStatusLabel(tr("Error: Could not connect to Gunhead server. Monitoring not started."));
-        
-        // Show more detailed error in LogDisplayWindow if it's open
+
         if (logDisplayWindow) {
             logDisplayWindow->updateStatusLabel(tr("ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection."));
         }
         return false;
     }
-    
+
     qDebug() << "API connection verified successfully. Starting monitoring...";
-    
-    // Send full connection success event after successful ping
+
     bool connectionSuccess = transmitter.sendConnectionSuccess(gameLogFilePath, apiKey);
     if (!connectionSuccess) {
         qWarning() << "Failed to send connection success event, but will continue with monitoring.";
     } else {
-         if (logDisplayWindow) {
+        if (logDisplayWindow) {
             logDisplayWindow->updateStatusLabel(tr("Connected to Gunhead server successfully. Monitoring started."));
         }
         qDebug() << "Connection success event sent to API server.";
     }
-    
+
     return true;
 }
 
@@ -439,9 +437,10 @@ void MainWindow::continueStartMonitoring() {
 
     if (!QFile::exists(gameLogFilePath)) {
         qWarning() << "Game log file does not exist:" << gameLogFilePath;
-        updateStatusLabel(tr("Error: Game log file not found."));
-        
-        // Re-enable buttons on error
+        QString errorMsg = tr("Error: Game log file not found.");
+        QString details = tr("The game log file was not found at the expected location:\n%1\nPlease check your game folder settings.").arg(gameLogFilePath);
+        updateStatusLabel(errorMsg);
+        showSystemTrayMessage(tr("Monitoring Error"), errorMsg, details);
         startButton->setEnabled(true);
         startButton->setText("Start Monitoring");
         if (logDisplayWindow) {
@@ -452,7 +451,10 @@ void MainWindow::continueStartMonitoring() {
     
     // Verify API connection before starting monitoring
     if (!verifyApiConnectionAndStartMonitoring(apiKey)) {
-        // Re-enable buttons on failed connection
+        QString errorMsg = tr("Error: Could not connect to Gunhead server. Monitoring not started.");
+        QString details = tr("API connection failed. Please check your API key and internet connection.\nAPI Key: %1").arg(apiKey);
+        updateStatusLabel(errorMsg);
+        showSystemTrayMessage(tr("Monitoring Error"), errorMsg, details);
         startButton->setEnabled(true);
         startButton->setText("Start Monitoring");
         if (logDisplayWindow) {
@@ -624,25 +626,20 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
 
 void MainWindow::toggleSettingsWindow() {
     if (settingsWindow) {
-        // Check if window exists and is minimized
         if (settingsWindow->isMinimized()) {
-            // Restore the window from minimized state
             settingsWindow->setWindowState(settingsWindow->windowState() & ~Qt::WindowMinimized);
             settingsWindow->raise();
             settingsWindow->activateWindow();
         } 
-        // If visible and not minimized, close it
         else if (settingsWindow->isVisible()) {
             settingsWindow->close();
         }
-        // If not visible (but exists), show it
         else {
             settingsWindow->show();
             settingsWindow->raise();
             settingsWindow->activateWindow();
         }
     } else {
-        // Create new window if it doesn't exist
         settingsWindow = new SettingsWindow(this);
         connect(settingsWindow, &SettingsWindow::settingsChanged,
                 this, &MainWindow::applyTheme);
@@ -650,8 +647,7 @@ void MainWindow::toggleSettingsWindow() {
                 this, &MainWindow::onGameFolderChanged);
         connect(settingsWindow, &SettingsWindow::minimizeToTrayChanged,
                 this, &MainWindow::onMinimizeToTrayChanged);
-                
-        // Position the window before showing it
+
         WindowUtils::positionWindowOnScreen(settingsWindow, this);
         settingsWindow->show();
     }
@@ -737,36 +733,57 @@ void MainWindow::applyTheme(Theme themeData)
 void MainWindow::closeEvent(QCloseEvent* event) {
     // Check if minimize to tray is enabled and system tray is available
     bool minimizeToTray = settings.value("minimizeToTray", false).toBool();
-    
+    bool logDisplayShouldBeVisible = settings.value("LogDisplay/Visible", false).toBool();
+
     if (minimizeToTray && systemTrayIcon && systemTrayIcon->isVisible() && !isShuttingDown) {
-        // Hide the window instead of closing
+        // Hide the main window instead of closing
         hide();
         event->ignore();
+
+        // ADDED: Update tray menu label to "Show Main Window"
+        if (showHideAction) {
+            showHideAction->setText(tr("Show Main Window"));
+        }
+
+        // Close all sub-windows except LogDisplayWindow
+        if (settingsWindow) {
+            settingsWindow->closeSubWindows();
+            settingsWindow->close();
+            settingsWindow = nullptr;
+        }
         
+        // Keep LogDisplayWindow visible if setting is true
+        if (logDisplayShouldBeVisible && logDisplayWindow) {
+            logDisplayWindow->show();
+            logDisplayWindow->raise();
+            logDisplayWindow->activateWindow();
+        } else if (logDisplayWindow) {
+            logDisplayWindow->hide();
+        }
+
         // Show tray message the first time
         static bool firstTimeMinimized = true;
         if (firstTimeMinimized) {
-            showSystemTrayMessage(tr("Gunhead Connect"), 
-                                tr("Application was minimized to tray"));
+            showSystemTrayMessage(tr("Gunhead Connect"), tr("Application was minimized to tray"), QString());
             firstTimeMinimized = false;
         }
-        
-        qDebug() << "Window minimized to system tray";
+
+        qDebug() << "Window minimized to system tray, all sub-windows except LogDisplayWindow closed";
         return;
     } else if (minimizeToTray && (!systemTrayIcon || !systemTrayIcon->isVisible())) {
         qWarning() << "Minimize to tray enabled but system tray icon not available - closing normally";
     }
-    
+
     // Normal close behavior
     isShuttingDown = true;
-    
+
     // Hide the system tray icon immediately to prevent ghost icons
     if (systemTrayIcon) {
         systemTrayIcon->hide();
         systemTrayIcon->deleteLater();
         systemTrayIcon = nullptr;
     }
-    
+
     if (logMonitor) {
         logMonitor->stopMonitoring(); // Gracefully stop monitoring
         updateStatusLabel(tr("Monitoring stopped."));
@@ -1146,18 +1163,34 @@ void MainWindow::sendConnectionPing() {
     if (!isMonitoring) {
         return;  // Safety check
     }
-    
+
     qDebug() << "Sending connection heartbeat ping";
     QString apiKey = settings.value("apiKey", "").toString();
-    
+
     if (apiKey.isEmpty()) {
         qWarning() << "Cannot send connection ping: API key is empty";
         return;
     }
-    
+
+    // Check if we are still in the cool-off period
+    QDateTime now = QDateTime::currentDateTimeUtc();
+    QDateTime nextAllowed = getNextAllowedPingTime();
+    if (nextAllowed.isValid() && now < nextAllowed) {
+        qDebug() << "Skipping connection ping: still in cool-off period until" << nextAllowed.toString(Qt::ISODate);
+        return;
+    }
+
     bool pingSuccess = transmitter.sendDebugPing(apiKey);
-    
+
+    // Only treat as a failure if the ping was actually attempted and failed due to network/server error
+    // If pingSuccess is false but we are still in the cooldown, do not log or update status
     if (!pingSuccess) {
+        // Check again if we are still in cooldown (defensive, in case transmitter logic changes)
+        QDateTime nextAllowedAfter = getNextAllowedPingTime();
+        if (nextAllowedAfter.isValid() && QDateTime::currentDateTimeUtc() < nextAllowedAfter) {
+            qDebug() << "Debug ping was skipped due to cooldown, not a real failure.";
+            return;
+        }
         qWarning() << "Connection ping failed - API server may be unreachable";
         QString errorMessage = tr("API connection error detected during routine check");
         transmitter.handleNetworkError(QNetworkReply::ConnectionRefusedError, errorMessage);
@@ -1318,7 +1351,8 @@ void MainWindow::retranslateUi() {
     
     // Update system tray menu if it exists
     if (trayIconMenu) {
-        if (showHideAction) showHideAction->setText(tr("Show/Hide"));
+        if (showHideAction) showHideAction->setText(tr(isVisible() ? "Hide Main Window" : "Show Main Window"));
+        if (showLogDisplayAction) showLogDisplayAction->setText(tr(logDisplayWindow && logDisplayWindow->isVisible() ? "Hide Log Window" : "Show Log Window"));
         if (startStopAction) startStopAction->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
         if (exitAction) exitAction->setText(tr("Exit"));
         
@@ -1344,6 +1378,18 @@ void MainWindow::updateLogDisplayFilterWidth() {
 }
 
 // System tray functionality
+// filepath: src/MainWindow.cpp
+// ADDED: Robust system tray message function with details support
+void MainWindow::showSystemTrayMessage(const QString& title, const QString& message, const QString& details) {
+    if (systemTrayIcon && systemTrayIcon->isVisible()) {
+        QString fullMessage = message;
+        if (!details.isEmpty()) {
+            fullMessage += "\n" + details;
+        }
+        systemTrayIcon->showMessage(title, fullMessage, QSystemTrayIcon::Information, 5000);
+        lastGrowlDetails = details;
+    }
+}
 void MainWindow::createSystemTrayIcon() {
     // Check if icon already exists to prevent duplicates
     if (systemTrayIcon) {
@@ -1371,15 +1417,21 @@ void MainWindow::createSystemTrayIcon() {
         qWarning() << "Could not load 'originalsleek.qss', tray menu will use default style";
     }
 
-    // Show/Hide action
-    showHideAction = new QAction(tr("Show/Hide"), this);
-    connect(showHideAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowHideClicked);
-    trayIconMenu->addAction(showHideAction);
-
     // Start/Stop monitoring action
     startStopAction = new QAction(tr("Start Monitoring"), this);
     connect(startStopAction, &QAction::triggered, this, &MainWindow::onSystemTrayStartStopClicked);
     trayIconMenu->addAction(startStopAction);
+
+    trayIconMenu->addSeparator();
+    // Show/Hide action
+    showHideAction = new QAction(tr(isVisible() ? "Hide Main Window" : "Show Main Window"), this);
+    connect(showHideAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowHideClicked);
+    trayIconMenu->addAction(showHideAction);
+    
+    // ADDED: Show/Hide LogDisplayWindow action
+    showLogDisplayAction = new QAction(tr(logDisplayWindow && logDisplayWindow->isVisible() ? "Hide Log Window" : "Show Log Window"), this);
+    connect(showLogDisplayAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowLogDisplayClicked);
+    trayIconMenu->addAction(showLogDisplayAction);
 
     trayIconMenu->addSeparator();
 
@@ -1423,15 +1475,14 @@ void MainWindow::createSystemTrayIcon() {
     connect(systemTrayIcon, &QSystemTrayIcon::activated,
             this, &MainWindow::onSystemTrayActivated);
 
+    // ADDED: Connect growl (balloon) message click to handler
+    connect(systemTrayIcon, &QSystemTrayIcon::messageClicked,
+            this, &MainWindow::onSystemTrayMessageClicked);
+
     systemTrayIcon->show();
     qDebug() << "Tray icon show() called; isVisible() =" << systemTrayIcon->isVisible();
 }
 
-void MainWindow::showSystemTrayMessage(const QString& title, const QString& message) {
-    if (systemTrayIcon && systemTrayIcon->isVisible()) {
-        systemTrayIcon->showMessage(title, message, QSystemTrayIcon::Information, 3000);
-    }
-}
 
 void MainWindow::toggleMonitoring() {
     if (isMonitoring) {
@@ -1446,8 +1497,44 @@ bool MainWindow::getMonitoringState() const {
 }
 
 void MainWindow::onSystemTrayActivated(QSystemTrayIcon::ActivationReason reason) {
-    if (reason == QSystemTrayIcon::DoubleClick) {
-        onSystemTrayShowHideClicked();
+    if (reason == QSystemTrayIcon::DoubleClick || reason == QSystemTrayIcon::Trigger) {
+        // Robustly restore and focus the app window
+        if (isMinimized()) {
+            showNormal();
+        }
+        if (!isVisible()) {
+            show();
+        }
+        raise();
+        activateWindow();
+        #ifdef Q_OS_WIN
+        #include <windows.h>
+        SetForegroundWindow((HWND)winId());
+        #endif
+        setWindowState(windowState() & ~Qt::WindowMinimized);
+        if (!lastGrowlDetails.isEmpty()) {
+            updateStatusLabel(lastGrowlDetails);
+        }
+    }
+}
+
+// MODIFIED: Connect messageClicked to a handler that restores the main window
+void MainWindow::onSystemTrayMessageClicked() {
+    // Robustly restore and focus the app window
+    if (isMinimized()) {
+        showNormal();
+    }
+    if (!isVisible()) {
+        show();
+    }
+    raise();
+    activateWindow();
+#ifdef Q_OS_WIN
+    SetForegroundWindow((HWND)winId());
+#endif
+    setWindowState(windowState() & ~Qt::WindowMinimized);
+    if (!lastGrowlDetails.isEmpty()) {
+        updateStatusLabel(lastGrowlDetails);
     }
 }
 
@@ -1471,10 +1558,41 @@ void MainWindow::onSystemTrayStartStopClicked() {
 void MainWindow::onSystemTrayShowHideClicked() {
     if (isVisible()) {
         hide();
+        showHideAction->setText(tr("Show Main Window"));
     } else {
         show();
         raise();
         activateWindow();
+        showHideAction->setText(tr("Hide Main Window"));
+    }
+}
+
+void MainWindow::onSystemTrayShowLogDisplayClicked() {
+    if (logDisplayWindow && logDisplayWindow->isVisible()) {
+        logDisplayWindow->hide();
+        settings.setValue("LogDisplay/Visible", false);
+        logButton->setText(tr("View Log"));
+        showLogDisplayAction->setText(tr("Show Log Window"));
+    } else {
+        if (!logDisplayWindow) {
+            logDisplayWindow = new LogDisplayWindow(transmitter);
+            logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
+            logDisplayWindow->setWindowFlag(Qt::Window);
+
+            connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
+                settings.setValue("LogDisplay/Visible", false);
+                logDisplayVisible = false;
+                logDisplayWindow = nullptr;
+                logButton->setText(tr("View Log"));
+                showLogDisplayAction->setText(tr("Show Log Window"));
+            });
+        }
+        logDisplayWindow->show();
+        logDisplayWindow->raise();
+        logDisplayWindow->activateWindow();
+        settings.setValue("LogDisplay/Visible", true);
+        logButton->setText(tr("Hide Log"));
+        showLogDisplayAction->setText(tr("Hide Log Window"));
     }
 }
 
@@ -1510,4 +1628,9 @@ void MainWindow::activateFromAnotherInstance()
     if (systemTrayIcon) {
         systemTrayIcon->setToolTip(tr("Gunhead Connect (Active)"));
     }
+}
+
+// Helper method to get the next allowed debug ping time from the Transmitter
+QDateTime MainWindow::getNextAllowedPingTime() const {
+    return transmitter.getNextAllowedPingTime();
 }

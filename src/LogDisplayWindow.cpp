@@ -803,8 +803,8 @@ void LogDisplayWindow::handleTestButton() {
     // Process and send the test log lines with proper filtering
     for (int i = 0; i < lines.size(); i++) {
         const QString& line = lines[i];
-        int delay = (i+1) * 1500; // Fixed delay of 1.5 seconds per line for more predictable results
-        
+        int delay = (i+1) * 5000; // Fixed delay of 5 seconds per line for more predictable results
+
         QTimer::singleShot(delay, this, [this, line, apiKey]() {
             qDebug() << "Processing test line after delay:" << line;
             
