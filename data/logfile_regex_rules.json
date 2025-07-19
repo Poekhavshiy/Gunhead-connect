@@ -95,7 +95,7 @@
         },
         {
             "identifier": "vehicle_instant_destruction",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*?driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 2 caused by '([^']+)' \\[(\\d+)\\].*?with '([^']+)'.*?\\[Team_VehicleFeatures\\]\\[Vehicle\\]",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'(?: \\[pos [^\\]]+\\])? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 2 caused by '([^']+)' \\[(\\d+)\\].*?with '([^']+'",
             "filter_type": "ship",
             "message_template": "{vehicle} was obliterated by {cause}",
             "fields": [
@@ -112,7 +112,7 @@
         },
         {
             "identifier": "vehicle_destruction",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*?driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 1 to 2 caused by '([^']+)' \\[(\\d+)\\].*?\\[Team_VehicleFeatures\\]\\[Vehicle\\]",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'(?: \\[pos [^\\]]+\\])? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 1 to 2 caused by '([^']+)' \\[(\\d+)\\]",
             "filter_type": "ship",
             "message_template": "{vehicle} was destroyed by {cause}",
             "fields": [
@@ -128,7 +128,7 @@
         },
         {
             "identifier": "vehicle_soft_death",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'.*?driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 1 caused by '([^']+)' \\[(\\d+)\\].*?\\[Team_VehicleFeatures\\]\\[Vehicle\\]",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?CVehicle::OnAdvanceDestroyLevel: Vehicle '([^']+)' \\[(\\d+)\\] in zone '([^']+)'(?: \\[pos [^\\]]+\\])? driven by '([^']+)' \\[(\\d+)\\].*?advanced from destroy level 0 to 1 caused by '([^']+)' \\[(\\d+)\\]",
             "filter_type": "ship",
             "message_template": "{cause} put vehicle {vehicle} of {driver} in soft death state",
             "fields": [
