@@ -214,7 +214,7 @@
         },
         {
             "identifier": "mission_start",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<SMarkerHandler_Base::CreateMissionObjectiveMarker>\\s*Creating objective marker: missionId \\[([^\\]]+)\\], generator name \\[([^\\]]+)\\], contract \\[([^\\]]+)\\]\\[([^\\]]+)\\],.*?\\[Team_MissionFeatures\\]\\[Missions\\]",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<CLocalMissionPhaseMarker::CreateMarker>\\s*Creating objective marker: missionId \\[([^\\]]+)\\], generator name \\[([^\\]]+)\\], contract \\[([^\\]]+)\\], contractDefinitionId\\[([^\\]]+)\\], objectiveId \\[([^\\]]+)\\], markerEntityId \\[([^\\]]+)\\], zoneHostId \\[([^\\]]+)\\], position \\[x: ([^,]+), y: ([^,]+), z: ([^\\]]+)\\] \\[Team_MissionFeatures\\]\\[Missions\\]",
             "filter_type": "other",
             "message_template": "Mission started: {contract_name}",
             "fields": [
@@ -222,7 +222,10 @@
                 { "name": "mission_id", "group": 2 },
                 { "name": "generator_name", "group": 3 },
                 { "name": "contract_name", "group": 4 },
-                { "name": "contract_id", "group": 5 }
+                { "name": "contract_definition_id", "group": 5 },
+                { "name": "objective_id", "group": 6 },
+                { "name": "marker_entity_id", "group": 7 },
+                { "name": "zone_host_id", "group": 8 }
             ]
         },
         {
@@ -237,6 +240,20 @@
                 { "name": "player_geid", "group": 4 },
                 { "name": "completion_type", "group": 5 },
                 { "name": "reason", "group": 6 }
+            ]
+        },
+        {
+            "identifier": "mission_updated",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<ObjectiveUpserted>\\s*Received ObjectiveUpserted push message for: mission_id ([a-f0-9\\-]+) - objective_id ([a-f0-9\\-]+) - state ([A-Z_]+) - created (\\d+) - flags=([^\\[]+) \\[Team_GameServices\\]\\[Missions\\]",
+            "filter_type": "other",
+            "message_template": "Mission updated: {mission_id} objective {objective_id} state {state}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "mission_id", "group": 2 },
+                { "name": "objective_id", "group": 3 },
+                { "name": "state", "group": 4 },
+                { "name": "created", "group": 5 },
+                { "name": "flags", "group": 6 }
             ]
         }
     ]
