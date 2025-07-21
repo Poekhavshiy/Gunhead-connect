@@ -53,14 +53,11 @@ bool CheckVersion::fetchData(const QUrl &url, QByteArray &outData, int timeoutMs
 
 QString CheckVersion::getLatestAppVersion(int timeoutMs)
 {
-    
-    QString releaseUrlString = "https://api.github.com/repos/Poekhavshiy/Gunhead-Connect/releases/latest";
-    log_debug("CheckVersion", "Release URL: ", releaseUrlString.toStdString());
-    
-    QUrl releaseUrl(releaseUrlString);
-    log_debug("CheckVersion", "Fetching latest app version from URL: ", releaseUrl.toString().toStdString());
+    // Use the new unified update endpoint
+    const QUrl latestUrl("https://gunhead.space/dist/latest.json");
     QByteArray data;
-    if (!fetchData(releaseUrl, data, timeoutMs)) {
+    log_debug("CheckVersion", "Fetching latest app version from URL: ", latestUrl.toString().toStdString());
+    if (!fetchData(latestUrl, data, timeoutMs)) {
         log_error("CheckVersion", "Failed to fetch latest app version data.");
         emit errorOccurred(tr("Failed to fetch latest app version data."));
         return {};
@@ -68,35 +65,78 @@ QString CheckVersion::getLatestAppVersion(int timeoutMs)
 
     try {
         const auto doc = QJsonDocument::fromJson(data);
-        if (doc.isNull()) {
-            emit errorOccurred(tr("Failed to parse JSON: Document is null"));
-            log_error("CheckVersion", "Failed to parse JSON: Document is null");
+        if (doc.isNull() || !doc.isObject()) {
+            emit errorOccurred(tr("Failed to parse JSON from latest.json"));
+            log_error("CheckVersion", "Failed to parse JSON from latest.json");
             return {};
         }
-
-        if (!doc.isObject()) {
-            emit errorOccurred(tr("Invalid JSON in latest app response"));
-            log_error("CheckVersion", "Invalid JSON in latest app response");
+        const QJsonObject obj = doc.object();
+        if (!obj.contains("application") || !obj.value("application").isObject()) {
+            emit errorOccurred(tr("No 'application' object in latest.json"));
+            log_error("CheckVersion", "No 'application' object in latest.json");
             return {};
         }
-
-        const QString tag = doc.object().value("tag_name").toString();
-        if (tag.isEmpty()) {
-            emit errorOccurred(tr("No tag name found in latest app response"));
-            log_error("CheckVersion", "No tag name found in latest app response");
+        const QJsonObject appObj = obj.value("application").toObject();
+        const QString version = appObj.value("latest_version").toString();
+        if (version.isEmpty()) {
+            emit errorOccurred(tr("No application version found in latest.json"));
+            log_error("CheckVersion", "No application version found in latest.json");
             return {};
         }
-
-        log_info("CheckVersion", "Latest app version fetched successfully: " + tag.toStdString());
-        return tag.startsWith("v") ? tag.mid(1) : tag;
-
+        log_info("CheckVersion", "Latest app version fetched successfully: " + version.toStdString());
+        return version;
     } catch (const std::exception& e) {
-        emit errorOccurred(tr("Exception occurred while parsing JSON: ") + QString::fromStdString(e.what()));
-        log_error("CheckVersion", "Exception occurred while parsing JSON: ", e.what());
+        emit errorOccurred(tr("Exception occurred while parsing latest.json: ") + QString::fromStdString(e.what()));
+        log_error("CheckVersion", "Exception occurred while parsing latest.json: ", e.what());
         return {};
     } catch (...) {
-        emit errorOccurred(tr("Unknown exception occurred while parsing JSON"));
-        log_error("CheckVersion", "Unknown exception occurred while parsing JSON");
+        emit errorOccurred(tr("Unknown exception occurred while parsing latest.json"));
+        log_error("CheckVersion", "Unknown exception occurred while parsing latest.json");
+        return {};
+    }
+}
+
+QString CheckVersion::getLatestParserVersion(int timeoutMs)
+{
+    // Use the new unified update endpoint
+    const QUrl latestUrl("https://gunhead.space/dist/latest.json");
+    QByteArray data;
+    log_debug("CheckVersion", "Fetching latest parser version from URL: ", latestUrl.toString().toStdString());
+    if (!fetchData(latestUrl, data, timeoutMs)) {
+        log_error("CheckVersion", "Failed to fetch latest parser version data.");
+        emit errorOccurred(tr("Failed to fetch latest parser version data."));
+        return {};
+    }
+
+    try {
+        const auto doc = QJsonDocument::fromJson(data);
+        if (doc.isNull() || !doc.isObject()) {
+            emit errorOccurred(tr("Failed to parse JSON from latest.json"));
+            log_error("CheckVersion", "Failed to parse JSON from latest.json");
+            return {};
+        }
+        const QJsonObject obj = doc.object();
+        if (!obj.contains("parser") || !obj.value("parser").isObject()) {
+            emit errorOccurred(tr("No 'parser' object in latest.json"));
+            log_error("CheckVersion", "No 'parser' object in latest.json");
+            return {};
+        }
+        const QJsonObject parserObj = obj.value("parser").toObject();
+        const QString version = parserObj.value("latest_version").toString();
+        if (version.isEmpty()) {
+            emit errorOccurred(tr("No parser version found in latest.json"));
+            log_error("CheckVersion", "No parser version found in latest.json");
+            return {};
+        }
+        log_info("CheckVersion", "Latest parser version fetched successfully: " + version.toStdString());
+        return version;
+    } catch (const std::exception& e) {
+        emit errorOccurred(tr("Exception occurred while parsing latest.json: ") + QString::fromStdString(e.what()));
+        log_error("CheckVersion", "Exception occurred while parsing latest.json: ", e.what());
+        return {};
+    } catch (...) {
+        emit errorOccurred(tr("Unknown exception occurred while parsing latest.json"));
+        log_error("CheckVersion", "Unknown exception occurred while parsing latest.json");
         return {};
     }
 }
@@ -117,6 +157,27 @@ CheckVersion::UpdateTriState CheckVersion::isAppUpdateAvailable(const QString &c
     if (compareVersions(vLatest, vCurrent) > 0) {
         emit updateAvailable(latest);
         log_info("CheckVersion", "Update available: ", latest.toStdString());
+        return UpdateTriState::Yes;
+    }
+    return UpdateTriState::No;
+}
+
+CheckVersion::UpdateTriState CheckVersion::isParserUpdateAvailable(const QString &currentVersion, int timeoutMs)
+{
+    log_debug("CheckVersion", "Current parser version: ", currentVersion.toStdString());
+    log_debug("CheckVersion", "Checking for parser update availability...");
+    QString latest = getLatestParserVersion(timeoutMs);
+    if (latest.isEmpty()){
+        log_error("CheckVersion", "The parser version check process failed.");
+        emit errorOccurred(tr("The parser version check process failed."));
+        return UpdateTriState::Error;
+    }
+
+    Version vLatest = parseVersion(latest);
+    Version vCurrent = parseVersion(currentVersion);
+    if (compareVersions(vLatest, vCurrent) > 0) {
+        emit updateAvailable(latest);
+        log_info("CheckVersion", "Parser update available: ", latest.toStdString());
         return UpdateTriState::Yes;
     }
     return UpdateTriState::No;
@@ -191,88 +252,7 @@ bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int
 }
 
 
-QString CheckVersion::getLatestJsonVersion(int timeoutMs)
-{
-    const QUrl jsonUrl("https://gunhead.sparked.network/static/data/logfile_regex_rules.json");
-    QByteArray data;
-    if (!fetchData(jsonUrl, data, timeoutMs)) {
-        emit errorOccurred(tr("Failed to fetch latest rules."));
-        log_error("CheckVersion", "Failed to fetch latest rules.");
-        return {};
-    }
-
-    try {
-        log_debug("CheckVersion", "Raw JSON data fetched: ", data.toStdString());
-
-        const auto doc = QJsonDocument::fromJson(data);
-        if (doc.isNull()) {
-            emit errorOccurred(tr("Failed to parse rules: Document is null"));
-            log_error("CheckVersion", "Failed to parse rules: Document is null");
-            return {};
-        }
-
-        if (!doc.isObject()) {
-            emit errorOccurred(tr("Invalid rules in latest config response"));
-            log_error("CheckVersion", "Invalid rules in latest config response");
-            return {};
-        }
-
-        const QJsonObject obj = doc.object();
-
-        if (!obj.contains("version")) {
-            emit errorOccurred(tr("Rules file is missing 'version' key"));
-            log_error("CheckVersion", "Rules file is missing 'version' key: " + QString(QJsonDocument(obj).toJson(QJsonDocument::Indented)).toStdString());
-            return {};
-        }
-
-        const QJsonValue versionVal = obj.value("version");
-        if (!versionVal.isString()) {
-            emit errorOccurred(tr("'version' key is not a string"));
-            log_error("CheckVersion", "'version' key is not a string: " + QString(QJsonDocument(obj).toJson(QJsonDocument::Indented)).toStdString());
-            return {};
-        } else if (versionVal.toString().isEmpty()) {
-            emit errorOccurred(tr("'version' key is empty"));
-            log_error("CheckVersion", "'version' key is empty: " + QString(QJsonDocument(obj).toJson(QJsonDocument::Indented)).toStdString());
-            return {};
-        }
-            QString version = versionVal.toString();
-
-            log_info("CheckVersion", "Latest rules version fetched successfully: " + version.toStdString());
-            return version;
-
-    } catch (const std::exception& e) {
-        emit errorOccurred(tr("Exception occurred while parsing rules: ") + QString::fromStdString(e.what()));
-        log_error("CheckVersion", "Exception occurred while parsing rules: ", e.what());
-        return {};
-    } catch (...) {
-        emit errorOccurred(tr("Unknown exception occurred while parsing rules"));
-        log_error("CheckVersion", "Unknown exception occurred while parsing rules");
-        return {};
-    }
-}
-
-CheckVersion::UpdateTriState CheckVersion::isJsonUpdateAvailable(const QString &localFilePath, int timeoutMs)
-{
-    QString remoteVer = getLatestJsonVersion(timeoutMs);
-    log_debug("CheckVersion", "Remote rules version: ", remoteVer.toStdString());
-    if (remoteVer.isEmpty()) {
-        log_error("CheckVersion", "Failed to fetch latest rules version.");
-        emit errorOccurred(tr("Failed to fetch latest rules version."));
-        return UpdateTriState::Error;
-    }
-
-    QString localVer = readLocalJsonVersion(localFilePath);
-    Version vRemote = parseVersion(remoteVer);
-    Version vLocal = parseVersion(localVer);
-
-    if (compareVersions(vRemote, vLocal) > 0) {
-        emit updateAvailable(remoteVer);
-        log_info("CheckVersion", "Rules update available: " + remoteVer.toStdString());
-        return UpdateTriState::Yes;
-    }
-    log_info("CheckVersion", "No rules update available.");
-    return UpdateTriState::No;
-}
+// getLatestJsonVersion and isJsonUpdateAvailable removed; use isParserUpdateAvailable for parser/rules updates
 
 CheckVersion::Version CheckVersion::parseVersion(const QString &versionString) const
 {

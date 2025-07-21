@@ -98,7 +98,8 @@
 			"qtextedit": "cpp",
 			"qrandomgenerator": "cpp",
 			"resources/translations/*.ts": "xml",
-			"*.in": "cpp"
+			"*.in": "cpp",
+			"qjsondocument": "cpp"
 		}
 	}
 }

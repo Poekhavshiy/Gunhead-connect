@@ -19,6 +19,7 @@
 #include <QTabWidget>
 #include <QTabBar> 
 #include <QMouseEvent>  // For QMouseEvent in eventFilter
+#include <QInputDialog> // ADDED
 
 SettingsWindow::SettingsWindow(QWidget* parent)
     : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), 
@@ -554,86 +555,86 @@ void SettingsWindow::saveApiKey() {
 }
 
 void SettingsWindow::checkForUpdates() {
-    checkUpdatesButton->setEnabled(false); // Disable button
-    QApplication::setOverrideCursor(Qt::WaitCursor); // Set waiting cursor
+    checkUpdatesButton->setEnabled(false);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     CheckVersion versionChecker;
-    QString jsonFilePath = "data/logfile_regex_rules.json";
     QString currentAppVersion = QCoreApplication::applicationVersion();
-    const QUrl jsonDownloadUrl("https://gunhead.sparked.network/static/data/logfile_regex_rules.json");
-    const QUrl releaseDownloadUrl("https://github.com/Poekhavshiy/Gunhead-Connect/releases/latest/download/Gunhead-Connect-Setup.msi");
+    QString parserFilePath = "data/logfile_regex_rules.json";
+    QString localParserVersion = versionChecker.readLocalJsonVersion(parserFilePath);
+    QString currentParserVersion = localParserVersion.isEmpty() ? QStringLiteral("0.0.0") : localParserVersion; // Use fallback if needed
 
     CheckVersion::UpdateTriState appUpdateState = versionChecker.isAppUpdateAvailable(currentAppVersion, 5000);
-    CheckVersion::UpdateTriState jsonUpdateState = versionChecker.isJsonUpdateAvailable(jsonFilePath, 5000);
+    CheckVersion::UpdateTriState parserUpdateState = versionChecker.isParserUpdateAvailable(currentParserVersion, 5000);
 
-    if (appUpdateState == CheckVersion::UpdateTriState::Yes || jsonUpdateState == CheckVersion::UpdateTriState::Yes) {
+    if (appUpdateState == CheckVersion::UpdateTriState::Yes || parserUpdateState == CheckVersion::UpdateTriState::Yes) {
         qDebug() << "SettingsWindow: Updates available, prompting user.";
-        QMessageBox::StandardButton reply = QMessageBox::question(
-            this, tr("Updates Available"),
-            tr("Updates are available. Would you like to download them?"),
-            QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            if (appUpdateState == CheckVersion::UpdateTriState::Yes) {
-                qDebug() << "SettingsWindow: User asked to update the App.";
+        QStringList updateOptions;
+        if (appUpdateState == CheckVersion::UpdateTriState::Yes)
+            updateOptions << tr("Download latest App installer");
+        if (parserUpdateState == CheckVersion::UpdateTriState::Yes)
+            updateOptions << tr("Update parser rules (logfile_regex_rules.json)");
 
-                // Ask the user where to save the file
-                QString savePath = QFileDialog::getSaveFileName(
-                    this, 
-                    tr("Save Installer"), 
-                    QDir::homePath() + "/Gunhead-Connect-Setup.msi", 
-                    tr("Installer Files (*.msi)")
-                );
+        bool doAppUpdate = false;
+        bool doParserUpdate = false;
 
-                if (savePath.isEmpty()) {
-                    qDebug() << "SettingsWindow: User canceled the save dialog.";
-                    return;
-                }
+        if (updateOptions.size() == 1) {
+            int ret = QMessageBox::question(this, tr("Update Available"),
+                tr("%1 is available. Would you like to update?").arg(updateOptions.first()),
+                QMessageBox::Yes | QMessageBox::No);
+            if (ret == QMessageBox::Yes) {
+                doAppUpdate = (appUpdateState == CheckVersion::UpdateTriState::Yes);
+                doParserUpdate = (parserUpdateState == CheckVersion::UpdateTriState::Yes);
+            }
+        } else {
+            QString selected = QInputDialog::getItem(this, tr("Updates Available"),
+                tr("Select what to update:"), updateOptions, 0, false);
+            doAppUpdate = (selected == tr("Download latest App installer"));
+            doParserUpdate = (selected == tr("Update parser rules (logfile_regex_rules.json)"));
+        }
 
-                // Download the file
-                if (versionChecker.downloadFile(releaseDownloadUrl, savePath, 5000)) {
+        if (doAppUpdate) {
+            QString appInstallerUrl = versionChecker.getAppInstallerUrl();
+            QString defaultPath = QDir::homePath() + "/Gunhead-Connect-Setup.msi";
+            QString savePath = QFileDialog::getSaveFileName(this, tr("Save Installer"), defaultPath, tr("Installer Files (*.msi)"));
+            if (savePath.isEmpty()) {
+                qDebug() << "SettingsWindow: User canceled the save dialog.";
+            } else {
+                if (versionChecker.downloadFile(QUrl(appInstallerUrl), savePath, 5000)) {
                     qDebug() << "SettingsWindow: App updated successfully.";
-                    QMessageBox::information(this, tr("Update Successful"), tr("App updated successfully."));
-
+                    QMessageBox::information(this, tr("Update Successful"), tr("App installer downloaded successfully."));
                     // Prompt the user to run the installer
                     QMessageBox::StandardButton installReply = QMessageBox::question(
                         this, tr("Run Installer"),
                         tr("The installer has been downloaded. Would you like to run it now?"),
                         QMessageBox::Yes | QMessageBox::No);
-
                     if (installReply == QMessageBox::Yes) {
-                        // Launch the installer
-                        QProcess::startDetached("msiexec", {"/i", savePath});
+                        QProcess::startDetached("msiexec", QStringList() << "/i" << savePath);
                     }
                 } else {
                     qDebug() << "SettingsWindow: App update failed.";
-                    QMessageBox::warning(this, tr("Update Failed"), tr("Failed to update app."));
+                    QMessageBox::warning(this, tr("Update Failed"), tr("Failed to download app installer."));
                 }
-qDebug() << "Downloading latest app version.";
-                // Add logic to download and install the app
-            }
-
-            if (jsonUpdateState == CheckVersion::UpdateTriState::Yes) {
-                qDebug() << "SettingsWindow: User asked to update the JSON file.";
-                if (versionChecker.downloadFile(jsonDownloadUrl, jsonFilePath, 5000)) {
-                    qDebug() << "SettingsWindow: JSON file updated successfully.";
-                    QMessageBox::information(this, tr("Update Successful"), tr("JSON file updated successfully."));
-                } else {
-                    qDebug() << "SettingsWindow: JSON file update failed.";
-                    QMessageBox::warning(this, tr("Update Failed"), tr("Failed to update JSON file."));
-                }
-qDebug() << "Downloading latest JSON version.";
             }
         }
-    } else if (appUpdateState == CheckVersion::UpdateTriState::No && jsonUpdateState == CheckVersion::UpdateTriState::No) {
-        qDebug() << "SettingsWindow: No updates available.";
-        QMessageBox::information(this, tr("No Updates"), tr("Your application and JSON file are up-to-date."));
+        if (doParserUpdate) {
+            QString parserUrl = versionChecker.getParserRulesUrl();
+            if (versionChecker.downloadFile(QUrl(parserUrl), parserFilePath, 5000)) {
+                QMessageBox::information(this, tr("Parser Updated"),
+                    tr("Parser rules have been updated successfully."));
+            } else {
+                QMessageBox::warning(this, tr("Parser Update Failed"),
+                    tr("Failed to update parser rules."));
+            }
+        }
     } else {
-        qDebug() << "SettingsWindow: Error occurred while checking for updates.";
-        QMessageBox::warning(this, tr("Error"), tr("An error occurred while checking for updates.\n Please check your internet connection and try again."));
+        QMessageBox::information(
+            this, tr("No Update"),
+            tr("You are running the latest version of the application and parser."));
     }
 
-    QApplication::restoreOverrideCursor(); // Restore cursor
-    checkUpdatesButton->setEnabled(true); // Re-enable button
+    QApplication::restoreOverrideCursor();
+    checkUpdatesButton->setEnabled(true);
 }
 
 void SettingsWindow::toggleThemeSelectWindow() {
