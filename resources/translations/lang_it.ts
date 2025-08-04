@@ -9,42 +9,17 @@
         <translation>Richiesta scaduta</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Failed to fetch latest app version data.</source>
         <translation>Impossibile recuperare i dati della versione più recente dell&apos;applicazione.</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Failed to parse JSON: Document is null</source>
-        <translation>Analisi JSON fallita: Il documento è nullo</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Invalid JSON in latest app response</source>
-        <translation>JSON non valido nella risposta dell&apos;ultima versione</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No tag name found in latest app response</source>
-        <translation>Nessun nome tag trovato nella risposta dell&apos;ultima versione</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Exception occurred while parsing JSON: </source>
-        <translation>Si è verificata un&apos;eccezione durante l&apos;analisi JSON: </translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Unknown exception occurred while parsing JSON</source>
-        <translation>Si è verificata un&apos;eccezione sconosciuta durante l&apos;analisi JSON</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="+89"/>
         <source>The version check process failed.</source>
         <translation>Il processo di verifica della versione è fallito.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+45"/>
         <source>Cannot open file for writing: </source>
         <translation>Impossibile aprire il file per la scrittura: </translation>
     </message>
@@ -64,52 +39,55 @@
         <translation>Download scaduto a causa di inattività.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Failed to fetch latest rules.</source>
-        <translation>Impossibile recuperare le regole più recenti.</translation>
+        <location line="-172"/>
+        <location line="+45"/>
+        <source>Failed to parse JSON from latest.json</source>
+        <translation>Errore nel parsing JSON da latest.json</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Failed to parse rules: Document is null</source>
-        <translation>Analisi delle regole fallita: Il documento è nullo</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Invalid rules in latest config response</source>
-        <translation>Regole non valide nella risposta dell&apos;ultima configurazione</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Rules file is missing &apos;version&apos; key</source>
-        <translation>Il file delle regole manca della chiave &apos;version&apos;</translation>
+        <location line="-39"/>
+        <source>No &apos;application&apos; object in latest.json</source>
+        <translation>Nessun oggetto &apos;application&apos; in latest.json</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>&apos;version&apos; key is not a string</source>
-        <translation>La chiave &apos;version&apos; non è una stringa</translation>
+        <source>No application version found in latest.json</source>
+        <translation>Nessuna versione dell&apos;applicazione trovata in latest.json</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>&apos;version&apos; key is empty</source>
-        <translation>La chiave &apos;version&apos; è vuota</translation>
+        <location line="+7"/>
+        <location line="+45"/>
+        <source>Exception occurred while parsing latest.json: </source>
+        <translation>Si è verificata un&apos;eccezione durante il parsing di latest.json: </translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Exception occurred while parsing rules: </source>
-        <translation>Si è verificata un&apos;eccezione durante l&apos;analisi delle regole: </translation>
+        <location line="-41"/>
+        <location line="+45"/>
+        <source>Unknown exception occurred while parsing latest.json</source>
+        <translation>Si è verificata un&apos;eccezione sconosciuta durante il parsing di latest.json</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Unknown exception occurred while parsing rules</source>
-        <translation>Si è verificata un&apos;eccezione sconosciuta durante l&apos;analisi delle regole</translation>
+        <location line="-31"/>
+        <source>Failed to fetch latest parser version data.</source>
+        <translation>Errore nel recupero dei dati dell&apos;ultima versione del parser.</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>Failed to fetch latest rules version.</source>
-        <translation>Impossibile recuperare la versione più recente delle regole.</translation>
+        <location line="+13"/>
+        <source>No &apos;parser&apos; object in latest.json</source>
+        <translation>Nessun oggetto &apos;parser&apos; in latest.json</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+7"/>
+        <source>No parser version found in latest.json</source>
+        <translation>Nessuna versione del parser trovata in latest.json</translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <source>The parser version check process failed.</source>
+        <translation>Il processo di verifica della versione del parser è fallito.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Cannot open local JSON: </source>
         <translation>Impossibile aprire il JSON locale: </translation>
     </message>
@@ -201,15 +179,48 @@
     <name>LanguageSelectWindow</name>
     <message>
         <location filename="../../src/LanguageSelect.cpp" line="+30"/>
-        <location line="+127"/>
+        <location line="+128"/>
         <source>Language Selector</source>
         <translation>Selettore Lingua</translation>
     </message>
     <message>
-        <location line="-108"/>
-        <location line="+109"/>
+        <location line="-109"/>
+        <location line="+110"/>
         <source>&gt; LANGUAGE SELECT</source>
         <translation>&gt; SELEZIONE LINGUA</translation>
+    </message>
+</context>
+<context>
+    <name>LoadingScreen</name>
+    <message>
+        <location filename="../../src/LoadingScreen.cpp" line="+11"/>
+        <source>Loading Gunhead Connect</source>
+        <translation>Caricamento Gunhead Connect</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Gunhead logo loaded successfully</source>
+        <translation>Logo Gunhead caricato con successo</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Failed to load gunhead logo, using text fallback</source>
+        <translation>Impossibile caricare il logo Gunhead, utilizzo del testo di riserva</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Loading...</source>
+        <translation>Caricamento...</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Initializing...</source>
+        <translation>Inizializzazione...</translation>
+    </message>
+    <message>
+        <location line="+85"/>
+        <source>%1</source>
+        <translation>%1</translation>
     </message>
 </context>
 <context>
@@ -390,48 +401,49 @@ CTRL + -</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/mainwindow.ui" line="+6"/>
+        <location filename="../../src/MainWindow.cpp" line="+55"/>
+        <location line="+712"/>
+        <location line="+572"/>
+        <location line="+21"/>
+        <location line="+114"/>
         <source>Gunhead Connect</source>
         <translation>Gunhead Connect</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Enter API Key</source>
-        <translation>Inserisci Chiave API</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Start</source>
-        <translation>Avvia</translation>
-    </message>
-    <message>
-        <location filename="../../src/MainWindow.cpp" line="+90"/>
-        <location line="+453"/>
-        <location line="+766"/>
-        <location line="+13"/>
-        <location line="+44"/>
-        <location line="+87"/>
+        <location line="-1384"/>
+        <location line="+355"/>
+        <location line="+2"/>
+        <location line="+12"/>
+        <location line="+2"/>
+        <location line="+72"/>
+        <location line="+12"/>
+        <location line="+797"/>
+        <location line="+14"/>
+        <location line="+65"/>
+        <location line="+133"/>
         <source>Start Monitoring</source>
         <translation>Avvia Monitoraggio</translation>
     </message>
     <message>
-        <location line="-1360"/>
-        <location line="+1217"/>
+        <location line="-1461"/>
+        <location line="+1250"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location line="-1214"/>
-        <location line="+464"/>
+        <location line="-1247"/>
+        <location line="+466"/>
         <location line="+21"/>
-        <location line="+610"/>
+        <location line="+641"/>
         <location line="+53"/>
         <location line="+72"/>
+        <location line="+225"/>
+        <location line="+12"/>
         <source>View Log</source>
         <translation>Visualizza Log</translation>
     </message>
     <message>
-        <location line="-1214"/>
+        <location line="-1484"/>
         <source>Ready</source>
         <translation>Pronto</translation>
     </message>
@@ -442,30 +454,30 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+48"/>
-        <location line="+831"/>
+        <location line="+848"/>
         <source>Game mode: Persistent Universe</source>
         <translation>Modalità di gioco: Universo Persistente</translation>
     </message>
     <message>
-        <location line="-829"/>
-        <location line="+831"/>
+        <location line="-846"/>
+        <location line="+848"/>
         <source>Game mode: Arena Commander: %1</source>
         <translation>Modalità di gioco: Arena Commander: %1</translation>
     </message>
     <message>
-        <location line="-825"/>
-        <location line="+932"/>
+        <location line="-842"/>
+        <location line="+949"/>
         <source>Game mode changed to Persistent Universe</source>
         <translation>Modalità di gioco cambiata in Universo Persistente</translation>
     </message>
     <message>
-        <location line="-930"/>
-        <location line="+932"/>
+        <location line="-947"/>
+        <location line="+949"/>
         <source>Game mode changed to Arena Commander: %1</source>
         <translation>Modalità di gioco cambiata in Arena Commander: %1</translation>
     </message>
     <message>
-        <location line="-805"/>
+        <location line="-822"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
         <translation>Errore: Chiave API non configurata. Si prega di configurarla nelle Impostazioni.</translation>
     </message>
@@ -476,21 +488,28 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location line="+111"/>
         <source>Error: Could not connect to Gunhead server. Monitoring not started.</source>
         <translation>Errore: Impossibile connettersi al server Gunhead Server. Monitoraggio non avviato.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-108"/>
         <source>ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection.</source>
         <translation>ERRORE: Connessione al server Gunhead fallita. Controlla la tua chiave API e la connessione internet.</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+12"/>
         <source>Connected to Gunhead server successfully. Monitoring started.</source>
         <translation>Connessione al server Gunhead riuscita. Monitoraggio avviato.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+14"/>
+        <location line="+4"/>
+        <source>Connecting...</source>
+        <translation>Connessione...</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Star Citizen not running. Attempting to launch...</source>
         <translation>Star Citizen non in esecuzione. Tentativo di avvio in corso...</translation>
     </message>
@@ -520,36 +539,74 @@ CTRL + -</translation>
         <translation>Errore: File di log del gioco non trovato.</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+1"/>
+        <source>The game log file was not found at the expected location:
+%1
+Please check your game folder settings.</source>
+        <translation>Il file di log del gioco non è stato trovato nella posizione prevista:
+%1
+Controlla le impostazioni della cartella del gioco.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+14"/>
+        <source>Monitoring Error</source>
+        <translation>Errore di monitoraggio</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>API connection failed. Please check your API key and internet connection.
+API Key: %1</source>
+        <translation>Connessione API fallita. Controlla la tua chiave API e la connessione internet.
+Chiave API: %1</translation>
+    </message>
+    <message>
+        <location line="+46"/>
         <source>Monitoring started.</source>
         <translation>Monitoraggio avviato.</translation>
     </message>
     <message>
         <location line="+47"/>
-        <location line="+226"/>
+        <location line="+241"/>
         <source>Monitoring stopped.</source>
         <translation>Monitoraggio arrestato.</translation>
     </message>
     <message>
-        <location line="+454"/>
+        <location line="-44"/>
+        <location line="+816"/>
+        <source>Show Main Window</source>
+        <translation>Mostra finestra principale</translation>
+    </message>
+    <message>
+        <location line="-302"/>
         <location line="+88"/>
+        <location line="+247"/>
         <source>Hide Log</source>
         <translation>Nascondi Log</translation>
     </message>
     <message>
-        <location line="+183"/>
+        <location line="-28"/>
+        <source>Hide Main Window</source>
+        <translation>Nascondi finestra principale</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+12"/>
+        <source>Show Log Window</source>
+        <translation>Mostra finestra log</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Hide Log Window</source>
+        <translation>Nascondi finestra log</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Gunhead Connect (Active)</source>
         <translation>Gunhead Connect (Attivo)</translation>
     </message>
     <message>
-        <location line="-748"/>
-        <location line="+577"/>
-        <location line="+82"/>
-        <source>Gunhead Connect</source>
-        <translation>Gunhead Connect</translation>
-    </message>
-    <message>
-        <location line="-658"/>
+        <location line="-862"/>
         <source>Application was minimized to tray</source>
         <translation>L&apos;applicazione è stata ridotta a icona nel vassoio di sistema</translation>
     </message>
@@ -603,155 +660,247 @@ CTRL + -</translation>
         <translation>Cartella di gioco aggiornata. Pronto per avviare il monitoraggio.</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+136"/>
         <source>API connection error detected during routine check</source>
         <translation>Errore di connessione API rilevato durante il controllo di routine</translation>
     </message>
     <message>
-        <location line="+144"/>
-        <source>Gunhead Connect</source>
-        <translation>Gunhead Connect</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <location line="+40"/>
-        <source>Show/Hide</source>
-        <translation>Mostra/Nascondi</translation>
-    </message>
-    <message>
-        <location line="-38"/>
-        <location line="+50"/>
+        <location line="+162"/>
+        <location line="+82"/>
         <source>Exit</source>
         <translation>Esci</translation>
     </message>
     <message>
-        <location line="-882"/>
-        <location line="+818"/>
-        <location line="+13"/>
-        <location line="+131"/>
+        <location line="-958"/>
+        <location line="+12"/>
+        <location line="+849"/>
+        <location line="+14"/>
+        <location line="+198"/>
         <source>Stop Monitoring</source>
         <translation>Ferma Monitoraggio</translation>
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../src/main.cpp" line="+193"/>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Application started minimized to tray</source>
+        <translation>Applicazione avviata minimizzata nella barra delle applicazioni</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>Monitoring Error</source>
+        <translation>Errore di Monitoraggio</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to start monitoring automatically. Please check the application.</source>
+        <translation>Errore nell&apos;avvio automatico del monitoraggio. Controllare l&apos;applicazione.</translation>
+    </message>
+</context>
+<context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="+66"/>
-        <location line="+668"/>
+        <location filename="../../src/SettingsWindow.cpp" line="+67"/>
+        <location line="+725"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location line="-616"/>
-        <location line="+629"/>
+        <location line="-673"/>
+        <location line="+686"/>
         <source>Version: </source>
         <translation>Versione: </translation>
     </message>
     <message>
-        <location line="-621"/>
-        <location line="+624"/>
+        <location line="-678"/>
+        <location line="+681"/>
         <source>Check for Updates</source>
         <translation>Controlla Aggiornamenti</translation>
     </message>
     <message>
-        <location line="-610"/>
-        <location line="+627"/>
+        <location line="-666"/>
+        <location line="+683"/>
         <source>Check for new versions on startup</source>
         <translation>Controlla nuove versioni all&apos;avvio</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+628"/>
+        <location line="-681"/>
+        <location line="+686"/>
         <source>Check for updates now</source>
         <translation>Controlla aggiornamenti ora</translation>
     </message>
     <message>
-        <location line="-564"/>
-        <location line="+546"/>
+        <location line="-612"/>
+        <location line="+592"/>
         <source>Game LIVE Folder Path</source>
         <translation>Percorso Cartella LIVE del Gioco</translation>
     </message>
     <message>
-        <location line="-543"/>
+        <location line="-589"/>
         <location line="+12"/>
-        <location line="+554"/>
+        <location line="+602"/>
         <location line="+3"/>
         <source>Browse</source>
         <translation>Sfoglia</translation>
     </message>
     <message>
-        <location line="-544"/>
-        <location line="+547"/>
+        <location line="-588"/>
+        <location line="+591"/>
         <source>Save</source>
         <translation>Salva</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+602"/>
+        <location line="-682"/>
+        <location line="+657"/>
         <source>Gunhead Key</source>
         <translation>Chiave Gunhead</translation>
     </message>
     <message>
-        <location line="-598"/>
-        <location line="+624"/>
+        <location line="-653"/>
+        <location line="+681"/>
         <source>Save API Key</source>
         <translation>Salva Chiave API</translation>
     </message>
     <message>
-        <location line="-610"/>
-        <location line="+595"/>
+        <location line="-665"/>
+        <location line="+649"/>
         <source>Minimize to system tray instead of closing</source>
         <translation>Riduci a icona nel vassoio di sistema invece di chiudere</translation>
     </message>
     <message>
-        <location line="-584"/>
-        <location line="+553"/>
+        <location line="-645"/>
+        <location line="+646"/>
+        <source>Start application minimized on launch</source>
+        <translation>Avvia l&apos;applicazione minimizzata all&apos;avvio</translation>
+    </message>
+    <message>
+        <location line="-632"/>
+        <location line="+599"/>
         <source>General</source>
         <translation>Generale</translation>
     </message>
     <message>
-        <location line="-520"/>
-        <location line="+537"/>
+        <location line="-566"/>
+        <location line="+583"/>
         <source>RSI Launcher Path</source>
         <translation>Percorso del Launcher RSI</translation>
     </message>
     <message>
-        <location line="-499"/>
-        <location line="+483"/>
+        <location line="-567"/>
+        <location line="+581"/>
+        <source>Start monitoring automatically when application launches</source>
+        <translation>Avvia il monitoraggio automaticamente quando l&apos;applicazione si avvia</translation>
+    </message>
+    <message>
+        <location line="-554"/>
+        <location line="+524"/>
         <source>Game</source>
         <translation>Gioco</translation>
     </message>
     <message>
-        <location line="-475"/>
-        <location line="+496"/>
+        <location line="-516"/>
+        <location line="+537"/>
         <source>Select Notification Sound</source>
         <translation>Seleziona Suono di Notifica</translation>
     </message>
     <message>
-        <location line="-489"/>
-        <location line="+516"/>
+        <location line="-530"/>
+        <location line="+559"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location line="-489"/>
-        <location line="+492"/>
+        <location line="-532"/>
+        <location line="+535"/>
         <source>Change Language</source>
         <translation>Cambia Lingua</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+490"/>
+        <location line="-530"/>
+        <location line="+533"/>
         <source>Change Theme</source>
         <translation>Cambia Tema</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="-279"/>
+        <location line="+18"/>
+        <source>Download latest App installer</source>
+        <translation>Scarica l&apos;ultimo installatore dell&apos;app</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <location line="+17"/>
+        <source>Update parser rules (logfile_regex_rules.json)</source>
+        <translation>Aggiorna regole del parser (logfile_regex_rules.json)</translation>
+    </message>
+    <message>
+        <location line="-11"/>
+        <source>Update Available</source>
+        <translation>Aggiornamento disponibile</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 is available. Would you like to update?</source>
+        <translation>%1 è disponibile. Vuoi aggiornare?</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Select what to update:</source>
+        <translation>Seleziona cosa aggiornare:</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>App installer downloaded successfully.</source>
+        <translation>Installatore app scaricato con successo.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to download app installer.</source>
+        <translation>Impossibile scaricare l&apos;installatore dell&apos;app.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Parser Updated</source>
+        <translation>Parser aggiornato</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Parser rules have been updated successfully.</source>
+        <translation>Le regole del parser sono state aggiornate con successo.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Parser Update Failed</source>
+        <translation>Aggiornamento parser fallito</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to update parser rules.</source>
+        <translation>Impossibile aggiornare le regole del parser.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>No Update</source>
+        <translation>Nessun aggiornamento</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You are running the latest version of the application and parser.</source>
+        <translation>Stai utilizzando l&apos;ultima versione dell&apos;applicazione e del parser.</translation>
+    </message>
+    <message>
+        <location line="+165"/>
         <source>Sounds/Language/Themes</source>
         <translation>Suoni/Lingua/Temi</translation>
     </message>
     <message>
-        <location line="-340"/>
+        <location line="-346"/>
         <source>Select Game Folder</source>
         <translation>Seleziona Cartella di Gioco</translation>
     </message>
@@ -768,7 +917,7 @@ CTRL + -</translation>
         <translation>La cartella selezionata non contiene il launcher di Star Citizen.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+38"/>
         <source>Panel Closed Error</source>
         <translation>Errore Pannello Chiuso</translation>
     </message>
@@ -786,7 +935,7 @@ Questo significa che la tua chiave API potrebbe essere valida, ma il pannello Di
 Riapri il pannello Gunhead o contatta l&apos;amministratore del server Discord se ritieni che questo sia un errore.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Authentication Error</source>
         <translation>Errore di Autenticazione</translation>
     </message>
@@ -800,7 +949,7 @@ Please check your API key and try again. Make sure you copied the entire key wit
 Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera chiave senza spazi o caratteri extra.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Success</source>
         <translation>Successo</translation>
     </message>
@@ -810,7 +959,7 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <translation>Gunhead Connesso con successo!</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Connection Error</source>
         <translation>Errore di Connessione</translation>
     </message>
@@ -820,22 +969,12 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <translation>Impossibile connettersi a Gunhead Server. Controlla la tua connessione internet e riprova.</translation>
     </message>
     <message>
-        <location line="+90"/>
-        <source>Error</source>
-        <translation>Errore</translation>
-    </message>
-    <message>
-        <location line="+188"/>
+        <location line="+280"/>
         <source>Auto-launch Star Citizen</source>
         <translation>Avvio automatico di Star Citizen</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Auto-Launch Star Citizen when monitoring starts</source>
-        <translation>Avvio automatico di Star Citizen quando inizia il monitoraggio</translation>
-    </message>
-    <message>
-        <location line="+33"/>
+        <location line="+40"/>
         <source>Select RSI Launcher</source>
         <translation>Seleziona Launcher RSI</translation>
     </message>
@@ -845,34 +984,30 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <translation>File Eseguibili (*.exe)</translation>
     </message>
     <message>
-        <location line="-313"/>
+        <location line="-316"/>
         <source>API Key Saved</source>
         <translation>Chiave API Salvata</translation>
     </message>
     <message>
-        <location line="-258"/>
+        <location line="-303"/>
+        <location line="+584"/>
         <source>Auto-launch Star Citizen when monitoring starts</source>
         <translation>Avvio automatico di Star Citizen quando inizia il monitoraggio</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="-496"/>
         <source>User Interface</source>
         <translation>Interfaccia Utente</translation>
     </message>
     <message>
-        <location line="+175"/>
+        <location line="+215"/>
         <source>Your API key has been saved.</source>
         <translation>La tua chiave API è stata salvata.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+45"/>
         <source>Updates Available</source>
         <translation>Aggiornamenti Disponibili</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Updates are available. Would you like to download them?</source>
-        <translation>Sono disponibili aggiornamenti. Vuoi scaricarli?</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -880,23 +1015,17 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <translation>Salva Installer</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+0"/>
         <source>Installer Files (*.msi)</source>
         <translation>File di Installazione (*.msi)</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <location line="+24"/>
+        <location line="+6"/>
         <source>Update Successful</source>
         <translation>Aggiornamento Riuscito</translation>
     </message>
     <message>
-        <location line="-24"/>
-        <source>App updated successfully.</source>
-        <translation>App aggiornata con successo.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="+3"/>
         <source>Run Installer</source>
         <translation>Esegui Installer</translation>
     </message>
@@ -906,42 +1035,9 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
         <translation>L&apos;installer è stato scaricato. Vuoi eseguirlo ora?</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <location line="+13"/>
+        <location line="+7"/>
         <source>Update Failed</source>
         <translation>Aggiornamento Fallito</translation>
-    </message>
-    <message>
-        <location line="-13"/>
-        <source>Failed to update app.</source>
-        <translation>Impossibile aggiornare l&apos;app.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>JSON file updated successfully.</source>
-        <translation>File JSON aggiornato con successo.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Failed to update JSON file.</source>
-        <translation>Impossibile aggiornare il file JSON.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No Updates</source>
-        <translation>Nessun Aggiornamento</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Your application and JSON file are up-to-date.</source>
-        <translation>La tua applicazione e il file JSON sono aggiornati.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>An error occurred while checking for updates.
- Please check your internet connection and try again.</source>
-        <translation>Si è verificato un errore durante il controllo degli aggiornamenti.
- Controlla la tua connessione internet e riprova.</translation>
     </message>
 </context>
 <context>
@@ -962,16 +1058,16 @@ Controlla la tua chiave API e riprova. Assicurati di aver copiato l&apos;intera 
 <context>
     <name>Transmitter</name>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="+151"/>
-        <location line="+84"/>
-        <location line="+277"/>
+        <location filename="../../src/Transmitter.cpp" line="+183"/>
+        <location line="+89"/>
+        <location line="+282"/>
         <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.</source>
         <translation>Il pannello Gunhead per questo server è stato chiuso o non esiste.</translation>
     </message>
     <message>
-        <location line="-357"/>
-        <location line="+84"/>
-        <location line="+277"/>
+        <location line="-367"/>
+        <location line="+89"/>
+        <location line="+282"/>
         <source>Invalid API key. Please check your API key and try again.</source>
         <translation>Chiave API non valida. Controlla la tua chiave API e riprova.</translation>
     </message>

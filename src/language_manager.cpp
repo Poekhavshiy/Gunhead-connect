@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QDebug>
+#include <QSettings> // ADDED
 
 void LanguageManager::setSelectedLanguage(const QString& language) {
     if (selectedLanguage != language) {
@@ -44,4 +45,35 @@ void LanguageManager::applySelectedLanguage() {
     } else {
         qDebug() << "Failed to load translation for:" << localeCode << "from path:" << qmPath;
     }
+}
+
+// ADDED: Save the current selected language to QSettings
+void LanguageManager::saveSelectedLanguage() {
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    settings.setValue("Language/CurrentLanguage", selectedLanguage);
+    settings.sync();
+    qDebug() << "Language saved to settings:" << selectedLanguage;
+}
+
+// ADDED: Load the selected language from QSettings
+void LanguageManager::loadSelectedLanguage() {
+    QSettings settings("KillApiConnect", "KillApiConnectPlus");
+    QString savedLanguage = settings.value("Language/CurrentLanguage", "English").toString();
+    
+    // Convert old locale code format to language name if needed
+    if (savedLanguage == "en") savedLanguage = "English";
+    else if (savedLanguage == "zh") savedLanguage = "繁體中文";
+    else if (savedLanguage == "ja") savedLanguage = "日本語";
+    else if (savedLanguage == "uk") savedLanguage = "Українська";
+    else if (savedLanguage == "ru") savedLanguage = "Русский";
+    else if (savedLanguage == "de") savedLanguage = "Deutsch";
+    else if (savedLanguage == "es") savedLanguage = "Español";
+    else if (savedLanguage == "fr") savedLanguage = "Français";
+    else if (savedLanguage == "it") savedLanguage = "Italiano";
+    else if (savedLanguage == "pl") savedLanguage = "Polski";
+    else if (savedLanguage == "pt") savedLanguage = "Português";
+    else if (savedLanguage == "ko") savedLanguage = "한국어";
+    
+    selectedLanguage = savedLanguage;
+    qDebug() << "Language loaded from settings:" << selectedLanguage;
 }

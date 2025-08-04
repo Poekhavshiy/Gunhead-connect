@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QLocalSocket>
 #include <QLocalServer>
+#include <QStandardPaths>
 
 #include "logger.h"
 #include "LoadingScreen.h"
@@ -18,7 +19,8 @@
 #include "SettingsWindow.h"
 #include "globals.h"
 #include "SoundPlayer.h"
-#include "version.h" // Compile time version header, always throws error in IDE because it does not exist until compiled in.
+#include "version.h"
+#include "language_manager.h" // ADDED // Compile time version header, always throws error in IDE because it does not exist until compiled in.
 
 // Define the server name for IPC
 #define SERVER_NAME "Gunhead-Connect-SingleInstance"
@@ -51,7 +53,7 @@ void initialize_default_settings() {
         settings.setValue("LogDisplay/WindowSize", QSize(600, 400));
 
         // Other app-specific defaults
-        settings.setValue("Language/CurrentLanguage", "en");
+        settings.setValue("Language/CurrentLanguage", "English"); // MODIFIED: Use language name instead of locale code
 
         // Mark as initialized
         settings.setValue("Initialized", true);
@@ -111,8 +113,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    init_logger(ISDEBUG, ISDEBUGTOCONSOLE, "logs/");
+    QString logDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/logs";
+    init_logger(ISDEBUG, ISDEBUGTOCONSOLE, logDir.toStdString());
     log_info("main()", "Gunhead Connect started in " + std::string(ISDEBUG ? "DEBUG" : "RELEASE") + " mode");
+    
+    // ADDED: Initialize language system and load saved language
+    LanguageManager::instance().loadSelectedLanguage();
+    LanguageManager::instance().applySelectedLanguage();
     
     // Set up the local server to listen for other instances
     QLocalServer* localServer = new QLocalServer(&app);

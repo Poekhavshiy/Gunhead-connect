@@ -9,42 +9,17 @@
         <translation>요청 시간 초과</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Failed to fetch latest app version data.</source>
         <translation>최신 앱 버전 데이터를 가져오지 못했습니다.</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Failed to parse JSON: Document is null</source>
-        <translation>JSON 구문 분석 실패: 문서가 null입니다</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Invalid JSON in latest app response</source>
-        <translation>최신 앱 응답에 유효하지 않은 JSON</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No tag name found in latest app response</source>
-        <translation>최신 앱 응답에서 태그 이름을 찾을 수 없습니다</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Exception occurred while parsing JSON: </source>
-        <translation>JSON 구문 분석 중 예외 발생: </translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Unknown exception occurred while parsing JSON</source>
-        <translation>JSON 구문 분석 중 알 수 없는 예외 발생</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="+89"/>
         <source>The version check process failed.</source>
         <translation>버전 확인 프로세스가 실패했습니다.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+45"/>
         <source>Cannot open file for writing: </source>
         <translation>쓰기 위해 파일을 열 수 없습니다: </translation>
     </message>
@@ -64,52 +39,55 @@
         <translation>비활성으로 인해 다운로드 시간이 초과되었습니다.</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Failed to fetch latest rules.</source>
-        <translation>최신 규칙을 가져오지 못했습니다.</translation>
+        <location line="-172"/>
+        <location line="+45"/>
+        <source>Failed to parse JSON from latest.json</source>
+        <translation>latest.json에서 JSON 파싱 실패</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Failed to parse rules: Document is null</source>
-        <translation>규칙 구문 분석 실패: 문서가 null입니다</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Invalid rules in latest config response</source>
-        <translation>최신 구성 응답에 유효하지 않은 규칙</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Rules file is missing &apos;version&apos; key</source>
-        <translation>규칙 파일에 &apos;version&apos; 키가 없습니다</translation>
+        <location line="-39"/>
+        <source>No &apos;application&apos; object in latest.json</source>
+        <translation>latest.json에 &apos;application&apos; 객체가 없습니다</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>&apos;version&apos; key is not a string</source>
-        <translation>&apos;version&apos; 키가 문자열이 아닙니다</translation>
+        <source>No application version found in latest.json</source>
+        <translation>latest.json에서 애플리케이션 버전을 찾을 수 없습니다</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>&apos;version&apos; key is empty</source>
-        <translation>&apos;version&apos; 키가 비어 있습니다</translation>
+        <location line="+7"/>
+        <location line="+45"/>
+        <source>Exception occurred while parsing latest.json: </source>
+        <translation>latest.json 파싱 중 예외 발생: </translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Exception occurred while parsing rules: </source>
-        <translation>규칙 구문 분석 중 예외 발생: </translation>
+        <location line="-41"/>
+        <location line="+45"/>
+        <source>Unknown exception occurred while parsing latest.json</source>
+        <translation>latest.json 파싱 중 알 수 없는 예외 발생</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Unknown exception occurred while parsing rules</source>
-        <translation>규칙 구문 분석 중 알 수 없는 예외 발생</translation>
+        <location line="-31"/>
+        <source>Failed to fetch latest parser version data.</source>
+        <translation>최신 파서 버전 데이터 가져오기 실패.</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>Failed to fetch latest rules version.</source>
-        <translation>최신 규칙 버전을 가져오지 못했습니다.</translation>
+        <location line="+13"/>
+        <source>No &apos;parser&apos; object in latest.json</source>
+        <translation>latest.json에 &apos;parser&apos; 객체가 없습니다</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+7"/>
+        <source>No parser version found in latest.json</source>
+        <translation>latest.json에서 파서 버전을 찾을 수 없습니다</translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <source>The parser version check process failed.</source>
+        <translation>파서 버전 확인 프로세스가 실패했습니다.</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Cannot open local JSON: </source>
         <translation>로컬 JSON을 열 수 없습니다: </translation>
     </message>
@@ -201,15 +179,48 @@
     <name>LanguageSelectWindow</name>
     <message>
         <location filename="../../src/LanguageSelect.cpp" line="+30"/>
-        <location line="+127"/>
+        <location line="+128"/>
         <source>Language Selector</source>
         <translation>언어 선택기</translation>
     </message>
     <message>
-        <location line="-108"/>
-        <location line="+109"/>
+        <location line="-109"/>
+        <location line="+110"/>
         <source>&gt; LANGUAGE SELECT</source>
         <translation>&gt; 언어 선택</translation>
+    </message>
+</context>
+<context>
+    <name>LoadingScreen</name>
+    <message>
+        <location filename="../../src/LoadingScreen.cpp" line="+11"/>
+        <source>Loading Gunhead Connect</source>
+        <translation>건헤드 커넥트 로딩 중</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Gunhead logo loaded successfully</source>
+        <translation>건헤드 로고가 성공적으로 로드되었습니다</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Failed to load gunhead logo, using text fallback</source>
+        <translation>건헤드 로고 로드 실패, 텍스트 대체 사용</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Loading...</source>
+        <translation>로딩 중...</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Initializing...</source>
+        <translation>초기화 중...</translation>
+    </message>
+    <message>
+        <location line="+85"/>
+        <source>%1</source>
+        <translation>%1</translation>
     </message>
 </context>
 <context>
@@ -390,48 +401,49 @@ CTRL + -</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/mainwindow.ui" line="+6"/>
+        <location filename="../../src/MainWindow.cpp" line="+55"/>
+        <location line="+712"/>
+        <location line="+572"/>
+        <location line="+21"/>
+        <location line="+114"/>
         <source>Gunhead Connect</source>
         <translation>Gunhead Connect</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Enter API Key</source>
-        <translation>API 키 입력</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Start</source>
-        <translation>시작</translation>
-    </message>
-    <message>
-        <location filename="../../src/MainWindow.cpp" line="+90"/>
-        <location line="+453"/>
-        <location line="+766"/>
-        <location line="+13"/>
-        <location line="+44"/>
-        <location line="+87"/>
+        <location line="-1384"/>
+        <location line="+355"/>
+        <location line="+2"/>
+        <location line="+12"/>
+        <location line="+2"/>
+        <location line="+72"/>
+        <location line="+12"/>
+        <location line="+797"/>
+        <location line="+14"/>
+        <location line="+65"/>
+        <location line="+133"/>
         <source>Start Monitoring</source>
         <translation>모니터링 시작</translation>
     </message>
     <message>
-        <location line="-1360"/>
-        <location line="+1217"/>
+        <location line="-1461"/>
+        <location line="+1250"/>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
     <message>
-        <location line="-1214"/>
-        <location line="+464"/>
+        <location line="-1247"/>
+        <location line="+466"/>
         <location line="+21"/>
-        <location line="+610"/>
+        <location line="+641"/>
         <location line="+53"/>
         <location line="+72"/>
+        <location line="+225"/>
+        <location line="+12"/>
         <source>View Log</source>
         <translation>로그 보기</translation>
     </message>
     <message>
-        <location line="-1214"/>
+        <location line="-1484"/>
         <source>Ready</source>
         <translation>준비됨</translation>
     </message>
@@ -442,30 +454,30 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+48"/>
-        <location line="+831"/>
+        <location line="+848"/>
         <source>Game mode: Persistent Universe</source>
         <translation>게임 모드: 영구 우주</translation>
     </message>
     <message>
-        <location line="-829"/>
-        <location line="+831"/>
+        <location line="-846"/>
+        <location line="+848"/>
         <source>Game mode: Arena Commander: %1</source>
         <translation>게임 모드: 아레나 커맨더: %1</translation>
     </message>
     <message>
-        <location line="-825"/>
-        <location line="+932"/>
+        <location line="-842"/>
+        <location line="+949"/>
         <source>Game mode changed to Persistent Universe</source>
         <translation>게임 모드가 영구 우주로 변경되었습니다</translation>
     </message>
     <message>
-        <location line="-930"/>
-        <location line="+932"/>
+        <location line="-947"/>
+        <location line="+949"/>
         <source>Game mode changed to Arena Commander: %1</source>
         <translation>게임 모드가 아레나 커맨더로 변경되었습니다: %1</translation>
     </message>
     <message>
-        <location line="-805"/>
+        <location line="-822"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
         <translation>오류: API 키가 구성되지 않았습니다. 설정에서 설정하세요.</translation>
     </message>
@@ -476,21 +488,28 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location line="+111"/>
         <source>Error: Could not connect to Gunhead server. Monitoring not started.</source>
         <translation>오류: Gunhead 서버에 연결할 수 없습니다. 모니터링이 시작되지 않았습니다.</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-108"/>
         <source>ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection.</source>
         <translation>오류: Gunhead 서버에 연결하지 못했습니다. API 키와 인터넷 연결을 확인하세요.</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+12"/>
         <source>Connected to Gunhead server successfully. Monitoring started.</source>
         <translation>Gunhead 서버에 성공적으로 연결되었습니다. 모니터링이 시작되었습니다.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+14"/>
+        <location line="+4"/>
+        <source>Connecting...</source>
+        <translation>연결 중...</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Star Citizen not running. Attempting to launch...</source>
         <translation>스타 시티즌이 실행 중이 아닙니다. 실행 시도 중...</translation>
     </message>
@@ -520,44 +539,83 @@ CTRL + -</translation>
         <translation>오류: 게임 로그 파일을 찾을 수 없습니다.</translation>
     </message>
     <message>
-        <location line="+49"/>
-        <location line="+818"/>
-        <location line="+13"/>
-        <location line="+131"/>
+        <location line="+1"/>
+        <source>The game log file was not found at the expected location:
+%1
+Please check your game folder settings.</source>
+        <translation>게임 로그 파일을 예상 위치에서 찾을 수 없습니다:
+%1
+게임 폴더 설정을 확인해 주세요.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+14"/>
+        <source>Monitoring Error</source>
+        <translation>모니터링 오류</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>API connection failed. Please check your API key and internet connection.
+API Key: %1</source>
+        <translation>API 연결 실패. API 키와 인터넷 연결을 확인해 주세요.
+API 키: %1</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <location line="+12"/>
+        <location line="+849"/>
+        <location line="+14"/>
+        <location line="+198"/>
         <source>Stop Monitoring</source>
         <translation>모니터링 중지</translation>
     </message>
     <message>
-        <location line="-954"/>
+        <location line="-1053"/>
         <source>Monitoring started.</source>
         <translation>모니터링이 시작되었습니다.</translation>
     </message>
     <message>
         <location line="+47"/>
-        <location line="+226"/>
+        <location line="+241"/>
         <source>Monitoring stopped.</source>
         <translation>모니터링이 중지되었습니다.</translation>
     </message>
     <message>
-        <location line="+454"/>
+        <location line="-44"/>
+        <location line="+816"/>
+        <source>Show Main Window</source>
+        <translation>메인 창 표시</translation>
+    </message>
+    <message>
+        <location line="-302"/>
         <location line="+88"/>
+        <location line="+247"/>
         <source>Hide Log</source>
         <translation>로그 숨기기</translation>
     </message>
     <message>
-        <location line="+183"/>
+        <location line="-28"/>
+        <source>Hide Main Window</source>
+        <translation>메인 창 숨기기</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+12"/>
+        <source>Show Log Window</source>
+        <translation>로그 창 표시</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Hide Log Window</source>
+        <translation>로그 창 숨기기</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Gunhead Connect (Active)</source>
         <translation>Gunhead Connect (활성)</translation>
     </message>
     <message>
-        <location line="-748"/>
-        <location line="+577"/>
-        <location line="+82"/>
-        <source>Gunhead Connect</source>
-        <translation>Gunhead Connect</translation>
-    </message>
-    <message>
-        <location line="-658"/>
+        <location line="-862"/>
         <source>Application was minimized to tray</source>
         <translation>애플리케이션이 트레이로 최소화되었습니다</translation>
     </message>
@@ -611,147 +669,238 @@ CTRL + -</translation>
         <translation>게임 폴더가 업데이트되었습니다. 모니터링을 시작할 준비가 되었습니다.</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+136"/>
         <source>API connection error detected during routine check</source>
         <translation>정기 검사 중 API 연결 오류가 감지되었습니다</translation>
     </message>
     <message>
-        <location line="+144"/>
-        <source>Gunhead Connect</source>
-        <translation>Gunhead Connect</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <location line="+40"/>
-        <source>Show/Hide</source>
-        <translation>표시/숨기기</translation>
-    </message>
-    <message>
-        <location line="-38"/>
-        <location line="+50"/>
+        <location line="+162"/>
+        <location line="+82"/>
         <source>Exit</source>
         <translation>종료</translation>
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../src/main.cpp" line="+193"/>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Application started minimized to tray</source>
+        <translation>애플리케이션이 트레이에 최소화된 상태로 시작됨</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>Monitoring Error</source>
+        <translation>모니터링 오류</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to start monitoring automatically. Please check the application.</source>
+        <translation>자동 모니터링 시작 실패. 애플리케이션을 확인해주세요.</translation>
+    </message>
+</context>
+<context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="+66"/>
-        <location line="+668"/>
+        <location filename="../../src/SettingsWindow.cpp" line="+67"/>
+        <location line="+725"/>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
     <message>
-        <location line="-616"/>
-        <location line="+629"/>
+        <location line="-673"/>
+        <location line="+686"/>
         <source>Version: </source>
         <translation>버전: </translation>
     </message>
     <message>
-        <location line="-621"/>
-        <location line="+624"/>
+        <location line="-678"/>
+        <location line="+681"/>
         <source>Check for Updates</source>
         <translation>업데이트 확인</translation>
     </message>
     <message>
-        <location line="-610"/>
-        <location line="+627"/>
+        <location line="-666"/>
+        <location line="+683"/>
         <source>Check for new versions on startup</source>
         <translation>시작 시 새 버전 확인</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+628"/>
+        <location line="-681"/>
+        <location line="+686"/>
         <source>Check for updates now</source>
         <translation>지금 업데이트 확인</translation>
     </message>
     <message>
-        <location line="-564"/>
-        <location line="+546"/>
+        <location line="-612"/>
+        <location line="+592"/>
         <source>Game LIVE Folder Path</source>
         <translation>게임 LIVE 폴더 경로</translation>
     </message>
     <message>
-        <location line="-543"/>
+        <location line="-589"/>
         <location line="+12"/>
-        <location line="+554"/>
+        <location line="+602"/>
         <location line="+3"/>
         <source>Browse</source>
         <translation>찾아보기</translation>
     </message>
     <message>
-        <location line="-544"/>
-        <location line="+547"/>
+        <location line="-588"/>
+        <location line="+591"/>
         <source>Save</source>
         <translation>저장</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+602"/>
+        <location line="-682"/>
+        <location line="+657"/>
         <source>Gunhead Key</source>
         <translation>Gunhead 키</translation>
     </message>
     <message>
-        <location line="-598"/>
-        <location line="+624"/>
+        <location line="-653"/>
+        <location line="+681"/>
         <source>Save API Key</source>
         <translation>API 키 저장</translation>
     </message>
     <message>
-        <location line="-610"/>
-        <location line="+595"/>
+        <location line="-665"/>
+        <location line="+649"/>
         <source>Minimize to system tray instead of closing</source>
         <translation>닫는 대신 시스템 트레이로 최소화</translation>
     </message>
     <message>
-        <location line="-584"/>
-        <location line="+553"/>
+        <location line="-645"/>
+        <location line="+646"/>
+        <source>Start application minimized on launch</source>
+        <translation>실행 시 애플리케이션을 최소화로 시작</translation>
+    </message>
+    <message>
+        <location line="-632"/>
+        <location line="+599"/>
         <source>General</source>
         <translation>일반</translation>
     </message>
     <message>
-        <location line="-520"/>
-        <location line="+537"/>
+        <location line="-566"/>
+        <location line="+583"/>
         <source>RSI Launcher Path</source>
         <translation>RSI 런처 경로</translation>
     </message>
     <message>
-        <location line="-499"/>
-        <location line="+483"/>
+        <location line="-567"/>
+        <location line="+581"/>
+        <source>Start monitoring automatically when application launches</source>
+        <translation>애플리케이션 실행 시 자동으로 모니터링 시작</translation>
+    </message>
+    <message>
+        <location line="-554"/>
+        <location line="+524"/>
         <source>Game</source>
         <translation>게임</translation>
     </message>
     <message>
-        <location line="-475"/>
-        <location line="+496"/>
+        <location line="-516"/>
+        <location line="+537"/>
         <source>Select Notification Sound</source>
         <translation>알림 소리 선택</translation>
     </message>
     <message>
-        <location line="-489"/>
-        <location line="+516"/>
+        <location line="-530"/>
+        <location line="+559"/>
         <source>Test</source>
         <translation>테스트</translation>
     </message>
     <message>
-        <location line="-489"/>
-        <location line="+492"/>
+        <location line="-532"/>
+        <location line="+535"/>
         <source>Change Language</source>
         <translation>언어 변경</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+490"/>
+        <location line="-530"/>
+        <location line="+533"/>
         <source>Change Theme</source>
         <translation>테마 변경</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="-279"/>
+        <location line="+18"/>
+        <source>Download latest App installer</source>
+        <translation>최신 앱 인스톨러 다운로드</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <location line="+17"/>
+        <source>Update parser rules (logfile_regex_rules.json)</source>
+        <translation>파서 규칙 업데이트 (logfile_regex_rules.json)</translation>
+    </message>
+    <message>
+        <location line="-11"/>
+        <source>Update Available</source>
+        <translation>업데이트 사용 가능</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 is available. Would you like to update?</source>
+        <translation>%1이 사용 가능합니다. 업데이트하시겠습니까?</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Select what to update:</source>
+        <translation>업데이트할 항목 선택:</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>App installer downloaded successfully.</source>
+        <translation>앱 인스톨러가 성공적으로 다운로드되었습니다.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to download app installer.</source>
+        <translation>앱 인스톨러 다운로드에 실패했습니다.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Parser Updated</source>
+        <translation>파서 업데이트됨</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Parser rules have been updated successfully.</source>
+        <translation>파서 규칙이 성공적으로 업데이트되었습니다.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Parser Update Failed</source>
+        <translation>파서 업데이트 실패</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to update parser rules.</source>
+        <translation>파서 규칙 업데이트에 실패했습니다.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>No Update</source>
+        <translation>업데이트 없음</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You are running the latest version of the application and parser.</source>
+        <translation>애플리케이션과 파서의 최신 버전을 실행 중입니다.</translation>
+    </message>
+    <message>
+        <location line="+165"/>
         <source>Sounds/Language/Themes</source>
         <translation>소리/언어/테마</translation>
     </message>
     <message>
-        <location line="-340"/>
+        <location line="-346"/>
         <source>Select Game Folder</source>
         <translation>게임 폴더 선택</translation>
     </message>
@@ -768,7 +917,7 @@ CTRL + -</translation>
         <translation>선택한 폴더에 스타 시티즌 런처가 포함되어 있지 않습니다.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+38"/>
         <source>Panel Closed Error</source>
         <translation>패널 닫힘 오류</translation>
     </message>
@@ -786,7 +935,7 @@ Please reopen the Gunhead panel or contact your Discord server administrator if 
 이것이 오류라고 생각되면 Gunhead 패널을 다시 열거나 Discord 서버 관리자에게 문의하세요.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Authentication Error</source>
         <translation>인증 오류</translation>
     </message>
@@ -800,7 +949,7 @@ Please check your API key and try again. Make sure you copied the entire key wit
 API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없이 전체 키를 복사했는지 확인하세요.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Success</source>
         <translation>성공</translation>
     </message>
@@ -810,7 +959,7 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
         <translation>Gunhead가 성공적으로 연결되었습니다!</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Connection Error</source>
         <translation>연결 오류</translation>
     </message>
@@ -820,22 +969,12 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
         <translation>Gunhead에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.</translation>
     </message>
     <message>
-        <location line="+90"/>
-        <source>Error</source>
-        <translation>오류</translation>
-    </message>
-    <message>
-        <location line="+188"/>
+        <location line="+280"/>
         <source>Auto-launch Star Citizen</source>
         <translation>스타 시티즌 자동 실행</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Auto-Launch Star Citizen when monitoring starts</source>
-        <translation>모니터링이 시작될 때 Star Citizen 자동 실행</translation>
-    </message>
-    <message>
-        <location line="+33"/>
+        <location line="+40"/>
         <source>Select RSI Launcher</source>
         <translation>RSI 런처 선택</translation>
     </message>
@@ -845,34 +984,30 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
         <translation>실행 파일 (*.exe)</translation>
     </message>
     <message>
-        <location line="-313"/>
+        <location line="-316"/>
         <source>API Key Saved</source>
         <translation>API 키 저장됨</translation>
     </message>
     <message>
-        <location line="-258"/>
+        <location line="-303"/>
+        <location line="+584"/>
         <source>Auto-launch Star Citizen when monitoring starts</source>
         <translation>모니터링이 시작될 때 Star Citizen 자동 실행</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="-496"/>
         <source>User Interface</source>
         <translation>사용자 인터페이스</translation>
     </message>
     <message>
-        <location line="+175"/>
+        <location line="+215"/>
         <source>Your API key has been saved.</source>
         <translation>API 키가 저장되었습니다.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+45"/>
         <source>Updates Available</source>
         <translation>업데이트 가능</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Updates are available. Would you like to download them?</source>
-        <translation>업데이트가 가능합니다. 다운로드하시겠습니까?</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -880,23 +1015,17 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
         <translation>설치 프로그램 저장</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+0"/>
         <source>Installer Files (*.msi)</source>
         <translation>설치 프로그램 파일 (*.msi)</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <location line="+24"/>
+        <location line="+6"/>
         <source>Update Successful</source>
         <translation>업데이트 성공</translation>
     </message>
     <message>
-        <location line="-24"/>
-        <source>App updated successfully.</source>
-        <translation>앱이 성공적으로 업데이트되었습니다.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="+3"/>
         <source>Run Installer</source>
         <translation>설치 프로그램 실행</translation>
     </message>
@@ -906,42 +1035,9 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
         <translation>설치 프로그램이 다운로드되었습니다. 지금 실행하시겠습니까?</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <location line="+13"/>
+        <location line="+7"/>
         <source>Update Failed</source>
         <translation>업데이트 실패</translation>
-    </message>
-    <message>
-        <location line="-13"/>
-        <source>Failed to update app.</source>
-        <translation>앱 업데이트에 실패했습니다.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>JSON file updated successfully.</source>
-        <translation>JSON 파일이 성공적으로 업데이트되었습니다.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Failed to update JSON file.</source>
-        <translation>JSON 파일 업데이트에 실패했습니다.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No Updates</source>
-        <translation>업데이트 없음</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Your application and JSON file are up-to-date.</source>
-        <translation>애플리케이션과 JSON 파일이 최신 상태입니다.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>An error occurred while checking for updates.
- Please check your internet connection and try again.</source>
-        <translation>업데이트를 확인하는 동안 오류가 발생했습니다.
- 인터넷 연결을 확인하고 다시 시도하세요.</translation>
     </message>
 </context>
 <context>
@@ -962,16 +1058,16 @@ API 키를 확인하고 다시 시도하세요. 추가 공백이나 문자 없�
 <context>
     <name>Transmitter</name>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="+151"/>
-        <location line="+84"/>
-        <location line="+277"/>
+        <location filename="../../src/Transmitter.cpp" line="+183"/>
+        <location line="+89"/>
+        <location line="+282"/>
         <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.</source>
         <translation>이 서버의 Gunhead 패널이 닫혔거나 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location line="-357"/>
-        <location line="+84"/>
-        <location line="+277"/>
+        <location line="-367"/>
+        <location line="+89"/>
+        <location line="+282"/>
         <source>Invalid API key. Please check your API key and try again.</source>
         <translation>유효하지 않은 API 키입니다. API 키를 확인하고 다시 시도하세요.</translation>
     </message>

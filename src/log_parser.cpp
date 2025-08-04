@@ -43,7 +43,9 @@ std::string load_regex_rules(const std::string& path) {
         // Load rules
         if (json_rules.contains("rules")) {
             log_debug("log_parser", "Loading rules...");
-            for (const auto& item : json_rules["rules"]) {
+            const auto& rulesArray = json_rules["rules"];
+            for (size_t i = 0; i < rulesArray.size(); ++i) {
+                const auto& item = rulesArray[i];
                 try {
                     Rule rule;
                     rule.identifier = item.at("identifier").get<std::string>();
@@ -53,7 +55,8 @@ std::string load_regex_rules(const std::string& path) {
                     rules.push_back(rule);
                     log_debug("log_parser", "Loaded rule: ", rule.identifier);
                 } catch (const std::exception& e) {
-                    log_error("log_parser", "Failed to load rule: ", e.what());
+                    std::string ruleId = item.contains("identifier") ? item["identifier"].get<std::string>() : "<unknown>";
+                    log_error("log_parser", "Failed to load rule at index ", i + 1, " (identifier: ", ruleId, "): ", e.what());
                 }
             }
             log_debug("log_parser", "Loaded ", rules.size(), " rules");

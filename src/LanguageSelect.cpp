@@ -147,6 +147,7 @@ void LanguageSelectWindow::connectSignals() {
 
             // Set and apply the selected language using actual language value
             LanguageManager::instance().setSelectedLanguage(actualLanguage);
+            LanguageManager::instance().saveSelectedLanguage(); // ADDED: Save to settings
             LanguageManager::instance().applySelectedLanguage();
         });
     }

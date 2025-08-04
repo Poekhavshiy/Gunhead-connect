@@ -90,4 +90,4 @@ If you have any questions about these Terms, please contact us at:
 
 Discord Community:  <https://discord.gg/aKGc47Fz55>
 
-Email: *gunhead.support@gmail.com*
+Email: *Support@Gunhead.space*

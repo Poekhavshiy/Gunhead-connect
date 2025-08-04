@@ -4,10 +4,11 @@
 #include <QScreen>
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
+#include <QCoreApplication> // For tr()
 
 LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
     // Set up the dialog
-    setWindowTitle("Loading Gunhead Connect");
+    setWindowTitle(tr("Loading Gunhead Connect"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));  // Ensure the application icon is set
 
     // Ensure the window is recognized by the taskbar
@@ -37,7 +38,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     QPixmap loadingIcon(":/icons/Gunhead.png");
 
     if (!loadingIcon.isNull()) {
-        qDebug() << "Gunhead logo loaded successfully";
+        qDebug() << tr("Gunhead logo loaded successfully");
         // Store the original pixmap
         originalPixmap = loadingIcon.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         imageLabel->setPixmap(originalPixmap);
@@ -51,8 +52,8 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
         rotationAnimation->setEasingCurve(QEasingCurve::Linear);
         rotationAnimation->start();
     } else {
-        qDebug() << "Failed to load gunhead logo, using text fallback";
-        imageLabel->setText("Loading...");
+        qDebug() << tr("Failed to load gunhead logo, using text fallback");
+        imageLabel->setText(tr("Loading..."));
         imageLabel->setAlignment(Qt::AlignCenter);
         imageLabel->setStyleSheet("font-size: 24px; color: #CEFB17;");  // Set fallback text color
     }
@@ -60,7 +61,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     //layout->addWidget(imageLabel, 0, Qt::AlignCenter);
     layout->addWidget(imageLabel, 0, Qt::AlignTop | Qt::AlignHCenter);
     // Status message
-    statusLabel = new QLabel("Initializing...", this);
+    statusLabel = new QLabel(tr("Initializing..."), this);
     statusLabel->setAlignment(Qt::AlignCenter);
     statusLabel->setStyleSheet("color: #CEFB17;");  // Set status message color
     layout->addWidget(statusLabel);
@@ -145,7 +146,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
     progressBar->setValue(value);
-    statusLabel->setText(message);
+    statusLabel->setText(tr("%1").arg(message));
 
     // Process events to update the UI immediately
     QApplication::processEvents();

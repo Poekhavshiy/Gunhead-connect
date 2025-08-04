@@ -9,42 +9,17 @@
         <translation>請求超時</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Failed to fetch latest app version data.</source>
         <translation>無法獲取最新應用版本數據。</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Failed to parse JSON: Document is null</source>
-        <translation>無法解析JSON：文檔為空</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Invalid JSON in latest app response</source>
-        <translation>最新應用響應中的JSON無效</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No tag name found in latest app response</source>
-        <translation>在最新應用響應中未找到標籤名稱</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Exception occurred while parsing JSON: </source>
-        <translation>解析JSON時發生異常：</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Unknown exception occurred while parsing JSON</source>
-        <translation>解析JSON時發生未知異常</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="+89"/>
         <source>The version check process failed.</source>
         <translation>版本檢查過程失敗。</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+45"/>
         <source>Cannot open file for writing: </source>
         <translation>無法打開文件進行寫入：</translation>
     </message>
@@ -64,52 +39,55 @@
         <translation>由於不活動，下載超時。</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Failed to fetch latest rules.</source>
-        <translation>無法獲取最新規則。</translation>
+        <location line="-172"/>
+        <location line="+45"/>
+        <source>Failed to parse JSON from latest.json</source>
+        <translation>解析latest.json中的JSON失败</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Failed to parse rules: Document is null</source>
-        <translation>無法解析規則：文檔為空</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Invalid rules in latest config response</source>
-        <translation>最新配置響應中的規則無效</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Rules file is missing &apos;version&apos; key</source>
-        <translation>規則文件缺少 &apos;version&apos; 鍵</translation>
+        <location line="-39"/>
+        <source>No &apos;application&apos; object in latest.json</source>
+        <translation>latest.json中没有&apos;application&apos;对象</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>&apos;version&apos; key is not a string</source>
-        <translation>&apos;version&apos; 鍵不是字符串</translation>
+        <source>No application version found in latest.json</source>
+        <translation>在latest.json中未找到应用程序版本</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>&apos;version&apos; key is empty</source>
-        <translation>&apos;version&apos; 鍵為空</translation>
+        <location line="+7"/>
+        <location line="+45"/>
+        <source>Exception occurred while parsing latest.json: </source>
+        <translation>解析latest.json时发生异常: </translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Exception occurred while parsing rules: </source>
-        <translation>解析規則時發生異常：</translation>
+        <location line="-41"/>
+        <location line="+45"/>
+        <source>Unknown exception occurred while parsing latest.json</source>
+        <translation>解析latest.json时发生未知异常</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Unknown exception occurred while parsing rules</source>
-        <translation>解析規則時發生未知異常</translation>
+        <location line="-31"/>
+        <source>Failed to fetch latest parser version data.</source>
+        <translation>获取最新解析器版本数据失败。</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>Failed to fetch latest rules version.</source>
-        <translation>無法獲取最新規則版本。</translation>
+        <location line="+13"/>
+        <source>No &apos;parser&apos; object in latest.json</source>
+        <translation>latest.json中没有&apos;parser&apos;对象</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+7"/>
+        <source>No parser version found in latest.json</source>
+        <translation>在latest.json中未找到解析器版本</translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <source>The parser version check process failed.</source>
+        <translation>解析器版本检查过程失败。</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Cannot open local JSON: </source>
         <translation>無法打開本地JSON：</translation>
     </message>
@@ -201,15 +179,48 @@
     <name>LanguageSelectWindow</name>
     <message>
         <location filename="../../src/LanguageSelect.cpp" line="+30"/>
-        <location line="+127"/>
+        <location line="+128"/>
         <source>Language Selector</source>
         <translation>語言選擇器</translation>
     </message>
     <message>
-        <location line="-108"/>
-        <location line="+109"/>
+        <location line="-109"/>
+        <location line="+110"/>
         <source>&gt; LANGUAGE SELECT</source>
         <translation>&gt; 選擇語言</translation>
+    </message>
+</context>
+<context>
+    <name>LoadingScreen</name>
+    <message>
+        <location filename="../../src/LoadingScreen.cpp" line="+11"/>
+        <source>Loading Gunhead Connect</source>
+        <translation>正在加载 Gunhead Connect</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Gunhead logo loaded successfully</source>
+        <translation>Gunhead 标志加载成功</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Failed to load gunhead logo, using text fallback</source>
+        <translation>加载 Gunhead 标志失败，使用文本备用方案</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Loading...</source>
+        <translation>正在加载...</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Initializing...</source>
+        <translation>正在初始化...</translation>
+    </message>
+    <message>
+        <location line="+85"/>
+        <source>%1</source>
+        <translation>%1</translation>
     </message>
 </context>
 <context>
@@ -390,48 +401,49 @@ CTRL + -</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../ui/mainwindow.ui" line="+6"/>
+        <location filename="../../src/MainWindow.cpp" line="+55"/>
+        <location line="+712"/>
+        <location line="+572"/>
+        <location line="+21"/>
+        <location line="+114"/>
         <source>Gunhead Connect</source>
         <translation>Gunhead Connect</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Enter API Key</source>
-        <translation>輸入API密鑰</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Start</source>
-        <translation>開始</translation>
-    </message>
-    <message>
-        <location filename="../../src/MainWindow.cpp" line="+90"/>
-        <location line="+453"/>
-        <location line="+766"/>
-        <location line="+13"/>
-        <location line="+44"/>
-        <location line="+87"/>
+        <location line="-1384"/>
+        <location line="+355"/>
+        <location line="+2"/>
+        <location line="+12"/>
+        <location line="+2"/>
+        <location line="+72"/>
+        <location line="+12"/>
+        <location line="+797"/>
+        <location line="+14"/>
+        <location line="+65"/>
+        <location line="+133"/>
         <source>Start Monitoring</source>
         <translation>開始監控</translation>
     </message>
     <message>
-        <location line="-1360"/>
-        <location line="+1217"/>
+        <location line="-1461"/>
+        <location line="+1250"/>
         <source>Settings</source>
         <translation>設置</translation>
     </message>
     <message>
-        <location line="-1214"/>
-        <location line="+464"/>
+        <location line="-1247"/>
+        <location line="+466"/>
         <location line="+21"/>
-        <location line="+610"/>
+        <location line="+641"/>
         <location line="+53"/>
         <location line="+72"/>
+        <location line="+225"/>
+        <location line="+12"/>
         <source>View Log</source>
         <translation>查看日誌</translation>
     </message>
     <message>
-        <location line="-1214"/>
+        <location line="-1484"/>
         <source>Ready</source>
         <translation>就緒</translation>
     </message>
@@ -442,30 +454,30 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+48"/>
-        <location line="+831"/>
+        <location line="+848"/>
         <source>Game mode: Persistent Universe</source>
         <translation>遊戲模式：永恆宇宙</translation>
     </message>
     <message>
-        <location line="-829"/>
-        <location line="+831"/>
+        <location line="-846"/>
+        <location line="+848"/>
         <source>Game mode: Arena Commander: %1</source>
         <translation>遊戲模式：競技場指揮官：%1</translation>
     </message>
     <message>
-        <location line="-825"/>
-        <location line="+932"/>
+        <location line="-842"/>
+        <location line="+949"/>
         <source>Game mode changed to Persistent Universe</source>
         <translation>遊戲模式已更改為永恆宇宙</translation>
     </message>
     <message>
-        <location line="-930"/>
-        <location line="+932"/>
+        <location line="-947"/>
+        <location line="+949"/>
         <source>Game mode changed to Arena Commander: %1</source>
         <translation>遊戲模式已更改為競技場指揮官：%1</translation>
     </message>
     <message>
-        <location line="-805"/>
+        <location line="-822"/>
         <source>Error: API key not configured. Please set up in Settings.</source>
         <translation>錯誤：API密鑰未配置。請在設置中進行設置。</translation>
     </message>
@@ -476,21 +488,28 @@ CTRL + -</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location line="+111"/>
         <source>Error: Could not connect to Gunhead server. Monitoring not started.</source>
         <translation>錯誤：無法連接到Gunhead服務器。監控未啟動。</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-108"/>
         <source>ERROR: Failed to connect to Gunhead server. Please check your API key and internet connection.</source>
         <translation>錯誤：無法連接到Gunhead服務器。請檢查您的API密鑰和網絡連接。</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+12"/>
         <source>Connected to Gunhead server successfully. Monitoring started.</source>
         <translation>成功連接到Gunhead服務器。監控已啟動。</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+14"/>
+        <location line="+4"/>
+        <source>Connecting...</source>
+        <translation>正在连接...</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Star Citizen not running. Attempting to launch...</source>
         <translation>Star Citizen未運行。嘗試啟動...</translation>
     </message>
@@ -520,36 +539,74 @@ CTRL + -</translation>
         <translation>錯誤：未找到遊戲日誌文件。</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+1"/>
+        <source>The game log file was not found at the expected location:
+%1
+Please check your game folder settings.</source>
+        <translation>在预期位置未找到游戏日志文件：
+%1
+请检查您的游戏文件夹设置。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+14"/>
+        <source>Monitoring Error</source>
+        <translation>监控错误</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>API connection failed. Please check your API key and internet connection.
+API Key: %1</source>
+        <translation>API 连接失败。请检查您的 API 密钥和网络连接。
+API 密钥：%1</translation>
+    </message>
+    <message>
+        <location line="+46"/>
         <source>Monitoring started.</source>
         <translation>監控已啟動。</translation>
     </message>
     <message>
         <location line="+47"/>
-        <location line="+226"/>
+        <location line="+241"/>
         <source>Monitoring stopped.</source>
         <translation>監控已停止。</translation>
     </message>
     <message>
-        <location line="+454"/>
+        <location line="-44"/>
+        <location line="+816"/>
+        <source>Show Main Window</source>
+        <translation>显示主窗口</translation>
+    </message>
+    <message>
+        <location line="-302"/>
         <location line="+88"/>
+        <location line="+247"/>
         <source>Hide Log</source>
         <translation>隱藏日誌</translation>
     </message>
     <message>
-        <location line="+183"/>
+        <location line="-28"/>
+        <source>Hide Main Window</source>
+        <translation>隐藏主窗口</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+12"/>
+        <source>Show Log Window</source>
+        <translation>显示日志窗口</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Hide Log Window</source>
+        <translation>隐藏日志窗口</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Gunhead Connect (Active)</source>
         <translation>Gunhead Connect (活動中)</translation>
     </message>
     <message>
-        <location line="-748"/>
-        <location line="+577"/>
-        <location line="+82"/>
-        <source>Gunhead Connect</source>
-        <translation>Gunhead Connect</translation>
-    </message>
-    <message>
-        <location line="-658"/>
+        <location line="-862"/>
         <source>Application was minimized to tray</source>
         <translation>應用程序已最小化到系統托盤</translation>
     </message>
@@ -603,155 +660,247 @@ CTRL + -</translation>
         <translation>遊戲文件夾已更新。準備開始監控。</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+136"/>
         <source>API connection error detected during routine check</source>
         <translation>在例行檢查中檢測到API連接錯誤</translation>
     </message>
     <message>
-        <location line="+144"/>
-        <source>Gunhead Connect</source>
-        <translation>Gunhead Connect</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <location line="+40"/>
-        <source>Show/Hide</source>
-        <translation>顯示/隱藏</translation>
-    </message>
-    <message>
-        <location line="-38"/>
-        <location line="+50"/>
+        <location line="+162"/>
+        <location line="+82"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location line="-882"/>
-        <location line="+818"/>
-        <location line="+13"/>
-        <location line="+131"/>
+        <location line="-958"/>
+        <location line="+12"/>
+        <location line="+849"/>
+        <location line="+14"/>
+        <location line="+198"/>
         <source>Stop Monitoring</source>
         <translation>停止監控</translation>
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../src/main.cpp" line="+193"/>
+        <source>Gunhead Connect</source>
+        <translation>Gunhead Connect</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Application started minimized to tray</source>
+        <translation>应用程序已最小化到系统托盘启动</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>Monitoring Error</source>
+        <translation>监控错误</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to start monitoring automatically. Please check the application.</source>
+        <translation>自动启动监控失败。请检查应用程序。</translation>
+    </message>
+</context>
+<context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../src/SettingsWindow.cpp" line="+66"/>
-        <location line="+668"/>
+        <location filename="../../src/SettingsWindow.cpp" line="+67"/>
+        <location line="+725"/>
         <source>Settings</source>
         <translation>設置</translation>
     </message>
     <message>
-        <location line="-616"/>
-        <location line="+629"/>
+        <location line="-673"/>
+        <location line="+686"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location line="-621"/>
-        <location line="+624"/>
+        <location line="-678"/>
+        <location line="+681"/>
         <source>Check for Updates</source>
         <translation>檢查更新</translation>
     </message>
     <message>
-        <location line="-610"/>
-        <location line="+627"/>
+        <location line="-666"/>
+        <location line="+683"/>
         <source>Check for new versions on startup</source>
         <translation>啟動時檢查新版本</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+628"/>
+        <location line="-681"/>
+        <location line="+686"/>
         <source>Check for updates now</source>
         <translation>立即檢查更新</translation>
     </message>
     <message>
-        <location line="-564"/>
-        <location line="+546"/>
+        <location line="-612"/>
+        <location line="+592"/>
         <source>Game LIVE Folder Path</source>
         <translation>遊戲LIVE文件夾路徑</translation>
     </message>
     <message>
-        <location line="-543"/>
+        <location line="-589"/>
         <location line="+12"/>
-        <location line="+554"/>
+        <location line="+602"/>
         <location line="+3"/>
         <source>Browse</source>
         <translation>瀏覽</translation>
     </message>
     <message>
-        <location line="-544"/>
-        <location line="+547"/>
+        <location line="-588"/>
+        <location line="+591"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+602"/>
+        <location line="-682"/>
+        <location line="+657"/>
         <source>Gunhead Key</source>
         <translation>Gunhead密鑰</translation>
     </message>
     <message>
-        <location line="-598"/>
-        <location line="+624"/>
+        <location line="-653"/>
+        <location line="+681"/>
         <source>Save API Key</source>
         <translation>保存API密鑰</translation>
     </message>
     <message>
-        <location line="-610"/>
-        <location line="+595"/>
+        <location line="-665"/>
+        <location line="+649"/>
         <source>Minimize to system tray instead of closing</source>
         <translation>最小化到系統托盤而不是關閉</translation>
     </message>
     <message>
-        <location line="-584"/>
-        <location line="+553"/>
+        <location line="-645"/>
+        <location line="+646"/>
+        <source>Start application minimized on launch</source>
+        <translation>启动时最小化应用程序</translation>
+    </message>
+    <message>
+        <location line="-632"/>
+        <location line="+599"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location line="-520"/>
-        <location line="+537"/>
+        <location line="-566"/>
+        <location line="+583"/>
         <source>RSI Launcher Path</source>
         <translation>RSI啟動器路徑</translation>
     </message>
     <message>
-        <location line="-499"/>
-        <location line="+483"/>
+        <location line="-567"/>
+        <location line="+581"/>
+        <source>Start monitoring automatically when application launches</source>
+        <translation>应用程序启动时自动开始监控</translation>
+    </message>
+    <message>
+        <location line="-554"/>
+        <location line="+524"/>
         <source>Game</source>
         <translation>遊戲</translation>
     </message>
     <message>
-        <location line="-475"/>
-        <location line="+496"/>
+        <location line="-516"/>
+        <location line="+537"/>
         <source>Select Notification Sound</source>
         <translation>選擇通知聲音</translation>
     </message>
     <message>
-        <location line="-489"/>
-        <location line="+516"/>
+        <location line="-530"/>
+        <location line="+559"/>
         <source>Test</source>
         <translation>測試</translation>
     </message>
     <message>
-        <location line="-489"/>
-        <location line="+492"/>
+        <location line="-532"/>
+        <location line="+535"/>
         <source>Change Language</source>
         <translation>更改語言</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+490"/>
+        <location line="-530"/>
+        <location line="+533"/>
         <source>Change Theme</source>
         <translation>更改主題</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="-279"/>
+        <location line="+18"/>
+        <source>Download latest App installer</source>
+        <translation>下载最新应用程序安装包</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <location line="+17"/>
+        <source>Update parser rules (logfile_regex_rules.json)</source>
+        <translation>更新解析规则 (logfile_regex_rules.json)</translation>
+    </message>
+    <message>
+        <location line="-11"/>
+        <source>Update Available</source>
+        <translation>有可用更新</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 is available. Would you like to update?</source>
+        <translation>%1 可用。您想要更新吗？</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Select what to update:</source>
+        <translation>选择要更新的内容：</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>App installer downloaded successfully.</source>
+        <translation>应用程序安装包下载成功。</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Failed to download app installer.</source>
+        <translation>下载应用程序安装包失败。</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Parser Updated</source>
+        <translation>解析器已更新</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Parser rules have been updated successfully.</source>
+        <translation>解析规则已成功更新。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Parser Update Failed</source>
+        <translation>解析器更新失败</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to update parser rules.</source>
+        <translation>更新解析规则失败。</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>No Update</source>
+        <translation>无更新</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You are running the latest version of the application and parser.</source>
+        <translation>您正在运行最新版本的应用程序和解析器。</translation>
+    </message>
+    <message>
+        <location line="+165"/>
         <source>Sounds/Language/Themes</source>
         <translation>聲音/語言/主題</translation>
     </message>
     <message>
-        <location line="-340"/>
+        <location line="-346"/>
         <source>Select Game Folder</source>
         <translation>選擇遊戲文件夾</translation>
     </message>
@@ -768,7 +917,7 @@ CTRL + -</translation>
         <translation>所選文件夾不包含星際公民啟動器。</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+38"/>
         <source>Panel Closed Error</source>
         <translation>面板關閉錯誤</translation>
     </message>
@@ -786,7 +935,7 @@ Please reopen the Gunhead panel or contact your Discord server administrator if 
 如果您認為這是一個錯誤，請重新打開Gunhead面板或聯繫您的Discord服務器管理員。</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Authentication Error</source>
         <translation>認證錯誤</translation>
     </message>
@@ -800,7 +949,7 @@ Please check your API key and try again. Make sure you copied the entire key wit
 請檢查您的API密鑰並重試。確保您複製了完整的密鑰，沒有任何額外的空格或字符。</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
@@ -810,7 +959,7 @@ Please check your API key and try again. Make sure you copied the entire key wit
         <translation>Gunhead連接成功！</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Connection Error</source>
         <translation>連接錯誤</translation>
     </message>
@@ -820,22 +969,12 @@ Please check your API key and try again. Make sure you copied the entire key wit
         <translation>無法連接到Gunhead。請檢查您的網絡連接並重試。</translation>
     </message>
     <message>
-        <location line="+90"/>
-        <source>Error</source>
-        <translation>錯誤</translation>
-    </message>
-    <message>
-        <location line="+188"/>
+        <location line="+280"/>
         <source>Auto-launch Star Citizen</source>
         <translation>自動啟動星際公民</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Auto-Launch Star Citizen when monitoring starts</source>
-        <translation>監控開始時自動啟動星際公民</translation>
-    </message>
-    <message>
-        <location line="+33"/>
+        <location line="+40"/>
         <source>Select RSI Launcher</source>
         <translation>選擇RSI啟動器</translation>
     </message>
@@ -845,34 +984,30 @@ Please check your API key and try again. Make sure you copied the entire key wit
         <translation>可執行文件 (*.exe)</translation>
     </message>
     <message>
-        <location line="-313"/>
+        <location line="-316"/>
         <source>API Key Saved</source>
         <translation>API密鑰已保存</translation>
     </message>
     <message>
-        <location line="-258"/>
+        <location line="-303"/>
+        <location line="+584"/>
         <source>Auto-launch Star Citizen when monitoring starts</source>
         <translation>監控開始時自動啟動星際公民</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="-496"/>
         <source>User Interface</source>
         <translation>用戶界面</translation>
     </message>
     <message>
-        <location line="+175"/>
+        <location line="+215"/>
         <source>Your API key has been saved.</source>
         <translation>您的API密鑰已保存。</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+45"/>
         <source>Updates Available</source>
         <translation>有可用更新</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Updates are available. Would you like to download them?</source>
-        <translation>有可用更新。您想下載它們嗎？</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -880,23 +1015,17 @@ Please check your API key and try again. Make sure you copied the entire key wit
         <translation>保存安裝程序</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+0"/>
         <source>Installer Files (*.msi)</source>
         <translation>安裝程序文件 (*.msi)</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <location line="+24"/>
+        <location line="+6"/>
         <source>Update Successful</source>
         <translation>更新成功</translation>
     </message>
     <message>
-        <location line="-24"/>
-        <source>App updated successfully.</source>
-        <translation>應用程序更新成功。</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="+3"/>
         <source>Run Installer</source>
         <translation>運行安裝程序</translation>
     </message>
@@ -906,42 +1035,9 @@ Please check your API key and try again. Make sure you copied the entire key wit
         <translation>安裝程序已下載。您想現在運行它嗎？</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <location line="+13"/>
+        <location line="+7"/>
         <source>Update Failed</source>
         <translation>更新失敗</translation>
-    </message>
-    <message>
-        <location line="-13"/>
-        <source>Failed to update app.</source>
-        <translation>無法更新應用程序。</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>JSON file updated successfully.</source>
-        <translation>JSON文件更新成功。</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Failed to update JSON file.</source>
-        <translation>無法更新JSON文件。</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No Updates</source>
-        <translation>無更新</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Your application and JSON file are up-to-date.</source>
-        <translation>您的應用程序和JSON文件是最新的。</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>An error occurred while checking for updates.
- Please check your internet connection and try again.</source>
-        <translation>檢查更新時發生錯誤。
-請檢查您的網絡連接並重試。</translation>
     </message>
 </context>
 <context>
@@ -962,16 +1058,16 @@ Please check your API key and try again. Make sure you copied the entire key wit
 <context>
     <name>Transmitter</name>
     <message>
-        <location filename="../../src/Transmitter.cpp" line="+151"/>
-        <location line="+84"/>
-        <location line="+277"/>
+        <location filename="../../src/Transmitter.cpp" line="+183"/>
+        <location line="+89"/>
+        <location line="+282"/>
         <source>The Gunhead panel for this server has been closed or doesn&apos;t exist.</source>
         <translation>此服務器的Gunhead面板已關閉或不存在。</translation>
     </message>
     <message>
-        <location line="-357"/>
-        <location line="+84"/>
-        <location line="+277"/>
+        <location line="-367"/>
+        <location line="+89"/>
+        <location line="+282"/>
         <source>Invalid API key. Please check your API key and try again.</source>
         <translation>無效的API密鑰。請檢查您的API密鑰並重試。</translation>
     </message>

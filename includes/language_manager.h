@@ -15,6 +15,8 @@ public:
     QString getSelectedLanguage() const { return selectedLanguage; }
     void setSelectedLanguage(const QString& language);
     void applySelectedLanguage();
+    void saveSelectedLanguage(); // ADDED: Save current language to settings
+    void loadSelectedLanguage(); // ADDED: Load language from settings
 
 signals:
     void languageChanged();

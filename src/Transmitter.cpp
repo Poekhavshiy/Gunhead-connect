@@ -94,8 +94,21 @@ bool Transmitter::sendConnectionSuccess(const QString& logFilePath, const QStrin
     // Sound file
     payload["soundfile"] = settings.value("LogDisplay/SoundFile", "unknown").toString();
 
-    // Selected language
-    payload["selected_language"] = settings.value("Language/CurrentLanguage", "en").toString();
+    // Selected language - convert language name to locale code for API
+    QString languageName = settings.value("Language/CurrentLanguage", "English").toString();
+    QString localeCode = "en"; // default
+    if (languageName == "繁體中文") localeCode = "zh";
+    else if (languageName == "日本語") localeCode = "ja";
+    else if (languageName == "Українська") localeCode = "uk";
+    else if (languageName == "Русский" || languageName == "москаль") localeCode = "ru";
+    else if (languageName == "Deutsch") localeCode = "de";
+    else if (languageName == "Español") localeCode = "es";
+    else if (languageName == "Français") localeCode = "fr";
+    else if (languageName == "Italiano") localeCode = "it";
+    else if (languageName == "Polski") localeCode = "pl";
+    else if (languageName == "Português") localeCode = "pt";
+    else if (languageName == "한국어") localeCode = "ko";
+    payload["selected_language"] = localeCode;
 
     // Add settings changes if available
     {

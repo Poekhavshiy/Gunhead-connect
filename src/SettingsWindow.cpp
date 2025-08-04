@@ -16,6 +16,7 @@
 #include <QIcon>
 #include <QFileDialog>
 #include <QProcess>
+#include <QStandardPaths>
 #include <QTabWidget>
 #include <QTabBar> 
 #include <QMouseEvent>  // For QMouseEvent in eventFilter
@@ -595,7 +596,11 @@ void SettingsWindow::checkForUpdates() {
 
         if (doAppUpdate) {
             QString appInstallerUrl = versionChecker.getAppInstallerUrl();
-            QString defaultPath = QDir::homePath() + "/Gunhead-Connect-Setup.msi";
+            QString downloadsDir = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+            if (downloadsDir.isEmpty()) {
+                downloadsDir = QDir::homePath();
+            }
+            QString defaultPath = downloadsDir + QDir::separator() + "Gunhead-Connect-Setup.msi";
             QString savePath = QFileDialog::getSaveFileName(this, tr("Save Installer"), defaultPath, tr("Installer Files (*.msi)"));
             if (savePath.isEmpty()) {
                 qDebug() << "SettingsWindow: User canceled the save dialog.";

@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     , trayIconMenu(nullptr)
 {
     // Set up the main window
-    setWindowTitle("Gunhead Connect");
+    setWindowTitle(tr("Gunhead Connect"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
     setObjectName("MainWindow"); // Set object name for identification
     // Load the game log file path from QSettings
@@ -369,11 +369,11 @@ void MainWindow::startMonitoring() {
     
     // Disable both monitoring buttons and update text
     startButton->setEnabled(false);
-    startButton->setText("Connecting...");
+    startButton->setText(tr("Connecting..."));
     
     // Also update LogDisplayWindow button if it exists
     if (logDisplayWindow) {
-        logDisplayWindow->disableMonitoringButton("Connecting...");
+        logDisplayWindow->disableMonitoringButton(tr("Connecting..."));
     }
     
     // Check if auto-launch is enabled and Star Citizen is not running
@@ -442,9 +442,9 @@ void MainWindow::continueStartMonitoring() {
         updateStatusLabel(errorMsg);
         showSystemTrayMessage(tr("Monitoring Error"), errorMsg, details);
         startButton->setEnabled(true);
-        startButton->setText("Start Monitoring");
+        startButton->setText(tr("Start Monitoring"));
         if (logDisplayWindow) {
-            logDisplayWindow->enableMonitoringButton("Start Monitoring");
+            logDisplayWindow->enableMonitoringButton(tr("Start Monitoring"));
         }
         return;
     }
@@ -456,9 +456,9 @@ void MainWindow::continueStartMonitoring() {
         updateStatusLabel(errorMsg);
         showSystemTrayMessage(tr("Monitoring Error"), errorMsg, details);
         startButton->setEnabled(true);
-        startButton->setText("Start Monitoring");
+        startButton->setText(tr("Start Monitoring"));
         if (logDisplayWindow) {
-            logDisplayWindow->enableMonitoringButton("Start Monitoring");
+            logDisplayWindow->enableMonitoringButton(tr("Start Monitoring"));
         }
         return; // Don't start monitoring if verification failed
     }
@@ -478,7 +478,7 @@ void MainWindow::continueStartMonitoring() {
 
     // After successful verification and starting monitoring
     startButton->setEnabled(true); 
-    startButton->setText("Stop Monitoring");
+    startButton->setText(tr("Stop Monitoring"));
     disconnect(startButton, &QPushButton::clicked, this, &MainWindow::startMonitoring);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::stopMonitoring);
 
@@ -530,7 +530,7 @@ void MainWindow::stopMonitoring() {
     }
 
     // Update the button label and reconnect it to startMonitoring
-    startButton->setText("Start Monitoring");
+    startButton->setText(tr("Start Monitoring"));
     disconnect(startButton, &QPushButton::clicked, this, &MainWindow::stopMonitoring);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startMonitoring);
 

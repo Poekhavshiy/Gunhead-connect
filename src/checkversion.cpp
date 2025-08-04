@@ -7,6 +7,10 @@
 #include <QJsonObject>
 #include <QFile>
 #include <QMessageBox>
+#include <QCryptographicHash>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QDir>
 #include "logger.h"
 
 CheckVersion::CheckVersion(QObject *parent)
@@ -183,17 +187,18 @@ CheckVersion::UpdateTriState CheckVersion::isParserUpdateAvailable(const QString
     return UpdateTriState::No;
 }
 
-bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int inactivityTimeoutMs)
+bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int inactivityTimeoutMs, const QString &expectedSha256)
 {
-    log_debug("CheckVersion", "Downloading file from URL: ", url.toString().toStdString(), " to: ", destination.toStdString());
+    QString destPath = destination;
+    log_debug("CheckVersion", "Downloading file from URL: ", url.toString().toStdString(), " to: ", destPath.toStdString());
 
     QNetworkRequest request(url);
     QNetworkReply *reply = networkManager->get(request);
 
-    QFile file(destination);
+    QFile file(destPath);
     if (!file.open(QIODevice::WriteOnly)) {
-        log_error("CheckVersion", "Cannot open file for writing: ", destination.toStdString());
-        emit errorOccurred(tr("Cannot open file for writing: ") + destination);
+        log_error("CheckVersion", "Cannot open file for writing: ", destPath.toStdString());
+        emit errorOccurred(tr("Cannot open file for writing: ") + destPath);
         reply->abort();
         reply->deleteLater();
         return false;
@@ -209,6 +214,7 @@ bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int
     connect(reply, &QNetworkReply::readyRead, [&]() {
         QByteArray chunk = reply->readAll();
         qint64 bytesWritten = file.write(chunk);
+        file.flush();
         totalBytesWritten += bytesWritten;
         if (bytesWritten < chunk.size()) {
             log_error("CheckVersion", "Failed to write full chunk to file");
@@ -223,6 +229,7 @@ bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int
     connect(reply, &QNetworkReply::finished, [&]() {
         inactivityTimer.stop();
         if (reply->error() == QNetworkReply::NoError) {
+            file.flush();
             success = true;
             log_debug("CheckVersion", "Download finished successfully, total bytes: ", std::to_string(totalBytesWritten));
         } else {
@@ -246,11 +253,60 @@ bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int
     inactivityTimer.start(inactivityTimeoutMs);
     loop.exec();
 
+    file.flush();
     file.close();
     reply->deleteLater();
+
+    QFileInfo fi(destPath);
+    if (!success || !fi.exists() || fi.size() == 0) {
+        log_error("CheckVersion", "Downloaded file is missing or empty: ", destPath.toStdString());
+        emit errorOccurred(tr("Downloaded file is missing or empty: ") + destPath);
+        return false;
+    }
+
+    // ADDED: SHA-256 verification
+    if (!expectedSha256.isEmpty()) {
+        QString actualSha256 = computeFileSha256(destPath);
+        if (actualSha256.compare(expectedSha256, Qt::CaseInsensitive) != 0) {
+            log_error("CheckVersion", "SHA-256 mismatch: expected ", expectedSha256.toStdString(), ", got ", actualSha256.toStdString());
+            emit errorOccurred(tr("Downloaded file failed integrity check (SHA-256 mismatch)."));
+            QFile::remove(destPath);
+            return false;
+        }
+        log_info("CheckVersion", "SHA-256 verified for downloaded file: " + actualSha256.toStdString());
+    }
+
     return success;
 }
 
+// Compute SHA-256 hash of a file
+QString CheckVersion::computeFileSha256(const QString &filePath) const
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+        return {};
+    QCryptographicHash hash(QCryptographicHash::Sha256);
+    if (!hash.addData(&file))
+        return {};
+    return QString(hash.result().toHex());
+}
+
+// Get expected MSI SHA-256 from latest.json
+QString CheckVersion::getLatestAppMsiSha256(int timeoutMs)
+{
+    const QUrl latestUrl("https://gunhead.space/dist/latest.json");
+    QByteArray data;
+    if (!fetchData(latestUrl, data, timeoutMs))
+        return {};
+    const auto doc = QJsonDocument::fromJson(data);
+    if (doc.isNull() || !doc.isObject())
+        return {};
+    const QJsonObject obj = doc.object();
+    if (!obj.contains("application") || !obj.value("application").isObject())
+        return {};
+    const QJsonObject appObj = obj.value("application").toObject();
+    return appObj.value("msi_sha256").toString();
+}
 
 // getLatestJsonVersion and isJsonUpdateAvailable removed; use isParserUpdateAvailable for parser/rules updates
 
@@ -318,3 +374,4 @@ QString CheckVersion::readLocalJsonVersion(const QString &filePath) {
         return {};
     }
 }
+
