@@ -439,8 +439,8 @@ CTRL + -</translation>
         <location line="+72"/>
         <location line="+225"/>
         <location line="+12"/>
-        <source>View Log</source>
-        <translation>View Log</translation>
+        <source>Show Log Window</source>
+        <translation>Show Log Window</translation>
     </message>
     <message>
         <location line="-1484"/>

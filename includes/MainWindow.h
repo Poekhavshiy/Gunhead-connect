@@ -22,6 +22,7 @@ class LoadingScreen;
 
 #include "ThemeSelect.h"  // Needed for Theme type
 #include "Transmitter.h"  // Needed to instantiate Transmitter
+#include "GameLauncher.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -66,6 +67,8 @@ private:
     bool showNPCNames;
 
     QString lastStatusKey; // Store the untranslated key for status messages
+
+    GameLauncher* gameLauncherInstance = nullptr;
 
     QTimer* connectionPingTimer;  // Timer for regular connection checks
     QDateTime getNextAllowedPingTime() const;

@@ -169,7 +169,7 @@ void LogDisplayWindow::setupUI() {
     // Control bar
     QHBoxLayout* controlBarLayout = new QHBoxLayout();
 
-    // Create a button that looks like a dropdown - REMOVE custom styling
+    // Create a button that looks like a dropdown
     filterDropdown = new QPushButton(tr("Select Filters   ▼"), this);
     filterDropdown->setObjectName("filterDropdown"); // Add object name for QSS targeting
     
@@ -205,6 +205,14 @@ void LogDisplayWindow::setupUI() {
         popup->setObjectName("filterPopup"); // Set object name to find it later
         popup->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
         popup->setAttribute(Qt::WA_DeleteOnClose);
+        
+        // Apply current theme to popup widget manually since it doesn't inherit from parent
+        Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
+        QFile themeFile(currentTheme.stylePath);
+        if (themeFile.open(QFile::ReadOnly | QFile::Text)) {
+            QString themeStyle = themeFile.readAll();
+            popup->setStyleSheet(themeStyle);
+        }
         
         QVBoxLayout* popupLayout = new QVBoxLayout(popup);
         popupLayout->setContentsMargins(5, 5, 5, 5);
@@ -1090,6 +1098,9 @@ QString LogDisplayWindow::formatEventFromTemplate(const QString& messageTemplate
 FilterDropdownWidget::FilterDropdownWidget(QWidget* parent) 
     : QWidget(parent), updatingSelectAll(false) {
     
+    // Set object name for theming
+    setObjectName("filterDropdownWidget");
+    
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(8, 8, 8, 8);
     layout->setSpacing(4);
@@ -1108,21 +1119,25 @@ FilterDropdownWidget::FilterDropdownWidget(QWidget* parent)
     
     // Individual filter checkboxes - let them inherit theme styling
     pvpCheckbox = new QCheckBox(tr("Show PvP"), this);
+    pvpCheckbox->setObjectName("pvpCheckbox");
     pvpCheckbox->setToolTip(tr("Show player vs player kill events"));
     connect(pvpCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
     layout->addWidget(pvpCheckbox);
     
     pveCheckbox = new QCheckBox(tr("Show PvE"), this);
+    pveCheckbox->setObjectName("pveCheckbox");
     pveCheckbox->setToolTip(tr("Show player vs environment (NPC) kill events"));
     connect(pveCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
     layout->addWidget(pveCheckbox);
     
     shipsCheckbox = new QCheckBox(tr("Show Ship Events"), this);
+    shipsCheckbox->setObjectName("shipsCheckbox");
     shipsCheckbox->setToolTip(tr("Show ship destruction and vehicle events"));
     connect(shipsCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
     layout->addWidget(shipsCheckbox);
     
     otherCheckbox = new QCheckBox(tr("Show Other Events"), this);
+    otherCheckbox->setObjectName("otherCheckbox");
     otherCheckbox->setToolTip(tr("Show connections, seat changes, missions, etc."));
     connect(otherCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
     layout->addWidget(otherCheckbox);
@@ -1134,6 +1149,7 @@ FilterDropdownWidget::FilterDropdownWidget(QWidget* parent)
     layout->addWidget(line2);
     
     npcNamesCheckbox = new QCheckBox(tr("Show NPC Names"), this);
+    npcNamesCheckbox->setObjectName("npcNamesCheckbox");
     npcNamesCheckbox->setToolTip(tr("Show actual NPC names in events or just 'NPC'"));
     connect(npcNamesCheckbox, &QCheckBox::toggled, this, &FilterDropdownWidget::onIndividualFilterChanged);
     layout->addWidget(npcNamesCheckbox);

@@ -177,3 +177,63 @@ QWidget#SettingsWindow QLabel {
     font-family: "Code-NewRoman";
     font-size: 11pt;
 }
+
+/* Improve QCheckBox appearance for theme cohesion, only on SettingsWindow */
+QWidget#SettingsWindow QCheckBox,
+QWidget#LogDisplayWindow QCheckBox,
+QWidget#filterPopup QCheckBox {
+    background: none;
+    color: #d0c8b0;
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
+    spacing: 8px;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator,
+QWidget#LogDisplayWindow QCheckBox::indicator,
+QWidget#filterPopup QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid #ff79c6;
+    background: #23201a;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked,
+QWidget#filterPopup QCheckBox::indicator:checked {
+    background: #ff79c6;
+    border: 2px solid #ff79c6;
+    image: url(":/icons/tick_dracula.svg");
+    image-position: center;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:unchecked,
+QWidget#LogDisplayWindow QCheckBox::indicator:unchecked,
+QWidget#filterPopup QCheckBox::indicator:unchecked {
+    background: #23201a;
+    border: 2px solid #6272a4;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:hover,
+QWidget#LogDisplayWindow QCheckBox::indicator:hover,
+QWidget#filterPopup QCheckBox::indicator:hover {
+    border: 2px solid #ff79c6;
+    background: #6272a4;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked:hover,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked:hover,
+QWidget#filterPopup QCheckBox::indicator:checked:hover {
+    background: #ff79c6;
+    border: 2px solid #ff79c6;
+    image-position: center;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:disabled,
+QWidget#LogDisplayWindow QCheckBox::indicator:disabled,
+QWidget#filterPopup QCheckBox::indicator:disabled {
+    background: #181818;
+    border: 2px solid #6272a4;
+    opacity: 0.5;
+}

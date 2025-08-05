@@ -81,7 +81,7 @@ void LanguageSelectWindow::setLanguageButton(QVBoxLayout* mainLayout, QButtonGro
     }
     
     QPushButton* btn = new QPushButton(displayText, central);
-    btn->setObjectName("themeButton"); // Use themeButton for consistent styling
+    btn->setObjectName("languageSelectionButton");
     
     // Store the actual language value as a property for logic purposes
     btn->setProperty("actualLanguage", lang);

@@ -169,7 +169,8 @@ QWidget#SettingsWindow QLabel {
 
 /* Add checkbox specific styling */
 QWidget#SettingsWindow QCheckBox,
-QWidget#LogDisplayWindow QCheckBox {
+QWidget#LogDisplayWindow QCheckBox,
+QWidget#filterPopup QCheckBox {
     color: #2b4f77;  /* Dark blue text for contrast against light background */
     font-family: "Segoe UI";
     font-size: 14px;
@@ -177,7 +178,8 @@ QWidget#LogDisplayWindow QCheckBox {
 }
 
 QWidget#SettingsWindow QCheckBox::indicator,
-QWidget#LogDisplayWindow QCheckBox::indicator {
+QWidget#LogDisplayWindow QCheckBox::indicator,
+QWidget#filterPopup QCheckBox::indicator {
     width: 16px;
     height: 16px;
     border: 1px solid #8fb1d3;
@@ -186,7 +188,8 @@ QWidget#LogDisplayWindow QCheckBox::indicator {
 }
 
 QWidget#SettingsWindow QCheckBox::indicator:checked,
-QWidget#LogDisplayWindow QCheckBox::indicator:checked {
+QWidget#LogDisplayWindow QCheckBox::indicator:checked,
+QWidget#filterPopup QCheckBox::indicator:checked {
     background-color: #00aaff;
     border: 1px solid #00aaff;
 }
@@ -214,4 +217,13 @@ QWidget#languageSelectWindow QLineEdit:focus,
 QWidget#themeSelectWindow QLineEdit:focus {
     border: 2px solid #00aaff;      /* Brighter blue border on focus */
     background-color: #d8e8f5;      /* Slightly deeper blue on focus */
+}
+
+QWidget#filterPopup {
+    background-color: #e9f3fa; /* MODIFIED: Match main background */
+    color: #2b4f77;            /* MODIFIED: Match main text color */
+    font-family: "Segoe UI";   /* MODIFIED: Match theme font */
+    font-size: 16px;           /* MODIFIED: Match theme font size */
+    border: 1.5px solid #8fb1d3; /* MODIFIED: Match border style */
+    border-radius: 6px;        /* MODIFIED: Match other widgets */
 }

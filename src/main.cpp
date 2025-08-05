@@ -121,6 +121,19 @@ int main(int argc, char *argv[]) {
     LanguageManager::instance().loadSelectedLanguage();
     LanguageManager::instance().applySelectedLanguage();
     
+    // ADDED: Apply default theme stylesheet globally before creating any windows
+    // This ensures all widgets, including QLineEdit in SettingsWindow, get correct styling from the start
+    QSettings themeSettings("KillApiConnect", "KillApiConnectPlus");
+    QString themePath = themeSettings.value("currentTheme", ":/themes/originalsleek.qss").toString();
+    QFile themeFile(themePath);
+    if (themeFile.open(QFile::ReadOnly | QFile::Text)) {
+        QString style = themeFile.readAll();
+        app.setStyleSheet(style);
+        qDebug() << "Applied default theme globally before window creation:" << themePath;
+    } else {
+        qWarning() << "Cannot load default theme stylesheet:" << themePath;
+    }
+    
     // Set up the local server to listen for other instances
     QLocalServer* localServer = new QLocalServer(&app);
     localServer->removeServer(SERVER_NAME);

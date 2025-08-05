@@ -8,6 +8,7 @@
 #include "window_utils.h"
 #include "GameLauncher.h"
 #include "language_manager.h"
+#include "ThemeManager.h"
 
 #include <QSystemTrayIcon>
 #include <QMenu>
@@ -66,6 +67,7 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     showOther = settings.value("LogDisplay/ShowOther", false).toBool();
     showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
 
+    gameLauncherInstance = new GameLauncher(this);
     
     // Load the current theme directly
     Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
@@ -93,7 +95,7 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     settingsButton = new QPushButton(tr("Settings"), central);
     settingsButton->setFixedWidth(buttonWidth);
 
-    logButton = new QPushButton(tr("View Log"), central);
+    logButton = new QPushButton(tr("Show Log Display"), central);
     logButton->setFixedWidth(buttonWidth);
 
     // Use status label size from theme
@@ -150,11 +152,9 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     // Load regex rules
     loadRegexRules();
 
-    
-
-    // Apply the complete theme at startup
+    // Apply the complete theme at startup (stylesheet already applied globally in main.cpp)
     currentTheme.backgroundImage = settings.value("currentBackgroundImage", "").toString();
-    applyTheme(currentTheme);
+    ThemeManager::instance().applyCurrentThemeToAllWindows();
 
 
     // Add queue processing timer
@@ -379,9 +379,8 @@ void MainWindow::startMonitoring() {
     // Check if auto-launch is enabled and Star Citizen is not running
     bool autoLaunchGame = settings.value("autoLaunchGame", false).toBool();
     qDebug() << "MainWindow: Auto-launch game setting:" << autoLaunchGame;
-    
     if (autoLaunchGame) {
-        bool isRunning = GameLauncher::isStarCitizenRunning();
+        bool isRunning = gameLauncherInstance->isStarCitizenRunning();
         qDebug() << "MainWindow: Star Citizen running status:" << isRunning;
         
         if (!isRunning) {
@@ -407,7 +406,7 @@ void MainWindow::startMonitoring() {
                 return;
             }
             
-            if (GameLauncher::launchStarCitizen(launcherPath)) {
+            if (gameLauncherInstance->launchStarCitizen(launcherPath)) {
                 updateStatusLabel(tr("Star Citizen launched. Waiting for game to start..."));
                 qDebug() << "MainWindow: Star Citizen launch command sent successfully";
                 
@@ -559,68 +558,63 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
             logDisplayWindow->close();
             logDisplayWindow = nullptr; // Reset the pointer
         }
-        logButton->setText(tr("View Log"));
+        logButton->setText(tr("Show Log Window"));
+        // Update tray menu action text
+        if (showLogDisplayAction) {
+            showLogDisplayAction->setText(tr("Show Log Window"));
+        }
     } else {
         qDebug() << "LogDisplayWindow is closed, opening it.";
         logDisplayWindow = new LogDisplayWindow(transmitter);
         logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
         logDisplayWindow->setWindowFlag(Qt::Window);
-
-        // Use a QueuedConnection to ensure LogDisplayWindow is fully constructed
-        QTimer::singleShot(0, []() {
-            ThemeManager::instance().applyCurrentThemeToAllWindows();
-        });
+        // Ensure object name is set for theme application
+        logDisplayWindow->setObjectName("LogDisplayWindow");
+        logDisplayWindow->show();
+        // Apply the theme after the window is shown
+        ThemeManager::instance().applyCurrentThemeToAllWindows();
 
         // Connect LogDisplayWindow signals
         connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
             qDebug() << "LogDisplayWindow closed signal received.";
-            
-            // Save the closed state using class member
             settings.setValue("LogDisplay/Visible", false);
             logDisplayVisible = false;
-            
             logDisplayWindow = nullptr;
-            logButton->setText(tr("View Log"));
+            logButton->setText(tr("Show Log Window"));
+            // Update tray menu action text
+            if (showLogDisplayAction) {
+                showLogDisplayAction->setText(tr("Show Log Window"));
+            }
         });
-        
+
         connect(logDisplayWindow, &LogDisplayWindow::toggleMonitoringRequested, 
                 this, &MainWindow::handleMonitoringToggleRequest);
-                
+
         connect(logDisplayWindow, &LogDisplayWindow::filterPvPChanged, 
-                this, [this](bool show) {
-                    qDebug() << "MainWindow: Received filterPvPChanged signal with value:" << show;
-                    setShowPvP(show);
-                });
-                
+                this, [this](bool show) { setShowPvP(show); });
+
         connect(logDisplayWindow, &LogDisplayWindow::filterPvEChanged, 
-                this, [this](bool show) {
-                    qDebug() << "MainWindow: Received filterPvEChanged signal with value:" << show;
-                    setShowPvE(show);
-                });
-                
+                this, [this](bool show) { setShowPvE(show); });
+
         connect(logDisplayWindow, &LogDisplayWindow::filterShipsChanged,
-                this, [this](bool show) {
-                    qDebug() << "MainWindow: Received filterShipsChanged signal with value:" << show;
-                    setShowShips(show);
-                });
+                this, [this](bool show) { setShowShips(show); });
 
         connect(logDisplayWindow, &LogDisplayWindow::filterOtherChanged,
-                this, [this](bool show) {
-                    qDebug() << "MainWindow: Received filterOtherChanged signal with value:" << show;
-                    setShowOther(show);
-                });
-                
+                this, [this](bool show) { setShowOther(show); });
+
         connect(logDisplayWindow, &LogDisplayWindow::filterNPCNamesChanged, 
-                this, [this](bool show) {
-                    qDebug() << "MainWindow: Received filterNPCNamesChanged signal with value:" << show;
-                    setShowNPCNames(show);
-                });
+                this, [this](bool show) { setShowNPCNames(show); });
 
         // Update monitoring button state
         logDisplayWindow->updateMonitoringButtonText(
             startButton->text() == "Stop Monitoring");
 
         logDisplayWindow->show();
+        logButton->setText(tr("Hide Log Window"));
+        // Update tray menu action text
+        if (showLogDisplayAction) {
+            showLogDisplayAction->setText(tr("Hide Log Window"));
+        }
     }
 }
 
@@ -1221,7 +1215,7 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
             logDisplayVisible = false;
             
             logDisplayWindow = nullptr;
-            logButton->setText(tr("View Log"));
+            logButton->setText(tr("Show Log Window"));
         });
         
         connect(logDisplayWindow, &LogDisplayWindow::toggleMonitoringRequested, 
@@ -1256,7 +1250,7 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
         logDisplayWindow->updateMonitoringButtonText(isMonitoring);
 
         logDisplayWindow->show();
-        logButton->setText(tr("Hide Log")); // Use tr() here
+        logButton->setText(tr("Hide Log Window"));
 
         // Force an immediate title update with current values
         QString gameMode = transmitter.getCurrentGameMode();
@@ -1274,7 +1268,7 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
             }
         });
     } else {
-        logButton->setText(tr("View Log")); // Use tr() here
+        logButton->setText(tr("Show Log Window"));
     }
 }
 
@@ -1344,9 +1338,9 @@ void MainWindow::retranslateUi() {
     
     // Fix the log button text based on the current state
     if (logDisplayWindow) {
-        logButton->setText(tr("Hide Log"));
+        logButton->setText(tr("Hide Log Window"));
     } else {
-        logButton->setText(tr("View Log"));
+        logButton->setText(tr("Show Log Window"));
     }
     
     // Update system tray menu if it exists
@@ -1429,7 +1423,8 @@ void MainWindow::createSystemTrayIcon() {
     trayIconMenu->addAction(showHideAction);
     
     // ADDED: Show/Hide LogDisplayWindow action
-    showLogDisplayAction = new QAction(tr(logDisplayWindow && logDisplayWindow->isVisible() ? "Hide Log Window" : "Show Log Window"), this);
+    bool logDisplayIsVisible = logDisplayWindow && logDisplayWindow->isVisible();
+    showLogDisplayAction = new QAction(tr(logDisplayIsVisible ? "Hide Log Window" : "Show Log Window"), this);
     connect(showLogDisplayAction, &QAction::triggered, this, &MainWindow::onSystemTrayShowLogDisplayClicked);
     trayIconMenu->addAction(showLogDisplayAction);
 
@@ -1548,11 +1543,7 @@ void MainWindow::onMinimizeToTrayChanged(bool enabled) {
 
 void MainWindow::onSystemTrayStartStopClicked() {
     toggleMonitoring();
-    
-    // Update action text
-    if (startStopAction) {
-        startStopAction->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
-    }
+    // Note: Action text is already updated by startMonitoring()/stopMonitoring() methods
 }
 
 void MainWindow::onSystemTrayShowHideClicked() {
@@ -1568,31 +1559,16 @@ void MainWindow::onSystemTrayShowHideClicked() {
 }
 
 void MainWindow::onSystemTrayShowLogDisplayClicked() {
-    if (logDisplayWindow && logDisplayWindow->isVisible()) {
-        logDisplayWindow->hide();
-        settings.setValue("LogDisplay/Visible", false);
-        logButton->setText(tr("View Log"));
-        showLogDisplayAction->setText(tr("Show Log Window"));
-    } else {
-        if (!logDisplayWindow) {
-            logDisplayWindow = new LogDisplayWindow(transmitter);
-            logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
-            logDisplayWindow->setWindowFlag(Qt::Window);
-
-            connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
-                settings.setValue("LogDisplay/Visible", false);
-                logDisplayVisible = false;
-                logDisplayWindow = nullptr;
-                logButton->setText(tr("View Log"));
-                showLogDisplayAction->setText(tr("Show Log Window"));
-            });
+    // Use the existing toggleLogDisplayWindow method to ensure consistency
+    toggleLogDisplayWindow();
+    
+    // Update the tray menu action text to match the current state
+    if (showLogDisplayAction) {
+        if (logDisplayWindow && logDisplayWindow->isVisible()) {
+            showLogDisplayAction->setText(tr("Hide Log Window"));
+        } else {
+            showLogDisplayAction->setText(tr("Show Log Window"));
         }
-        logDisplayWindow->show();
-        logDisplayWindow->raise();
-        logDisplayWindow->activateWindow();
-        settings.setValue("LogDisplay/Visible", true);
-        logButton->setText(tr("Hide Log"));
-        showLogDisplayAction->setText(tr("Hide Log Window"));
     }
 }
 

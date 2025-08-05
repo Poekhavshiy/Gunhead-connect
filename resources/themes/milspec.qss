@@ -174,7 +174,9 @@ QWidget#SettingsWindow QLabel {
 }
 
 /* Improve QCheckBox appearance for theme cohesion, only on SettingsWindow */
-QWidget#SettingsWindow QCheckBox {
+QWidget#SettingsWindow QCheckBox,
+QWidget#LogDisplayWindow QCheckBox,
+QWidget#filterPopup QCheckBox {
     background: none;
     color: #e6e6e6;
     font-family: "MS 33558", monospace;
@@ -182,7 +184,9 @@ QWidget#SettingsWindow QCheckBox {
     spacing: 8px;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator {
+QWidget#SettingsWindow QCheckBox::indicator,
+QWidget#LogDisplayWindow QCheckBox::indicator,
+QWidget#filterPopup QCheckBox::indicator {
     width: 18px;
     height: 18px;
     border-radius: 4px;
@@ -190,17 +194,23 @@ QWidget#SettingsWindow QCheckBox::indicator {
     background: #232a1a; /* Slightly lighter than window bg for contrast */
 }
 
-QWidget#SettingsWindow QCheckBox::indicator:checked {
+QWidget#SettingsWindow QCheckBox::indicator:checked,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked,
+QWidget#filterPopup QCheckBox::indicator:checked {
     background: #88aa44;
     border: 2px solid #88aa44;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator:unchecked {
+QWidget#SettingsWindow QCheckBox::indicator:unchecked,
+QWidget#LogDisplayWindow QCheckBox::indicator:unchecked,
+QWidget#filterPopup QCheckBox::indicator:unchecked {
     background: #232a1a;
     border: 2px solid #5c6c38;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator:disabled {
+QWidget#SettingsWindow QCheckBox::indicator:disabled,
+QWidget#LogDisplayWindow QCheckBox::indicator:disabled,
+QWidget#filterPopup QCheckBox::indicator:disabled {
     background: #181c14;
     border: 2px solid #5c6c38;
     opacity: 0.5;

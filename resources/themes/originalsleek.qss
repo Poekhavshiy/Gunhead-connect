@@ -63,7 +63,13 @@ QWidget#themeSelectWindow QLabel {
 QPushButton[selected="true"],
 QPushButton#themeSelectionButton[selected="true"],
 QPushButton#languageSelectionButton[selected="true"] {
-    background-color: #00aaff;
+    background-color: #363841;
+    color: white;
+    font-weight: bold;
+}
+
+QWidget#languageSelectWindow QPushButton[selected="true"] {
+    background-color: #363841;
     color: white;
     font-weight: bold;
 }
@@ -77,10 +83,16 @@ QWidget#themeSelectWindow QLabel#statusLabel {
     color: #f0f0f0; /* Adjust color as needed */
 }
 
+
+
 /* Add specific styling for tab widgets */
 QWidget#SettingsWindow QTabWidget::pane {
-    border: 1px solid #444444;
+    border: 2px #121212;
     background-color: #121212;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 QWidget#SettingsWindow QTabWidget::tab-bar {
@@ -90,20 +102,25 @@ QWidget#SettingsWindow QTabWidget::tab-bar {
 QWidget#SettingsWindow QTabBar::tab {
     background-color: #2a2a2a;
     color: #f0f0f0;
-    border: 1px solid #444444;
-    border-bottom-color: #444444;
+    border: 0px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     padding: 8px;
     margin-right: 2px;
+    margin-bottom: 2px;
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     min-width: 80px;
 }
 
+
+
 QWidget#SettingsWindow QTabBar::tab:selected {
-    background-color: #00aaff;
+    background-color: #363841;
+    border-bottom-color: #444444;
     color: white;
-    font-weight: bold;
-    border-bottom-color: #00aaff;
 }
 
 QWidget#SettingsWindow QTabBar::tab:hover {
@@ -124,7 +141,9 @@ QWidget#SettingsWindow QLabel#versionLabel {
 }
 
 /* Improve QCheckBox appearance for theme cohesion, only on SettingsWindow */
-QWidget#SettingsWindow QCheckBox {
+QWidget#SettingsWindow QCheckBox,
+QWidget#LogDisplayWindow QCheckBox,
+QWidget#filterPopup QCheckBox {
     background: none;
     color: #f0f0f0;
     font-family: "Roboto", sans-serif;
@@ -132,28 +151,67 @@ QWidget#SettingsWindow QCheckBox {
     spacing: 8px;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator {
+QWidget#SettingsWindow QCheckBox::indicator,
+QWidget#LogDisplayWindow QCheckBox::indicator,
+QWidget#filterPopup QCheckBox::indicator {
     width: 18px;
     height: 18px;
-    border-radius: 4px;
-    border: 2px solid #00aaff;
-    background: #23272b; /* Slightly lighter than window bg for contrast */
+    border-radius: 3px;
+    border: 2px solid #555555;
+    background: #2a2a2a;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator:checked {
-    background: #00aaff;
-    border: 2px solid #00aaff;
+QWidget#SettingsWindow QCheckBox::indicator:checked,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked,
+QWidget#filterPopup QCheckBox::indicator:checked {
+    background: #96aac7;
+    color: white;
+    border: 2px solid #96aac7;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator:unchecked {
-    background: #23272b;
-    border: 2px solid #444444;
+QWidget#SettingsWindow QCheckBox::indicator:unchecked,
+QWidget#LogDisplayWindow QCheckBox::indicator:unchecked,
+QWidget#filterPopup QCheckBox::indicator:unchecked {
+    background: #2a2a2a;
+    border: 2px solid #555555;
 }
 
-QWidget#SettingsWindow QCheckBox::indicator:disabled {
-    background: #181818;
-    border: 2px solid #444444;
+QWidget#SettingsWindow QCheckBox::indicator:hover,
+QWidget#LogDisplayWindow QCheckBox::indicator:hover,
+QWidget#filterPopup QCheckBox::indicator:hover {
+    border: 2px solid #777777;
+    background: #333333;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:checked:hover,
+QWidget#LogDisplayWindow QCheckBox::indicator:checked:hover,
+QWidget#filterPopup QCheckBox::indicator:checked:hover {
+    background: #96aac7;
+    border: 2px solid #96aac7;
+}
+
+QWidget#SettingsWindow QCheckBox::indicator:disabled,
+QWidget#LogDisplayWindow QCheckBox::indicator:disabled,
+QWidget#filterPopup QCheckBox::indicator:disabled {
+    background: #1a1a1a;
+    border: 2px solid #333333;
     opacity: 0.5;
+}
+
+/* Add styling for the filter popup widget itself */
+QWidget#filterPopup {
+    background-color: #23272b;
+    color: #f0f0f0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    border: 1px solid #363841;
+    border-radius: 6px;
+}
+
+/* Style the separator lines in the filter popup */
+QWidget#filterPopup QFrame[frameShape="4"] {
+    color: #444444;
+    background-color: #444444;
 }
 
 /* Add a dedicated section for the tray menu and its actions */
@@ -167,9 +225,9 @@ QMenu#TrayMenu, QMenu#TrayMenu QMenu, QMenu#TrayMenu QWidget, QMenu#TrayMenu QAc
 }
 
 QMenu#TrayMenu::item:selected {
-    background-color: #00aaff;
+    background-color: #363841;
     color: #ffffff;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 QMenu#TrayMenu::separator {

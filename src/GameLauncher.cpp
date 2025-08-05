@@ -3,11 +3,21 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QStandardPaths>
+#include <QProcess>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #include <tlhelp32.h>
 #endif
+
+// ADDED: Implementation of GameLauncher constructor
+GameLauncher::GameLauncher(QObject* parent)
+    : QObject(parent)
+{
+}
 
 bool GameLauncher::isStarCitizenRunning() {
     QStringList processNames = getStarCitizenProcessNames();
@@ -68,41 +78,59 @@ bool GameLauncher::isStarCitizenRunning() {
 
 bool GameLauncher::launchStarCitizen(const QString& launcherPath) {
     qDebug() << "GameLauncher: launchStarCitizen called with launcherPath:" << launcherPath;
-    
+
     if (launcherPath.isEmpty()) {
         qWarning() << "GameLauncher: Launcher path is empty - RSI Launcher path must be configured in Settings";
         return false;
     }
-    
-    // Check if the launcher file actually exists and is executable
+
     QFileInfo launcherInfo(launcherPath);
-    if (!launcherInfo.exists()) {
-        qWarning() << "GameLauncher: Launcher file does not exist:" << launcherPath;
-        qWarning() << "GameLauncher: Please verify the RSI Launcher is installed and the path is correct in Settings";
+    if (!launcherInfo.exists() || !launcherInfo.isFile() || !launcherInfo.isExecutable()) {
+        qWarning() << "GameLauncher: Invalid launcher file:" << launcherPath;
         return false;
     }
-    if (!launcherInfo.isFile()) {
-        qWarning() << "GameLauncher: Launcher path is not a file:" << launcherPath;
-        return false;
-    }
-    if (!launcherInfo.isExecutable()) {
-        qWarning() << "GameLauncher: Launcher file is not executable:" << launcherPath;
-        qWarning() << "GameLauncher: Check file permissions for:" << launcherPath;
-        return false;
-    }
-    
-    qDebug() << "GameLauncher: Launcher file validation passed, attempting to start process...";
-    
-    // Try to start the launcher
-    bool success = QProcess::startDetached(launcherPath);
-    if (success) {
-        qDebug() << "GameLauncher: RSI Launcher started successfully from:" << launcherPath;
-    } else {
+
+    // MODIFIED: Use startDetached to avoid EPIPE errors in the launcher
+    bool started = QProcess::startDetached(launcherPath, QStringList());
+    if (!started) {
         qWarning() << "GameLauncher: Failed to start RSI Launcher from:" << launcherPath;
-        qWarning() << "GameLauncher: Check if the file exists and you have permission to execute it";
+        return false;
     }
-    
-    return success;
+
+    qDebug() << "GameLauncher: RSI Launcher started successfully from:" << launcherPath;
+    return true;
+}
+
+void GameLauncher::handleStarCitizenOutput() {
+    if (!starCitizenProcess || !starCitizenLogFile) return;
+    QTextStream logStream(starCitizenLogFile);
+    while (starCitizenProcess->canReadLine()) {
+        QString line = starCitizenProcess->readLine();
+        logStream << QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss] ") << line;
+    }
+    logStream.flush();
+}
+
+void GameLauncher::handleStarCitizenError() {
+    if (!starCitizenProcess || !starCitizenLogFile) return;
+    QTextStream logStream(starCitizenLogFile);
+    while (starCitizenProcess->canReadLine()) {
+        QString line = starCitizenProcess->readLine();
+        logStream << QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss] [stderr] ") << line;
+    }
+    logStream.flush();
+}
+
+void GameLauncher::cleanupStarCitizenProcess() {
+    if (starCitizenProcess) {
+        starCitizenProcess->deleteLater();
+        starCitizenProcess = nullptr;
+    }
+    if (starCitizenLogFile) {
+        starCitizenLogFile->close();
+        delete starCitizenLogFile;
+        starCitizenLogFile = nullptr;
+    }
 }
 
 QString GameLauncher::findStarCitizenExecutable(const QString& gameFolder) {

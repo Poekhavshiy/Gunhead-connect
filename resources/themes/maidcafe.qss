@@ -179,6 +179,7 @@ QWidget#SettingsWindow QTabBar::tab {
     border-radius: 8px 8px 0 0;
     padding: 8px;
     margin-right: 3px;
+    margin-bottom: 2px;
     font-family: "Sawarabi Gothic";
     font-size: 11pt;
     font-weight: bold;
@@ -206,7 +207,8 @@ QWidget#SettingsWindow QLabel {
 
 /* Add checkbox specific styling */
 QWidget#SettingsWindow QCheckBox,
-QWidget#LogDisplayWindow QCheckBox {
+QWidget#LogDisplayWindow QCheckBox,
+QWidget#filterPopup QCheckBox {
     color: #cc2c74;  /* Pink text for contrast against light background */
     font-family: "Sawarabi Gothic";
     font-size: 11pt;
@@ -214,7 +216,8 @@ QWidget#LogDisplayWindow QCheckBox {
 }
 
 QWidget#SettingsWindow QCheckBox::indicator,
-QWidget#LogDisplayWindow QCheckBox::indicator {
+QWidget#LogDisplayWindow QCheckBox::indicator,
+QWidget#filterPopup QCheckBox::indicator {
     width: 16px;
     height: 16px;
     border: 2px solid #ffb6c1;
@@ -223,7 +226,17 @@ QWidget#LogDisplayWindow QCheckBox::indicator {
 }
 
 QWidget#SettingsWindow QCheckBox::indicator:checked,
-QWidget#LogDisplayWindow QCheckBox::indicator:checked {
+QWidget#LogDisplayWindow QCheckBox::indicator:checked,
+QWidget#filterPopup QCheckBox::indicator:checked {
     background-color: #f93e61;
     border: 2px solid #f93e61;
+}
+
+QWidget#filterPopup {
+    background-color: #ffeef2; /* MODIFIED: Match main background */
+    color: #cc2c74;
+    font-family: "Sawarabi Gothic";
+    font-size: 11pt;
+    border: 2px dashed #ffb6c1;
+    border-radius: 8px;
 }
