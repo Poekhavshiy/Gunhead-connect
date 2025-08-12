@@ -15,7 +15,7 @@ Gunhead Connect works alongside the Gunhead Discord Bot. The bot processes and d
 ## Installation
 
  **Download the Application**:
-    [Download the latest version](https://github.com/Poekhavshiy/Gunhead-connect/releases/latest).
+    [Download the latest version](https://gunhead.space/connect-app).
 
 ## Features
 
