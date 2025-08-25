@@ -1,20 +1,24 @@
-name: Discord Webhook Notification
+name: Dual Webhook Notification
 
 on:
   push:
     branches:
       - main
+      - test
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract commit data and send to Discord
+      - name: Extract commit data and send to Discord & API
         env:
-          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          API_WEBHOOK_URL: ${{ secrets.API_WEBHOOK_URL }}
         run: |
           # Extract commits safely from the push event
           commits=$(jq -c '.commits // []' <<< '${{ toJson(github.event) }}')
+          repository='${{ github.event.repository.name }}'
+          ref='${{ github.ref }}'
 
           # Exit if no commits found
           if [[ "$commits" == "[]" ]]; then
@@ -22,7 +26,29 @@ jobs:
             exit 0
           fi
 
-          # Loop through each commit in the payload
+          # Create API payload for our changelog
+          api_payload=$(jq -n \
+            --argjson commits "$commits" \
+            --arg repository "$repository" \
+            --arg ref "$ref" \
+            '{
+              commits: $commits,
+              repository: { name: $repository },
+              ref: $ref
+            }')
+
+          # Send to our API webhook
+          if [[ -n "$API_WEBHOOK_URL" ]]; then
+            echo "Sending commits to API..."
+            curl -H "Content-Type: application/json" \
+                 -X POST \
+                 -d "$api_payload" \
+                 "$API_WEBHOOK_URL" \
+                 --max-time 10 \
+                 --retry 2 || echo "Failed to send to API webhook"
+          fi
+
+          # Process each commit for Discord (keep existing logic)
           echo "$commits" | jq -c '.[]' | while read commit; do
             author=$(echo "$commit" | jq -r '.author.username // "Unknown"')
             message=$(echo "$commit" | jq -r '.message // "No commit message"')
@@ -33,17 +59,17 @@ jobs:
               continue
             fi
 
-            # Exclude merge commits (e.g., "Merge branch ...")
+            # Exclude merge commits
             if [[ "$message" == Merge\ branch* || "$message" == gMerge\ branch* ]]; then
               echo "Skipping merge commit: $message"
               continue
             fi
 
-            formatted_message="[CONNECT]:\`\`\`$message\`\`\`"
+            formatted_message="[CONNECT:] \`\`\`$message\`\`\`"
 
-            # Create payload with bold author in content field
-            payload=$(jq -n --arg username "GitBot" \
-                              --arg avatar_url "https://cdn.discordapp.com/attachments/1337838441349648414/1388768200468201543/image.png?ex=68622ead&is=6860dd2d&hm=12310511e636ed1cb65d1ec9e21afdfae11b0cb31de57323151df78872c365f3&" \
+            # Create Discord payload with bold author in content field
+            discord_payload=$(jq -n --arg username "GitBot" \
+                              --arg avatar_url "https://cdn.discordapp.com/attachments/1345266332349894769/1378438964742062212/80F06B15-76A4-4E31-A44F-8B7DB832FEA8.png?ex=68a41893&is=68a2c713&hm=caedd3188e91c3497995afdbee4507697205beda686114652c2d36bab978dffd&" \
                               --arg author "$author" \
                               --arg message "$formatted_message" \
                               --argjson color 5197647 \
@@ -57,10 +83,15 @@ jobs:
                                 }]
                               }')
 
-            # Send payload to Discord Webhook using the secret
-            curl -H "Content-Type: application/json" -X POST -d "$payload" \
-              "$WEBHOOK_URL"
+            # Send to Discord webhook
+            if [[ -n "$DISCORD_WEBHOOK_URL" ]]; then
+              curl -H "Content-Type: application/json" \
+                   -X POST \
+                   -d "$discord_payload" \
+                   "$DISCORD_WEBHOOK_URL" \
+                   --max-time 10 \
+                   --retry 2 || echo "Failed to send to Discord webhook"
+            fi
 
             sleep 1  # Prevents rate limiting issues
           done
-
