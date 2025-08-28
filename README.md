@@ -8,13 +8,15 @@ Gunhead Connect is a cross-platform desktop application written in C++ (using Mi
 ## Gunhead Discord Bot Integration
 
 Gunhead Connect works alongside the Gunhead Discord Bot. The bot processes and displays Star Citizen event logs in Discord.  
-**To use the bot:**
- [Install the bot from the Discord App Store](https://discord.com/discovery/applications/1330870778891206707).
+ [Complete guide](https://gunhead.space/guides)
+
+**To use the bot:** 
+ [Install the bot from the Discord App Store](https://discord.com/discovery/applications/1330870778891206707)
 
 ## Installation
 
  **Download the Application**:
-    [Download the latest version](https://gunhead.space/connect-app).
+    [Download the latest version](https://gunhead.space/connect-app)
 
 ## Features
 
