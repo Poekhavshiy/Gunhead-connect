@@ -385,6 +385,20 @@ bool is_npc_name(const std::string& name, const std::string& id) {
     log_debug("is_npc_name", "Checking if name is NPC: ", name, ", ID: ", id);
     // Quick backout: if name starts with a known NPC prefix, it's an NPC (legacy/compat)
     static const std::vector<std::string> npc_prefixes = {
+        "PU_Pilots-Human-",
+        "PU_Human-NineTails-",
+        "PU_Human-Xenothreat-",
+        "PU_Human-Populace-",
+        "PU_Human-Frontier-",
+        "PU_Human-Headhunter-",
+        "PU_Human-Dusters-",
+        "RotationSimple-",
+        "Hazard_Pit",
+        "Hazard_Toggleable_Effects_",
+        "Shipjacker_Hangar_",
+        "Shipjacker_LifeSupport_",
+        "Shipjacker_HUB_",
+        "Shipjacker_MeetingRoom_",
         "PU_Human_Enemy_GroundCombat_NPC_",
         "AIModule_Unmanned_PU_"
     };

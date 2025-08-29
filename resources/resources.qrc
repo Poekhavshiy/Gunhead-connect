@@ -50,7 +50,9 @@
         <file alias="sounds/blip-blip.mp3">sounds/blip-blip.mp3</file>
         <file alias="sounds/beep-beep.mp3">sounds/beep-beep.mp3</file>
         <file alias="sounds/boop.mp3">sounds/boop.mp3</file>
-        
+        <file alias="sounds/map.mp3">sounds/map.mp3</file>
+        <file alias="sounds/task.mp3">sounds/task.mp3</file>
+
         <file alias="sounds/boop.wav">sounds/boop.wav</file>
     </qresource>
 </RCC>

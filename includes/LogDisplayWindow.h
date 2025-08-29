@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -111,7 +111,7 @@ protected:
 
 private:
     Transmitter& transmitter;
-    QTextEdit* logDisplay;
+    QTextBrowser* logDisplay; // Ensure this is QTextBrowser*, not QTextEdit
     
     // New filter system UI
     QPushButton* filterDropdown;

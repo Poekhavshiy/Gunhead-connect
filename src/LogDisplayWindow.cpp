@@ -21,6 +21,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include "FilterUtils.h"
+#include <QTextBrowser> // ADDED: For QTextBrowser
+#include <QDesktopServices> // ADDED: For QDesktopServices::openUrl
 
 
 static QStringList s_logDisplayCache;
@@ -296,8 +298,10 @@ void LogDisplayWindow::setupUI() {
     mainLayout->addLayout(controlBarLayout);
 
     // Log display
-    logDisplay = new QTextEdit(this);
+    logDisplay = new QTextBrowser(this);
     logDisplay->setReadOnly(true);
+    logDisplay->setTextInteractionFlags(Qt::TextBrowserInteraction | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    logDisplay->setOpenExternalLinks(true);
     mainLayout->addWidget(logDisplay);
 
     // Buttons layout
@@ -552,7 +556,7 @@ QStringList LogDisplayWindow::filterLogs(const QStringList& logs) const {
 QString LogDisplayWindow::prettifyLog(const QString& log) const {
     auto parsed = nlohmann::json::parse(log.toStdString(), nullptr, false);
     if (parsed.is_discarded()) {
-        return log; // Return the raw log if parsing fails
+        return log;
     }
 
     QString timestamp;
@@ -575,7 +579,46 @@ QString LogDisplayWindow::prettifyLog(const QString& log) const {
         if (killerIsNPC) {
             parsed["killer"] = "An NPC";
         }
-    }    QString message = formatEvent(identifier, parsed);
+    }
+
+    if (identifier == "kill_log") {
+        if (parsed.contains("victim") && parsed.contains("victim_is_npc") && !parsed.value("victim_is_npc", false)) {
+            QString victim = QString::fromStdString(parsed.value("victim", ""));
+            QString styledVictim = QString("<a href=\"https://robertsspaceindustries.com/citizens/%1\"><b><u>%1</u></b></a>").arg(victim.toHtmlEscaped());
+            parsed["victim"] = styledVictim.toStdString();
+        }
+        if (parsed.contains("killer") && parsed.contains("killer_is_npc") && !parsed.value("killer_is_npc", false)) {
+            QString killer = QString::fromStdString(parsed.value("killer", ""));
+            QString styledKiller = QString("<a href=\"https://robertsspaceindustries.com/citizens/%1\"><b><u>%1</u></b></a>").arg(killer.toHtmlEscaped());
+            parsed["killer"] = styledKiller.toStdString();
+        }
+    }
+
+    // ADDED: Style player names for vehicle destruction, softdeath, and instant destruction events
+    if (
+        identifier == "vehicle_destruction" ||
+        identifier == "vehicle_soft_death" ||
+        identifier == "vehicle_instant_destruction"
+    ) {
+        // driver
+        if (parsed.contains("driver") && (!parsed.contains("driver_is_npc") || !parsed.value("driver_is_npc", false))) {
+            QString driver = QString::fromStdString(parsed.value("driver", ""));
+            if (!driver.isEmpty()) {
+                QString styledDriver = QString("<a href=\"https://robertsspaceindustries.com/citizens/%1\"><b><u>%1</u></b></a>").arg(driver.toHtmlEscaped());
+                parsed["driver"] = styledDriver.toStdString();
+            }
+        }
+        // cause (if present and not NPC)
+        if (parsed.contains("cause") && (!parsed.contains("cause_is_npc") || !parsed.value("cause_is_npc", false))) {
+            QString cause = QString::fromStdString(parsed.value("cause", ""));
+            if (!cause.isEmpty()) {
+                QString styledCause = QString("<a href=\"https://robertsspaceindustries.com/citizens/%1\"><b><u>%1</u></b></a>").arg(cause.toHtmlEscaped());
+                parsed["cause"] = styledCause.toStdString();
+            }
+        }
+    }
+
+    QString message = formatEvent(identifier, parsed);
 
     // Don't return entries with empty messages
     if (message.isEmpty()) {
@@ -1067,17 +1110,35 @@ bool LogDisplayWindow::shouldShowEventType(const QString& filterType) const {
     return true;
 }
 
+// MODIFIED: formatEventFromTemplate - Only allow <a> tags, escape all other tags (including <b>, <u>, etc.)
+
 QString LogDisplayWindow::formatEventFromTemplate(const QString& messageTemplate, const nlohmann::json& parsed) const {
     QString message = messageTemplate;
-    
-    // Replace placeholders in the template with actual values
+
     for (auto it = parsed.begin(); it != parsed.end(); ++it) {
         QString placeholder = QString("{%1}").arg(QString::fromStdString(it.key()));
         QString value;
-        
-        // Handle different JSON value types properly
+
         if (it.value().is_string()) {
             value = QString::fromStdString(it.value().get<std::string>());
+            
+            // For player name fields, preserve hyperlinks but ensure they are properly contained
+            if (it.key() == "victim" || it.key() == "killer" || it.key() == "driver" || it.key() == "cause") {
+                // If the value contains HTML tags, ensure it's a complete, valid hyperlink structure
+                if (value.contains("<a ") && value.contains("</a>")) {
+                    // Value is already formatted as hyperlink, use as-is but validate structure
+                    if (!value.startsWith("<a ") || !value.endsWith("</a>")) {
+                        // Malformed hyperlink, escape it
+                        value = value.toHtmlEscaped();
+                    }
+                } else {
+                    // Not a hyperlink, escape any HTML
+                    value = value.toHtmlEscaped();
+                }
+            } else {
+                // For non-player fields, always escape HTML
+                value = value.toHtmlEscaped();
+            }
         } else if (it.value().is_number_integer()) {
             value = QString::number(it.value().get<int64_t>());
         } else if (it.value().is_number_float()) {
@@ -1085,14 +1146,38 @@ QString LogDisplayWindow::formatEventFromTemplate(const QString& messageTemplate
         } else if (it.value().is_boolean()) {
             value = it.value().get<bool>() ? "true" : "false";
         } else {
-            // For other types, convert to string representation
-            value = QString::fromStdString(it.value().dump());
+            value = QString::fromStdString(it.value().dump()).toHtmlEscaped();
         }
-        
+
         message.replace(placeholder, value);
     }
+
+    // Final safety check: ensure only complete hyperlink tags are preserved
+    QRegularExpression completeHyperlinks(R"(<a\s+[^>]*href="[^"]*"[^>]*>.*?</a>)");
+    QRegularExpression incompleteOrDanglingTags(R"(<(?!/?)(?:a\b|/a\b)[^>]*>|<[^>]*(?<!/)>(?![^<]*</[^>]*>))");
     
-    return tr(message.toUtf8().constData());
+    // First pass: identify and temporarily replace complete hyperlinks
+    QStringList hyperlinks;
+    QString tempMessage = message;
+    QRegularExpressionMatchIterator hyperlinkIt = completeHyperlinks.globalMatch(tempMessage);
+    int placeholderIndex = 0;
+    while (hyperlinkIt.hasNext()) {
+        QRegularExpressionMatch match = hyperlinkIt.next();
+        QString placeholder = QString("__HYPERLINK_%1__").arg(placeholderIndex++);
+        hyperlinks.append(match.captured(0));
+        tempMessage.replace(match.captured(0), placeholder);
+    }
+    
+    // Second pass: escape any remaining HTML tags
+    tempMessage.replace("<", "&lt;").replace(">", "&gt;");
+    
+    // Third pass: restore the complete hyperlinks
+    for (int i = 0; i < hyperlinks.size(); ++i) {
+        QString placeholder = QString("__HYPERLINK_%1__").arg(i);
+        tempMessage.replace(placeholder, hyperlinks[i]);
+    }
+
+    return tr(tempMessage.toUtf8().constData());
 }
 
 FilterDropdownWidget::FilterDropdownWidget(QWidget* parent) 
