@@ -1,8 +1,8 @@
 {
     "name": "Gunhead Connect Logfile Rules",
-    "website": "https://gunhead.sparkedhost.com",
+    "website": "https://gunhead.space/",
     "discord_url": "https://discord.gg/yhKd3RVZuD",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "transforms": {
         "parseTimestampToUnixTime": {
             "description": "Converts ISO 8601 timestamp to Unix time",
@@ -179,7 +179,7 @@
         },
         {
             "identifier": "player_character_info",
-            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d]+).*?state\\s*STATE_CURRENT",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d-]+).*?STATE_CURRENT",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "geid", "group": 2 },

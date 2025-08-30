@@ -28,6 +28,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QSettings>
+#include <QStandardPaths>
+#include <QDir>
 #include <QResource>   // for QResource
 #include <QPixmap>     // for QPixmap
 #include <QPainter>    // for QPainter
@@ -795,7 +797,19 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::loadRegexRules() {
-    QString rulesFilePath = settings.value("regexRulesFile", "data/logfile_regex_rules.json").toString();
+    QString dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Gunhead-Connect/data";
+    QString jsonFilePath = dataDir + "/logfile_regex_rules.json";
+    QFile writableFile(jsonFilePath);
+    if (!writableFile.exists()) {
+        QString originalPath = QCoreApplication::applicationDirPath() + "/data/logfile_regex_rules.json";
+        QFile originalFile(originalPath);
+        if (originalFile.exists()) {
+            QDir dir = QFileInfo(jsonFilePath).absoluteDir();
+            if (!dir.exists()) dir.mkpath(".");
+            originalFile.copy(jsonFilePath);
+        }
+    }
+    QString rulesFilePath = settings.value("regexRulesFile", jsonFilePath).toString();
 
     if (!QFile::exists(rulesFilePath)) {
         qWarning() << "Regex rules file does not exist:" << rulesFilePath;
@@ -813,7 +827,8 @@ void MainWindow::loadRegexRules() {
 }
 
 void MainWindow::debugPaths() {
-    QString regexRulesFile = settings.value("regexRulesFile", "data/logfile_regex_rules.json").toString();
+    QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Gunhead-Connect/data/logfile_regex_rules.json";
+    QString regexRulesFile = settings.value("regexRulesFile", defaultPath).toString();
     qDebug() << "Regex Rules File Path:" << regexRulesFile;
 
     QString backgroundImage = settings.value("currentBackgroundImage", "").toString();

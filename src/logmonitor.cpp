@@ -12,6 +12,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QCoreApplication>
+#include <QStandardPaths>
+#include <QDir>
 
 LogMonitor::LogMonitor(QObject *parent) : QObject(parent), m_regex(".*"), m_lastReadPosition(0), m_gameModeLastPosition(0), m_isMonitoringEvents(false) {
     log_debug("LogMonitor", "LogMonitor instance created.");
@@ -367,8 +369,18 @@ QRegularExpression LogMonitor::getGameModeRegex(const QString& identifier) const
 // Add the implementation of getGameModePattern method
 QString LogMonitor::getGameModePattern(const QString& identifier) const {
     // Load patterns from JSON file
-    QString dataDir = QCoreApplication::applicationDirPath() + "/data/";
-    QString jsonFilePath = dataDir + "logfile_regex_rules.json";
+    QString dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Gunhead-Connect/data";
+    QString jsonFilePath = dataDir + "/logfile_regex_rules.json";
+    QFile writableFile(jsonFilePath);
+    if (!writableFile.exists()) {
+        QString originalPath = QCoreApplication::applicationDirPath() + "/data/logfile_regex_rules.json";
+        QFile originalFile(originalPath);
+        if (originalFile.exists()) {
+            QDir dir = QFileInfo(jsonFilePath).absoluteDir();
+            if (!dir.exists()) dir.mkpath(".");
+            originalFile.copy(jsonFilePath);
+        }
+    }
     QFile file(jsonFilePath);
     
     if (!file.open(QIODevice::ReadOnly)) {

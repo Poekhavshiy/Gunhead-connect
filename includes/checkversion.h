@@ -41,6 +41,8 @@ signals:
 private:
     QNetworkAccessManager *networkManager;
 
+    QString dataPath;
+
     struct Version { int major = 0, minor = 0, patch = 0; };
 
     Version parseVersion(const QString &versionString) const;

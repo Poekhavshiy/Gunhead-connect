@@ -23,6 +23,7 @@
 #include "FilterUtils.h"
 #include <QTextBrowser> // ADDED: For QTextBrowser
 #include <QDesktopServices> // ADDED: For QDesktopServices::openUrl
+#include <QStandardPaths>
 
 
 static QStringList s_logDisplayCache;
@@ -1076,7 +1077,19 @@ void LogDisplayWindow::retranslateUi() {
 }
 
 void LogDisplayWindow::loadJsonRules() {
-    QFile file("data/logfile_regex_rules.json");
+    QString dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Gunhead-Connect/data";
+    QString jsonFilePath = dataDir + "/logfile_regex_rules.json";
+    QFile writableFile(jsonFilePath);
+    if (!writableFile.exists()) {
+        QString originalPath = QCoreApplication::applicationDirPath() + "/data/logfile_regex_rules.json";
+        QFile originalFile(originalPath);
+        if (originalFile.exists()) {
+            QDir dir = QFileInfo(jsonFilePath).absoluteDir();
+            if (!dir.exists()) dir.mkpath(".");
+            originalFile.copy(jsonFilePath);
+        }
+    }
+    QFile file(jsonFilePath);
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Could not open JSON rules file:" << file.errorString();
         return;

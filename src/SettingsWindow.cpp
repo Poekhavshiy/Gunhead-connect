@@ -561,7 +561,7 @@ void SettingsWindow::checkForUpdates() {
 
     CheckVersion versionChecker;
     QString currentAppVersion = QCoreApplication::applicationVersion();
-    QString parserFilePath = "data/logfile_regex_rules.json";
+    QString parserFilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Gunhead-Connect/data/logfile_regex_rules.json";
     QString localParserVersion = versionChecker.readLocalJsonVersion(parserFilePath);
     QString currentParserVersion = localParserVersion.isEmpty() ? QStringLiteral("0.0.0") : localParserVersion; // Use fallback if needed
 

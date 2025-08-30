@@ -1,5 +1,5 @@
 /* CheckVersion.cpp */
-#include "CheckVersion.h"
+#include "checkversion.h"
 #include <QEventLoop>
 #include <QNetworkReply>
 #include <QTimer>
@@ -16,7 +16,9 @@
 CheckVersion::CheckVersion(QObject *parent)
     : QObject(parent), networkManager(new QNetworkAccessManager(this))
 {
-    log_info("CheckVersion", "CheckVersion constructor called.");
+    // ADDED: Initialize writable data path
+    dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Gunhead-Connect/data";
+    log_info("CheckVersion", "CheckVersion constructor called. Writable data path: " + dataPath.toStdString());
 }
 
 bool CheckVersion::fetchData(const QUrl &url, QByteArray &outData, int timeoutMs)
@@ -189,8 +191,20 @@ CheckVersion::UpdateTriState CheckVersion::isParserUpdateAvailable(const QString
 
 bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int inactivityTimeoutMs, const QString &expectedSha256)
 {
-    QString destPath = destination;
-    log_debug("CheckVersion", "Downloading file from URL: ", url.toString().toStdString(), " to: ", destPath.toStdString());
+    // MODIFIED: Resolve destination to writable path
+    QString fileName = QFileInfo(destination).fileName();
+    QString destPath = dataPath + "/" + fileName;
+    log_debug("CheckVersion", "Downloading file from URL: ", url.toString().toStdString(), " to writable path: ", destPath.toStdString());
+
+    // MODIFIED: Ensure the writable directory exists
+    QDir dir = QFileInfo(destPath).absoluteDir();
+    if (!dir.exists()) {
+        if (!dir.mkpath(".")) {
+            log_error("CheckVersion", "Failed to create writable directory: ", dir.absolutePath().toStdString());
+            emit errorOccurred(tr("Failed to create writable directory: ") + dir.absolutePath());
+            return false;
+        }
+    }
 
     QNetworkRequest request(url);
     QNetworkReply *reply = networkManager->get(request);
@@ -328,10 +342,30 @@ int CheckVersion::compareVersions(const Version &v1, const Version &v2) const
 }
 
 QString CheckVersion::readLocalJsonVersion(const QString &filePath) {
-    QFile file(filePath);
+    // MODIFIED: Resolve to writable path, copy initial file if needed
+    QString fileName = QFileInfo(filePath).fileName();
+    QString resolvedPath = dataPath + "/" + fileName;
+    QFile resolvedFile(resolvedPath);
+    if (!resolvedFile.exists()) {
+        QFile originalFile(filePath);
+        if (originalFile.exists()) {
+            QDir dir = QFileInfo(resolvedPath).absoluteDir();
+            if (!dir.exists()) dir.mkpath(".");
+            if (originalFile.copy(resolvedPath)) {
+                log_info("CheckVersion", "Copied initial file to writable location: " + resolvedPath.toStdString());
+            } else {
+                log_error("CheckVersion", "Failed to copy initial file to writable location, falling back to original");
+                resolvedPath = filePath;
+            }
+        } else {
+            resolvedPath = filePath;
+        }
+    }
+
+    QFile file(resolvedPath);
     if (!file.open(QIODevice::ReadOnly)) {
-        emit errorOccurred(tr("Cannot open local JSON: ") + filePath);
-        log_error("CheckVersion", "Cannot open local JSON: ", filePath.toStdString());
+        emit errorOccurred(tr("Cannot open local JSON: ") + resolvedPath);
+        log_error("CheckVersion", "Cannot open local JSON: ", resolvedPath.toStdString());
         return {};
     }
 
