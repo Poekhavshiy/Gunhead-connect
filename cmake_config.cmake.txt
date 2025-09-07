@@ -1,0 +1,3 @@
+# Remove the .txt and move this file to the .vscode directory then adjust the paths as needed
+set(MINGW_DIR "D:/msys64/mingw64" CACHE STRING "Path to MinGW directory")
+set(QT_PLUGIN_PATH "D:/Qt/6.9.2/mingw_64/plugins" CACHE STRING "Path to Qt plugins directory")

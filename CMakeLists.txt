@@ -251,3 +251,33 @@ if(WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/buildfiles/sounds/womp-womp.mp3 ${APP_DEST}/sounds/womp-womp.mp3
     )
 endif()
+
+# Include the user-specific configuration file
+if(EXISTS "${CMAKE_SOURCE_DIR}/.vscode/cmake_config.cmake")
+    include("${CMAKE_SOURCE_DIR}/.vscode/cmake_config.cmake")
+else()
+    message(FATAL_ERROR "Configuration file not found: .vscode/cmake_config.cmake")
+endif()
+
+# Use the variables defined in the configuration file
+set(APP_DEST ${OUTDIR_WINDOWS})
+set(APP_DLL_DEST ${OUTDIR_WINDOWS})
+set(MINGW_DLLS
+    ${MINGW_DIR}/bin/libgcc_s_seh-1.dll
+    ${MINGW_DIR}/bin/libstdc++-6.dll
+    ${MINGW_DIR}/bin/libwinpthread-1.dll
+    ${MINGW_DIR}/bin/libcrypto-3-x64.dll
+    ${MINGW_DIR}/bin/libssl-3-x64.dll
+    ${MINGW_DIR}/bin/libbrotlidec.dll
+    ${MINGW_DIR}/bin/libbrotlicommon.dll
+    ${MINGW_DIR}/bin/libpng16-16.dll
+    ${MINGW_DIR}/bin/libfreetype-6.dll
+    ${MINGW_DIR}/bin/libharfbuzz-0.dll
+)
+set(QT_DLLS
+    ${CMAKE_PREFIX_PATH}/bin/Qt6Core.dll
+    ${CMAKE_PREFIX_PATH}/bin/Qt6Network.dll
+    ${CMAKE_PREFIX_PATH}/bin/Qt6Widgets.dll
+    ${CMAKE_PREFIX_PATH}/bin/Qt6Gui.dll
+    ${CMAKE_PREFIX_PATH}/bin/Qt6Multimedia.dll
+)
