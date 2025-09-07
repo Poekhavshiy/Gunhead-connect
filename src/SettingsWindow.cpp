@@ -22,6 +22,9 @@
 #include <QMouseEvent>  // For QMouseEvent in eventFilter
 #include <QInputDialog> // ADDED
 
+#include <windows.h>
+#include <shellapi.h>
+
 SettingsWindow::SettingsWindow(QWidget* parent)
     : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), 
       signalMapper(new QSignalMapper(this))
@@ -458,6 +461,10 @@ void SettingsWindow::updatePath() {
             return;
         }
         
+        // Check for restricted access to game.log
+        QString gameLogPath = folder + "/game.log";
+        checkAndElevateIfRestricted(gameLogPath);
+
         // Only update if the path actually changed
         if (gameFolder != folder) {
             gameFolder = folder;
@@ -471,13 +478,20 @@ void SettingsWindow::updatePath() {
 void SettingsWindow::savePath() {
     QString folder = pathEdit->text().trimmed();
     QString launcher = launcherPathEdit->text().trimmed();
-    
+
     if (!isGameFolderValid(folder)) {
-        QMessageBox::warning(this, tr("Invalid Folder"), 
+        QMessageBox::warning(this, tr("Invalid Folder"),
             tr("Selected folder does not contain Star Citizen launcher."));
         return;
     }
-    
+
+    // Check for restricted access to game.log
+    QString gameLogPath = folder + "/game.log";
+    checkAndElevateIfRestricted(gameLogPath);
+
+    // Check for restricted access to RSI Launcher.exe
+    checkAndElevateIfRestricted(launcher);
+
     // Update both paths if they changed
     bool changed = false;
     if (gameFolder != folder) {
@@ -488,7 +502,7 @@ void SettingsWindow::savePath() {
         launcherPath = launcher;
         changed = true;
     }
-    
+
     if (changed) {
         saveSettings();
         emit gameFolderChanged(folder); // Notify MainWindow and LogDisplayWindow
@@ -792,6 +806,53 @@ bool SettingsWindow::isGameFolderValid(const QString& folder) const {
     // Removed game.log check as it may only exist during runtime
 }
 
+bool SettingsWindow::isRestrictedGameFileLocation(const QString& filePath) const {
+    // Check if path is in Program Files or UAT folders
+    QString lowerPath = filePath.toLower();
+    if (lowerPath.contains("program files") || lowerPath.contains("uat")) {
+        return true;
+    }
+    // Try opening the file for write access to check permissions
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadWrite)) {
+        return true;
+    }
+    file.close();
+    return false;
+}
+
+void SettingsWindow::checkAndElevateIfRestricted(const QString& gamePath) {
+    if (isRestrictedGameFileLocation(gamePath)) {
+        QMessageBox::warning(this, tr("Administrator Required"),
+            tr("The game.log file is located in a restricted folder.\n"
+               "To access this file, the application must be run as Administrator.\n"
+               "The app will now restart with elevated privileges."));
+
+        // Relaunch as admin using ShellExecute
+        QString appPath = QCoreApplication::applicationFilePath();
+        QStringList args = QCoreApplication::arguments();
+        QString argString = args.mid(1).join(" ");
+
+        SHELLEXECUTEINFO sei = { sizeof(SHELLEXECUTEINFO) };
+        sei.fMask = SEE_MASK_NOCLOSEPROCESS;
+        sei.hwnd = nullptr;
+        sei.lpVerb = L"runas";
+        sei.lpFile = (LPCWSTR)appPath.utf16();
+        sei.lpParameters = (LPCWSTR)argString.utf16();
+        sei.lpDirectory = nullptr;
+        sei.nShow = SW_SHOWNORMAL;
+        sei.hInstApp = nullptr;
+
+        if (ShellExecuteEx(&sei)) {
+            QCoreApplication::quit();
+        } else {
+            QMessageBox::critical(this, tr("Elevation Failed"),
+                tr("Failed to restart the application as Administrator.\n"
+                   "Please run the app manually with elevated privileges."));
+        }
+    }
+}
+
 void SettingsWindow::retranslateUi() {
     // Update window title
     setWindowTitle(tr("Settings"));
@@ -865,6 +926,9 @@ void SettingsWindow::retranslateUi() {
 void SettingsWindow::updateLauncherPath() {
     QString file = QFileDialog::getOpenFileName(this, tr("Select RSI Launcher"), launcherPath, tr("Executable Files (*.exe)"));
     if (!file.isEmpty()) {
+        // Check for restricted access to RSI Launcher.exe
+        checkAndElevateIfRestricted(file);
+
         launcherPath = file;
         launcherPathEdit->setText(file);
     }

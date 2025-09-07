@@ -29,14 +29,27 @@ public:
 
     void addSettingsChange(const QString& type, const QString& value);
     void clearSettingsChanges();
-    void updateGameMode(const QString& identifier, const QString& logFilePath, bool isMonitoring);
+    void updateGameMode(const QString& gameMode, const QString& subGameMode, bool isMonitoring);
     void updatePlayerInfo(const QString& playerName, const QString& playerGEID);
+    
+    // STRATEGY 2: Set log file path for game mode rescans
+    void setGameLogFilePath(const QString& logFilePath);
 
     // Getter methods for player and game mode information
     QString getCurrentPlayerName() const;
     QString getCurrentPlayerGEID() const;
     QString getCurrentGameMode() const;
     QString getCurrentSubGameMode() const;
+    
+    // STRATEGY 2: Helper method to re-scan log file for game mode
+    bool attemptGameModeRescan(const QString& logFilePath);
+    
+    // Helper method to check if current game mode is valid
+    bool isGameModeValid() const;
+    
+    // STANDBY MODE: Methods for standby monitoring
+    void setStandbyMode(bool enabled);
+    bool isInStandbyMode() const;
 
     QDateTime getNextAllowedPingTime() const;
     
@@ -69,8 +82,9 @@ signals:
 
 private:
     QNetworkAccessManager* networkManager;
-    const QString apiServerUrl = "https://gunhead.sparked.network/api/interaction";
+    const QString apiServerUrl = "https://api.gunhead.space/api/interaction";
     const QString debugApiServerUrl = "https://bagman.sparked.network/api/interaction";
+    //const QString debugApiServerUrl = "https://apidev.gunhead.space/api/interaction";
 
     QMutex queueMutex;
 
@@ -97,4 +111,10 @@ private:
     QString currentPlayerGEID;
     QString currentGameMode;
     QString currentSubGameMode;
+    
+    // STRATEGY 2: Store log file path for game mode rescans
+    QString gameLogFilePath;
+    
+    // STANDBY MODE: Track standby state
+    bool standbyMode = false;
 };

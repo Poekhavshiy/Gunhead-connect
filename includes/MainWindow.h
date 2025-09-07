@@ -58,6 +58,10 @@ private:
     bool isMonitoring; // Flag to track monitoring state
     bool isStoppingMonitoring = false; // Flag to track if monitoring is being stopped
     bool isShuttingDown = false; // Add proper member variable
+    
+    // STANDBY MODE: Track monitoring states
+    bool isInStandbyMode = false;     // True when monitoring logs but not transmitting
+    bool autoStartEnabled = false;    // Cache of auto-start setting
 
     // Filtering options
     bool showPvP;
@@ -71,6 +75,7 @@ private:
     GameLauncher* gameLauncherInstance = nullptr;
 
     QTimer* connectionPingTimer;  // Timer for regular connection checks
+    QTimer* standbyCheckTimer;    // Timer for checking standby-to-active transitions
     QDateTime getNextAllowedPingTime() const;
     
     // System tray
@@ -115,6 +120,7 @@ public:
     void showSystemTrayMessage(const QString& title, const QString& message, const QString& details = QString()); // MODIFIED: Add details param
     void toggleMonitoring(); // Add public method to toggle monitoring
     bool getMonitoringState() const; // Add getter for monitoring state
+    bool getStandbyState() const; // Add getter for standby state
     void activateFromAnotherInstance();
 
 signals:
@@ -137,6 +143,17 @@ private slots:
     void handleGameModeChange(const QString& gameMode, const QString& subGameMode);
     void sendConnectionPing();
     void emitInitializationComplete();
+    
+    // STRATEGY 1 & 3: Helper method to validate game mode before monitoring
+    bool validateGameModeForMonitoring();
+    
+    // STANDBY MODE: Methods for standby monitoring
+    void startStandbyMode();
+    void exitStandbyMode();
+    bool shouldAttemptAutoStart() const;
+    void checkForAutoStartConditions();
+    void updateAutoStartSetting();
+    void performStandbyCheck();
     
     // System tray slots
     void onSystemTrayActivated(QSystemTrayIcon::ActivationReason reason); // Fixed parameter type

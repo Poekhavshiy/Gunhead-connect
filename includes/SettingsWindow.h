@@ -102,6 +102,9 @@ private:    // Settings fields
     int debugClickCount;
     QTimer* debugClickTimer;
 
+    bool isRestrictedGameFileLocation(const QString& filePath) const;
+    void checkAndElevateIfRestricted(const QString& gamePath);
+
 private slots:
     void toggleUpdateCheck(int state);
     void toggleMinimizeToTray(int state);  // Add slot for minimize to tray toggle
