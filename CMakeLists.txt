@@ -197,8 +197,8 @@ if(WIN32)
     set_source_files_properties(${APP_ICON_RESOURCE} PROPERTIES LANGUAGE RC)
     target_sources(Gunhead-Connect PRIVATE ${APP_ICON_RESOURCE})
 
-    set(MINGW_DIR "C:/msys64/mingw64")
-    set(QT_PLUGIN_PATH "C:/Dev/Qt/qt-install-dynamic/plugins")
+    set(MINGW_DIR "D:/msys64/mingw64")
+    set(QT_PLUGIN_PATH "D:/Qt/6.9.2/mingw_64/plugins")
     set(APP_DEST ${OUTDIR_WINDOWS})
     set(APP_DLL_DEST ${OUTDIR_WINDOWS})
     set(MINGW_DLLS
