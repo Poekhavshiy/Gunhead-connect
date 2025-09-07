@@ -238,12 +238,22 @@ int main(int argc, char *argv[]) {
                     // After a short delay, check if monitoring started successfully
                     QTimer::singleShot(3000, [mainWindow, wasMonitoring, startMinimized]() {
                         bool isNowMonitoring = mainWindow->getMonitoringState();
+                        bool isInStandby = mainWindow->getStandbyState();
                         
-                        // If monitoring didn't start and app is minimized, show notification
-                        if (!isNowMonitoring && wasMonitoring == isNowMonitoring && startMinimized) {
+                        // Consider both full monitoring and standby mode as successful starts
+                        bool monitoringSuccessful = isNowMonitoring || isInStandby;
+                        
+                        // If monitoring didn't start at all and app is minimized, show notification
+                        if (!monitoringSuccessful && wasMonitoring == isNowMonitoring && startMinimized) {
                             mainWindow->showSystemTrayMessage(
                                 QObject::tr("Monitoring Error"),
                                 QObject::tr("Failed to start monitoring automatically. Please check the application.")
+                            );
+                        } else if (isInStandby && startMinimized) {
+                            // Show notification that we're in standby mode
+                            mainWindow->showSystemTrayMessage(
+                                QObject::tr("Standby Mode Active"),
+                                QObject::tr("Monitoring started in standby mode. Waiting for game mode detection.")
                             );
                         }
                     });

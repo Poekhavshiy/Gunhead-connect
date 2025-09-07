@@ -14,6 +14,7 @@
 #include <QSettings>
 #include <QLocale>
 #include <QTimeZone>
+#include <QFile>
 
 Transmitter::Transmitter(QObject* parent)
     : QObject(parent), networkManager(new QNetworkAccessManager(this)) {
@@ -353,6 +354,7 @@ void Transmitter::processQueueInThread(const QString& apiKey) {
     QThread* thread = QThread::create([this, apiKey]() {
         qDebug() << "Transmitter thread:" << QThread::currentThread();
         qDebug() << "Processing queue with API key:" << apiKey.left(5) + "...";
+        qDebug() << "Standby mode status:" << standbyMode;
         
         while (true) {
             QString log;
@@ -364,6 +366,13 @@ void Transmitter::processQueueInThread(const QString& apiKey) {
                 }
                 log = logQueue.dequeue();
                 qDebug() << "Dequeued log:" << log;
+            }
+
+            // STANDBY MODE: In standby mode, only process for UI but don't send to API
+            if (standbyMode) {
+                qDebug() << "STANDBY MODE: Processing log for UI only (not sending to API):" << log;
+                emit logProcessed(log); // Notify UI that log has been processed
+                continue; // Skip API transmission
             }
 
             // Check if this is valid JSON - it should be since enqueueLog already checked
@@ -407,6 +416,32 @@ void Transmitter::processQueueInThread(const QString& apiKey) {
                 identifier == "vehicle_soft_death" || 
                 identifier == "vehicle_destruction" || 
                 identifier == "vehicle_instant_destruction") {
+                
+                // STRATEGY 2 & 4: Check if game mode is empty and attempt rescan if needed
+                if (currentGameMode.isEmpty() || currentGameMode == "Unknown") {
+                    qWarning() << "Game mode is empty/unknown when processing" << identifier << "- attempting rescan";
+                    
+                    if (!gameLogFilePath.isEmpty() && attemptGameModeRescan(gameLogFilePath)) {
+                        qDebug() << "Game mode rescan successful - now have:" << currentGameMode;
+                    } else {
+                        qWarning() << "BLOCKED EVENT: Game mode rescan failed for" << identifier << "- event will not be sent to prevent data corruption";
+                        emit logProcessed(log); // Still notify UI it's been processed
+                        
+                        // Emit a warning for the UI to display
+                        emit monitoringStopped(tr("Warning: Event blocked due to unknown game mode. Please restart the game session and monitoring."));
+                        continue; // Skip sending this event
+                    }
+                }
+                
+                // STRATEGY 4: Final validation - never send events with empty game mode
+                if (currentGameMode.isEmpty() || currentGameMode == "Unknown") {
+                    qWarning() << "BLOCKED EVENT: Final validation failed - refusing to send" << identifier << "event with empty/unknown game mode";
+                    emit logProcessed(log); // Still notify UI it's been processed
+                    
+                    // Emit a critical warning for the UI to display
+                    emit monitoringStopped(tr("Critical: Events blocked due to unknown game mode. Please restart monitoring."));
+                    continue; // Skip sending this event
+                }
                 
                 // Add current game mode information
                 event["game_mode"] = currentGameMode;
@@ -514,6 +549,12 @@ void Transmitter::updateGameMode(const QString& gameMode, const QString& subGame
     
     // Emit the signal for local UI updates only
     emit gameModeChanged(gameMode, subGameMode);
+}
+
+// STRATEGY 2: Set log file path for game mode rescans
+void Transmitter::setGameLogFilePath(const QString& logFilePath) {
+    gameLogFilePath = logFilePath;
+    qDebug() << "Transmitter - Game log file path set to:" << gameLogFilePath;
 }
 
 bool Transmitter::sendGameMode(const QString& apiKey) {
@@ -628,4 +669,65 @@ QString Transmitter::getCurrentGameMode() const {
 QString Transmitter::getCurrentSubGameMode() const {
     qDebug() << "Transmitter::getCurrentSubGameMode returning:" << currentSubGameMode;
     return currentSubGameMode;
+}
+
+// STRATEGY 2: Re-scan log file for game mode if not set
+bool Transmitter::attemptGameModeRescan(const QString& logFilePath) {
+    qDebug() << "Attempting game mode rescan from log file:" << logFilePath;
+    
+    if (logFilePath.isEmpty()) {
+        qWarning() << "Cannot perform game mode rescan - log file path is empty";
+        return false;
+    }
+    
+    if (!QFile::exists(logFilePath)) {
+        qWarning() << "Log file does not exist for game mode rescan:" << logFilePath;
+        return false;
+    }
+    
+    qDebug() << "Scanning log file for game mode and player info...";
+    auto [mode, subMode, playerName, playerGEID] = detectGameModeAndPlayerFast(logFilePath.toStdString());
+    
+    qDebug() << "Rescan results - Mode:" << QString::fromStdString(mode) 
+             << "SubMode:" << QString::fromStdString(subMode)
+             << "Player:" << QString::fromStdString(playerName);
+    
+    if (!mode.empty() && mode != "Unknown") {
+        qDebug() << "Game mode rescan successful - found:" << QString::fromStdString(mode)
+                 << "Sub-mode:" << QString::fromStdString(subMode);
+        
+        // Update the current game mode
+        currentGameMode = QString::fromStdString(mode);
+        currentSubGameMode = QString::fromStdString(subMode);
+        
+        // Also update player info if found
+        if (!playerName.empty() && !playerGEID.empty()) {
+            currentPlayerName = QString::fromStdString(playerName);
+            currentPlayerGEID = QString::fromStdString(playerGEID);
+            qDebug() << "Also updated player info during rescan:" << currentPlayerName 
+                     << "GEID:" << currentPlayerGEID;
+        }
+        
+        qDebug() << "Game mode rescan completed successfully";
+        return true;
+    }
+    
+    qWarning() << "Game mode rescan failed - still no valid game mode found (got:" 
+               << QString::fromStdString(mode) << ")";
+    return false;
+}
+
+// Helper method to check if current game mode is valid
+bool Transmitter::isGameModeValid() const {
+    return !currentGameMode.isEmpty() && currentGameMode != "Unknown";
+}
+
+// STANDBY MODE: Methods for standby monitoring
+void Transmitter::setStandbyMode(bool enabled) {
+    standbyMode = enabled;
+    qDebug() << "Transmitter standby mode" << (enabled ? "ENABLED" : "DISABLED");
+}
+
+bool Transmitter::isInStandbyMode() const {
+    return standbyMode;
 }

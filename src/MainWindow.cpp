@@ -68,6 +68,9 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     showShips = settings.value("LogDisplay/ShowShips", true).toBool();
     showOther = settings.value("LogDisplay/ShowOther", false).toBool();
     showNPCNames = settings.value("LogDisplay/ShowNPCNames", true).toBool();
+    
+    // STANDBY MODE: Initialize auto-start setting
+    updateAutoStartSetting();
 
     gameLauncherInstance = new GameLauncher(this);
     
@@ -228,6 +231,11 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     connectionPingTimer = new QTimer(this);
     connectionPingTimer->setInterval(60000);  // 60 seconds
     connect(connectionPingTimer, &QTimer::timeout, this, &MainWindow::sendConnectionPing);
+    
+    // STANDBY MODE: Create timer for checking standby-to-active transitions
+    standbyCheckTimer = new QTimer(this);
+    standbyCheckTimer->setInterval(5000);  // 5 seconds
+    connect(standbyCheckTimer, &QTimer::timeout, this, &MainWindow::performStandbyCheck);
 
     // Connect LogMonitor signals to Transmitter slots
     connect(logMonitor, &LogMonitor::gameModeSwitched, 
@@ -450,10 +458,71 @@ void MainWindow::continueStartMonitoring() {
         return;
     }
     
+    // STRATEGY 1 & 3: Force Game Mode Detection Before Monitoring Starts
+    qDebug() << "Forcing game mode detection before starting monitoring...";
+    updateStatusLabel(tr("Detecting game mode..."));
+    
+    auto [mode, subMode, playerName, playerGEID] = detectGameModeAndPlayerFast(gameLogFilePath.toStdString());
+    currentGameMode = mode;
+    currentSubGameMode = subMode;
+    
+    qDebug() << "Game mode detection result:" << QString::fromStdString(currentGameMode)
+             << "Sub-mode:" << QString::fromStdString(currentSubGameMode);
+    
+    // Block monitoring if game mode is empty or unknown
+    if (currentGameMode.empty() || currentGameMode == "Unknown") {
+        qWarning() << "Game mode detection failed - blocking monitoring start";
+        QString errorMsg = tr("Error: Unable to detect game mode.");
+        QString details = tr("The application could not determine the current game mode from the log file.\n"
+                           "This usually means:\n"
+                           "• The game is not running\n"
+                           "• No game session has been started yet\n"
+                           "• The log file doesn't contain game mode information\n\n"
+                           "Please start a game session (PU or Arena Commander) and try again.");
+        updateStatusLabel(errorMsg);
+        showSystemTrayMessage(tr("Game Mode Detection Failed"), errorMsg, details);
+        startButton->setEnabled(true);
+        startButton->setText(tr("Start Monitoring"));
+        if (logDisplayWindow) {
+            logDisplayWindow->enableMonitoringButton(tr("Start Monitoring"));
+            logDisplayWindow->updateStatusLabel(tr("ERROR: Game mode detection failed. Please start a game session and try again."));
+        }
+        return;
+    }
+    
+    // Update transmitter with detected game mode and player info
+    transmitter.setGameLogFilePath(gameLogFilePath); // STRATEGY 2: Set log file path for rescans
+    transmitter.updateGameMode(QString::fromStdString(mode), 
+                              QString::fromStdString(subMode), 
+                              false);
+    
+    if (!playerName.empty() && !playerGEID.empty()) {
+        qDebug() << "Updating transmitter with player info:" 
+                 << QString::fromStdString(playerName)
+                 << "GEID:" << QString::fromStdString(playerGEID);
+        transmitter.updatePlayerInfo(QString::fromStdString(playerName), 
+                                    QString::fromStdString(playerGEID));
+    }
+    
+    // Update UI with detected game mode
+    if (currentGameMode == "PU") {
+        updateStatusLabel(tr("Game mode detected: Persistent Universe"));
+    } else if (currentGameMode == "AC") {
+        updateStatusLabel(tr("Game mode detected: Arena Commander: %1").arg(QString::fromStdString(currentSubGameMode)));
+    }
+    
     // Verify API connection before starting monitoring
     if (!verifyApiConnectionAndStartMonitoring(apiKey)) {
+        // Check if we should use standby mode instead of failing completely
+        updateAutoStartSetting(); // Refresh auto-start setting
+        if (autoStartEnabled && transmitter.isGameModeValid()) {
+            qDebug() << "API connection failed, but auto-start is enabled and game mode is valid - starting standby mode";
+            startStandbyMode();
+            return;
+        }
+        
         QString errorMsg = tr("Error: Could not connect to Gunhead server. Monitoring not started.");
-        QString details = tr("API connection failed. Please check your API key and internet connection.\nAPI Key: %1").arg(apiKey);
+        QString details = tr("API connection failed. Please check your API key and internet connection.\nAPI Key: %1\n\nTIP: Enable 'Start monitoring automatically' to use standby mode while connection issues are resolved.").arg(apiKey);
         updateStatusLabel(errorMsg);
         showSystemTrayMessage(tr("Monitoring Error"), errorMsg, details);
         startButton->setEnabled(true);
@@ -462,6 +531,37 @@ void MainWindow::continueStartMonitoring() {
             logDisplayWindow->enableMonitoringButton(tr("Start Monitoring"));
         }
         return; // Don't start monitoring if verification failed
+    }
+    
+    // STRATEGY 1 & 3: Final validation - ensure game mode is still valid before starting monitoring
+    if (!validateGameModeForMonitoring()) {
+        // Check if we should use standby mode instead of failing completely
+        updateAutoStartSetting(); // Refresh auto-start setting
+        if (autoStartEnabled) {
+            qDebug() << "Game mode validation failed, but auto-start is enabled - starting standby mode";
+            startStandbyMode();
+            return;
+        }
+        
+        // Traditional failure handling when auto-start is disabled
+        QString errorMsg = tr("Error: Game mode validation failed.");
+        QString details = tr("Cannot start monitoring because the game mode could not be determined.\n"
+                           "This typically means the game is not running or no session has been started.\n\n"
+                           "Please ensure:\n"
+                           "• Star Citizen is running\n"
+                           "• You have started a game session (PU or Arena Commander)\n"
+                           "• The game has generated log data\n\n"
+                           "Then try starting monitoring again.\n\n"
+                           "TIP: Enable 'Start monitoring automatically' in settings to use standby mode.");
+        updateStatusLabel(errorMsg);
+        showSystemTrayMessage(tr("Game Mode Validation Failed"), errorMsg, details);
+        startButton->setEnabled(true);
+        startButton->setText(tr("Start Monitoring"));
+        if (logDisplayWindow) {
+            logDisplayWindow->enableMonitoringButton(tr("Start Monitoring"));
+            logDisplayWindow->updateStatusLabel(tr("ERROR: Game mode validation failed. Enable auto-start for standby mode."));
+        }
+        return; // Don't start monitoring if game mode validation failed
     }
 
     // Declare QSettings before using it
@@ -525,6 +625,14 @@ void MainWindow::stopMonitoring() {
     connectionPingTimer->stop();
     qDebug() << "Stopped connection ping timer";
     
+    // STANDBY MODE: Stop standby check timer and exit standby mode
+    if (isInStandbyMode) {
+        standbyCheckTimer->stop();
+        isInStandbyMode = false;
+        transmitter.setStandbyMode(false);
+        qDebug() << "Exited standby mode";
+    }
+    
     qDebug() << "MainWindow::stopMonitoring - Stopping log monitoring.";
     if (logMonitor) {
         logMonitor->stopMonitoring();
@@ -532,6 +640,7 @@ void MainWindow::stopMonitoring() {
 
     // Update the button label and reconnect it to startMonitoring
     startButton->setText(tr("Start Monitoring"));
+    startButton->setStyleSheet(""); // Remove any standby styling
     disconnect(startButton, &QPushButton::clicked, this, &MainWindow::stopMonitoring);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startMonitoring);
 
@@ -548,6 +657,161 @@ void MainWindow::stopMonitoring() {
 
     updateStatusLabel(tr("Monitoring stopped."));
     isStoppingMonitoring = false;
+}
+
+// STRATEGY 1 & 3: Helper method to validate game mode before monitoring
+bool MainWindow::validateGameModeForMonitoring() {
+    qDebug() << "Validating game mode for monitoring...";
+    
+    // Check if current game mode is valid
+    if (!transmitter.isGameModeValid()) {
+        qWarning() << "Current game mode is invalid:" << QString::fromStdString(currentGameMode);
+        
+        // Attempt to re-detect game mode
+        qDebug() << "Attempting game mode re-detection...";
+        auto [mode, subMode, playerName, playerGEID] = detectGameModeAndPlayerFast(gameLogFilePath.toStdString());
+        
+        if (!mode.empty() && mode != "Unknown") {
+            qDebug() << "Game mode re-detection successful:" << QString::fromStdString(mode);
+            currentGameMode = mode;
+            currentSubGameMode = subMode;
+            transmitter.updateGameMode(QString::fromStdString(mode), 
+                                      QString::fromStdString(subMode), 
+                                      false);
+            return true;
+        } else {
+            qWarning() << "Game mode re-detection failed - monitoring cannot start safely";
+            return false;
+        }
+    }
+    
+    qDebug() << "Game mode validation successful:" << QString::fromStdString(currentGameMode);
+    return true;
+}
+
+// STANDBY MODE: Start monitoring in standby mode (logs processed locally, not transmitted)
+void MainWindow::startStandbyMode() {
+    qDebug() << "Starting standby monitoring mode...";
+    isInStandbyMode = true;
+    
+    // Start local log monitoring without API transmission
+    logMonitor->startMonitoring(gameLogFilePath);
+    transmitter.setStandbyMode(true);
+    
+    // Start the standby check timer
+    standbyCheckTimer->start();
+    
+    // Update UI to reflect standby state
+    startButton->setEnabled(true);
+    startButton->setText(tr("Stop Standby"));
+    startButton->setStyleSheet("QPushButton { background-color: orange; color: white; }");
+    
+    // Reconnect button to stop standby mode
+    disconnect(startButton, &QPushButton::clicked, this, &MainWindow::startMonitoring);
+    connect(startButton, &QPushButton::clicked, this, &MainWindow::stopMonitoring);
+    
+    if (logDisplayWindow) {
+        logDisplayWindow->updateMonitoringButtonText(false); // Show as stopped for API transmission
+        logDisplayWindow->updateStatusLabel(tr("STANDBY: Monitoring logs locally, waiting for game mode detection..."));
+    }
+    
+    updateStatusLabel(tr("Standby: Monitoring logs, waiting for valid game mode..."));
+    
+    qDebug() << "Standby mode started - monitoring logs locally until game mode is detected";
+}
+
+// STANDBY MODE: Exit standby mode and start full monitoring
+void MainWindow::exitStandbyMode() {
+    qDebug() << "Exiting standby mode and starting full monitoring...";
+    isInStandbyMode = false;
+    transmitter.setStandbyMode(false);
+    
+    // Remove standby styling
+    startButton->setStyleSheet("");
+    
+    // Continue with normal monitoring startup
+    continueStartMonitoring();
+}
+
+// STANDBY MODE: Check if auto-start conditions are met
+bool MainWindow::shouldAttemptAutoStart() const {
+    return autoStartEnabled && !isMonitoring && !isInStandbyMode;
+}
+
+// STANDBY MODE: Check conditions and attempt auto-start if appropriate
+void MainWindow::checkForAutoStartConditions() {
+    qDebug() << "Checking auto-start conditions...";
+    qDebug() << "Auto-start enabled:" << autoStartEnabled;
+    qDebug() << "Is monitoring:" << isMonitoring;
+    qDebug() << "Is in standby:" << isInStandbyMode;
+    qDebug() << "Game mode valid:" << transmitter.isGameModeValid();
+    
+    if (!shouldAttemptAutoStart()) {
+        qDebug() << "Auto-start conditions not met, skipping";
+        return;
+    }
+    
+    // Check if we have valid game mode now
+    if (transmitter.isGameModeValid()) {
+        QString apiKey = settings.value("apiKey", "").toString();
+        if (!apiKey.isEmpty()) {
+            qDebug() << "Auto-start conditions met - attempting to start full monitoring";
+            updateStatusLabel(tr("Auto-starting monitoring (game mode detected)..."));
+            QTimer::singleShot(1000, this, &MainWindow::startMonitoring);
+        } else {
+            qDebug() << "Auto-start: Game mode valid but no API key - starting standby mode";
+            startStandbyMode();
+        }
+    } else {
+        qDebug() << "Auto-start: Game mode not valid yet - starting standby mode";
+        startStandbyMode();
+    }
+}
+
+// STANDBY MODE: Update cached auto-start setting
+void MainWindow::updateAutoStartSetting() {
+    bool previousSetting = autoStartEnabled;
+    autoStartEnabled = settings.value("autoStartMonitoring", false).toBool();
+    
+    qDebug() << "Auto-start setting updated from" << previousSetting << "to" << autoStartEnabled;
+    
+    // If auto-start was just enabled and we're not monitoring, check conditions
+    if (autoStartEnabled && !previousSetting) {
+        QTimer::singleShot(500, this, &MainWindow::checkForAutoStartConditions);
+    }
+}
+
+// STANDBY MODE: Periodic check for standby-to-active transitions
+void MainWindow::performStandbyCheck() {
+    if (!isInStandbyMode) {
+        return; // Not in standby mode, nothing to check
+    }
+    
+    qDebug() << "Performing standby check...";
+    
+    // Check if conditions are now met for full monitoring
+    QString apiKey = settings.value("apiKey", "").toString();
+    bool gameModeBecameValid = transmitter.isGameModeValid();
+    bool hasValidApiKey = !apiKey.isEmpty();
+    
+    qDebug() << "Standby check - Game mode valid:" << gameModeBecameValid 
+             << "API key available:" << hasValidApiKey;
+    
+    if (gameModeBecameValid && hasValidApiKey) {
+        qDebug() << "STANDBY TRANSITION: All conditions met, transitioning to full monitoring";
+        updateStatusLabel(tr("Standby complete: Game mode and API key ready. Starting full monitoring..."));
+        
+        // Stop the standby check timer
+        standbyCheckTimer->stop();
+        
+        // Transition to full monitoring
+        QTimer::singleShot(1000, this, &MainWindow::exitStandbyMode);
+    } else if (gameModeBecameValid && !hasValidApiKey) {
+        updateStatusLabel(tr("Standby: Game mode detected, but API key required for transmission"));
+    } else {
+        // Still waiting for game mode
+        updateStatusLabel(tr("Standby: Monitoring logs, waiting for game mode..."));
+    }
 }
 
 void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
@@ -643,6 +907,32 @@ void MainWindow::toggleSettingsWindow() {
                 this, &MainWindow::onGameFolderChanged);
         connect(settingsWindow, &SettingsWindow::minimizeToTrayChanged,
                 this, &MainWindow::onMinimizeToTrayChanged);
+        
+        // STANDBY MODE: Connect to settings changes to monitor API key changes
+        connect(settingsWindow, &SettingsWindow::settingsChanged, this, [this]() {
+            // Check if API key was updated and we should attempt auto-restart
+            updateAutoStartSetting();
+            
+            static QString lastApiKey = settings.value("apiKey", "").toString();
+            QString currentApiKey = settings.value("apiKey", "").toString();
+            
+            if (currentApiKey != lastApiKey && !currentApiKey.isEmpty()) {
+                qDebug() << "API key changed - checking for auto-restart conditions";
+                lastApiKey = currentApiKey;
+                
+                // If we're in standby mode and now have a valid API key, attempt transition
+                if (isInStandbyMode && transmitter.isGameModeValid()) {
+                    qDebug() << "API key updated during standby - transitioning to full monitoring";
+                    updateStatusLabel(tr("API key updated! Transitioning to full monitoring..."));
+                    QTimer::singleShot(1500, this, &MainWindow::exitStandbyMode);
+                }
+                // If auto-start is enabled and we're not monitoring, start now
+                else if (autoStartEnabled && !isMonitoring && !isInStandbyMode) {
+                    qDebug() << "API key updated with auto-start enabled - attempting to start monitoring";
+                    QTimer::singleShot(1000, this, &MainWindow::checkForAutoStartConditions);
+                }
+            }
+        });
 
         WindowUtils::positionWindowOnScreen(settingsWindow, this);
         settingsWindow->show();
@@ -1042,6 +1332,7 @@ void MainWindow::onGameFolderChanged(const QString& newFolder) {
                  << "Player GEID:" << QString::fromStdString(playerGEID);
 
         // Update transmitter with player info if available
+        transmitter.setGameLogFilePath(gameLogFilePath); // STRATEGY 2: Set log file path for rescans
         if (!playerName.empty() && !playerGEID.empty()) {
             transmitter.updatePlayerInfo(QString::fromStdString(playerName), QString::fromStdString(playerGEID));
         }
@@ -1086,6 +1377,7 @@ void MainWindow::initializeGameMode() {
         currentSubGameMode = subMode;
         
         // Update transmitter with game mode info
+        transmitter.setGameLogFilePath(gameLogFilePath); // STRATEGY 2: Set log file path for rescans
         transmitter.updateGameMode(QString::fromStdString(mode), 
                                   QString::fromStdString(subMode), 
                                   false);
@@ -1118,6 +1410,9 @@ void MainWindow::initializeApp() {
 
     // Load regex rules (needed for game mode detection)
     loadRegexRules();
+    
+    // STRATEGY 2: Set log file path in transmitter for game mode rescans
+    transmitter.setGameLogFilePath(gameLogFilePath);
 
     // Perform initial game mode and player info detection
     logMonitor->initializeGameMode();
@@ -1152,7 +1447,21 @@ void MainWindow::handleGameModeChange(const QString& gameMode, const QString& su
         }
         
         // Update the game mode in the transmitter
+        transmitter.setGameLogFilePath(gameLogFilePath); // STRATEGY 2: Ensure log file path is current
         transmitter.updateGameMode(gameMode, subGameMode, isMonitoring);
+        
+        // STANDBY MODE: Check if we should transition from standby to active monitoring
+        if (isInStandbyMode && transmitter.isGameModeValid()) {
+            QString apiKey = settings.value("apiKey", "").toString();
+            if (!apiKey.isEmpty()) {
+                qDebug() << "STANDBY TRANSITION: Valid game mode detected, attempting to start full monitoring";
+                updateStatusLabel(tr("Game mode detected! Transitioning to full monitoring..."));
+                QTimer::singleShot(1000, this, &MainWindow::exitStandbyMode);
+            } else {
+                qDebug() << "STANDBY: Game mode valid but no API key available";
+                updateStatusLabel(tr("Standby: Game mode detected, but API key needed for full monitoring"));
+            }
+        }
         
         // If LogDisplayWindow is open, update its status directly
         if (logDisplayWindow) {
@@ -1497,6 +1806,9 @@ void MainWindow::createSystemTrayIcon() {
 void MainWindow::toggleMonitoring() {
     if (isMonitoring) {
         stopMonitoring();
+    } else if (isInStandbyMode) {
+        // If we're in standby mode, stop standby and don't start full monitoring
+        stopMonitoring();
     } else {
         startMonitoring();
     }
@@ -1504,6 +1816,10 @@ void MainWindow::toggleMonitoring() {
 
 bool MainWindow::getMonitoringState() const {
     return isMonitoring;
+}
+
+bool MainWindow::getStandbyState() const {
+    return isInStandbyMode;
 }
 
 void MainWindow::onSystemTrayActivated(QSystemTrayIcon::ActivationReason reason) {

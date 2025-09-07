@@ -101,7 +101,9 @@
 			"resources/translations/*.ts": "xml",
 			"*.in": "cpp",
 			"qjsondocument": "cpp",
-			"qfileinfo": "cpp"
+			"qfileinfo": "cpp",
+			"qcoreapplication": "cpp",
+			"qmessagebox": "cpp"
 		}
 	}
 }
