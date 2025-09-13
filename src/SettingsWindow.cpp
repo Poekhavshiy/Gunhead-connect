@@ -21,6 +21,8 @@
 #include <QTabBar> 
 #include <QMouseEvent>  // For QMouseEvent in eventFilter
 #include <QInputDialog> // ADDED
+#include <QApplication> // ADDED for application exit
+#include <QDir> // ADDED for directory operations
 
 #include <windows.h>
 #include <shellapi.h>
@@ -615,20 +617,126 @@ void SettingsWindow::checkForUpdates() {
                 downloadsDir = QDir::homePath();
             }
             QString defaultPath = downloadsDir + QDir::separator() + "Gunhead-Connect-Setup.msi";
-            QString savePath = QFileDialog::getSaveFileName(this, tr("Save Installer"), defaultPath, tr("Installer Files (*.msi)"));
-            if (savePath.isEmpty()) {
-                qDebug() << "SettingsWindow: User canceled the save dialog.";
-            } else {
-                if (versionChecker.downloadFile(QUrl(appInstallerUrl), savePath, 5000)) {
-                    qDebug() << "SettingsWindow: App updated successfully.";
-                    QMessageBox::information(this, tr("Update Successful"), tr("App installer downloaded successfully."));
-                    // Prompt the user to run the installer
-                    QMessageBox::StandardButton installReply = QMessageBox::question(
-                        this, tr("Run Installer"),
-                        tr("The installer has been downloaded. Would you like to run it now?"),
-                        QMessageBox::Yes | QMessageBox::No);
-                    if (installReply == QMessageBox::Yes) {
-                        QProcess::startDetached("msiexec", QStringList() << "/i" << savePath);
+            
+            QString savePath;
+            bool pathValidated = false;
+            
+            // Loop until we get a valid writable path or user cancels
+            while (!pathValidated) {
+                savePath = QFileDialog::getSaveFileName(this, tr("Save Installer"), defaultPath, tr("Installer Files (*.msi)"));
+                if (savePath.isEmpty()) {
+                    qDebug() << "SettingsWindow: User canceled the save dialog.";
+                    break; // User canceled
+                }
+                
+                // Test write permissions by trying to create a temporary file
+                QFileInfo saveFileInfo(savePath);
+                QDir saveDir = saveFileInfo.absoluteDir();
+                QString tempTestFile = saveDir.absolutePath() + QDir::separator() + "write_test_temp.tmp";
+                
+                QFile testFile(tempTestFile);
+                if (testFile.open(QIODevice::WriteOnly)) {
+                    // Write permission confirmed
+                    testFile.close();
+                    QFile::remove(tempTestFile); // Clean up test file
+                    pathValidated = true;
+                    qDebug() << "SettingsWindow: Write permission confirmed for:" << saveDir.absolutePath();
+                } else {
+                    // No write permission - offer alternatives
+                    QMessageBox::StandardButton choice = QMessageBox::question(
+                        this, tr("Permission Denied"),
+                        tr("Cannot write to the selected location:\n%1\n\nWould you like to:\n"
+                           "• Yes: Choose a different location\n"
+                           "• No: Use default user documents folder\n"
+                           "• Cancel: Abort download").arg(saveDir.absolutePath()),
+                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+                    
+                    if (choice == QMessageBox::Yes) {
+                        // Let user choose a different location - continue loop
+                        defaultPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + 
+                                     QDir::separator() + "Gunhead-Connect-Setup.msi";
+                        continue;
+                    } else if (choice == QMessageBox::No) {
+                        // Use documents folder as fallback
+                        QString fallbackDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+                        if (fallbackDir.isEmpty()) {
+                            fallbackDir = QDir::homePath();
+                        }
+                        savePath = fallbackDir + QDir::separator() + "Gunhead-Connect-Setup.msi";
+                        
+                        // Test the fallback location
+                        QFile fallbackTest(fallbackDir + QDir::separator() + "write_test_temp.tmp");
+                        if (fallbackTest.open(QIODevice::WriteOnly)) {
+                            fallbackTest.close();
+                            QFile::remove(fallbackDir + QDir::separator() + "write_test_temp.tmp");
+                            pathValidated = true;
+                            QMessageBox::information(this, tr("Download Location"), 
+                                tr("Installer will be downloaded to:\n%1").arg(savePath));
+                        } else {
+                            QMessageBox::critical(this, tr("Permission Error"), 
+                                tr("No writable location found. Please run as administrator or check folder permissions."));
+                            break; // Exit loop
+                        }
+                    } else {
+                        // User canceled
+                        break;
+                    }
+                }
+            }
+            
+            if (pathValidated && !savePath.isEmpty()) {
+                // Get expected SHA-256 for MSI validation
+                QString expectedSha256 = versionChecker.getLatestAppMsiSha256(10000);
+                if (expectedSha256.isEmpty()) {
+                    qDebug() << "SettingsWindow: Warning - Could not fetch MSI SHA-256 for validation.";
+                }
+                
+                // Download with SHA-256 validation
+                if (versionChecker.downloadFileToUserPath(QUrl(appInstallerUrl), savePath, 10000, expectedSha256)) {
+                    // Additional file validation before execution
+                    QFileInfo fileInfo(savePath);
+                    if (!fileInfo.exists()) {
+                        qDebug() << "SettingsWindow: Downloaded MSI file does not exist.";
+                        QMessageBox::warning(this, tr("Update Failed"), tr("Downloaded installer file is missing."));
+                    } else if (fileInfo.size() < 1024 * 1024) { // MSI should be at least 1MB
+                        qDebug() << "SettingsWindow: Downloaded MSI file appears to be too small (corrupted).";
+                        QMessageBox::warning(this, tr("Update Failed"), tr("Downloaded installer file appears to be corrupted (too small)."));
+                        QFile::remove(savePath); // Clean up corrupted file
+                    } else {
+                        qDebug() << "SettingsWindow: App installer downloaded and validated successfully.";
+                        QMessageBox::information(this, tr("Update Successful"), tr("App installer downloaded and validated successfully."));
+                        
+                        // Prompt the user to run the installer
+                        QMessageBox::StandardButton installReply = QMessageBox::question(
+                            this, tr("Run Installer"),
+                            tr("The installer has been downloaded and validated. The application will close to allow the installer to update the files. Would you like to proceed?"),
+                            QMessageBox::Yes | QMessageBox::No);
+                        if (installReply == QMessageBox::Yes) {
+                            // Validate file one more time before execution
+                            if (QFileInfo(savePath).exists() && QFileInfo(savePath).isReadable()) {
+                                // Use absolute path and proper arguments for msiexec
+                                QStringList arguments;
+                                arguments << "/i" << QDir::toNativeSeparators(QFileInfo(savePath).absoluteFilePath());
+                                arguments << "/passive"; // Show progress but don't require user interaction
+                                arguments << "LAUNCHAFTER=1"; // Custom property to launch app after install
+                                
+                                qDebug() << "SettingsWindow: Starting MSI installer and closing application.";
+                                bool success = QProcess::startDetached("msiexec", arguments);
+                                if (success) {
+                                    // Give the installer a moment to start, then close the application
+                                    QApplication::processEvents(); // Process any pending events
+                                    QApplication::quit(); // Gracefully close the application
+                                } else {
+                                    qDebug() << "SettingsWindow: Failed to start MSI installer.";
+                                    QMessageBox::warning(this, tr("Launch Failed"), 
+                                        tr("Failed to launch the installer. Please run the MSI file manually from:\n%1").arg(savePath));
+                                }
+                            } else {
+                                qDebug() << "SettingsWindow: MSI file became inaccessible before execution.";
+                                QMessageBox::warning(this, tr("Launch Failed"), 
+                                    tr("The installer file is no longer accessible. Please download again."));
+                            }
+                        }
                     }
                 } else {
                     qDebug() << "SettingsWindow: App update failed.";

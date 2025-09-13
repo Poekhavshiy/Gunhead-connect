@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Gunhead-Connect VERSION 0.1.8  LANGUAGES CXX)
+project(Gunhead-Connect VERSION 0.1.9  LANGUAGES CXX)
 set(PROJECT_AUTHOR "Gunhead Team")
 set(PROJECT_ORGANIZATION "Gunhead Team")
 
@@ -7,6 +7,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Persist FetchContent downloads across builds/presets unless overridden
+if(NOT DEFINED FETCHCONTENT_BASE_DIR)
+    set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/.fc_cache" CACHE PATH "Base directory for FetchContent caches")
+endif()
+
+# Allow opting out of tests (and their dependencies) entirely
+option(ENABLE_TESTS "Build unit tests" OFF)
 
 # Qt features
 set(CMAKE_AUTOMOC ON)
@@ -121,13 +129,37 @@ if(WIN32)
       $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 endif()
 
-# JSON library
-include(FetchContent)
-FetchContent_Declare(json
-  GIT_REPOSITORY https://github.com/nlohmann/json
-  GIT_TAG v3.12.0
-)
-FetchContent_MakeAvailable(json)
+## Dependency fetching policy and verbosity
+option(FETCH_DEPS "Allow CMake to fetch dependencies via FetchContent" ON)
+set(FETCHCONTENT_QUIET OFF)
+# Allow users to force offline behavior via cache or environment variable
+if(NOT DEFINED FETCHCONTENT_FULLY_DISCONNECTED AND DEFINED ENV{FETCHCONTENT_FULLY_DISCONNECTED})
+    set(FETCHCONTENT_FULLY_DISCONNECTED $ENV{FETCHCONTENT_FULLY_DISCONNECTED})
+endif()
+
+## JSON library (prefer system, fallback to FetchContent)
+find_package(nlohmann_json QUIET CONFIG)
+if(NOT nlohmann_json_FOUND)
+    if(NOT FETCH_DEPS)
+        message(FATAL_ERROR "nlohmann_json not found and FETCH_DEPS=OFF. Install system package (MSYS2: 'pacman -S mingw-w64-x86_64-nlohmann-json') or enable FETCH_DEPS.")
+    endif()
+        message(STATUS "nlohmann_json not found via find_package, using FetchContent (URL tarball)")
+    include(FetchContent)
+        # Tarball URL is more reliable than git clone; make URL and HASH configurable
+        set(JSON_URL "https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz" CACHE STRING "nlohmann_json archive URL")
+        # Use the hash observed in your environment to pass integrity check; can be overridden
+        set(JSON_URL_HASH "SHA256=4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187" CACHE STRING "Expected hash for JSON_URL; leave empty to skip")
+        set(JSON_FETCH_ARGS
+            URL ${JSON_URL}
+            DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        )
+        if(JSON_URL_HASH)
+            list(APPEND JSON_FETCH_ARGS URL_HASH ${JSON_URL_HASH})
+        endif()
+        FetchContent_Declare(json ${JSON_FETCH_ARGS})
+    set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+    FetchContent_MakeAvailable(json)
+endif()
 target_link_libraries(Gunhead-Connect PRIVATE nlohmann_json::nlohmann_json)
 
 # Translations
@@ -147,14 +179,29 @@ set(TS_FILES
 )
 qt_add_translations(Gunhead-Connect TS_FILES ${TS_FILES})
 
-# Tests - only include when not in Release mode
-if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-  FetchContent_Declare(
-    Catch2
-    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG v3.8.1
-  )
-  FetchContent_MakeAvailable(Catch2)
+# Tests - only include when enabled and not in Release mode
+if(ENABLE_TESTS AND NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+    # Prefer a local Catch2 install if available; else FetchContent
+    find_package(Catch2 3 QUIET CONFIG)
+        if(NOT Catch2_FOUND)
+        if(NOT FETCH_DEPS)
+            message(FATAL_ERROR "Catch2 not found and FETCH_DEPS=OFF. Install system package (MSYS2: 'pacman -S mingw-w64-x86_64-catch2') or enable FETCH_DEPS.")
+        endif()
+            message(STATUS "Catch2 not found via find_package, using FetchContent (URL tarball)")
+        include(FetchContent)
+            set(CATCH2_URL "https://github.com/catchorg/Catch2/archive/refs/tags/v3.8.1.tar.gz" CACHE STRING "Catch2 archive URL")
+            set(CATCH2_URL_HASH "SHA256=6f2cdc8eba32492b5a0fb9707271079b1a35c9af7e9fa069f27c0b028544cdb2" CACHE STRING "Expected hash for CATCH2_URL; leave empty to skip")
+            set(CATCH2_FETCH_ARGS
+                URL ${CATCH2_URL}
+                DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+            )
+            if(CATCH2_URL_HASH)
+                list(APPEND CATCH2_FETCH_ARGS URL_HASH ${CATCH2_URL_HASH})
+            endif()
+            FetchContent_Declare(Catch2 ${CATCH2_FETCH_ARGS})
+        set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
+        FetchContent_MakeAvailable(Catch2)
+    endif()
   enable_testing()
 
   add_executable(tests
@@ -172,13 +219,20 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
       ${CMAKE_BINARY_DIR}/generated
   )
 
-  target_link_libraries(tests PRIVATE Catch2::Catch2WithMain nlohmann_json::nlohmann_json)
+    target_link_libraries(tests PRIVATE Catch2::Catch2WithMain nlohmann_json::nlohmann_json)
   include(Catch)
   catch_discover_tests(tests WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 endif()
 
 # Install binary
 install(TARGETS Gunhead-Connect RUNTIME DESTINATION bin)
+
+# Include the user-specific configuration file first
+if(EXISTS "${CMAKE_SOURCE_DIR}/.vscode/cmake_config.cmake")
+    include("${CMAKE_SOURCE_DIR}/.vscode/cmake_config.cmake")
+else()
+    message(FATAL_ERROR "Configuration file not found: .vscode/cmake_config.cmake")
+endif()
 
 # Windows DLL copying
 if(WIN32)
@@ -197,8 +251,6 @@ if(WIN32)
     set_source_files_properties(${APP_ICON_RESOURCE} PROPERTIES LANGUAGE RC)
     target_sources(Gunhead-Connect PRIVATE ${APP_ICON_RESOURCE})
 
-    set(MINGW_DIR "D:/msys64/mingw64")
-    set(QT_PLUGIN_PATH "D:/Qt/6.9.2/mingw_64/plugins")
     set(APP_DEST ${OUTDIR_WINDOWS})
     set(APP_DLL_DEST ${OUTDIR_WINDOWS})
     set(MINGW_DLLS
@@ -228,12 +280,18 @@ if(WIN32)
             COMMENT "Copying DLLs for Release build"
         )
     else()
-        foreach(TGT Gunhead-Connect tests)
-            add_custom_command(TARGET ${TGT} POST_BUILD
+        # Always add for main app
+        add_custom_command(TARGET Gunhead-Connect POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
+            COMMENT "Copying DLLs for Gunhead-Connect"
+        )
+        # Add for tests only if the target exists
+        if(TARGET tests)
+            add_custom_command(TARGET tests POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MINGW_DLLS} ${QT_DLLS} ${APP_DLL_DEST}
-                COMMENT "Copying DLLs for ${TGT}"
+                COMMENT "Copying DLLs for tests"
             )
-        endforeach()
+        endif()
     endif()
 
     add_custom_command(TARGET Gunhead-Connect POST_BUILD
@@ -251,33 +309,3 @@ if(WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/buildfiles/sounds/womp-womp.mp3 ${APP_DEST}/sounds/womp-womp.mp3
     )
 endif()
-
-# Include the user-specific configuration file
-if(EXISTS "${CMAKE_SOURCE_DIR}/.vscode/cmake_config.cmake")
-    include("${CMAKE_SOURCE_DIR}/.vscode/cmake_config.cmake")
-else()
-    message(FATAL_ERROR "Configuration file not found: .vscode/cmake_config.cmake")
-endif()
-
-# Use the variables defined in the configuration file
-set(APP_DEST ${OUTDIR_WINDOWS})
-set(APP_DLL_DEST ${OUTDIR_WINDOWS})
-set(MINGW_DLLS
-    ${MINGW_DIR}/bin/libgcc_s_seh-1.dll
-    ${MINGW_DIR}/bin/libstdc++-6.dll
-    ${MINGW_DIR}/bin/libwinpthread-1.dll
-    ${MINGW_DIR}/bin/libcrypto-3-x64.dll
-    ${MINGW_DIR}/bin/libssl-3-x64.dll
-    ${MINGW_DIR}/bin/libbrotlidec.dll
-    ${MINGW_DIR}/bin/libbrotlicommon.dll
-    ${MINGW_DIR}/bin/libpng16-16.dll
-    ${MINGW_DIR}/bin/libfreetype-6.dll
-    ${MINGW_DIR}/bin/libharfbuzz-0.dll
-)
-set(QT_DLLS
-    ${CMAKE_PREFIX_PATH}/bin/Qt6Core.dll
-    ${CMAKE_PREFIX_PATH}/bin/Qt6Network.dll
-    ${CMAKE_PREFIX_PATH}/bin/Qt6Widgets.dll
-    ${CMAKE_PREFIX_PATH}/bin/Qt6Gui.dll
-    ${CMAKE_PREFIX_PATH}/bin/Qt6Multimedia.dll
-)

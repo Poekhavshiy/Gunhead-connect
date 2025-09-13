@@ -293,6 +293,108 @@ bool CheckVersion::downloadFile(const QUrl &url, const QString &destination, int
     return success;
 }
 
+// Download file to user-specified path (respects user's chosen location)
+bool CheckVersion::downloadFileToUserPath(const QUrl &url, const QString &destination, int inactivityTimeoutMs, const QString &expectedSha256)
+{
+    log_debug("CheckVersion", "Downloading file from URL: ", url.toString().toStdString(), " to user path: ", destination.toStdString());
+
+    // Ensure the destination directory exists
+    QDir dir = QFileInfo(destination).absoluteDir();
+    if (!dir.exists()) {
+        if (!dir.mkpath(".")) {
+            log_error("CheckVersion", "Failed to create destination directory: ", dir.absolutePath().toStdString());
+            emit errorOccurred(tr("Failed to create destination directory: ") + dir.absolutePath());
+            return false;
+        }
+    }
+
+    QNetworkRequest request(url);
+    QNetworkReply *reply = networkManager->get(request);
+
+    QFile file(destination);
+    if (!file.open(QIODevice::WriteOnly)) {
+        log_error("CheckVersion", "Cannot open file for writing: ", destination.toStdString());
+        emit errorOccurred(tr("Cannot open file for writing: ") + destination);
+        reply->abort();
+        reply->deleteLater();
+        return false;
+    }
+
+    QEventLoop loop;
+    QTimer inactivityTimer;
+    inactivityTimer.setSingleShot(true);
+
+    bool success = false;
+    qint64 totalBytesWritten = 0;
+
+    connect(reply, &QNetworkReply::readyRead, [&]() {
+        QByteArray chunk = reply->readAll();
+        qint64 bytesWritten = file.write(chunk);
+        file.flush();
+        totalBytesWritten += bytesWritten;
+        if (bytesWritten < chunk.size()) {
+            log_error("CheckVersion", "Failed to write full chunk to file");
+            emit errorOccurred(tr("Failed to write all data to disk."));
+            reply->abort();
+            loop.quit();
+            return;
+        }
+        inactivityTimer.start(inactivityTimeoutMs);
+    });
+
+    connect(reply, &QNetworkReply::finished, [&]() {
+        inactivityTimer.stop();
+        if (reply->error() == QNetworkReply::NoError) {
+            file.flush();
+            success = true;
+            log_debug("CheckVersion", "Download finished successfully, total bytes: ", std::to_string(totalBytesWritten));
+        } else {
+            log_error("CheckVersion", "Download error: ", reply->errorString().toStdString());
+            emit errorOccurred(tr("Network error: ") + reply->errorString());
+        }
+        loop.quit();
+    });
+
+    connect(reply, &QNetworkReply::downloadProgress, [&](qint64 received, qint64 total) {
+        log_debug("CheckVersion", "Download progress: ", std::to_string(received), "/", std::to_string(total));
+    });
+
+    connect(&inactivityTimer, &QTimer::timeout, [&]() {
+        log_error("CheckVersion", "Download timed out due to inactivity for URL: ", url.toString().toStdString());
+        emit errorOccurred(tr("Download timed out due to inactivity."));
+        reply->abort();
+        loop.quit();
+    });
+
+    inactivityTimer.start(inactivityTimeoutMs);
+    loop.exec();
+
+    file.flush();
+    file.close();
+    reply->deleteLater();
+
+    QFileInfo fi(destination);
+    if (!success || !fi.exists() || fi.size() == 0) {
+        log_error("CheckVersion", "Downloaded file is missing or empty: ", destination.toStdString());
+        emit errorOccurred(tr("Downloaded file is missing or empty: ") + destination);
+        return false;
+    }
+
+    // SHA-256 verification
+    if (!expectedSha256.isEmpty()) {
+        QString actualSha256 = computeFileSha256(destination);
+        if (actualSha256.compare(expectedSha256, Qt::CaseInsensitive) != 0) {
+            log_error("CheckVersion", "SHA-256 mismatch: expected ", expectedSha256.toStdString(), ", got ", actualSha256.toStdString());
+            emit errorOccurred(tr("Downloaded file failed integrity check (SHA-256 mismatch)."));
+            QFile::remove(destination);
+            return false;
+        }
+        log_info("CheckVersion", "SHA-256 verified for downloaded file: " + actualSha256.toStdString());
+    }
+
+    return success;
+}
+
 // Compute SHA-256 hash of a file
 QString CheckVersion::computeFileSha256(const QString &filePath) const
 {

@@ -2,7 +2,7 @@
     "name": "Gunhead Connect Logfile Rules",
     "website": "https://gunhead.space/",
     "discord_url": "https://discord.gg/yhKd3RVZuD",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "transforms": {
         "parseTimestampToUnixTime": {
             "description": "Converts ISO 8601 timestamp to Unix time",

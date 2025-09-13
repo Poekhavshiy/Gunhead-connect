@@ -400,7 +400,8 @@ bool is_npc_name(const std::string& name, const std::string& id) {
         "Shipjacker_HUB_",
         "Shipjacker_MeetingRoom_",
         "PU_Human_Enemy_GroundCombat_NPC_",
-        "AIModule_Unmanned_PU_"
+        "AIModule_Unmanned_PU_",
+        "LoadingPlatform_ShipElevator_"
     };
     for (const auto& prefix : npc_prefixes) {
         if (name.rfind(prefix, 0) == 0) {
@@ -487,7 +488,7 @@ std::string getGameModePattern(const std::string& identifier) {
             } else if (identifier == "game_mode_ac") {
                 return "\\[EALobby\\]\\[CEALobby::SetGameModeId\\].+?Changing game mode from.+?to (EA_\\w+)";
             } else if (identifier == "player_character_info") {
-                return "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d]+).*?STATE_CURRENT";
+                return "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d-]+).*?STATE_CURRENT";
             }
             log_warn("log_parser", "Known identifier but no hardcoded pattern: " + identifier);
             return "";

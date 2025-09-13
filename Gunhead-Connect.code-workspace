@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"terminal.integrated.defaultProfile.windows": "MSYS2 Mingw64",
+		"terminal.integrated.defaultProfile.windows": "MSYS2 MinGW 64-bit",
 		"files.associations": {
 			"*.ts": "xml",
 			"array": "cpp",

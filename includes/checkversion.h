@@ -24,6 +24,7 @@ public:
     QString getLatestAppVersion(int timeoutMs);
     CheckVersion::UpdateTriState isAppUpdateAvailable(const QString &currentVersion, int timeoutMs);
     bool downloadFile(const QUrl &url, const QString &destination, int inactivityTimeoutMs, const QString &expectedSha256 = QString());
+    bool downloadFileToUserPath(const QUrl &url, const QString &destination, int inactivityTimeoutMs, const QString &expectedSha256 = QString());
     QString computeFileSha256(const QString &filePath) const;
 
     // ADDED: Get expected MSI SHA-256 from latest.json
@@ -49,7 +50,7 @@ private:
     int compareVersions(const Version &v1, const Version &v2) const;
     const QString APP_VERSIONS_URL = "https://gunhead.space/dist/latest.json";
     const QString APP_PARSER_URL = "https://gunhead.space/dist/logfile_regex_rules.json";
-    const QString APP_INSTALLER_URL = "https://gunhead.space/dist//Gunhead-Connect-Setup.msi";
+    const QString APP_INSTALLER_URL = "https://gunhead.space/dist/Gunhead-Connect-Setup.msi";
 public:
     QString getParserRulesUrl() const { return APP_PARSER_URL; }
     QString getAppInstallerUrl() const { return APP_INSTALLER_URL; }

@@ -83,8 +83,8 @@ signals:
 private:
     QNetworkAccessManager* networkManager;
     const QString apiServerUrl = "https://api.gunhead.space/api/interaction";
-    const QString debugApiServerUrl = "https://bagman.sparked.network/api/interaction";
-    //const QString debugApiServerUrl = "https://apidev.gunhead.space/api/interaction";
+    //const QString debugApiServerUrl = "https://bagman.sparked.network/api/interaction";
+    const QString debugApiServerUrl = "https://apidev.gunhead.space/api/interaction";
 
     QMutex queueMutex;
 
