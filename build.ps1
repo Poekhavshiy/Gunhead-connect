@@ -36,6 +36,9 @@ param(
     [switch]$Run,
     [switch]$Clean,
     [switch]$CompileDb,
+    [switch]$DebugMode,
+    [switch]$Release,
+    [switch]$Test,
     [switch]$Help
 )
 
@@ -44,6 +47,25 @@ $BUILD_DIR = "build"
 $COMPILE_DB_OUT = "buildfiles"
 $QT_PATH = "D:\Qt\6.9.2\mingw_64"
 $VULKAN_SDK = "C:\VulkanSDK\1.3.296.0"
+
+# Tool paths
+$CMAKE_PATH = "$PWD\cmake_extract\cmake-3.30.3-windows-x86_64\bin\cmake.exe"
+$NINJA_PATH = "D:\msys64\mingw64\bin\ninja.exe"
+$CTEST_PATH = "D:\msys64\mingw64\bin\ctest.exe"
+$GDB_PATH = "D:\msys64\mingw64\bin\gdb.exe"
+
+# Set build type based on parameters
+$BUILD_TYPE = if ($Release) { "Release" } else { "Debug" }
+
+# Extra run arguments
+$EXTRA_RUN_ARGS = @()
+if ($DebugMode) { $EXTRA_RUN_ARGS += "--debug" }
+
+# Setup environment for MSYS2 tools
+$env:VULKAN_SDK = $VULKAN_SDK
+$env:VK_SDK_PATH = $VULKAN_SDK
+$env:CMAKE_PREFIX_PATH = $QT_PATH
+$env:PATH = "D:\msys64\mingw64\bin;$env:PATH"
 
 # Colors
 $GREEN = "Green"
@@ -70,14 +92,22 @@ function Show-Help {
     Write-ColorText "  -Run          Run executable"
     Write-ColorText "  -Clean        Clean build"
     Write-ColorText "  -CompileDb    Generate compile commands"
+    Write-ColorText "  -Release      Build in Release mode (default: Debug)"
+    Write-ColorText "  -DebugMode    Run with debug arguments"
+    Write-ColorText "  -Test         Run tests after building"
     Write-ColorText "  -Help         Show this help"
+    Write-ColorText ""
+    Write-ColorText "Examples:" $BLUE
+    Write-ColorText "  .\build.ps1 -JustBuild"
+    Write-ColorText "  .\build.ps1 -BuildRun -DebugMode"
+    Write-ColorText "  .\build.ps1 -Release -BuildRun"
     exit 0
 }
 
 if ($Help) { Show-Help }
 
 # Show help if no parameters
-if (-not ($JustBuild -or $BuildRun -or $Run -or $Clean -or $CompileDb)) {
+if (-not ($JustBuild -or $BuildRun -or $Run -or $Clean -or $CompileDb -or $Test)) {
     Show-Help
 }
 
@@ -88,10 +118,14 @@ try {
             Remove-Item $BUILD_DIR -Recurse -Force
             Write-ColorText "Build directory cleaned!" $GREEN
         }
+        if (Test-Path ".fc_cache") {
+            Remove-Item ".fc_cache" -Recurse -Force
+            Write-ColorText "FetchContent cache cleaned!" $GREEN
+        }
     }
 
     if ($CompileDb -or $JustBuild -or $BuildRun) {
-        Write-ColorText "Configuring with CMake..." $BLUE
+        Write-ColorText "Configuring with CMake ($BUILD_TYPE)..." $BLUE
         
         # Ensure directories exist
         if (-not (Test-Path $COMPILE_DB_OUT)) {
@@ -99,7 +133,7 @@ try {
         }
         
         # Configure with CMake
-        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="$QT_PATH" -B $BUILD_DIR -G Ninja
+        & $CMAKE_PATH -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH="$QT_PATH" -B $BUILD_DIR -G "MinGW Makefiles"
         
         if ($LASTEXITCODE -ne 0) {
             throw "CMake configuration failed"
@@ -113,14 +147,45 @@ try {
     }
 
     if ($JustBuild -or $BuildRun) {
-        Write-ColorText "Building project..." $BLUE
-        cmake --build $BUILD_DIR
+        Write-ColorText "Building project ($BUILD_TYPE)..." $BLUE
+        
+        # Fix the ninja files if they have the BUILD_TYPE issue
+        $ninjaFiles = Get-ChildItem "$BUILD_DIR" -Recurse -Name "*.ninja"
+        foreach ($file in $ninjaFiles) {
+            $fullPath = "$BUILD_DIR\$file"
+            if (Test-Path $fullPath) {
+                $content = Get-Content $fullPath -Raw -ErrorAction SilentlyContinue
+                if ($content -and $content -match '\$BUILD_TYPE') {
+                    Write-ColorText "Fixing ninja file: $file" $YELLOW
+                    $content -replace '\$BUILD_TYPE', $BUILD_TYPE | Set-Content $fullPath
+                }
+            }
+        }
+        
+        # Build just the main target to avoid CMake compatibility issues
+        & $NINJA_PATH -C $BUILD_DIR Gunhead-Connect
         
         if ($LASTEXITCODE -ne 0) {
-            throw "Build failed"
+            Write-ColorText "Main target failed, trying cmake build..." $YELLOW
+            & $CMAKE_PATH --build $BUILD_DIR --config $BUILD_TYPE
+            
+            if ($LASTEXITCODE -ne 0) {
+                throw "Build failed"
+            }
         }
         
         Write-ColorText "Build completed successfully!" $GREEN
+    }
+
+    if ($Test -or $BuildRun) {
+        Write-ColorText "Running tests..." $BLUE
+        & $CTEST_PATH --test-dir $BUILD_DIR --output-on-failure
+        
+        if ($LASTEXITCODE -ne 0) {
+            Write-ColorText "Some tests failed, but continuing..." $YELLOW
+        } else {
+            Write-ColorText "All tests passed!" $GREEN
+        }
     }
 
     if ($Run -or $BuildRun) {
@@ -131,8 +196,19 @@ try {
             throw "Executable not found at: $exePath"
         }
         
-        Write-ColorText "Starting: $exePath" $GREEN
-        & $exePath
+        if ($DebugMode) {
+            Write-ColorText "Starting with GDB debugger: $exePath" $GREEN
+            if (Test-Path $GDB_PATH) {
+                $gdbArgs = @("--args", $exePath) + $EXTRA_RUN_ARGS
+                & $GDB_PATH $gdbArgs
+            } else {
+                Write-ColorText "GDB not found, running without debugger" $YELLOW
+                & $exePath $EXTRA_RUN_ARGS
+            }
+        } else {
+            Write-ColorText "Starting: $exePath" $GREEN
+            & $exePath $EXTRA_RUN_ARGS
+        }
     }
 
     Write-ColorText "All operations completed successfully!" $GREEN

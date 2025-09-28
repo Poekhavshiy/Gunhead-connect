@@ -1,10 +1,63 @@
 #include "LoadingScreen.h"
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QApplication>
 #include <QScreen>
-#include <QGraphicsOpacityEffect>
-#include <QPropertyAnimation>
 #include <QCoreApplication> // For tr()
+#include <QProgressBar>
+#include <QPropertyAnimation>
+#include <QGraphicsEffect>
+#include <QRegion>
+#include <QPainterPath>
+#include <QTimer>
+#include <QTransform>
+#include <QFont>
+#include <QPainter>
+#include <QPaintEvent>
+
+// SpinnerWidget implementation
+SpinnerWidget::SpinnerWidget(QWidget* parent) : QWidget(parent), m_rotation(0) {
+    setFixedSize(36, 36);
+}
+
+void SpinnerWidget::setRotation(qreal rotation) {
+    m_rotation = rotation;
+    update(); // Trigger a repaint
+}
+
+void SpinnerWidget::paintEvent(QPaintEvent* event) {
+    Q_UNUSED(event)
+    
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    
+    // Save the current state
+    painter.save();
+    
+    // Move to center and rotate
+    painter.translate(width() / 2.0, height() / 2.0);
+    painter.rotate(m_rotation);
+    painter.translate(-width() / 2.0, -height() / 2.0);
+    
+    // Draw the spinner ring
+    QPen pen;
+    pen.setWidth(6);
+    pen.setColor(QColor(0x33, 0x33, 0x33)); // #333
+    painter.setPen(pen);
+    painter.setBrush(Qt::NoBrush);
+    
+    // Draw main circle
+    QRect rect(3, 3, width() - 6, height() - 6); // Account for pen width
+    painter.drawEllipse(rect);
+    
+    // Draw the white arc (top portion)
+    pen.setColor(Qt::white);
+    painter.setPen(pen);
+    painter.drawArc(rect, 90 * 16, 90 * 16); // 90 degrees starting from top
+    
+    // Restore painter state
+    painter.restore();
+}
 
 LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
     // Set up the dialog
@@ -15,7 +68,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     setAttribute(Qt::WA_ShowWithoutActivating, false);
     setAttribute(Qt::WA_QuitOnClose, false);  // Prevent quitting when the loading screen closes
 
-    setFixedSize(240, 240);
+    setFixedSize(600, 400);
 
     // Center on screen
     QRect screenGeometry = QApplication::primaryScreen()->geometry();
@@ -23,171 +76,136 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     int y = (screenGeometry.height() - height()) / 2;
     move(x, y);
 
-    // Create layout with minimal margins
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setContentsMargins(5, 5, 5, 5); // Reduce margins
+    // Add border and rounded corners to the main window with antialiasing
+    setStyleSheet("QDialog { background-color: black; border: 2px solid #555; border-radius: 12px; }");
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
+    setAttribute(Qt::WA_TranslucentBackground, false);
 
-    // Replace GIF with the gunhead-logo.png resource
-    imageLabel = new QLabel(this);
-    imageLabel->setFixedSize(220, 140); // Adjust size to be wider but not as tall
+    // Create main layout
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setSpacing(0);
 
-    // Center align content within the label itself
-    imageLabel->setAlignment(Qt::AlignCenter);
-
-    // Load the gunhead-logo.png resource
-    QPixmap loadingIcon(":/icons/Gunhead.png");
-
-    if (!loadingIcon.isNull()) {
-        qDebug() << tr("Gunhead logo loaded successfully");
-        // Store the original pixmap
-        originalPixmap = loadingIcon.scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        imageLabel->setPixmap(originalPixmap);
-
-        // Create rotation animation
-        rotationAnimation = new QPropertyAnimation(this, "rotation");
-        rotationAnimation->setDuration(2000); // 2 seconds per rotation
-        rotationAnimation->setLoopCount(-1);  // infinite
-        rotationAnimation->setStartValue(0.0);
-        rotationAnimation->setEndValue(360.0);
-        rotationAnimation->setEasingCurve(QEasingCurve::Linear);
-        rotationAnimation->start();
-    } else {
-        qDebug() << tr("Failed to load gunhead logo, using text fallback");
-        imageLabel->setText(tr("Loading..."));
-        imageLabel->setAlignment(Qt::AlignCenter);
-        imageLabel->setStyleSheet("font-size: 24px; color: #CEFB17;");  // Set fallback text color
-    }
-
-    //layout->addWidget(imageLabel, 0, Qt::AlignCenter);
-    layout->addWidget(imageLabel, 0, Qt::AlignTop | Qt::AlignHCenter);
-    // Status message
-    statusLabel = new QLabel(tr("Initializing..."), this);
-    statusLabel->setAlignment(Qt::AlignCenter);
-    statusLabel->setStyleSheet("color: #CEFB17;");  // Set status message color
-    layout->addWidget(statusLabel);
-
-    // Progress bar
-    progressBar = new QProgressBar(this);
-    progressBar->setRange(0, 100);
-    progressBar->setValue(0);
-    progressBar->setTextVisible(true);
-    progressBar->setStyleSheet(
-        "QProgressBar {"
-        "    border: 2px solid #CEFB17;"
-        "    border-radius: 5px;"
-        "    text-align: center;"
-        "    color: #CEFB17;"
-        "}"
-        "QProgressBar::chunk {"
-        "    background-color: #CEFB17;"
-        "    width: 10px;"
-        "}"
-    );  // Set progress bar color
-    layout->addWidget(progressBar);
-
-    setLayout(layout);
-
-    // Hardcode the "originalsleek" theme for the loading screen's actual elements only
-    // Applies to: background, status label, progress bar, and fallback text
-
-    // Main background and font color
-    this->setStyleSheet(
-        "QDialog {"
-        "    background-color: #121212;"
-        "    color: #f0f0f0;"
-        "    font-family: 'Roboto', sans-serif;"
-        "    font-size: 14px;"
-        "}"
-        "QLabel {"
-        "    color: #bbbbbb;"
-        "    font-family: 'Roboto', sans-serif;"
-        "    font-size: 14px;"
-        "}"
-        "QLabel#statusLabel {"
-        "    font-size: 16px;"
-        "    color: #f0f0f0;"
-        "}"
-        "QProgressBar {"
-        "    border: 2px solid #CEFB17;"
-        "    border-radius: 5px;"
-        "    text-align: center;"
-        "    color: #CEFB17;"
-        "    background-color: #181818;"
-        "}"
-        "QProgressBar::chunk {"
-        "    background-color: #CEFB17;"
-        "    width: 10px;"
-        "}"
-                "QProgressBar {"
-        "    border: 2px solid #CEFB17;"
-        "    border-radius: 5px;"
-        "    text-align: center;"
-        "    color: #CEFB17;"
-        "}"
-        "QProgressBar::chunk {"
-        "    background-color: #CEFB17;"
-        "    width: 10px;"
-        "}"
+    // Content widget with background
+    QWidget* contentWidget = new QWidget(this);
+    contentWidget->setStyleSheet(
+        "background-image: url(:/loading screens/_welcome.png);"
+        "background-position: center;"
+        "background-repeat: no-repeat;"
+        "background-color: black;"
     );
+    QVBoxLayout* contentLayout = new QVBoxLayout(contentWidget);
+    contentLayout->setContentsMargins(20, 20, 20, 0);
 
-    // Set object name for status label so the style applies
-    statusLabel->setObjectName("statusLabel");
+    // Welcome label 
+    QLabel* welcomeLabel = new QLabel(tr("Gunhead Connect"), contentWidget);
+    welcomeLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    welcomeLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 28px; font-weight: bold; color: white; margin-left: 280px; margin-top: 50px; background: transparent;");
+    contentLayout->addWidget(welcomeLabel);
 
-    // Force a hardcoded dark background, regardless of global theme
-    this->setStyleSheet("background-color: #181818;"); // or your preferred default color
+    // Subtitle lines
+    QLabel* subtitleLabel1 = new QLabel(tr("Start your game."), contentWidget);
+    subtitleLabel1->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    subtitleLabel1->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-top: 5px; background: transparent;");
+    contentLayout->addWidget(subtitleLabel1);
 
-    // Also clear stylesheets for all children to avoid theme bleed
-    for (QObject* child : this->children()) {
-        if (QWidget* w = qobject_cast<QWidget*>(child)) {
-            w->setStyleSheet("");
-        }
-    }
+    QLabel* subtitleLabel2 = new QLabel(tr("Record your gameplay."), contentWidget);
+    subtitleLabel2->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    subtitleLabel2->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-bottom: 10px; background: transparent;");
+    contentLayout->addWidget(subtitleLabel2);
+
+    contentLayout->addStretch();
+
+    mainLayout->addWidget(contentWidget);
+
+    // Footer widget
+    QWidget* footer = new QWidget(this);
+    footer->setFixedHeight(80);
+    footer->setStyleSheet("background-color: #161617; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;");
+
+    QHBoxLayout* footerLayout = new QHBoxLayout(footer);
+    footerLayout->setContentsMargins(20, 0, 20, 0);
+
+    // Left side - Gunhead logo/text with icon
+    QHBoxLayout* logoLayout = new QHBoxLayout();
+    logoLayout->setSpacing(8);
+    
+    QLabel* logoIcon = new QLabel(footer);
+    QPixmap gunheadIcon(":/icons/Gunhead.png");
+    logoIcon->setPixmap(gunheadIcon.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    logoLayout->addWidget(logoIcon);
+    
+    QLabel* appLabel = new QLabel("Gunhead", footer);
+    appLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; color: white; font-size: 18px; font-weight: bold;");
+    logoLayout->addWidget(appLabel);
+    
+    footerLayout->addLayout(logoLayout);
+
+    footerLayout->addStretch();
+
+    // Right side - status message and spinner grouped together
+    QHBoxLayout* rightSideLayout = new QHBoxLayout();
+    rightSideLayout->setSpacing(15); // Space between text and spinner
+    
+    // Status message in vertical layout (2 rows) aligned to the right
+    QVBoxLayout* statusLayout = new QVBoxLayout();
+    statusLayout->setSpacing(2); // Small gap between rows
+    statusLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    
+    statusLabel = new QLabel(tr("Gunhead is getting ready"), footer);
+    statusLabel->setAlignment(Qt::AlignRight);
+    statusLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; color: lightgray; font-size: 14px;");
+    statusLayout->addWidget(statusLabel);
+
+    QLabel* pleaseWaitLabel = new QLabel(tr("Please wait..."), footer);
+    pleaseWaitLabel->setAlignment(Qt::AlignRight);
+    pleaseWaitLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; color: #999999; font-size: 12px;"); // Darker and smaller
+    statusLayout->addWidget(pleaseWaitLabel);
+    
+    rightSideLayout->addLayout(statusLayout);
+
+    // Custom spinning loading indicator
+    spinnerWidget = new SpinnerWidget(footer);
+    
+    // Create smooth rotation animation
+    spinnerAnimation = new QPropertyAnimation(spinnerWidget, "rotation", this);
+    spinnerAnimation->setDuration(800); // 0.8 seconds per rotation (faster)
+    spinnerAnimation->setStartValue(0);
+    spinnerAnimation->setEndValue(360);
+    spinnerAnimation->setLoopCount(-1); // Infinite loop
+    spinnerAnimation->start();
+    
+    rightSideLayout->addWidget(spinnerWidget);
+    
+    footerLayout->addLayout(rightSideLayout);
+
+    mainLayout->addWidget(footer);
+
+    setLayout(mainLayout);
+    
+    // Apply rounded corners using a mask but preserve border with smoother edges
+    QPainterPath path;
+    path.addRoundedRect(rect(), 12, 12); // Match border-radius
+    QRegion region(path.toFillPolygon().toPolygon());
+    setMask(region);
+    
+    // Enable antialiasing for smoother edges
+    setAttribute(Qt::WA_NoSystemBackground, true);
+    setAutoFillBackground(false);
 }
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
-    progressBar->setValue(value);
-    statusLabel->setText(tr("%1").arg(message));
+    statusLabel->setText(tr("Connecting to Gunhead api..."));
 
     // Process events to update the UI immediately
     QApplication::processEvents();
 }
 
-void LoadingScreen::setMaximum(int max) {
-    progressBar->setMaximum(max);
-}
-
-void LoadingScreen::setRotation(qreal angle) {
-    rotationAngle = angle;
-    
-    // Create a transform for rotation
-    QTransform transform;
-    transform.translate(originalPixmap.width()/2, originalPixmap.height()/2);
-    transform.rotate(rotationAngle);
-    transform.translate(-originalPixmap.width()/2, -originalPixmap.height()/2);
-    
-    // Apply the rotation to the pixmap
-    QPixmap rotatedPixmap = originalPixmap.transformed(transform, Qt::SmoothTransformation);
-    
-    // Update the label
-    imageLabel->setPixmap(rotatedPixmap);
-}
-
-qreal LoadingScreen::rotation() const { return rotationAngle; }
 
 LoadingScreen::~LoadingScreen() {
     // Clean up any resources if needed
     // The QObjects will be automatically deleted by Qt's parent-child mechanism
 }
 
-// Add this implementation to LoadingScreen.cpp:
-void LoadingScreen::showEvent(QShowEvent* event) {
-    QDialog::showEvent(event);
-    
-    // Ensure animation is running when the window becomes visible
-    if (rotationAnimation && rotationAnimation->state() != QAbstractAnimation::Running) {
-        rotationAnimation->start();
-    }
-    
-    // Process events to ensure animation starts immediately
-    QApplication::processEvents();
-}
+// Include the moc file for SpinnerWidget
+#include "LoadingScreen.moc"

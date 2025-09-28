@@ -54,5 +54,6 @@
         <file alias="sounds/task.mp3">sounds/task.mp3</file>
 
         <file alias="sounds/boop.wav">sounds/boop.wav</file>
+        <file alias="loading screens/_welcome.png">loading screens/_welcome.png</file>
     </qresource>
 </RCC>
