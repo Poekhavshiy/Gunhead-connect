@@ -52,6 +52,7 @@ jobs:
           echo "$commits" | jq -c '.[]' | while read commit; do
             author=$(echo "$commit" | jq -r '.author.username // "Unknown"')
             message=$(echo "$commit" | jq -r '.message // "No commit message"')
+            timestamp=$(echo "$commit" | jq -r '.timestamp')
 
             # Only process commits from satur9 or Poekhavshiy
             if [[ "$author" != "satur9" && "$author" != "Poekhavshiy" ]]; then
@@ -65,21 +66,24 @@ jobs:
               continue
             fi
 
-            formatted_message="[CONNECT:] \`\`\`$message\`\`\`"
-
-            # Create Discord payload with bold author in content field
             discord_payload=$(jq -n --arg username "GitBot" \
                               --arg avatar_url "https://cdn.discordapp.com/attachments/1345266332349894769/1378438964742062212/80F06B15-76A4-4E31-A44F-8B7DB832FEA8.png?ex=68a41893&is=68a2c713&hm=caedd3188e91c3497995afdbee4507697205beda686114652c2d36bab978dffd&" \
                               --arg author "$author" \
-                              --arg message "$formatted_message" \
+                              --arg message "$message" \
+                              --arg timestamp "$timestamp" \
+                              --arg author_avatar "https://avatars.githubusercontent.com/$author" \
                               --argjson color 5197647 \
                               '{
                                 "username": $username,
                                 "avatar_url": $avatar_url,
-                                "content": ("**" + $author + "**"),
                                 "embeds": [{
-                                  "description": $message,
-                                  "color": $color
+                                  "title": $message,
+                                  "color": $color,
+                                  "timestamp": $timestamp,
+                                  "footer": {
+                                    "text": $author,
+                                    "icon_url": $author_avatar
+                                  }
                                 }]
                               }')
 
