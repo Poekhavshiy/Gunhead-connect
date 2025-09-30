@@ -21,6 +21,7 @@
 #include "LanguageSelect.h"
 #include "SoundPlayer.h"
 #include "language_manager.h" // Include language manager header
+#include "CustomTitleBar.h" // Custom title bar widget
 
 class SettingsWindow : public QMainWindow {
     Q_OBJECT
@@ -41,6 +42,9 @@ public:
     bool eventFilter(QObject* watched, QEvent* event) override;
     void activateDebugMode();
     void closeSubWindows();
+
+protected:
+    void showEvent(QShowEvent* event) override;
 signals:
     void gameFolderChanged(const QString& newFolder);
     void settingsChanged(Theme themeData); // Signal to notify when settings change
@@ -58,6 +62,7 @@ private:    // Settings fields
     bool startMonitoringOnLaunch; // Add this to the private settings fields
 
     // UI elements
+    CustomTitleBar* titleBar; // Custom title bar widget
     QTabWidget* tabWidget;
     QLineEdit* pathEdit;
     QLineEdit* launcherPathEdit;  // Add launcher path input

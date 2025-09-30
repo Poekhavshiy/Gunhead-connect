@@ -13,6 +13,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QTabBar> // Add this line
+#include <QShowEvent>
+#include <QPointer>
 #include "ThemeSelect.h"
 #include "ThemeManager.h"
 
@@ -30,6 +32,10 @@ QMainWindow* ThemeSelectWindow::findMainWindow() {
 ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
     : QMainWindow(parent)
 {
+    // Set frameless window hint for custom title bar
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    
     setWindowTitle(tr("Theme Selector"));
     setObjectName("themeSelectWindow");
 
@@ -46,12 +52,44 @@ ThemeSelectWindow::ThemeSelectWindow(QWidget* parent)
     // Apply theme through ThemeManager
     ThemeManager::instance().applyTheme(current);
     
-    // Always use the size from the loaded theme
-    setFixedSize(current.chooseThemeWindowPreferredSize);
+    // Adjust size for custom title bar
+    QSize windowSize = current.chooseThemeWindowPreferredSize;
+    windowSize.setHeight(windowSize.height() + 32);
+    setFixedSize(windowSize);
 
-    QWidget* central = new QWidget(this);
-    setCentralWidget(central);
+    // Create custom title bar
+    titleBar = new CustomTitleBar(this, false); // No maximize button
+    titleBar->setTitle(tr("Theme Selector"));
+    titleBar->setIcon(QIcon(":/icons/Gunhead.png"));
+    
+    // Connect title bar signals
+    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &ThemeSelectWindow::showMinimized);
+    connect(titleBar, &CustomTitleBar::closeClicked, this, &ThemeSelectWindow::close);
+    
+    // Create container widget to hold title bar and content
+    QWidget* outerContainer = new QWidget(this);
+    outerContainer->setObjectName("themeWindowContainer");
+    QVBoxLayout* outerLayout = new QVBoxLayout(outerContainer);
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->setSpacing(0);
+    outerLayout->addWidget(titleBar);
+
+    QWidget* central = new QWidget(outerContainer);
+    central->setObjectName("themeSelectContainer");
+    central->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    outerLayout->addWidget(central, 1);
+    setCentralWidget(outerContainer);
+    
+    // Apply window effects (rounded corners and shadow)
+    QPointer<ThemeSelectWindow> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
+    
     mainLayout = new QVBoxLayout(central);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
 
     header = new QLabel(tr("> THEME SELECTOR"), central);
     header->setObjectName("headerLabel");
@@ -111,9 +149,24 @@ void ThemeSelectWindow::init(QApplication& app) {
 void ThemeSelectWindow::connectSignals() {
 }
 
+void ThemeSelectWindow::showEvent(QShowEvent* event) {
+    QMainWindow::showEvent(event);
+    
+    // Reapply window effects each time the window is shown
+    QPointer<ThemeSelectWindow> safeThis(this);
+    QTimer::singleShot(50, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
+}
+
 void ThemeSelectWindow::retranslateUi() {
     // Only translate window title and header
     setWindowTitle(tr("Theme Selector"));
+    if (titleBar) {
+        titleBar->setTitle(tr("Theme Selector"));
+    }
     header->setText(tr("> THEME SELECTOR"));
     
     qDebug() << "ThemeSelectWindow UI retranslated";

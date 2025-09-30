@@ -4,6 +4,12 @@
         <file>icons/Gunhead-debug.ico</file>
         <file>icons/Gunhead.png</file>
         <file>icons/Gunhead-tray.png</file>
+        
+        <!-- Title bar icons -->
+        <file>icon/minimize.svg</file>
+        <file>icon/maximize.svg</file>
+        <file>icon/restore.svg</file>
+        <file>icon/close.svg</file>
 
         <file alias="themes/themes.json">themes/allThemeSettings.json</file>
         

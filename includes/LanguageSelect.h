@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QButtonGroup>
 #include "ThemeSelect.h"
+#include "CustomTitleBar.h"
 
 class LanguageSelectWindow : public QMainWindow {
     Q_OBJECT
@@ -23,6 +24,7 @@ signals:
     void languageChanged(const QString& language);
 
 private:
+    CustomTitleBar* titleBar; // Custom title bar widget
     QVBoxLayout* mainLayout;
     QButtonGroup* languageButtons;
     QLabel* header;
@@ -33,4 +35,7 @@ private:
     void connectSignals();
     void retranslateUi();
     void setLanguageButton(QVBoxLayout* mainLayout, QButtonGroup* languageButtons, const QString& lang, const QString& currentLanguage, QWidget* central);
+
+protected:
+    void showEvent(QShowEvent* event) override;
 };

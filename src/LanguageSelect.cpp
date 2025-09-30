@@ -8,6 +8,9 @@
 #include <QPushButton>
 #include <QButtonGroup>
 #include <QStringList>
+#include <QTimer>
+#include <QShowEvent>
+#include <QPointer>
 
 // Define all languages displayed in their native names
 const QStringList LanguageSelectWindow::allLanguages = {
@@ -27,22 +30,56 @@ const QStringList LanguageSelectWindow::allLanguages = {
 
 LanguageSelectWindow::LanguageSelectWindow(QWidget* parent)
     : QMainWindow(parent) {
+    // Set frameless window hint for custom title bar
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    
     setWindowTitle(tr("Language Selector"));
     setObjectName("languageSelectWindow");
 
     // Load current theme from ThemeManager instead of ThemeSelectWindow
     Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
     
-    // Always use the size from the theme JSON
-    setFixedSize(currentTheme.chooseLanguageWindowPreferredSize);
+    // Adjust size for custom title bar
+    QSize windowSize = currentTheme.chooseLanguageWindowPreferredSize;
+    windowSize.setHeight(windowSize.height() + 32);
+    setFixedSize(windowSize);
+
+    // Create custom title bar
+    titleBar = new CustomTitleBar(this, false); // No maximize button
+    titleBar->setTitle(tr("Language Selector"));
+    titleBar->setIcon(QIcon(":/icons/Gunhead.png"));
+    
+    // Connect title bar signals
+    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &LanguageSelectWindow::showMinimized);
+    connect(titleBar, &CustomTitleBar::closeClicked, this, &LanguageSelectWindow::close);
+    
+    // Create container widget to hold title bar and content
+    QWidget* outerContainer = new QWidget(this);
+    outerContainer->setObjectName("languageWindowContainer");
+    QVBoxLayout* outerLayout = new QVBoxLayout(outerContainer);
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->setSpacing(0);
+    outerLayout->addWidget(titleBar);
 
     // Set up the central widget
-    QWidget* central = new QWidget(this);
-    setCentralWidget(central);
+    QWidget* central = new QWidget(outerContainer);
+    central->setObjectName("languageSelectContainer");
+    central->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    outerLayout->addWidget(central, 1);
+    setCentralWidget(outerContainer);
+
+    // Apply window effects (rounded corners and shadow)
+    QPointer<LanguageSelectWindow> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
 
     // Set up the main layout
     mainLayout = new QVBoxLayout(central);
-    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
     mainLayout->setSpacing(10);
 
     // Header for language selection
@@ -153,9 +190,24 @@ void LanguageSelectWindow::connectSignals() {
     }
 }
 
+void LanguageSelectWindow::showEvent(QShowEvent* event) {
+    QMainWindow::showEvent(event);
+    
+    // Reapply window effects each time the window is shown
+    QPointer<LanguageSelectWindow> safeThis(this);
+    QTimer::singleShot(50, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
+}
+
 void LanguageSelectWindow::retranslateUi() {
     // Translate window title and header
     setWindowTitle(tr("Language Selector"));
+    if (titleBar) {
+        titleBar->setTitle(tr("Language Selector"));
+    }
     header->setText(tr("> LANGUAGE SELECT"));
 
     // Get current language

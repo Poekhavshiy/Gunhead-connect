@@ -1,4 +1,5 @@
 #include "LoadingScreen.h"
+#include "CustomTitleBar.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QApplication>
@@ -14,6 +15,7 @@
 #include <QFont>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QPointer>
 
 // SpinnerWidget implementation
 SpinnerWidget::SpinnerWidget(QWidget* parent) : QWidget(parent), m_rotation(0) {
@@ -62,7 +64,7 @@ void SpinnerWidget::paintEvent(QPaintEvent* event) {
 LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
     // Set up the dialog
     setWindowTitle(tr("Loading Gunhead Connect"));
-    setWindowIcon(QIcon(":/icons/Gunhead.ico"));  // Ensure the application icon is set
+    setWindowIcon(QIcon(":/icons/Gunhead.png"));  // Ensure the application icon is set
 
     // Ensure the window is recognized by the taskbar
     setAttribute(Qt::WA_ShowWithoutActivating, false);
@@ -100,18 +102,18 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     // Welcome label 
     QLabel* welcomeLabel = new QLabel(tr("Gunhead Connect"), contentWidget);
     welcomeLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    welcomeLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 28px; font-weight: bold; color: white; margin-left: 280px; margin-top: 50px; background: transparent;");
+    welcomeLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; font-size: 28px; font-weight: bold; color: white; margin-left: 280px; margin-top: 50px; background: transparent;");
     contentLayout->addWidget(welcomeLabel);
 
     // Subtitle lines
     QLabel* subtitleLabel1 = new QLabel(tr("Start your game."), contentWidget);
     subtitleLabel1->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    subtitleLabel1->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-top: 5px; background: transparent;");
+    subtitleLabel1->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-top: 5px; background: transparent;");
     contentLayout->addWidget(subtitleLabel1);
 
     QLabel* subtitleLabel2 = new QLabel(tr("Record your gameplay."), contentWidget);
     subtitleLabel2->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    subtitleLabel2->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-bottom: 10px; background: transparent;");
+    subtitleLabel2->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-bottom: 10px; background: transparent;");
     contentLayout->addWidget(subtitleLabel2);
 
     contentLayout->addStretch();
@@ -136,7 +138,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     logoLayout->addWidget(logoIcon);
     
     QLabel* appLabel = new QLabel("Gunhead", footer);
-    appLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; color: white; font-size: 18px; font-weight: bold;");
+    appLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; color: white; font-size: 18px; font-weight: bold;");
     logoLayout->addWidget(appLabel);
     
     footerLayout->addLayout(logoLayout);
@@ -154,12 +156,12 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     
     statusLabel = new QLabel(tr("Gunhead is getting ready"), footer);
     statusLabel->setAlignment(Qt::AlignRight);
-    statusLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; color: lightgray; font-size: 14px;");
+    statusLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; color: lightgray; font-size: 14px;");
     statusLayout->addWidget(statusLabel);
 
     QLabel* pleaseWaitLabel = new QLabel(tr("Please wait..."), footer);
     pleaseWaitLabel->setAlignment(Qt::AlignRight);
-    pleaseWaitLabel->setStyleSheet("font-family: 'Segoe UI', 'Arial', sans-serif; color: #999999; font-size: 12px;"); // Darker and smaller
+    pleaseWaitLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; color: #999999; font-size: 12px;"); // Darker and smaller
     statusLayout->addWidget(pleaseWaitLabel);
     
     rightSideLayout->addLayout(statusLayout);
@@ -192,10 +194,18 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     // Enable antialiasing for smoother edges
     setAttribute(Qt::WA_NoSystemBackground, true);
     setAutoFillBackground(false);
+    
+    // Apply window effects (rounded corners and shadow)
+    QPointer<LoadingScreen> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
 }
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
-    statusLabel->setText(tr("Connecting to Gunhead api..."));
+    statusLabel->setText(tr("Connecting to server..."));
 
     // Process events to update the UI immediately
     QApplication::processEvents();

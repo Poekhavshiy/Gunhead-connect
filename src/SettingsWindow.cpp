@@ -23,6 +23,9 @@
 #include <QInputDialog> // ADDED
 #include <QApplication> // ADDED for application exit
 #include <QDir> // ADDED for directory operations
+#include <QTimer> // For QTimer::singleShot
+#include <QShowEvent> // For showEvent override
+#include <QPointer> // For safe timer access
 
 #include <windows.h>
 #include <shellapi.h>
@@ -31,6 +34,10 @@ SettingsWindow::SettingsWindow(QWidget* parent)
     : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), 
       signalMapper(new QSignalMapper(this))
 {
+    // Set frameless window hint for custom title bar
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    
     setObjectName("SettingsWindow");
     soundPlayer = new SoundPlayer(this);
     
@@ -38,8 +45,10 @@ SettingsWindow::SettingsWindow(QWidget* parent)
     ThemeSelectWindow themeSelect;
     Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
     
-    // Always use the size from the theme JSON
-    setFixedSize(currentTheme.settingsWindowPreferredSize);
+    // Adjust size for custom title bar (add 32px height)
+    QSize windowSize = currentTheme.settingsWindowPreferredSize;
+    windowSize.setHeight(windowSize.height() + 32);
+    setFixedSize(windowSize);
 
     // Initialize the list of available sounds
     availableSounds = getAvailableSounds();
@@ -73,10 +82,39 @@ void SettingsWindow::setupUI() {
     setWindowTitle(tr("Settings"));
     setWindowIcon(QIcon()); // Clear the window icon
 
+    // Create custom title bar
+    titleBar = new CustomTitleBar(this, false); // No maximize button for settings
+    titleBar->setTitle(tr("Settings"));
+    titleBar->setIcon(QIcon(":/icons/Gunhead.png"));
+    
+    // Connect title bar signals
+    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &SettingsWindow::showMinimized);
+    connect(titleBar, &CustomTitleBar::closeClicked, this, &SettingsWindow::close);
+
+    // Create container widget to hold title bar and content
+    QWidget* containerWidget = new QWidget(this);
+    containerWidget->setObjectName("settingsWindowContainer");
+    QVBoxLayout* containerLayout = new QVBoxLayout(containerWidget);
+    containerLayout->setContentsMargins(0, 0, 0, 0);
+    containerLayout->setSpacing(0);
+    containerLayout->addWidget(titleBar);
+    
     QVBoxLayout* mainLayout = new QVBoxLayout();
-    QWidget* container = new QWidget(this);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
+    QWidget* container = new QWidget(containerWidget);
+    container->setObjectName("settingsContainer");
+    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     container->setLayout(mainLayout);
-    setCentralWidget(container);
+    containerLayout->addWidget(container, 1);
+    setCentralWidget(containerWidget);
+
+    // Apply window effects (rounded corners and shadow)
+    QPointer<SettingsWindow> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
 
     // Create tab widget
     tabWidget = new QTabWidget(this);
@@ -164,15 +202,53 @@ void SettingsWindow::setupGeneralTab(QTabWidget* tabWidget) {
     // Gunhead Key
     QLabel* apiLabel = new QLabel(tr("Gunhead Key"), this);
     apiLabel->setObjectName("apiLabel"); // Set object name for retranslation
+    apiLabel->setStyleSheet("font-size: 12px; font-weight: 600; margin-bottom: 4px;");
+    
     apiEdit = new QLineEdit(this);
     apiEdit->setEchoMode(QLineEdit::Password);
+    apiEdit->setPlaceholderText(tr("Enter your Gunhead API key..."));
+    apiEdit->setStyleSheet(
+        "QLineEdit {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 12px;"
+        "   font-size: 13px;"
+        "   selection-background-color: #3A3A3A;"
+        "}"
+        "QLineEdit:focus {"
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "}"
+        "QLineEdit:hover {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "}"
+    );
+    
     saveApiKeyButton = new QPushButton(tr("Save API Key"), this);
     connect(saveApiKeyButton, &QPushButton::clicked, this, &SettingsWindow::saveApiKey);
     saveApiKeyButton->setObjectName("saveApiKeyButton"); // Set object name for retranslation
+    saveApiKeyButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #2A2A2A;"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 20px;"
+        "   color: white;"
+        "   font-weight: 600;"
+        "   font-size: 13px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #3A3A3A;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #444444;"
+        "}"
+    );
 
     QVBoxLayout* apiLayout = new QVBoxLayout();
     // Add matching right margin (16px)
     apiLayout->setContentsMargins(16, 0, 16, 0);
+    apiLayout->setSpacing(8);
     apiLayout->addWidget(apiLabel);
     apiLayout->addWidget(apiEdit);
     apiLayout->addWidget(saveApiKeyButton);
@@ -223,25 +299,101 @@ void SettingsWindow::setupGameTab(QTabWidget* tabWidget) {
     // Game Files Path and Launcher Path
     QLabel* pathLabel = new QLabel(tr("Game LIVE Folder Path"), this);
     pathLabel->setObjectName("pathLabel"); // Set object name for retranslation
+    pathLabel->setStyleSheet("font-size: 12px; font-weight: 600; margin-bottom: 4px;");
+    
     pathEdit = new QLineEdit(this);
+    pathEdit->setPlaceholderText(tr("Select your Star Citizen LIVE folder..."));
+    pathEdit->setStyleSheet(
+        "QLineEdit {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 12px;"
+        "   font-size: 13px;"
+        "   selection-background-color: #3A3A3A;"
+        "}"
+        "QLineEdit:focus {"
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "}"
+        "QLineEdit:hover {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "}"
+    );
+    
     QPushButton* browseButton = new QPushButton(tr("Browse"), this);
     connect(browseButton, &QPushButton::clicked, this, &SettingsWindow::updatePath);
     browseButton->setObjectName("browseButton"); // Set object name for retranslation
+    browseButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 20px;"
+        "   font-weight: 600;"
+        "   font-size: 13px;"
+        "   min-width: 80px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "}"
+    );
 
     QHBoxLayout* pathLayout = new QHBoxLayout();
-    pathLayout->addWidget(pathEdit);
+    pathLayout->setSpacing(8);
+    pathLayout->addWidget(pathEdit, 1);
     pathLayout->addWidget(browseButton);
 
     // RSI Launcher Path (initially hidden)
     QLabel* launcherPathLabel = new QLabel(tr("RSI Launcher Path"), this);
     launcherPathLabel->setObjectName("launcherPathLabel");
+    launcherPathLabel->setStyleSheet("font-size: 12px; font-weight: 600; margin-bottom: 4px;");
+    
     launcherPathEdit = new QLineEdit(this);
+    launcherPathEdit->setPlaceholderText(tr("Select RSI Launcher executable..."));
+    launcherPathEdit->setStyleSheet(
+        "QLineEdit {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 12px;"
+        "   font-size: 13px;"
+        "   selection-background-color: #3A3A3A;"
+        "}"
+        "QLineEdit:focus {"
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "}"
+        "QLineEdit:hover {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "}"
+    );
+    
     QPushButton* browseLauncherButton = new QPushButton(tr("Browse"), this);
     connect(browseLauncherButton, &QPushButton::clicked, this, &SettingsWindow::updateLauncherPath);
     browseLauncherButton->setObjectName("browseLauncherButton");
+    browseLauncherButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 20px;"
+        "   font-weight: 600;"
+        "   font-size: 13px;"
+        "   min-width: 80px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "}"
+    );
 
     QHBoxLayout* launcherPathLayout = new QHBoxLayout();
-    launcherPathLayout->addWidget(launcherPathEdit);
+    launcherPathLayout->setSpacing(8);
+    launcherPathLayout->addWidget(launcherPathEdit, 1);
     launcherPathLayout->addWidget(browseLauncherButton);
 
     // Auto-launch checkbox
@@ -286,13 +438,66 @@ void SettingsWindow::setupSoundsLanguageThemesTab(QTabWidget* tabWidget) {
     // Sound Selector
     QLabel* soundLabel = new QLabel(tr("Select Notification Sound"), this);
     soundLabel->setObjectName("soundLabel"); // Set object name for retranslation
+    soundLabel->setStyleSheet("font-size: 12px; font-weight: 600; margin-bottom: 4px;");
+    
     soundEdit = new QLineEdit(this);
     soundEdit->setReadOnly(true);
+    soundEdit->setStyleSheet(
+        "QLineEdit {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 12px;"
+        "   font-size: 13px;"
+        "}"
+        "QLineEdit:hover {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "}"
+    );
+
+    QString navButtonStyle = 
+        "QPushButton {"
+        "   background-color: rgba(255, 255, 255, 0.08);"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 16px;"
+        "   font-weight: 600;"
+        "   font-size: 14px;"
+        "   min-width: 40px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: rgba(255, 255, 255, 0.05);"
+        "}";
 
     QPushButton* leftButton = new QPushButton("<", this);
+    leftButton->setStyleSheet(navButtonStyle);
+    
     QPushButton* rightButton = new QPushButton(">", this);
+    rightButton->setStyleSheet(navButtonStyle);
+    
     QPushButton* testSoundButton = new QPushButton(tr("Test"), this);
     testSoundButton->setObjectName("testSoundButton"); // Set object name for retranslation
+    testSoundButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #2A2A2A;"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   padding: 10px 20px;"
+        "   color: white;"
+        "   font-weight: 600;"
+        "   font-size: 13px;"
+        "   min-width: 60px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #3A3A3A;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #444444;"
+        "}"
+    );
 
     connect(leftButton, &QPushButton::clicked, this, &SettingsWindow::selectPreviousSound);
     connect(rightButton, &QPushButton::clicked, this, &SettingsWindow::selectNextSound);
@@ -303,12 +508,14 @@ void SettingsWindow::setupSoundsLanguageThemesTab(QTabWidget* tabWidget) {
     });
 
     QHBoxLayout* soundSelectorLayout = new QHBoxLayout();
+    soundSelectorLayout->setSpacing(8);
     soundSelectorLayout->addWidget(leftButton);
-    soundSelectorLayout->addWidget(soundEdit);
+    soundSelectorLayout->addWidget(soundEdit, 1);
     soundSelectorLayout->addWidget(rightButton);
     soundSelectorLayout->addWidget(testSoundButton);
 
     QVBoxLayout* soundLayout = new QVBoxLayout();
+    soundLayout->setSpacing(8);
     soundLayout->addWidget(soundLabel);
     soundLayout->addLayout(soundSelectorLayout);
 
@@ -964,6 +1171,9 @@ void SettingsWindow::checkAndElevateIfRestricted(const QString& gamePath) {
 void SettingsWindow::retranslateUi() {
     // Update window title
     setWindowTitle(tr("Settings"));
+    if (titleBar) {
+        titleBar->setTitle(tr("Settings"));
+    }
     
     // Update tab titles
     if (tabWidget) {
@@ -1095,6 +1305,19 @@ bool SettingsWindow::eventFilter(QObject* watched, QEvent* event)
         }
     }
     return QMainWindow::eventFilter(watched, event);
+}
+
+void SettingsWindow::showEvent(QShowEvent* event) {
+    QMainWindow::showEvent(event);
+    
+    // Reapply window effects each time the window is shown
+    // This fixes the issue where styling is lost on second open
+    QPointer<SettingsWindow> safeThis(this);
+    QTimer::singleShot(50, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
 }
 
 void SettingsWindow::activateDebugMode()

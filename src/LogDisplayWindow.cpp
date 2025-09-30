@@ -2,10 +2,12 @@
 #include "LogDisplayWindow.h"
 #include "log_parser.h"
 #include "ThemeManager.h"
+#include "ResizeHelper.h"
 #include <QScrollBar>
 #include <QDebug>
 #include <QSettings>
 #include <QColorDialog>
+#include <QPointer>
 #include <QFile>
 #include <QTextStream>
 #include <QMediaPlayer>
@@ -24,15 +26,24 @@
 #include <QTextBrowser> // ADDED: For QTextBrowser
 #include <QDesktopServices> // ADDED: For QDesktopServices::openUrl
 #include <QStandardPaths>
+#include <QShowEvent>
 
 
 static QStringList s_logDisplayCache;
 
 LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
-    : QMainWindow(parent), transmitter(transmitter), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") 
+    : QMainWindow(parent), transmitter(transmitter), titleBar(nullptr), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") 
 {
+    // Set frameless window hint for custom title bar
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    
     // Load JSON rules for dynamic event formatting
     loadJsonRules();
+    
+    // Get initial game mode for later use
+    QString initialGameMode = transmitter.getCurrentGameMode();
+    QString initialSubGameMode = transmitter.getCurrentSubGameMode();
     
     // Connect to gameModeChanged signal
     connect(&transmitter, &Transmitter::gameModeChanged, this, 
@@ -50,18 +61,17 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
             updateWindowTitle(gameMode, subGameMode);
         });
 
-    // Update window title with initial game mode and player info
-    QString initialGameMode = transmitter.getCurrentGameMode();
-    QString initialSubGameMode = transmitter.getCurrentSubGameMode();
-    updateWindowTitle(initialGameMode, initialSubGameMode);
-
     // Create sound player
     soundPlayer = new SoundPlayer(this);
     
     // Load filter settings from QSettings
     loadFilterSettings();
     
+    // Setup UI FIRST (this creates titleBar)
     setupUI();
+    
+    // NOW update window title after titleBar exists
+    updateWindowTitle(initialGameMode, initialSubGameMode);
 
     // Load settings from QSettings
     QSettings settings("KillApiConnect", "KillApiConnectPlus");
@@ -163,11 +173,57 @@ void LogDisplayWindow::setupUI() {
     setObjectName("LogDisplayWindow"); // This is crucial - defines the window's identity for QSS
     setWindowTitle(tr("Gunhead Log Display"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
+    setMinimumSize(500, 400); // Set minimum window size for resize
 
+    // Create custom title bar
+    titleBar = new CustomTitleBar(this, true); // Include maximize button for log window
+    titleBar->setTitle(tr("Gunhead Log Display"));
+    titleBar->setIcon(QIcon(":/icons/Gunhead.png")); // Set logo icon for LogDisplayWindow title bar
+    
+    // Connect title bar signals
+    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &LogDisplayWindow::showMinimized);
+    connect(titleBar, &CustomTitleBar::maximizeClicked, this, [this]() {
+        // Safety check to ensure titleBar still exists
+        if (!titleBar) return;
+        
+        if (isMaximized()) {
+            showNormal();
+            titleBar->updateMaximizeButton(false);
+        } else {
+            showMaximized();
+            titleBar->updateMaximizeButton(true);
+        }
+    });
+    connect(titleBar, &CustomTitleBar::closeClicked, this, &LogDisplayWindow::close);
+
+    // Create container widget to hold title bar and content
+    QWidget* outerContainer = new QWidget(this);
+    outerContainer->setObjectName("logWindowContainer");
+    QVBoxLayout* outerLayout = new QVBoxLayout(outerContainer);
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->setSpacing(0);
+    outerLayout->addWidget(titleBar);
+    
     // Main layout
-    QWidget* container = new QWidget(this);
+    QWidget* container = new QWidget(outerContainer);
     container->setObjectName("logDisplayContainer"); // Add container object name for QSS
+    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QVBoxLayout* mainLayout = new QVBoxLayout(container);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
+    outerLayout->addWidget(container, 1);
+    setCentralWidget(outerContainer);
+
+    // Apply window effects (rounded corners and shadow)
+    // Use QPointer for safe access in case window is destroyed before timer fires
+    QPointer<LogDisplayWindow> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
+    
+    // Enable window resizing for frameless window
+    resizeHelper = new ResizeHelper(this, titleBar->height());
 
     // Control bar
     QHBoxLayout* controlBarLayout = new QHBoxLayout();
@@ -359,8 +415,6 @@ void LogDisplayWindow::setupUI() {
     buttonLayout->addWidget(testSoundButton);
 
     mainLayout->addLayout(buttonLayout);
-    container->setLayout(mainLayout);
-    setCentralWidget(container);
 }
 
 void LogDisplayWindow::onFilterDropdownChanged(int index) {
@@ -1031,6 +1085,9 @@ void LogDisplayWindow::updateWindowTitle(const QString& gameMode, const QString&
 
     // Set the window title
     setWindowTitle(title);
+    if (titleBar) {
+        titleBar->setTitle(title);
+    }
     qDebug() << "Window title set to:" << title;
 }
 
@@ -1371,4 +1428,16 @@ void LogDisplayWindow::recalculateLayout() {
 
 void LogDisplayWindow::onThemeChanged() {
     recalculateLayout();
+}
+
+void LogDisplayWindow::showEvent(QShowEvent* event) {
+    QMainWindow::showEvent(event);
+    
+    // Reapply window effects with a small delay to ensure window is ready
+    QPointer<LogDisplayWindow> safeThis(this);
+    QTimer::singleShot(50, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
 }

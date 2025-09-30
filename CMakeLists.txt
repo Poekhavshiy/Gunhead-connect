@@ -57,6 +57,8 @@ set(SOURCES
     ${SRC_DIR}/LoadingScreen.cpp
     ${SRC_DIR}/GameLauncher.cpp
     ${SRC_DIR}/ThemeManager.cpp
+    ${SRC_DIR}/CustomTitleBar.cpp
+    ${SRC_DIR}/ResizeHelper.cpp
 )
 
 set(HEADERS
@@ -76,6 +78,8 @@ set(HEADERS
     ${INC_DIR}/LoadingScreen.h
     ${INC_DIR}/GameLauncher.h
     ${INC_DIR}/ThemeManager.h
+    ${INC_DIR}/CustomTitleBar.h
+    ${INC_DIR}/ResizeHelper.h
 )
 
 set(UIS

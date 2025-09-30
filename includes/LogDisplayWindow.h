@@ -18,6 +18,7 @@
 #include "Transmitter.h"
 #include "SoundPlayer.h"
 #include "language_manager.h"
+#include "CustomTitleBar.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -108,9 +109,12 @@ protected:
     void moveEvent(QMoveEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
     void closeEvent(QCloseEvent* event) override;
+    void showEvent(QShowEvent* event) override;
 
 private:
     Transmitter& transmitter;
+    CustomTitleBar* titleBar; // Custom title bar widget
+    class ResizeHelper* resizeHelper; // Window resize helper
     QTextBrowser* logDisplay; // Ensure this is QTextBrowser*, not QTextEdit
     
     // New filter system UI

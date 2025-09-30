@@ -23,6 +23,7 @@ class LoadingScreen;
 #include "ThemeSelect.h"  // Needed for Theme type
 #include "Transmitter.h"  // Needed to instantiate Transmitter
 #include "GameLauncher.h"
+#include "CustomTitleBar.h"  // Custom title bar widget
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -37,6 +38,7 @@ public:
 
 private:
     QString lastGrowlDetails; // ADDED: Store last growl details for click expansion
+    CustomTitleBar* titleBar; // Custom title bar widget
     QPushButton* startButton;
     QPushButton* settingsButton;
     QPushButton* logButton; // Declare logButton

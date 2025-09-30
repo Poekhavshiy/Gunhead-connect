@@ -11,6 +11,7 @@
 #include "ThemeManager.h"
 
 #include <QSystemTrayIcon>
+#include <QPointer>
 #include <QMenu>
 #include <QAction>
 #include <QApplication>
@@ -54,6 +55,10 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     , systemTrayIcon(nullptr)
     , trayIconMenu(nullptr)
 {
+    // Set frameless window hint for custom title bar
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    
     // Set up the main window
     setWindowTitle(tr("Gunhead Connect"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
@@ -77,16 +82,46 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     // Load the current theme directly
     Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
 
-    // Apply the theme's preferred size
-    setFixedSize(currentTheme.mainWindowPreferredSize);
+    // Apply the theme's preferred size (account for title bar height)
+    QSize windowSize = currentTheme.mainWindowPreferredSize;
+    windowSize.setHeight(windowSize.height() + 32); // Add 32px for title bar
+    setFixedSize(windowSize);
 
+    // Create custom title bar
+    titleBar = new CustomTitleBar(this, false); // No maximize button for main window
+    titleBar->setTitle(tr("Gunhead Connect"));
+    titleBar->setIcon(QIcon(":/icons/Gunhead.png")); // Use PNG icon for title bar instead of ICO for better quality at small sizes
+    
+    // Connect title bar signals
+    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &MainWindow::showMinimized);
+    connect(titleBar, &CustomTitleBar::closeClicked, this, &MainWindow::close);
+
+    // Create a container widget to hold title bar and central widget
+    QWidget* containerWidget = new QWidget(this);
+    containerWidget->setObjectName("mainWindowContainer");
+    QVBoxLayout* containerLayout = new QVBoxLayout(containerWidget);
+    containerLayout->setContentsMargins(0, 0, 0, 0);
+    containerLayout->setSpacing(0);
+    containerLayout->addWidget(titleBar);
+    
     // Create and name the central widget for styling
-    QWidget* central = new QWidget(this);
+    QWidget* central = new QWidget(containerWidget);
     central->setObjectName("mainContainer");
-    setCentralWidget(central);
+    central->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    containerLayout->addWidget(central, 1); // Stretch factor of 1
+    setCentralWidget(containerWidget);
+
+    // Apply window effects (rounded corners and shadow)
+    QPointer<MainWindow> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+            CustomTitleBar::applyWindowEffects(safeThis);
+        }
+    });
 
     // Layout for UI controls
     QVBoxLayout* mainLayout = new QVBoxLayout(central);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
     mainLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter); // Align buttons and label to center-right
 
     const int buttonWidth = 280; // Fixed width for buttons
@@ -833,12 +868,10 @@ void MainWindow::toggleLogDisplayWindow(bool forceNotVisible) {
         qDebug() << "LogDisplayWindow is closed, opening it.";
         logDisplayWindow = new LogDisplayWindow(transmitter);
         logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
-        logDisplayWindow->setWindowFlag(Qt::Window);
-        // Ensure object name is set for theme application
-        logDisplayWindow->setObjectName("LogDisplayWindow");
-        logDisplayWindow->show();
-        // Apply the theme after the window is shown
+        // Object name is already set in LogDisplayWindow constructor
+        // Apply the theme after the window is created
         ThemeManager::instance().applyCurrentThemeToAllWindows();
+        logDisplayWindow->show();
 
         // Connect LogDisplayWindow signals
         connect(logDisplayWindow, &LogDisplayWindow::windowClosed, this, [this]() {
@@ -1525,7 +1558,7 @@ void MainWindow::createLogDisplayWindowIfNeeded() {
         qDebug() << "Creating LogDisplayWindow after initialization complete";
         logDisplayWindow = new LogDisplayWindow(transmitter);
         logDisplayWindow->setAttribute(Qt::WA_DeleteOnClose);
-        logDisplayWindow->setWindowFlag(Qt::Window);
+        // Object name is already set in LogDisplayWindow constructor
 
         // Apply the current theme to all windows (including the new LogDisplayWindow)
         ThemeManager::instance().applyCurrentThemeToAllWindows();
@@ -1655,6 +1688,9 @@ void MainWindow::startBackgroundInitialization() {
 void MainWindow::retranslateUi() {
     // Update window title
     setWindowTitle(tr("Gunhead Connect"));
+    if (titleBar) {
+        titleBar->setTitle(tr("Gunhead Connect"));
+    }
     
     // Update button texts
     startButton->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));
@@ -1724,16 +1760,36 @@ void MainWindow::createSystemTrayIcon() {
     trayIconMenu = new QMenu(nullptr);
     trayIconMenu->setObjectName("TrayMenu"); // ADDED: for QSS targeting
 
-    // Apply ONLY the "originalsleek" theme to the tray menu
-    QFile sleekQss(":/themes/originalsleek.qss");
-    if (sleekQss.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString sleekStyle = QString::fromUtf8(sleekQss.readAll());
-        trayIconMenu->setStyleSheet(sleekStyle);
-        qDebug() << "Applied 'originalsleek' theme to tray menu";
-    } else {
-        trayIconMenu->setStyleSheet("");
-        qWarning() << "Could not load 'originalsleek.qss', tray menu will use default style";
-    }
+    // Apply modern dark styling with rounded corners to tray menu
+    QString trayMenuStyle = R"(
+        QMenu#TrayMenu {
+            background-color: #1E1E1E;
+            border: 1px solid #3E3E42;
+            border-radius: 8px;
+            padding: 6px;
+        }
+        QMenu#TrayMenu::item {
+            background-color: transparent;
+            color: #E0E0E0;
+            padding: 10px 28px;
+            border-radius: 6px;
+            margin: 2px 4px;
+            font-size: 13px;
+        }
+        QMenu#TrayMenu::item:selected {
+            background-color: #2A2A2E;
+        }
+        QMenu#TrayMenu::item:pressed {
+            background-color: #3E3E42;
+        }
+        QMenu#TrayMenu::separator {
+            height: 1px;
+            background-color: #3E3E42;
+            margin: 6px 10px;
+        }
+    )";
+    trayIconMenu->setStyleSheet(trayMenuStyle);
+    qDebug() << "Applied modern dark styling with rounded corners to tray menu";
 
     // Start/Stop monitoring action
     startStopAction = new QAction(tr("Start Monitoring"), this);
