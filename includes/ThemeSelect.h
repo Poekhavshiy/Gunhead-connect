@@ -12,7 +12,6 @@
 #include <QStyle>
 #include "language_manager.h"
 #include "ThemeManager.h"  // Include ThemeManager
-#include "CustomTitleBar.h"  // Custom title bar widget
 
 class ThemeSelectWindow : public QMainWindow {
     Q_OBJECT
@@ -22,7 +21,6 @@ public:
     void init(QApplication& app);  // Call this early in main()
 
 private:
-    CustomTitleBar* titleBar; // Custom title bar widget
     QVBoxLayout* mainLayout;
     QLabel* header;
     QPushButton* selectButton;

@@ -55,10 +55,6 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     , systemTrayIcon(nullptr)
     , trayIconMenu(nullptr)
 {
-    // Set frameless window hint for custom title bar
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground, false);
-    
     // Set up the main window
     setWindowTitle(tr("Gunhead Connect"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
@@ -82,42 +78,15 @@ MainWindow::MainWindow(QWidget* parent, LoadingScreen* loadingScreen)
     // Load the current theme directly
     Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
 
-    // Apply the theme's preferred size (account for title bar height)
+    // Apply the theme's preferred size
     QSize windowSize = currentTheme.mainWindowPreferredSize;
-    windowSize.setHeight(windowSize.height() + 32); // Add 32px for title bar
     setFixedSize(windowSize);
 
-    // Create custom title bar
-    titleBar = new CustomTitleBar(this, false); // No maximize button for main window
-    titleBar->setTitle(tr("Gunhead Connect"));
-    titleBar->setIcon(QIcon(":/icons/Gunhead.png")); // Use PNG icon for title bar instead of ICO for better quality at small sizes
-    
-    // Connect title bar signals
-    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &MainWindow::showMinimized);
-    connect(titleBar, &CustomTitleBar::closeClicked, this, &MainWindow::close);
-
-    // Create a container widget to hold title bar and central widget
-    QWidget* containerWidget = new QWidget(this);
-    containerWidget->setObjectName("mainWindowContainer");
-    QVBoxLayout* containerLayout = new QVBoxLayout(containerWidget);
-    containerLayout->setContentsMargins(0, 0, 0, 0);
-    containerLayout->setSpacing(0);
-    containerLayout->addWidget(titleBar);
-    
     // Create and name the central widget for styling
-    QWidget* central = new QWidget(containerWidget);
+    QWidget* central = new QWidget(this);
     central->setObjectName("mainContainer");
     central->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    containerLayout->addWidget(central, 1); // Stretch factor of 1
-    setCentralWidget(containerWidget);
-
-    // Apply window effects (rounded corners and shadow)
-    QPointer<MainWindow> safeThis(this);
-    QTimer::singleShot(100, this, [safeThis]() {
-        if (safeThis) {
-            CustomTitleBar::applyWindowEffects(safeThis);
-        }
-    });
+    setCentralWidget(central);
 
     // Layout for UI controls
     QVBoxLayout* mainLayout = new QVBoxLayout(central);
@@ -1688,9 +1657,6 @@ void MainWindow::startBackgroundInitialization() {
 void MainWindow::retranslateUi() {
     // Update window title
     setWindowTitle(tr("Gunhead Connect"));
-    if (titleBar) {
-        titleBar->setTitle(tr("Gunhead Connect"));
-    }
     
     // Update button texts
     startButton->setText(isMonitoring ? tr("Stop Monitoring") : tr("Start Monitoring"));

@@ -34,10 +34,6 @@ SettingsWindow::SettingsWindow(QWidget* parent)
     : QMainWindow(parent), transmitter(this), themeSelectWindow(nullptr), languageSelectWindow(nullptr), 
       signalMapper(new QSignalMapper(this))
 {
-    // Set frameless window hint for custom title bar
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground, false);
-    
     setObjectName("SettingsWindow");
     soundPlayer = new SoundPlayer(this);
     
@@ -45,9 +41,8 @@ SettingsWindow::SettingsWindow(QWidget* parent)
     ThemeSelectWindow themeSelect;
     Theme currentTheme = ThemeManager::instance().loadCurrentTheme();
     
-    // Adjust size for custom title bar (add 32px height)
+    // Apply the theme's preferred size
     QSize windowSize = currentTheme.settingsWindowPreferredSize;
-    windowSize.setHeight(windowSize.height() + 32);
     setFixedSize(windowSize);
 
     // Initialize the list of available sounds
@@ -80,41 +75,15 @@ void SettingsWindow::init() {
 
 void SettingsWindow::setupUI() {
     setWindowTitle(tr("Settings"));
-    setWindowIcon(QIcon()); // Clear the window icon
+    setWindowIcon(QIcon(":/icons/Gunhead.ico"));
 
-    // Create custom title bar
-    titleBar = new CustomTitleBar(this, false); // No maximize button for settings
-    titleBar->setTitle(tr("Settings"));
-    titleBar->setIcon(QIcon(":/icons/Gunhead.png"));
-    
-    // Connect title bar signals
-    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &SettingsWindow::showMinimized);
-    connect(titleBar, &CustomTitleBar::closeClicked, this, &SettingsWindow::close);
-
-    // Create container widget to hold title bar and content
-    QWidget* containerWidget = new QWidget(this);
-    containerWidget->setObjectName("settingsWindowContainer");
-    QVBoxLayout* containerLayout = new QVBoxLayout(containerWidget);
-    containerLayout->setContentsMargins(0, 0, 0, 0);
-    containerLayout->setSpacing(0);
-    containerLayout->addWidget(titleBar);
-    
-    QVBoxLayout* mainLayout = new QVBoxLayout();
-    mainLayout->setContentsMargins(10, 10, 10, 10);
-    QWidget* container = new QWidget(containerWidget);
+    // Create central widget and main layout
+    QWidget* container = new QWidget(this);
     container->setObjectName("settingsContainer");
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    container->setLayout(mainLayout);
-    containerLayout->addWidget(container, 1);
-    setCentralWidget(containerWidget);
-
-    // Apply window effects (rounded corners and shadow)
-    QPointer<SettingsWindow> safeThis(this);
-    QTimer::singleShot(100, this, [safeThis]() {
-        if (safeThis) {
-            CustomTitleBar::applyWindowEffects(safeThis);
-        }
-    });
+    QVBoxLayout* mainLayout = new QVBoxLayout(container);
+    mainLayout->setContentsMargins(10, 10, 10, 10);
+    setCentralWidget(container);
 
     // Create tab widget
     tabWidget = new QTabWidget(this);
@@ -1171,9 +1140,6 @@ void SettingsWindow::checkAndElevateIfRestricted(const QString& gamePath) {
 void SettingsWindow::retranslateUi() {
     // Update window title
     setWindowTitle(tr("Settings"));
-    if (titleBar) {
-        titleBar->setTitle(tr("Settings"));
-    }
     
     // Update tab titles
     if (tabWidget) {
@@ -1309,15 +1275,6 @@ bool SettingsWindow::eventFilter(QObject* watched, QEvent* event)
 
 void SettingsWindow::showEvent(QShowEvent* event) {
     QMainWindow::showEvent(event);
-    
-    // Reapply window effects each time the window is shown
-    // This fixes the issue where styling is lost on second open
-    QPointer<SettingsWindow> safeThis(this);
-    QTimer::singleShot(50, this, [safeThis]() {
-        if (safeThis) {
-            CustomTitleBar::applyWindowEffects(safeThis);
-        }
-    });
 }
 
 void SettingsWindow::activateDebugMode()

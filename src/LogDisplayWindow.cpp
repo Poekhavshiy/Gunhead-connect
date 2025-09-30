@@ -32,12 +32,8 @@
 static QStringList s_logDisplayCache;
 
 LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
-    : QMainWindow(parent), transmitter(transmitter), titleBar(nullptr), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") 
+    : QMainWindow(parent), transmitter(transmitter), logFontSize(12), logBgColor("#000000"), logFgColor("#FFFFFF") 
 {
-    // Set frameless window hint for custom title bar
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground, false);
-    
     // Load JSON rules for dynamic event formatting
     loadJsonRules();
     
@@ -67,10 +63,10 @@ LogDisplayWindow::LogDisplayWindow(Transmitter& transmitter, QWidget* parent)
     // Load filter settings from QSettings
     loadFilterSettings();
     
-    // Setup UI FIRST (this creates titleBar)
+    // Setup UI
     setupUI();
     
-    // NOW update window title after titleBar exists
+    // Update window title
     updateWindowTitle(initialGameMode, initialSubGameMode);
 
     // Load settings from QSettings
@@ -175,55 +171,13 @@ void LogDisplayWindow::setupUI() {
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
     setMinimumSize(500, 400); // Set minimum window size for resize
 
-    // Create custom title bar
-    titleBar = new CustomTitleBar(this, true); // Include maximize button for log window
-    titleBar->setTitle(tr("Gunhead Log Display"));
-    titleBar->setIcon(QIcon(":/icons/Gunhead.png")); // Set logo icon for LogDisplayWindow title bar
-    
-    // Connect title bar signals
-    connect(titleBar, &CustomTitleBar::minimizeClicked, this, &LogDisplayWindow::showMinimized);
-    connect(titleBar, &CustomTitleBar::maximizeClicked, this, [this]() {
-        // Safety check to ensure titleBar still exists
-        if (!titleBar) return;
-        
-        if (isMaximized()) {
-            showNormal();
-            titleBar->updateMaximizeButton(false);
-        } else {
-            showMaximized();
-            titleBar->updateMaximizeButton(true);
-        }
-    });
-    connect(titleBar, &CustomTitleBar::closeClicked, this, &LogDisplayWindow::close);
-
-    // Create container widget to hold title bar and content
-    QWidget* outerContainer = new QWidget(this);
-    outerContainer->setObjectName("logWindowContainer");
-    QVBoxLayout* outerLayout = new QVBoxLayout(outerContainer);
-    outerLayout->setContentsMargins(0, 0, 0, 0);
-    outerLayout->setSpacing(0);
-    outerLayout->addWidget(titleBar);
-    
-    // Main layout
-    QWidget* container = new QWidget(outerContainer);
+    // Create central widget and main layout
+    QWidget* container = new QWidget(this);
     container->setObjectName("logDisplayContainer"); // Add container object name for QSS
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QVBoxLayout* mainLayout = new QVBoxLayout(container);
     mainLayout->setContentsMargins(10, 10, 10, 10);
-    outerLayout->addWidget(container, 1);
-    setCentralWidget(outerContainer);
-
-    // Apply window effects (rounded corners and shadow)
-    // Use QPointer for safe access in case window is destroyed before timer fires
-    QPointer<LogDisplayWindow> safeThis(this);
-    QTimer::singleShot(100, this, [safeThis]() {
-        if (safeThis) {
-            CustomTitleBar::applyWindowEffects(safeThis);
-        }
-    });
-    
-    // Enable window resizing for frameless window
-    resizeHelper = new ResizeHelper(this, titleBar->height());
+    setCentralWidget(container);
 
     // Control bar
     QHBoxLayout* controlBarLayout = new QHBoxLayout();
@@ -1085,9 +1039,6 @@ void LogDisplayWindow::updateWindowTitle(const QString& gameMode, const QString&
 
     // Set the window title
     setWindowTitle(title);
-    if (titleBar) {
-        titleBar->setTitle(title);
-    }
     qDebug() << "Window title set to:" << title;
 }
 
@@ -1432,12 +1383,4 @@ void LogDisplayWindow::onThemeChanged() {
 
 void LogDisplayWindow::showEvent(QShowEvent* event) {
     QMainWindow::showEvent(event);
-    
-    // Reapply window effects with a small delay to ensure window is ready
-    QPointer<LogDisplayWindow> safeThis(this);
-    QTimer::singleShot(50, this, [safeThis]() {
-        if (safeThis) {
-            CustomTitleBar::applyWindowEffects(safeThis);
-        }
-    });
 }

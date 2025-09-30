@@ -1,5 +1,4 @@
 #include "LoadingScreen.h"
-#include "CustomTitleBar.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QApplication>
@@ -61,10 +60,10 @@ void SpinnerWidget::paintEvent(QPaintEvent* event) {
     painter.restore();
 }
 
-LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
+LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent) {
     // Set up the dialog
     setWindowTitle(tr("Loading Gunhead Connect"));
-    setWindowIcon(QIcon(":/icons/Gunhead.png"));  // Ensure the application icon is set
+    setWindowIcon(QIcon(":/icons/Gunhead.ico"));
 
     // Ensure the window is recognized by the taskbar
     setAttribute(Qt::WA_ShowWithoutActivating, false);
@@ -78,10 +77,8 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     int y = (screenGeometry.height() - height()) / 2;
     move(x, y);
 
-    // Add border and rounded corners to the main window with antialiasing
-    setStyleSheet("QDialog { background-color: black; border: 2px solid #555; border-radius: 12px; }");
-    setAttribute(Qt::WA_OpaquePaintEvent, false);
-    setAttribute(Qt::WA_TranslucentBackground, false);
+    // Set background color
+    setStyleSheet("QDialog { background-color: black; }");
 
     // Create main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -194,14 +191,6 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     // Enable antialiasing for smoother edges
     setAttribute(Qt::WA_NoSystemBackground, true);
     setAutoFillBackground(false);
-    
-    // Apply window effects (rounded corners and shadow)
-    QPointer<LoadingScreen> safeThis(this);
-    QTimer::singleShot(100, this, [safeThis]() {
-        if (safeThis) {
-            CustomTitleBar::applyWindowEffects(safeThis);
-        }
-    });
 }
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
