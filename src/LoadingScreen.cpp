@@ -16,6 +16,12 @@
 #include <QPaintEvent>
 #include <QPointer>
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+#endif
+
 // SpinnerWidget implementation
 SpinnerWidget::SpinnerWidget(QWidget* parent) : QWidget(parent), m_rotation(0) {
     setFixedSize(36, 36);
@@ -60,7 +66,7 @@ void SpinnerWidget::paintEvent(QPaintEvent* event) {
     painter.restore();
 }
 
-LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent) {
+LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
     // Set up the dialog
     setWindowTitle(tr("Loading Gunhead Connect"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
@@ -77,8 +83,10 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent) {
     int y = (screenGeometry.height() - height()) / 2;
     move(x, y);
 
-    // Set background color
-    setStyleSheet("QDialog { background-color: black; }");
+    // Add border and rounded corners to the main window with antialiasing
+    setStyleSheet("QDialog { background-color: black; border: 2px solid #555; border-radius: 12px; }");
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
+    setAttribute(Qt::WA_TranslucentBackground, false);
 
     // Create main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -191,6 +199,40 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent) {
     // Enable antialiasing for smoother edges
     setAttribute(Qt::WA_NoSystemBackground, true);
     setAutoFillBackground(false);
+    
+    // Apply window effects (rounded corners and shadow) using Windows DWM
+    QPointer<LoadingScreen> safeThis(this);
+    QTimer::singleShot(100, this, [safeThis]() {
+        if (safeThis) {
+#ifdef Q_OS_WIN
+            // Apply Windows 11-style rounded corners and shadow using DWM
+            HWND hwnd = (HWND)safeThis->winId();
+            
+            // Enable shadow for the window
+            MARGINS margins = {1, 1, 1, 1};
+            DwmExtendFrameIntoClientArea(hwnd, &margins);
+            
+            // Set rounded corners (Windows 11+)
+            int cornerPreference = 2; // DWMWCP_ROUND
+            DwmSetWindowAttribute(hwnd, (DWORD)33, &cornerPreference, sizeof(cornerPreference));
+            
+            // Set window border color to dark
+            COLORREF borderColor = RGB(42, 42, 46); // #2A2A2E
+            DwmSetWindowAttribute(hwnd, (DWORD)34, &borderColor, sizeof(borderColor));
+            
+            // Enable immersive dark mode
+            int useDarkMode = 1;
+            DwmSetWindowAttribute(hwnd, 20, &useDarkMode, sizeof(useDarkMode));
+#else
+            // For non-Windows platforms, use Qt graphics effects
+            QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(safeThis);
+            shadow->setBlurRadius(20);
+            shadow->setColor(QColor(0, 0, 0, 100));
+            shadow->setOffset(0, 2);
+            safeThis->setGraphicsEffect(shadow);
+#endif
+        }
+    });
 }
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
