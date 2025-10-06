@@ -150,9 +150,9 @@ if(NOT nlohmann_json_FOUND)
         message(STATUS "nlohmann_json not found via find_package, using FetchContent (URL tarball)")
     include(FetchContent)
         # Tarball URL is more reliable than git clone; make URL and HASH configurable
-        set(JSON_URL "https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz" CACHE STRING "nlohmann_json archive URL")
+        set(JSON_URL "https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz" CACHE STRING "nlohmann_json archive URL")
         # Use the hash observed in your environment to pass integrity check; can be overridden
-        set(JSON_URL_HASH "SHA256=4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187" CACHE STRING "Expected hash for JSON_URL; leave empty to skip")
+        set(JSON_URL_HASH "SHA256=42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa" CACHE STRING "Expected hash for JSON_URL; leave empty to skip")
         set(JSON_FETCH_ARGS
             URL ${JSON_URL}
             DOWNLOAD_EXTRACT_TIMESTAMP TRUE
@@ -193,8 +193,8 @@ if(ENABLE_TESTS AND NOT CMAKE_BUILD_TYPE STREQUAL "Release")
         endif()
             message(STATUS "Catch2 not found via find_package, using FetchContent (URL tarball)")
         include(FetchContent)
-            set(CATCH2_URL "https://github.com/catchorg/Catch2/archive/refs/tags/v3.8.1.tar.gz" CACHE STRING "Catch2 archive URL")
-            set(CATCH2_URL_HASH "SHA256=6f2cdc8eba32492b5a0fb9707271079b1a35c9af7e9fa069f27c0b028544cdb2" CACHE STRING "Expected hash for CATCH2_URL; leave empty to skip")
+            set(CATCH2_URL "https://github.com/catchorg/Catch2/archive/refs/tags/v3.11.0.tar.gz" CACHE STRING "Catch2 archive URL")
+            set(CATCH2_URL_HASH "SHA256=82fa1cb59dc28bab220935923f7469b997b259eb192fb9355db62da03c2a3137" CACHE STRING "Expected hash for CATCH2_URL; leave empty to skip")
             set(CATCH2_FETCH_ARGS
                 URL ${CATCH2_URL}
                 DOWNLOAD_EXTRACT_TIMESTAMP TRUE
