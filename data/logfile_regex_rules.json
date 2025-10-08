@@ -72,6 +72,18 @@
                     "EA SquadronBattle": "Squadron Battle"
                 }}
             ]
+        },
+        "update_seat": {
+            "description": "Updates current vehicle tracking when entering or exiting seats",
+            "steps": [
+                { "type": "update_seat" }
+            ]
+        },
+        "check_seat": {
+            "description": "Checks if current vehicle matches and updates driver info if needed",
+            "steps": [
+                { "type": "check_seat" }
+            ]
         }
     },
     "rules": [
@@ -100,7 +112,7 @@
             "message_template": "{vehicle} was obliterated by {cause}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "vehicle_id", "group": 3 },
+                { "name": "vehicle_id", "group": 3, "transform": "check_seat" },
                 { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
                 { "name": "driver_id", "group": 6 },
@@ -117,7 +129,7 @@
             "message_template": "{vehicle} was destroyed by {cause}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "vehicle_id", "group": 3 },
+                { "name": "vehicle_id", "group": 3, "transform": "check_seat" },
                 { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
                 { "name": "driver_id", "group": 6 },
@@ -133,7 +145,7 @@
             "message_template": "{cause} put vehicle {vehicle} of {driver} in soft death state",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
-                { "name": "vehicle_id", "group": 3 },
+                { "name": "vehicle_id", "group": 3, "transform": "check_seat" },
                 { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
                 { "name": "zone", "group": 4, "transform": "clean_zone_name" },
                 { "name": "driver_id", "group": 6 },
@@ -165,6 +177,8 @@
         {
             "identifier": "game_mode_pu",
             "pattern": "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[\\+\\] \\[CIG\\] \\{Join PU\\} \\[\\d+\\] id\\[.*?\\] status\\[.*?\\] port\\[.*?\\]",
+            "filter_type": "other",
+            "message_template": "Game mode: PU",
             "fields": [
                 { "name": "game_mode", "value": "PU", "group": 0 }
             ]
@@ -172,6 +186,8 @@
         {
             "identifier": "game_mode_ac",
             "pattern": "<\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z>\\s*\\[Notice\\] <\\[EALobby\\] EALobbySetGameModeId> \\[EALobby\\]\\[CEALobby::SetGameModeId\\] .*? Changing game mode from .*? to (EA_\\w+)\\[.*?\\]",
+            "filter_type": "other",
+            "message_template": "Game mode: {sub_game_mode}",
             "fields": [
                 { "name": "game_mode", "value": "AC", "group": 0 },
                 { "name": "sub_game_mode", "group": 1, "transform": "friendly_game_mode_name" }
@@ -180,6 +196,8 @@
         {
             "identifier": "player_character_info",
             "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<AccountLoginCharacterStatus_Character>\\s*Character:.*?geid\\s*(\\d+).*?name\\s*([\\w\\d-]+).*?STATE_CURRENT",
+            "filter_type": "other",
+            "message_template": "Character info: {character_name}",
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "geid", "group": 2 },
@@ -194,7 +212,7 @@
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "player_geid", "group": 2 },
-                { "name": "vehicle_id", "group": 4 },
+                { "name": "vehicle_id", "group": 4, "transform": "update_seat" },
                 { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_type", "group": 5 }
             ]
@@ -207,7 +225,7 @@
             "fields": [
                 { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
                 { "name": "player_geid", "group": 2 },
-                { "name": "vehicle_id", "group": 4 },
+                { "name": "vehicle_id", "group": 4, "transform": "update_seat" },
                 { "name": "vehicle", "group": 3, "transform": "clean_vehicle_name" },
                 { "name": "vehicle_type", "group": 5 }
             ]
@@ -254,6 +272,389 @@
                 { "name": "state", "group": 4 },
                 { "name": "created", "group": 5 },
                 { "name": "flags", "group": 6 }
+            ]
+        },
+        {
+            "identifier": "attachment_received",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <AttachmentReceived> Player\\[([^\\]]+)\\] Attachment\\[([^,]+), ([^,]+), (\\d+)\\] Status\\[([^\\]]+)\\] Port\\[([^\\]]+)\\] Elapsed\\[([\\d\\.]+)\\]",
+            "filter_type": "other",
+            "message_template": "Player {player} received attachment {attachment_type}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "player", "group": 2 },
+                { "name": "attachment_full", "group": 3 },
+                { "name": "attachment_type", "group": 4 },
+                { "name": "attachment_id", "group": 5 },
+                { "name": "status", "group": 6 },
+                { "name": "port", "group": 7 },
+                { "name": "elapsed", "group": 8 }
+            ]
+        },
+        {
+            "identifier": "inventory_management_request",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <InventoryManagementRequest> (Attempting queuing of|Queued|Processing) Request\\[(\\d+)\\] Type\\[([^\\]]+)\\] for '([^']+)' \\[(\\d+)\\](?: Source Inventory\\[([^\\]]+)\\] Target Inventory\\[([^\\]]+)\\])?",
+            "filter_type": "other",
+            "message_template": "Inventory {action}: {request_type} for {player}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "action", "group": 2 },
+                { "name": "request_id", "group": 3 },
+                { "name": "request_type", "group": 4 },
+                { "name": "player", "group": 5 },
+                { "name": "player_geid", "group": 6 },
+                { "name": "source_inventory", "group": 7 },
+                { "name": "target_inventory", "group": 8 }
+            ]
+        },
+        {
+            "identifier": "inventory_token_flow",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <Inventory Token Flow> (Requesting access token for User|Relinquishing access token\\[granted: \\d+\\] for User)\\[([^,]+), (\\d+)\\] (?:on Inventory|on Entity)\\[([^,]+), (\\d+)\\]",
+            "filter_type": "other",
+            "message_template": "Inventory access: {action} for {player}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "action", "group": 2 },
+                { "name": "player", "group": 3 },
+                { "name": "player_geid", "group": 4 },
+                { "name": "inventory_name", "group": 5 },
+                { "name": "inventory_id", "group": 6 }
+            ]
+        },
+        {
+            "identifier": "transit_carriage_start",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <TransitCarriageStartTransit> .*Carriage (\\d+) \\(Id: (\\d+)\\) for manager ([^ ]+) starting transit in zone ([^ ]+) at position x: ([\\-\\d\\.]+), y: ([\\-\\d\\.]+), z: ([\\-\\d\\.]+)",
+            "filter_type": "other",
+            "message_template": "Transit carriage {carriage_num} started transit in {zone}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "carriage_num", "group": 2 },
+                { "name": "carriage_id", "group": 3 },
+                { "name": "manager", "group": 4 },
+                { "name": "zone", "group": 5, "transform": "clean_zone_name" },
+                { "name": "x", "group": 6 },
+                { "name": "y", "group": 7 },
+                { "name": "z", "group": 8 }
+            ]
+        },
+        {
+            "identifier": "transit_carriage_finish",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <TransitCarriageFinishTransit> .*Carriage (\\d+) \\(Id: (\\d+)\\) for manager ([^ ]+) finished transit in zone ([^ ]+) at position x: ([\\-\\d\\.]+), y: ([\\-\\d\\.]+), z: ([\\-\\d\\.]+)",
+            "filter_type": "other",
+            "message_template": "Transit carriage {carriage_num} finished transit in {zone}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "carriage_num", "group": 2 },
+                { "name": "carriage_id", "group": 3 },
+                { "name": "manager", "group": 4 },
+                { "name": "zone", "group": 5, "transform": "clean_zone_name" },
+                { "name": "x", "group": 6 },
+                { "name": "y", "group": 7 },
+                { "name": "z", "group": 8 }
+            ]
+        },
+        {
+            "identifier": "platform_state_change",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <CSCLoadingPlatformManager::OnLoadingPlatformStateChanged> \\[Loading Platform\\] Loading Platform Manager \\[([^\\]]+)\\] Platform state changed to ([^ ]+)",
+            "filter_type": "other",
+            "message_template": "Loading platform state changed to {state}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "platform_manager", "group": 2 },
+                { "name": "state", "group": 3 }
+            ]
+        },
+        {
+            "identifier": "spawn_reservation_lost",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <Spawn Flow> .*Player '([^']+)' \\[(\\d+)\\] lost reservation for spawnpoint ([^\\[]+) \\[(\\d+)\\] at location ([^ ]+)",
+            "filter_type": "other",
+            "message_template": "Player {player} lost spawn reservation at {location}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "player", "group": 2, "transform": "clean_actor_name" },
+                { "name": "player_geid", "group": 3 },
+                { "name": "spawnpoint", "group": 4 },
+                { "name": "spawnpoint_id", "group": 5 },
+                { "name": "location", "group": 6, "transform": "clean_zone_name" }
+            ]
+        },
+        {
+            "identifier": "error_event",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Error\\] <([^>]+)> (.+)",
+            "filter_type": "other",
+            "message_template": "Error: {error_type}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "error_type", "group": 2 },
+                { "name": "message", "group": 3 }
+            ]
+        },
+        {
+            "identifier": "mission_module_create",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <CSubsumptionMissionComponent::CreateMissionInstance> \\[MISSION\\] Creating subsumption mission module ([^ ]+) with seed (\\d+) and EntityId (\\d+)",
+            "filter_type": "other",
+            "message_template": "Mission module created: {mission_file}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "mission_file", "group": 2 },
+                { "name": "seed", "group": 3 },
+                { "name": "entity_id", "group": 4 }
+            ]
+        },
+        {
+            "identifier": "mission_module_stop",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <CSubsumptionMissionComponent::StopMissionLogic> \\[MISSION\\] Stopping subsumption mission module with EntityId (\\d+)",
+            "filter_type": "other",
+            "message_template": "Mission module stopped",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "entity_id", "group": 2 }
+            ]
+        },
+        {
+            "identifier": "mission_module_stream_out",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <CSubsumptionMissionComponent::UnregisterFromExternalSystems> \\[MISSION\\] Mission module streaming out ([^ ]+) EntityId (\\d+)",
+            "filter_type": "other",
+            "message_template": "Mission module {mission_name} streaming out",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "mission_name", "group": 2 },
+                { "name": "entity_id", "group": 3 }
+            ]
+        },
+        {
+            "identifier": "context_model_change_state",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)> \\[Notice\\] <ContextEstablisher Model Change State> The Model is changing state meaning views must update their model state. oldState=(\\d+) newState=(\\d+) localState=(\\d+) remoteState=(\\d+) modelState=(\\d+) ViewName=\"([^\"]+)\" connection=\\{([^}]+)\\} node_id=([a-f0-9\\-]+) playerGEID=(\\d+) sessionId=\"([a-f0-9\\-]+)\"",
+            "filter_type": "other",
+            "message_template": "Context model state changed from {old_state} to {new_state}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "old_state", "group": 2 },
+                { "name": "new_state", "group": 3 },
+                { "name": "local_state", "group": 4 },
+                { "name": "remote_state", "group": 5 },
+                { "name": "model_state", "group": 6 },
+                { "name": "view_name", "group": 7 },
+                { "name": "connection", "group": 8 },
+                { "name": "node_id", "group": 9 },
+                { "name": "player_geid", "group": 10 },
+                { "name": "session_id", "group": 11 }
+            ]
+        },
+        {
+            "identifier": "zone_entered",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Entering zone '([^']+)'",
+            "filter_type": "other",
+            "message_template": "Entered {zone}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "zone", "group": 2, "transform": "clean_zone_name" }
+            ]
+        },
+        {
+            "identifier": "spawn_location",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Spawning at location '([^']+)'",
+            "filter_type": "other",
+            "message_template": "Spawned at {location}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "location", "group": 2, "transform": "clean_zone_name" }
+            ]
+        },
+        {
+            "identifier": "quantum_jump_start",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Quantum Travel.*?started.*?destination[:\\s]+([^\\s,]+)",
+            "filter_type": "other",
+            "message_template": "Quantum jump to {destination}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "destination", "group": 2 }
+            ]
+        },
+        {
+            "identifier": "quantum_jump_complete",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Quantum Travel.*?completed",
+            "filter_type": "other",
+            "message_template": "Quantum jump completed",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" }
+            ]
+        },
+        {
+            "identifier": "crime_committed",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Crime.*?committed.*?type[:\\s]+([^\\s,]+).*?level[:\\s]+(\\d+)",
+            "filter_type": "other",
+            "message_template": "Crime committed: {crime_type} (Level {crime_level})",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "crime_type", "group": 2 },
+                { "name": "crime_level", "group": 3 }
+            ]
+        },
+        {
+            "identifier": "bounty_received",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Bounty.*?amount[:\\s]+(\\d+).*?UEC",
+            "filter_type": "other",
+            "message_template": "Bounty placed: {amount} UEC",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "amount", "group": 2 }
+            ]
+        },
+        {
+            "identifier": "insurance_claim_complete",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<CWallet::RmMulticastOnProcessClaimCallback>\\s*Claim Complete - entitlementURN: ([^,]+), result: (\\d+),\\s*requestId: (\\d+)",
+            "filter_type": "other",
+            "message_template": "Insurance claim processed (Request #{request_id})",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "entitlement_urn", "group": 2 },
+                { "name": "result", "group": 3 },
+                { "name": "request_id", "group": 4 }
+            ]
+        },
+        {
+            "identifier": "fatal_collision",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<FatalCollision>\\s*Fatal Collision occured for vehicle ([^\\[]+)\\[Part: ([^,]+), Pos: x: ([^,]+), y: ([^,]+), z: ([^,]+), Zone: ([^,]+), PlayerPilot: (\\d+)\\] after hitting entity: ([^\\[]+)",
+            "filter_type": "ship",
+            "message_template": "{vehicle} crashed into {entity_hit}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "vehicle", "group": 2, "transform": "clean_vehicle_name" },
+                { "name": "part", "group": 3 },
+                { "name": "pos_x", "group": 4 },
+                { "name": "pos_y", "group": 5 },
+                { "name": "pos_z", "group": 6 },
+                { "name": "zone", "group": 7, "transform": "clean_zone_name" },
+                { "name": "player_pilot", "group": 8 },
+                { "name": "entity_hit", "group": 9 }
+            ]
+        },
+        {
+            "identifier": "mission_start_notification",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<CSCPlayerMissionLog::MissionStartCommsNotification>.*?ContractId: \\[([^\\]]+)\\]\\.\\s*MissionId: ([^\\s]+)",
+            "filter_type": "other",
+            "message_template": "Mission accepted",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "contract_id", "group": 2 },
+                { "name": "mission_id", "group": 3 }
+            ]
+        },
+        {
+            "identifier": "mission_end",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<EndMission>\\s*Ending mission for player\\.\\s*MissionId\\[([^\\]]+)\\]\\s*Player\\[([^\\]]+)\\]\\s*PlayerId\\[([^\\]]+)\\]\\s*CompletionType\\[([^\\]]+)\\]\\s*Reason\\[([^\\]]+)\\]",
+            "filter_type": "other",
+            "message_template": "Mission {completion_type}: {reason}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "mission_id", "group": 2 },
+                { "name": "player", "group": 3, "transform": "clean_actor_name" },
+                { "name": "player_id", "group": 4 },
+                { "name": "completion_type", "group": 5 },
+                { "name": "reason", "group": 6 }
+            ]
+        },
+        {
+            "identifier": "mission_objective_marker_added",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<CObjectiveMarkerComponent::AddToPlayerDataBank>\\s*([^\\[]+)\\[([^\\]]+)\\] - Added to DataBank of Player: ([^\\[]+)\\[([^\\]]+)\\] - ZonePos: x: ([^,]+), y: ([^,]+), z: ([^,]+), missionId\\[([^\\]]+)\\], objectiveId\\[([^\\]]+)\\]",
+            "filter_type": "other",
+            "message_template": "Mission waypoint added",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "marker_name", "group": 2 },
+                { "name": "marker_id", "group": 3 },
+                { "name": "player", "group": 4, "transform": "clean_actor_name" },
+                { "name": "player_id", "group": 5 },
+                { "name": "pos_x", "group": 6 },
+                { "name": "pos_y", "group": 7 },
+                { "name": "pos_z", "group": 8 },
+                { "name": "mission_id", "group": 9 },
+                { "name": "objective_id", "group": 10 }
+            ]
+        },
+        {
+            "identifier": "mission_objective_marker_removed",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<CObjectiveMarkerComponent::RemoveFromPlayerDataBank>\\s*([^\\[]+)\\[([^\\]]+)\\] - Removed from DataBank of Player: ([^\\[]+)\\[([^\\]]+)\\].*?missionId\\[([^\\]]+)\\], objectiveId\\[([^\\]]+)\\]",
+            "filter_type": "other",
+            "message_template": "Mission waypoint removed",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "marker_name", "group": 2 },
+                { "name": "marker_id", "group": 3 },
+                { "name": "player", "group": 4, "transform": "clean_actor_name" },
+                { "name": "player_id", "group": 5 },
+                { "name": "mission_id", "group": 6 },
+                { "name": "objective_id", "group": 7 }
+            ]
+        },
+        {
+            "identifier": "jump_point_state_change",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<Jump Point Changing State>\\s*State is now (\\w+).*?\\|[^|]*\\|[^|]*\\| (\\w+) \\|.*?JumpPoint_Permanent \\[(\\d+)\\].*?in zone ([^\\)]+)\\)",
+            "filter_type": "other",
+            "message_template": "Jump point {state} in {zone}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "state", "group": 2 },
+                { "name": "current_system", "group": 3 },
+                { "name": "jump_point_id", "group": 4 },
+                { "name": "zone", "group": 5, "transform": "clean_zone_name" }
+            ]
+        },
+        {
+            "identifier": "jump_drive_state_change",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<Jump Drive State Changed>\\s*Now (\\w+).*?\\|[^|]*\\| \\w+ \\| (\\w+) \\|.*?\\[(\\d+)\\].*?in zone ([^\\)]+)\\)",
+            "filter_type": "ship",
+            "message_template": "Jump drive: {drive_state}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "drive_state", "group": 2 },
+                { "name": "current_system", "group": 3 },
+                { "name": "drive_id", "group": 4 },
+                { "name": "zone", "group": 5, "transform": "clean_zone_name" }
+            ]
+        },
+        {
+            "identifier": "system_arrival_pyro",
+            "pattern": "Loading screen for Pyro : \\w+ closed after ([\\d\\.]+) seconds",
+            "filter_type": "other",
+            "message_template": "Arrived in Pyro (loaded in {load_time}s)",
+            "fields": [
+                { "name": "load_time", "group": 1 }
+            ]
+        },
+        {
+            "identifier": "system_arrival_stanton",
+            "pattern": "Loading screen for Stanton : \\w+ closed after ([\\d\\.]+) seconds",
+            "filter_type": "other",
+            "message_template": "Arrived in Stanton (loaded in {load_time}s)",
+            "fields": [
+                { "name": "load_time", "group": 1 }
+            ]
+        },
+        {
+            "identifier": "atc_communication_establish",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>\\s*\\[Notice\\]\\s*<Connection Flow>\\s*CSCCommsComponent::DoEstablishCommunicationCommon:.*?for ([^\\[]+) \\[(\\d+)\\].*?AImodule_ATC_([^\\s]+) \\[(\\d+)\\]",
+            "filter_type": "other",
+            "message_template": "ATC contact: {atc_station}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "player_name", "group": 2, "transform": "clean_actor_name" },
+                { "name": "player_id", "group": 3 },
+                { "name": "atc_station", "group": 4 },
+                { "name": "atc_module_id", "group": 5 }
+            ]
+        },
+        {
+            "identifier": "hangar_assignment",
+            "pattern": "<(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)>.*?Hangar_(\\w+)_(\\w+)_\\d+.*?for ([^\\[]+) \\[(\\d+)\\]",
+            "filter_type": "other",
+            "message_template": "Assigned {hangar_size} hangar at {location}",
+            "fields": [
+                { "name": "timestamp", "group": 1, "transform": "parseTimestampToUnixTime" },
+                { "name": "hangar_size", "group": 2 },
+                { "name": "location", "group": 3 },
+                { "name": "player_name", "group": 4, "transform": "clean_actor_name" },
+                { "name": "player_id", "group": 5 }
             ]
         }
     ]
