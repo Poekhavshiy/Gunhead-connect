@@ -1,0 +1,134 @@
+[
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\Gunhead-Connect_autogen\\mocs_compilation.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\build\\Gunhead-Connect_autogen\\mocs_compilation.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build/Gunhead-Connect_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/Gunhead-Connect_autogen/mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\main.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\main.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/main.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\logger.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\logger.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/logger.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/logger.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\MainWindow.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\MainWindow.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/MainWindow.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/MainWindow.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\logmonitor.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\logmonitor.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/logmonitor.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/logmonitor.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\log_parser.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\log_parser.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/log_parser.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/log_parser.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\SettingsWindow.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\SettingsWindow.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/SettingsWindow.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/SettingsWindow.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\LogDisplayWindow.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\LogDisplayWindow.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/LogDisplayWindow.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/LogDisplayWindow.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\Transmitter.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\Transmitter.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/Transmitter.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/Transmitter.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\checkversion.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\checkversion.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/checkversion.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/checkversion.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\ThemeSelect.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\ThemeSelect.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/ThemeSelect.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/ThemeSelect.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\LanguageSelect.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\LanguageSelect.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/LanguageSelect.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/LanguageSelect.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\language_manager.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\language_manager.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/language_manager.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/language_manager.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\globals.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\globals.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/globals.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/globals.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\SoundPlayer.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\SoundPlayer.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/SoundPlayer.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/SoundPlayer.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\LoadingScreen.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\LoadingScreen.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/LoadingScreen.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/LoadingScreen.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\GameLauncher.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\GameLauncher.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/GameLauncher.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/GameLauncher.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\ThemeManager.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\ThemeManager.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/ThemeManager.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/ThemeManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\CustomTitleBar.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\CustomTitleBar.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/CustomTitleBar.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/CustomTitleBar.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\src\\ResizeHelper.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\src\\ResizeHelper.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/src/ResizeHelper.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/src/ResizeHelper.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\build\\.qt\\rcc\\qrc_Gunhead-Connect_translations.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\build\\.qt\\rcc\\qrc_Gunhead-Connect_translations.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build/.qt/rcc/qrc_Gunhead-Connect_translations.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/build/.qt/rcc/qrc_Gunhead-Connect_translations.cpp.obj"
+},
+{
+  "directory": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build",
+  "command": "D:\\MSYS64\\mingw64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/Gunhead-Connect.dir/includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\Gunhead-Connect.dir\\Gunhead-Connect_autogen\\3YJK5W5UP7\\qrc_resources.cpp.obj -c C:\\Users\\KindPerspective\\Desktop\\Gunhead-connect\\build\\Gunhead-Connect_autogen\\3YJK5W5UP7\\qrc_resources.cpp",
+  "file": "C:/Users/KindPerspective/Desktop/Gunhead-connect/build/Gunhead-Connect_autogen/3YJK5W5UP7/qrc_resources.cpp",
+  "output": "CMakeFiles/Gunhead-Connect.dir/Gunhead-Connect_autogen/3YJK5W5UP7/qrc_resources.cpp.obj"
+}
+]

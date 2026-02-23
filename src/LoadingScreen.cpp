@@ -66,14 +66,16 @@ void SpinnerWidget::paintEvent(QPaintEvent* event) {
     painter.restore();
 }
 
-LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt::FramelessWindowHint) {
+LoadingScreen::LoadingScreen(QWidget* parent)
+    : QDialog(parent, Qt::Window | Qt::FramelessWindowHint)
+{
     // Set up the dialog
     setWindowTitle(tr("Loading Gunhead Connect"));
     setWindowIcon(QIcon(":/icons/Gunhead.ico"));
 
     // Ensure the window is recognized by the taskbar
     setAttribute(Qt::WA_ShowWithoutActivating, false);
-    setAttribute(Qt::WA_QuitOnClose, false);  // Prevent quitting when the loading screen closes
+    setAttribute(Qt::WA_QuitOnClose, false);
 
     setFixedSize(600, 400);
 
@@ -83,12 +85,12 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     int y = (screenGeometry.height() - height()) / 2;
     move(x, y);
 
-    // Add border and rounded corners to the main window with antialiasing
+    // Window styling
     setStyleSheet("QDialog { background-color: black; border: 2px solid #555; border-radius: 12px; }");
     setAttribute(Qt::WA_OpaquePaintEvent, false);
     setAttribute(Qt::WA_TranslucentBackground, false);
 
-    // Create main layout
+    // Main layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
@@ -101,24 +103,45 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
         "background-repeat: no-repeat;"
         "background-color: black;"
     );
-    QVBoxLayout* contentLayout = new QVBoxLayout(contentWidget);
-    contentLayout->setContentsMargins(20, 20, 20, 0);
 
-    // Welcome label 
+    QVBoxLayout* contentLayout = new QVBoxLayout(contentWidget);
+
+    // Proper margins (left aligned)
+    contentLayout->setContentsMargins(40, 60, 40, 20);
+    contentLayout->setSpacing(8);
+
+    // Welcome label
     QLabel* welcomeLabel = new QLabel(tr("Gunhead Connect"), contentWidget);
-    welcomeLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    welcomeLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; font-size: 28px; font-weight: bold; color: white; margin-left: 280px; margin-top: 50px; background: transparent;");
+    welcomeLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    welcomeLabel->setStyleSheet(
+        "font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;"
+        "font-size: 28px;"
+        "font-weight: bold;"
+        "color: white;"
+        "background: transparent;"
+    );
     contentLayout->addWidget(welcomeLabel);
 
-    // Subtitle lines
+    // Subtitle line 1
     QLabel* subtitleLabel1 = new QLabel(tr("Start your game."), contentWidget);
-    subtitleLabel1->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    subtitleLabel1->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-top: 5px; background: transparent;");
+    subtitleLabel1->setAlignment(Qt::AlignLeft);
+    subtitleLabel1->setStyleSheet(
+        "font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;"
+        "font-size: 14px;"
+        "color: lightgray;"
+        "background: transparent;"
+    );
     contentLayout->addWidget(subtitleLabel1);
 
+    // Subtitle line 2
     QLabel* subtitleLabel2 = new QLabel(tr("Record your gameplay."), contentWidget);
-    subtitleLabel2->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    subtitleLabel2->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; font-size: 14px; color: lightgray; margin-left: 280px; margin-bottom: 10px; background: transparent;");
+    subtitleLabel2->setAlignment(Qt::AlignLeft);
+    subtitleLabel2->setStyleSheet(
+        "font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;"
+        "font-size: 14px;"
+        "color: lightgray;"
+        "background: transparent;"
+    );
     contentLayout->addWidget(subtitleLabel2);
 
     contentLayout->addStretch();
@@ -148,7 +171,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     statusLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; color: lightgray; font-size: 14px;");
     statusLayout->addWidget(statusLabel);
 
-    QLabel* pleaseWaitLabel = new QLabel(tr("Please wait..."), footer);
+    QLabel* pleaseWaitLabel = new QLabel(tr("Please wait"), footer);
     pleaseWaitLabel->setAlignment(Qt::AlignRight);
     pleaseWaitLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; color: #999999; font-size: 12px;"); // Darker and smaller
     statusLayout->addWidget(pleaseWaitLabel);
@@ -220,7 +243,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
 }
 
 void LoadingScreen::updateProgress(int value, const QString& message) {
-    statusLabel->setText(tr("Connecting to server..."));
+    statusLabel->setText(tr("Connecting..."));
 
     // Process events to update the UI immediately
     QApplication::processEvents();
