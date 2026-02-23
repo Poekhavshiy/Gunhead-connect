@@ -8,6 +8,11 @@ using json = nlohmann::json;
 std::vector<Rule> rules;
 std::unordered_map<std::string, json> transforms; // Changed from std::string to json
 
+// Global variables for vehicle seat tracking
+std::string current_vehicle_id = "0";
+std::string current_player_name = "";
+std::string current_player_geid = "";
+
 std::string load_regex_rules(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -187,6 +192,57 @@ std::string parse_log_line(const std::string& line) {
                         result["cause_is_npc"] = npcStatus["cause"];
                     }
 
+                    // Handle seat tracking and driver info updates
+                    if (rule.identifier == "seat_entered") {
+                        // Update current vehicle tracking when entering a seat
+                        auto vehicle_id_it = fieldValues.find("vehicle_id");
+                        auto player_geid_it = fieldValues.find("player_geid");
+                        if (vehicle_id_it != fieldValues.end()) {
+                            current_vehicle_id = vehicle_id_it->second;
+                            if (player_geid_it != fieldValues.end()) {
+                                current_player_geid = player_geid_it->second;
+                                // Also store player name if available in logs
+                                current_player_name = ""; // Will be populated from other log events
+                            }
+                            log_debug("log_parser", "Entered vehicle: ", current_vehicle_id, " player GEID: ", current_player_geid);
+                        }
+                    } else if (rule.identifier == "seat_exited") {
+                        // Reset current vehicle tracking when exiting
+                        auto vehicle_id_it = fieldValues.find("vehicle_id");
+                        if (vehicle_id_it != fieldValues.end() && vehicle_id_it->second == current_vehicle_id) {
+                            log_debug("log_parser", "Exited vehicle: ", current_vehicle_id);
+                            current_vehicle_id = "0";
+                            current_player_geid = "";
+                            current_player_name = "";
+                        }
+                    } else if (rule.identifier == "vehicle_instant_destruction" || 
+                              rule.identifier == "vehicle_destruction" || 
+                              rule.identifier == "vehicle_soft_death") {
+                        // Check if this is the player's current vehicle and update driver info
+                        auto vehicle_id_it = fieldValues.find("vehicle_id");
+                        if (vehicle_id_it != fieldValues.end() && 
+                            !current_vehicle_id.empty() && current_vehicle_id != "0" &&
+                            vehicle_id_it->second == current_vehicle_id) {
+                            
+                            log_debug("log_parser", "Vehicle destruction matches current seat, updating driver info");
+                            
+                            // Update driver fields if they're currently "unknown" or "0"
+                            if (result.contains("driver") && result.contains("driver_id")) {
+                                std::string current_driver = result["driver"];
+                                std::string current_driver_id = result["driver_id"];
+                                
+                                if (current_driver == "unknown" && current_driver_id == "0") {
+                                    if (!current_player_geid.empty()) {
+                                        result["driver_id"] = current_player_geid;
+                                        result["driver"] = current_player_name.empty() ? "Player" : current_player_name;
+                                        result["driver_is_npc"] = false;
+                                        log_debug("log_parser", "Updated driver to player: ", result["driver"], " ID: ", current_player_geid);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     std::string resultJson = result.dump();
                     log_debug("log_parser", "Result: ", resultJson);
                     return resultJson;
@@ -273,6 +329,16 @@ std::string process_transforms(const std::string& input, const json& steps) {
                     } else {
                         log_warn("log_parser", "map_values transform missing 'map' object");
                     }
+                } else if (type == "update_seat") {
+                    // Update current vehicle tracking based on seat events
+                    // This transform just marks the field for special handling
+                    // The actual logic will be in parse_log_line
+                    log_debug("log_parser", "update_seat transform applied to: ", result);
+                } else if (type == "check_seat") {
+                    // Check if current vehicle matches and update driver info if needed
+                    // This transform just marks the field for special handling
+                    // The actual logic will be in parse_log_line
+                    log_debug("log_parser", "check_seat transform applied to: ", result);
                 } else {
                     log_warn("log_parser", "Unknown transform type: ", type);
                 }

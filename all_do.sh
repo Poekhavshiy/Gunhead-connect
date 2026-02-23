@@ -29,7 +29,7 @@ BUILD_TYPE="Debug"
 BUILD_PRESET_WINDOWS="windows-dynamic"
 BUILD_PRESET_LINUX="linux-dynamic"
 LOG_FILE="logs/build.log"
-COMPILE_DB_OUT="buildfiles"
+COMPILE_DB_OUT="devtools/buildfiles"
 
 # ====== Color output ======
 RED='\033[0;31m'

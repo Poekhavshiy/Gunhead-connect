@@ -104,6 +104,13 @@
       "output": {
         "outputOnFailure": true
       }
+    },
+    {
+      "name": "test-windows-dynamic-release",
+      "configurePreset": "windows-dynamic-release",
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ]
 }

@@ -1,6 +1,7 @@
 # Ignore build folders
 build-*/
 build/
+.fc_cache/
 
 # Ignore CMake cache and outputs
 CMakeCache.txt
@@ -67,4 +68,7 @@ qrc_*.cpp
 #internal files
 all_do.sh
 devtools/
-buildfiles/
+
+
+# Do NOT Ignore game log as this is used for unit testing and debug level testing.
+!resources/tests/game.log
