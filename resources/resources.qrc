@@ -17,27 +17,6 @@
         <file>fonts/Roboto-Regular.ttf</file>
         <file>fonts/Roboto-Bold.ttf</file>
 
-        <file alias="themes/milspec.qss">themes/milspec.qss</file>
-        <file>fonts/MilSpec33558.ttf</file>
-
-        <file alias="themes/longcold.qss">themes/longcold.qss</file>
-        <file>fonts/VCR_OSD_MONO_1.001.ttf</file>
-
-        <file alias="themes/dracula.qss">themes/Dracula.qss</file>
-        <file>fonts/Code-New-Roman.ttf</file>
-
-        <file alias="themes/maidcafe.qss">themes/maidcafe.qss</file>
-        <file>fonts/SawarabiGothic-Regular.ttf</file>
-        <file>themes/maidcafe.png</file>
-
-        <file alias="themes/reflectiveside.qss">themes/reflectiveside.qss</file>
-        <file>fonts/Segoe-UI-This.ttf</file>
-        <file>themes/reflectiveside.png</file>
-
-        <file alias="themes/darkvictorian.qss">themes/darkvictorian.qss</file>
-        <file>fonts/EBGaramond-VariableFont_wght.ttf</file>
-        <file>themes/darkvictorian.png</file>   
-
         <file alias="translations/lang_en.qm">translations/lang_en.qm</file>
         <file alias="translations/lang_fr.qm">translations/lang_fr.qm</file>
         <file alias="translations/lang_es.qm">translations/lang_es.qm</file>
@@ -56,10 +35,8 @@
         <file alias="sounds/blip-blip.mp3">sounds/blip-blip.mp3</file>
         <file alias="sounds/beep-beep.mp3">sounds/beep-beep.mp3</file>
         <file alias="sounds/boop.mp3">sounds/boop.mp3</file>
-        <file alias="sounds/map.mp3">sounds/map.mp3</file>
-        <file alias="sounds/task.mp3">sounds/task.mp3</file>
 
         <file alias="sounds/boop.wav">sounds/boop.wav</file>
-        <file alias="loading screens/_welcome.png">loading screens/_welcome.png</file>
+        <file alias="loading screens/default.png">loading screens/default.png</file>
     </qresource>
 </RCC>

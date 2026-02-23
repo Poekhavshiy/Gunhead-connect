@@ -96,7 +96,7 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     // Content widget with background
     QWidget* contentWidget = new QWidget(this);
     contentWidget->setStyleSheet(
-        "background-image: url(:/loading screens/_welcome.png);"
+        "background-image: url(:/loading screens/default.png);"
         "background-position: center;"
         "background-repeat: no-repeat;"
         "background-color: black;"
@@ -133,22 +133,6 @@ LoadingScreen::LoadingScreen(QWidget* parent) : QDialog(parent, Qt::Window | Qt:
     QHBoxLayout* footerLayout = new QHBoxLayout(footer);
     footerLayout->setContentsMargins(20, 0, 20, 0);
 
-    // Left side - Gunhead logo/text with icon
-    QHBoxLayout* logoLayout = new QHBoxLayout();
-    logoLayout->setSpacing(8);
-    
-    QLabel* logoIcon = new QLabel(footer);
-    QPixmap gunheadIcon(":/icons/Gunhead.png");
-    logoIcon->setPixmap(gunheadIcon.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    logoLayout->addWidget(logoIcon);
-    
-    QLabel* appLabel = new QLabel("Gunhead", footer);
-    appLabel->setStyleSheet("font-family: Roboto,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif; color: white; font-size: 18px; font-weight: bold;");
-    logoLayout->addWidget(appLabel);
-    
-    footerLayout->addLayout(logoLayout);
-
-    footerLayout->addStretch();
 
     // Right side - status message and spinner grouped together
     QHBoxLayout* rightSideLayout = new QHBoxLayout();
